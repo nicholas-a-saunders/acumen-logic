@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en-GB" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products | Acumen Logic</title>
+    <meta name="description" content="Explore Acumen Logic products: a 6-module training course and live benchmark platform with percentile rankings for UK finance aptitude assessments.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://acumenlogic.co.uk/products.html">
+    <meta property="og:title" content="Products | Acumen Logic">
+    <meta property="og:description" content="Training and benchmarking built for UK finance assessments. 6-module course and live percentile benchmark platform.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://acumenlogic.co.uk/products.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/site.css">
+    <style>
+        .tier-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            font-size: .9rem;
+        }
+        .tier-table thead th {
+            background: var(--navy-900);
+            color: var(--white);
+            padding: 1rem 1.25rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: .85rem;
+            letter-spacing: .02em;
+            border-bottom: 2px solid var(--gold-400);
+        }
+        .tier-table thead th:first-child {
+            text-align: left;
+        }
+        .tier-table thead th .tier-price {
+            display: block;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--gold-400);
+            margin-top: .25rem;
+        }
+        .tier-table thead th.tier-highlight {
+            background: var(--navy-800);
+            position: relative;
+        }
+        .tier-table thead th.tier-highlight::before {
+            content: 'Most Popular';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--gold-400);
+            color: var(--navy-900);
+            font-size: .65rem;
+            font-weight: 700;
+            padding: .2rem .65rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+        }
+        .tier-table tbody td {
+            padding: .85rem 1.25rem;
+            border-bottom: 1px solid var(--grey-200);
+            text-align: center;
+            color: var(--grey-700);
+        }
+        .tier-table tbody td:first-child {
+            text-align: left;
+            font-weight: 500;
+            color: var(--navy-900);
+        }
+        .tier-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        .tier-table tbody tr:hover td {
+            background: var(--grey-50);
+        }
+        .tier-table .check {
+            color: var(--gold-500);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        .tier-table .dash {
+            color: var(--grey-300);
+        }
+        .tier-table tfoot td {
+            padding: 1.25rem;
+            text-align: center;
+            background: var(--grey-50);
+            border-top: 1px solid var(--grey-200);
+        }
+        .tier-table tfoot td:first-child {
+            background: transparent;
+        }
+        .tier-table-wrap {
+            overflow-x: auto;
+            border: 1px solid var(--grey-200);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+        @media (max-width: 600px) {
+            .tier-table { font-size: .8rem; }
+            .tier-table thead th, .tier-table tbody td, .tier-table tfoot td { padding: .65rem .5rem; }
+            .tier-table thead th .tier-price { font-size: 1rem; }
+        }
+        .product-card {
+            padding: 2.5rem;
+            border-radius: var(--radius-xl);
+            background: var(--white);
+            border: 1px solid var(--grey-200);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
+            transition: all var(--ease);
+        }
+        .product-card:hover {
+            border-color: rgba(201,169,97,.35);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+        }
+        .product-card .product-eyebrow {
+            font-size: .75rem;
+            font-weight: 600;
+            color: var(--gold-500);
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            margin-bottom: .75rem;
+        }
+        .product-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--navy-900);
+            margin-bottom: .5rem;
+        }
+        .product-card .product-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--navy-900);
+            margin-bottom: .25rem;
+        }
+        .product-card .product-price-note {
+            font-size: .8rem;
+            color: var(--grey-500);
+            margin-bottom: 1.5rem;
+        }
+        .product-card .product-features {
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+        .product-card .product-feature {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            font-size: .9rem;
+            color: var(--grey-700);
+        }
+        .product-card .product-feature::before {
+            content: '\2713';
+            color: var(--gold-500);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="site-header" id="siteHeader">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <img src="assets/images/logo.png" width="36" height="36" alt="Acumen Logic">
+                <div class="logo-text">
+                    <span class="logo-name">ACUMEN LOGIC</span>
+                    <span class="logo-tag">Finance Assessment Training</span>
+                </div>
+            </a>
+            <nav class="nav-desktop">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="methodology.html" class="nav-link">Methodology</a>
+                <a href="products.html" class="nav-link active">Products</a>
+                <a href="platform.html" class="nav-link">Platform</a>
+                <a href="blog/index.html" class="nav-link">Blog</a>
+            </nav>
+            <a href="platform.html" class="btn btn-primary header-cta">Try Free Benchmark</a>
+            <button class="mobile-toggle" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div id="mobileMenu" class="mobile-menu">
+            <a href="index.html" class="mobile-link">Home</a>
+            <a href="methodology.html" class="mobile-link">Methodology</a>
+            <a href="products.html" class="mobile-link active">Products</a>
+            <a href="platform.html" class="mobile-link">Platform</a>
+            <a href="blog/index.html" class="mobile-link">Blog</a>
+            <a href="platform.html" class="btn btn-primary" style="margin-top:1rem;display:block;text-align:center;">Try Free Benchmark</a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="landing-hero" style="padding-bottom:3rem;">
+        <div class="container text-center" style="position:relative;z-index:1;">
+            <p class="hero-eyebrow">What We Offer</p>
+            <h1 class="hero-title" style="max-width:700px;margin:0 auto .75rem;">Our Products</h1>
+            <p class="hero-subtitle" style="max-width:650px;margin:0 auto;">Training and benchmarking built for UK finance assessments</p>
+        </div>
+    </section>
+
+    <!-- Two Product Cards -->
+    <section class="section">
+        <div class="container">
+            <div class="text-center" style="margin-bottom:2.5rem;">
+                <h2 class="section-title">Choose Your Path</h2>
+                <p class="section-subtitle">Structured training or live benchmarking&mdash;or combine both for maximum impact</p>
+            </div>
+            <div class="two-col">
+                <div class="product-card">
+                    <span class="product-eyebrow">Complete Training</span>
+                    <h3>Training Course</h3>
+                    <div class="product-price">&pound;199</div>
+                    <div class="product-price-note">One-time &middot; Founding member price</div>
+                    <div class="product-features">
+                        <div class="product-feature">6 structured modules</div>
+                        <div class="product-feature">35 in-depth lessons</div>
+                        <div class="product-feature">Numerical Reasoning training</div>
+                        <div class="product-feature">Data Interpretation training</div>
+                        <div class="product-feature">Logical Reasoning training</div>
+                        <div class="product-feature">Situational Judgement (SJT)</div>
+                        <div class="product-feature">Full mock assessments</div>
+                        <div class="product-feature">Lifetime access</div>
+                    </div>
+                    <a href="masterclass.html" class="btn btn-primary btn-lg">Explore Training <span class="btn-arrow">&rarr;</span></a>
+                </div>
+                <div class="product-card">
+                    <span class="product-eyebrow">Live Benchmarking</span>
+                    <h3>Benchmark Platform</h3>
+                    <div class="product-price">From Free</div>
+                    <div class="product-price-note">Free tier available &middot; Pro &amp; Elite plans from &pound;97/yr</div>
+                    <div class="product-features">
+                        <div class="product-feature">Live percentile rankings</div>
+                        <div class="product-feature">150+ randomised questions</div>
+                        <div class="product-feature">Category breakdown (NR, DI, LR)</div>
+                        <div class="product-feature">Personal performance dashboard</div>
+                        <div class="product-feature">Progress tracking over time</div>
+                        <div class="product-feature">Timed under real conditions</div>
+                    </div>
+                    <a href="https://app.acumenlogic.co.uk/register.html" class="btn btn-primary btn-lg">Try Free Benchmark <span class="btn-arrow">&rarr;</span></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benchmark Tier Comparison -->
+    <section class="section bg-muted">
+        <div class="container">
+            <div class="text-center" style="margin-bottom:2.5rem;">
+                <h2 class="section-title">Benchmark Platform Plans</h2>
+                <p class="section-subtitle">Start free. Upgrade when you&rsquo;re ready to go deeper.</p>
+            </div>
+            <div class="tier-table-wrap" style="max-width:900px;margin:0 auto;">
+                <table class="tier-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>
+                                Free
+                                <span class="tier-price">&pound;0</span>
+                            </th>
+                            <th class="tier-highlight">
+                                Pro
+                                <span class="tier-price">&pound;97/yr</span>
+                            </th>
+                            <th>
+                                Elite
+                                <span class="tier-price">&pound;197/yr</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Benchmarks per month</td>
+                            <td>3</td>
+                            <td>Unlimited</td>
+                            <td>Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td>Questions per benchmark</td>
+                            <td>19</td>
+                            <td>30</td>
+                            <td>30</td>
+                        </tr>
+                        <tr>
+                            <td>Percentile ranking</td>
+                            <td><span class="check">&#10003;</span></td>
+                            <td><span class="check">&#10003;</span></td>
+                            <td><span class="check">&#10003;</span></td>
+                        </tr>
+                        <tr>
+                            <td>Progress tracking</td>
+                            <td><span class="dash">&mdash;</span></td>
+                            <td><span class="check">&#10003;</span></td>
+                            <td><span class="check">&#10003;</span></td>
+                        </tr>
+                        <tr>
+                            <td>Category drills</td>
+                            <td><span class="dash">&mdash;</span></td>
+                            <td><span class="check">&#10003;</span></td>
+                            <td><span class="check">&#10003;</span></td>
+                        </tr>
+                        <tr>
+                            <td>Full training course access</td>
+                            <td><span class="dash">&mdash;</span></td>
+                            <td><span class="dash">&mdash;</span></td>
+                            <td><span class="check">&#10003;</span></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td><a href="https://app.acumenlogic.co.uk/register.html" class="btn btn-outline" style="width:100%;">Get Started</a></td>
+                            <td><a href="#thrivecart-pro" class="btn btn-primary" style="width:100%;">Go Pro</a></td>
+                            <td><a href="#thrivecart-elite" class="btn btn-primary" style="width:100%;">Go Elite</a></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section">
+        <div class="container">
+            <div class="text-center" style="margin-bottom:2.5rem;">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-subtitle">Everything you need to know about our products</p>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <h3>What&rsquo;s the difference between the training course and the benchmark platform?</h3>
+                    <p>The training course is a structured 6-module programme that teaches you the methodology behind every question type&mdash;numerical reasoning, data interpretation, logical reasoning, SJT, and mock assessments. The benchmark platform is a live testing environment where you take timed assessments and receive a percentile ranking against other finance candidates. They complement each other: the course teaches the skills, the platform measures your progress.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Can I use the benchmark platform without buying the training course?</h3>
+                    <p>Absolutely. The Free tier gives you 3 benchmarks per month with 19 questions each and a percentile ranking. You can upgrade to Pro or Elite at any time. The Elite plan includes full training course access bundled in.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Is the &pound;199 training course price permanent?</h3>
+                    <p>The &pound;199 price is our founding member rate. This is a one-time payment for lifetime access. The price will increase as we add more content and features, but founding members keep their rate locked in permanently.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Which employers and test providers does this cover?</h3>
+                    <p>Our content is aligned to the exact question types used by SHL, Aon (Cut-e), Korn Ferry, and Cappfinity&mdash;the test providers used by KPMG, Deloitte, PwC, EY, Goldman Sachs, JP Morgan, Barclays, HSBC, Citi, Accenture, and more.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section cta-section">
+        <div class="container text-center">
+            <h2 class="section-title">Ready to See Where You Stand?</h2>
+            <p class="section-subtitle">Take the free benchmark and get your percentile ranking in under 30 minutes.</p>
+            <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                <a href="https://app.acumenlogic.co.uk/register.html" class="btn btn-primary btn-lg">Try Free Benchmark <span class="btn-arrow">&rarr;</span></a>
+                <a href="masterclass.html" class="btn btn-outline btn-lg">Explore Training</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="assets/images/logo.png" width="28" height="28" alt="Acumen Logic">
+                        <span>ACUMEN LOGIC</span>
+                    </div>
+                    <p>Structured aptitude test preparation for UK finance, Big 4, investment banking, and consulting candidates.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Programme</h4>
+                    <ul>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="platform.html">Benchmark Platform</a></li>
+                        <li><a href="methodology.html">Methodology</a></li>
+                        <li><a href="diagnostic.html">Free Diagnostic</a></li>
+                        <li><a href="blog/index.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="pages/privacy.html">Privacy Policy</a></li>
+                        <li><a href="pages/terms.html">Terms of Service</a></li>
+                        <li><a href="pages/refund.html">Refund Policy</a></li>
+                        <li><a href="pages/cookies.html">Cookie Policy</a></li>
+                        <li><a href="pages/disclaimer.html">Disclaimer</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Acumen Logic. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            document.getElementById('siteHeader').classList.toggle('scrolled', window.scrollY > 20);
+        });
+    </script>
+</body>
+</html>

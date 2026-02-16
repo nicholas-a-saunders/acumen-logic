@@ -5,6 +5,43 @@ const router = express.Router();
 
 module.exports = function(pool) {
 
+  const questionBank = require('../questions/index');
+
+  // ── Question Bank Metadata ──────────────────────────────────
+  router.get('/questions', requireAuth, requireAdmin, (req, res) => {
+    try {
+      const category = req.query.category;
+      let questions = questionBank.allQuestions;
+
+      if (category && ['NR', 'DI', 'LR'].includes(category.toUpperCase())) {
+        questions = questionBank.getByCategory(category.toUpperCase());
+      }
+
+      const safe = questions.map(q => ({
+        id: q.id,
+        category: q.category,
+        sub_category: q.sub_category,
+        difficulty: q.difficulty,
+        question_text: q.question_text
+      }));
+
+      const st = questionBank.stats();
+
+      res.json({
+        questions: safe,
+        stats: {
+          total: st.total,
+          nr: st.nr,
+          di: st.di,
+          lr: st.lr
+        }
+      });
+    } catch (err) {
+      console.error('Admin questions error:', err);
+      res.status(500).json({ error: 'Failed to get questions' });
+    }
+  });
+
   // ── Platform Stats ────────────────────────────────────────
   router.get('/stats', requireAuth, requireAdmin, async (req, res) => {
     try {
@@ -95,9 +132,9 @@ module.exports = function(pool) {
         return res.status(400).json({ error: 'Email is required' });
       }
 
-      const validTiers = ['free', 'pro', 'admin'];
+      const validTiers = ['free', 'pro', 'elite', 'admin'];
       if (!tier || !validTiers.includes(tier)) {
-        return res.status(400).json({ error: 'Invalid tier. Must be: free, pro, or admin' });
+        return res.status(400).json({ error: 'Invalid tier. Must be: free, pro, elite, or admin' });
       }
 
       const result = await pool.query(

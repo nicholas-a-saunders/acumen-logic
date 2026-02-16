@@ -35,7 +35,7 @@
 <body>
   <header class="site-header">
     <div class="header-inner">
-      <a href="index.html" class="logo">
+      <a href="https://acumenlogic.co.uk" class="logo">
         <img src="assets/images/logo.png" width="32" height="32" alt="Acumen Logic">
         <div class="logo-text">
           <span class="logo-name">ACUMEN LOGIC</span>
@@ -86,6 +86,8 @@
         <button class="tab-btn" onclick="switchTab('exports')">Export Data</button>
         <button class="tab-btn" onclick="switchTab('manage')">Manage</button>
         <button class="tab-btn" onclick="switchTab('health')">System Health</button>
+        <button class="tab-btn" onclick="switchTab('questions')">Question Bank</button>
+        <button class="tab-btn" onclick="switchTab('analytics')">Analytics</button>
       </div>
 
       <!-- Users Tab -->
@@ -138,6 +140,7 @@
               <label class="form-label">New Tier</label>
               <select class="form-input" id="promoTier" style="width:120px;">
                 <option value="pro">Pro</option>
+                <option value="elite">Elite</option>
                 <option value="free">Free</option>
               </select>
             </div>
@@ -157,6 +160,77 @@
             <li>Use the <strong>Table Editor</strong> to browse/edit data</li>
             <li>Use the <strong>SQL Editor</strong> to run custom queries</li>
           </ol>
+        </div>
+      </div>
+
+      <!-- Questions Tab -->
+      <div class="tab-panel" id="tab-questions">
+        <div class="card" style="margin-bottom:1.5rem;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.75rem;">
+            <h3 style="color:var(--white);font-size:1.125rem;">Question Bank Templates</h3>
+            <div style="display:flex;gap:0.5rem;">
+              <button class="btn btn-ghost btn-sm" onclick="filterQuestions('')" id="qFilterAll">All</button>
+              <button class="btn btn-ghost btn-sm" onclick="filterQuestions('NR')">NR</button>
+              <button class="btn btn-ghost btn-sm" onclick="filterQuestions('DI')">DI</button>
+              <button class="btn btn-ghost btn-sm" onclick="filterQuestions('LR')">LR</button>
+            </div>
+          </div>
+          <div id="questionStats" style="display:flex;gap:1.5rem;margin-bottom:1rem;color:var(--slate-400);font-size:0.8125rem;"></div>
+          <div style="overflow-x:auto;">
+            <table class="data-table" id="questionsTable">
+              <thead>
+                <tr><th>#</th><th>ID</th><th>Category</th><th>Sub-Category</th><th>Difficulty</th><th>Preview</th><th></th></tr>
+              </thead>
+              <tbody id="questionsBody">
+                <tr><td colspan="7" style="text-align:center;color:var(--slate-500);">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analytics Tab -->
+      <div class="tab-panel" id="tab-analytics">
+        <div class="stats-grid" style="margin-bottom:1.5rem;">
+          <div class="card stat-card">
+            <div class="stat-value gold" id="analyticsTotalUsers">—</div>
+            <div class="stat-label">Total Users</div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-value" id="analyticsAssessments">—</div>
+            <div class="stat-label">Total Assessments</div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-value" id="analyticsAvgScore">—</div>
+            <div class="stat-label">Avg Score %</div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-value" id="analyticsActiveWeek">—</div>
+            <div class="stat-label">Active This Week</div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+          <div class="card">
+            <h3 style="color:var(--white);font-size:1.125rem;margin-bottom:1rem;">Tier Distribution</h3>
+            <div id="tierChart" style="display:flex;align-items:center;gap:1.5rem;min-height:120px;">
+              <div id="tierBars" style="flex:1;display:flex;flex-direction:column;gap:0.5rem;"></div>
+              <div id="tierLegend" style="font-size:0.8125rem;color:var(--slate-400);"></div>
+            </div>
+          </div>
+          <div class="card">
+            <h3 style="color:var(--white);font-size:1.125rem;margin-bottom:1rem;">Category Averages</h3>
+            <div id="categoryAvgs" style="display:flex;flex-direction:column;gap:0.75rem;min-height:120px;">
+              <div style="text-align:center;color:var(--slate-500);padding:2rem;">Loading...</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:1.5rem;">
+          <h3 style="color:var(--white);font-size:1.125rem;margin-bottom:1rem;">Recent Registrations (Last 30 Days)</h3>
+          <div id="registrationTrend" style="height:200px;display:flex;align-items:flex-end;gap:2px;padding:1rem 0;">
+            <div style="text-align:center;color:var(--slate-500);width:100%;padding:2rem;">Loading...</div>
+          </div>
         </div>
       </div>
 
@@ -202,6 +276,8 @@
       loadStats();
       loadUsers();
       loadHealth();
+      loadQuestions();
+      loadAnalytics();
     });
 
     function switchTab(name) {
@@ -311,6 +387,118 @@
     function escapeHtml(str) {
       if (!str) return '';
       return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    let allQuestionsData = [];
+
+    async function loadQuestions(category) {
+      try {
+        const url = category ? '/api/admin/questions?category=' + category : '/api/admin/questions';
+        const data = await API.get(url);
+        allQuestionsData = data.questions;
+
+        document.getElementById('questionStats').innerHTML =
+          '<span>Total: <strong style="color:var(--white);">' + data.stats.total + '</strong></span>' +
+          '<span>NR: <strong style="color:var(--white);">' + data.stats.nr + '</strong></span>' +
+          '<span>DI: <strong style="color:var(--white);">' + data.stats.di + '</strong></span>' +
+          '<span>LR: <strong style="color:var(--white);">' + data.stats.lr + '</strong></span>';
+
+        renderQuestions(data.questions);
+      } catch (err) {
+        console.error('Questions error:', err);
+        document.getElementById('questionsBody').innerHTML =
+          '<tr><td colspan="7" style="text-align:center;color:var(--red-400);">Failed to load questions</td></tr>';
+      }
+    }
+
+    function renderQuestions(questions) {
+      const tbody = document.getElementById('questionsBody');
+      const diffLabels = { 1: 'Easy', 2: 'Medium', 3: 'Hard' };
+      const diffColors = { 1: 'var(--green-400)', 2: 'var(--gold-400)', 3: 'var(--red-400)' };
+
+      tbody.innerHTML = questions.map((q, i) =>
+        '<tr>' +
+        '<td style="color:var(--slate-500);">' + (i + 1) + '</td>' +
+        '<td style="color:var(--gold-400);font-family:monospace;font-size:0.8rem;">' + escapeHtml(q.id) + '</td>' +
+        '<td><span class="badge" style="font-size:0.75rem;">' + q.category + '</span></td>' +
+        '<td>' + escapeHtml(q.sub_category) + '</td>' +
+        '<td><span style="color:' + diffColors[q.difficulty] + ';font-weight:500;">' + diffLabels[q.difficulty] + '</span></td>' +
+        '<td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + escapeHtml(q.question_text.substring(0, 80)) + (q.question_text.length > 80 ? '...' : '') + '</td>' +
+        '<td><button class="btn btn-ghost btn-sm" onclick="testQuestion(\'' + q.id + '\')">Test</button></td>' +
+        '</tr>'
+      ).join('');
+    }
+
+    function filterQuestions(category) {
+      if (category) {
+        renderQuestions(allQuestionsData.filter(q => q.category === category));
+      } else {
+        renderQuestions(allQuestionsData);
+      }
+    }
+
+    async function testQuestion(id) {
+      try {
+        const data = await API.get('/api/admin/questions?category=');
+        const q = allQuestionsData.find(q => q.id === id);
+        if (q) {
+          showToast('Template: ' + q.id + ' — ' + q.question_text.substring(0, 100), 'info');
+        }
+      } catch (err) {
+        showToast('Failed to test question', 'error');
+      }
+    }
+
+    async function loadAnalytics() {
+      try {
+        const stats = await API.get('/api/admin/stats');
+
+        document.getElementById('analyticsTotalUsers').textContent = stats.users.total;
+        document.getElementById('analyticsAssessments').textContent = stats.assessments.completed;
+
+        // Tier distribution bars
+        const tiers = [
+          { name: 'Free', count: stats.users.free, color: 'var(--slate-400)' },
+          { name: 'Pro', count: stats.users.pro, color: 'var(--gold-400)' },
+        ];
+        const maxTier = Math.max(...tiers.map(t => t.count), 1);
+        document.getElementById('tierBars').innerHTML = tiers.map(t =>
+          '<div style="display:flex;align-items:center;gap:0.75rem;">' +
+            '<span style="width:40px;text-align:right;color:var(--slate-400);font-size:0.8rem;">' + t.name + '</span>' +
+            '<div style="flex:1;background:var(--navy-900);border-radius:4px;height:24px;overflow:hidden;">' +
+              '<div style="width:' + (t.count / maxTier * 100) + '%;height:100%;background:' + t.color + ';border-radius:4px;transition:width 0.5s;"></div>' +
+            '</div>' +
+            '<span style="color:var(--white);font-size:0.875rem;font-weight:600;width:30px;">' + t.count + '</span>' +
+          '</div>'
+        ).join('');
+
+        document.getElementById('analyticsAvgScore').textContent = '—';
+        document.getElementById('analyticsActiveWeek').textContent = stats.recent_signups_7d;
+
+      } catch (err) {
+        console.error('Analytics error:', err);
+      }
+
+      // Category averages
+      try {
+        const catData = await API.get('/api/admin/stats');
+        document.getElementById('categoryAvgs').innerHTML =
+          ['NR', 'DI', 'LR'].map(cat =>
+            '<div style="display:flex;align-items:center;gap:0.75rem;">' +
+              '<span style="width:30px;color:var(--slate-400);font-size:0.875rem;">' + cat + '</span>' +
+              '<div style="flex:1;background:var(--navy-900);border-radius:4px;height:20px;overflow:hidden;">' +
+                '<div style="width:0%;height:100%;background:var(--gold-400);border-radius:4px;"></div>' +
+              '</div>' +
+              '<span style="color:var(--slate-500);font-size:0.8rem;">No data yet</span>' +
+            '</div>'
+          ).join('');
+      } catch (err) {
+        console.error('Category avg error:', err);
+      }
+
+      // Registration trend placeholder
+      document.getElementById('registrationTrend').innerHTML =
+        '<div style="text-align:center;color:var(--slate-500);width:100%;padding:2rem;">Registration trend data will populate as users sign up</div>';
     }
   </script>
 </body>

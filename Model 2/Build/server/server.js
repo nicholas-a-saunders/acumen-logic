@@ -72,6 +72,54 @@ const publicDir = fs.existsSync(path.join(__dirname, '..', 'public'))
     ? path.join(__dirname, 'public')
     : path.join(__dirname, '..', 'public');
 
+// ── ThriveCart Webhook ──────────────────────────────────────
+app.post('/api/webhooks/thrivecart', async (req, res) => {
+  try {
+    const secret = process.env.THRIVECART_SECRET;
+    if (secret && req.body.thrivecart_secret !== secret && req.headers['x-thrivecart-secret'] !== secret) {
+      console.warn('ThriveCart webhook: invalid secret');
+      return res.status(403).json({ error: 'Invalid secret' });
+    }
+
+    const event = req.body.event || req.body.thrivecart_event;
+    if (event !== 'order.success' && event !== 'order.subscription_payment') {
+      return res.status(200).json({ message: 'Event ignored: ' + event });
+    }
+
+    const customer = req.body.customer || {};
+    const email = (customer.email || '').toLowerCase().trim();
+    const productId = String(req.body.order && req.body.order.item ? req.body.order.item.id : req.body.product_id || '');
+
+    if (!email) {
+      return res.status(400).json({ error: 'No customer email' });
+    }
+
+    // Map product IDs to tiers — update these with real ThriveCart product IDs
+    const PRODUCT_TIER_MAP = {
+      'THRIVECART_PRO_PRODUCT_ID': 'pro',
+      'THRIVECART_ELITE_PRODUCT_ID': 'elite'
+    };
+
+    const newTier = PRODUCT_TIER_MAP[productId] || 'pro';
+
+    const result = await pool.query(
+      'UPDATE m2_users SET tier = $1 WHERE email = $2 RETURNING id, email, tier',
+      [newTier, email]
+    );
+
+    if (result.rows.length === 0) {
+      console.warn('ThriveCart webhook: user not found for email ' + email);
+      return res.status(200).json({ message: 'User not found, will be upgraded on next login' });
+    }
+
+    console.log('ThriveCart webhook: upgraded ' + email + ' to ' + newTier);
+    res.status(200).json({ success: true, user: result.rows[0] });
+  } catch (err) {
+    console.error('ThriveCart webhook error:', err);
+    res.status(500).json({ error: 'Webhook processing failed' });
+  }
+});
+
 console.log('Serving static files from:', publicDir);
 app.use(express.static(publicDir));
 
