@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: acumen-logic-model-2
+    runtime: node
+    buildCommand: cd server && npm install && cp -r ../public ./public
+    startCommand: cd server && node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: ADMIN_SECRET
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false

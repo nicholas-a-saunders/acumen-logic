@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Acumen Logic</title>
+  <meta name="description" content="Acumen Logic admin dashboard.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/dashboard.css">
+  <style>
+    .admin-banner { background: linear-gradient(135deg, var(--navy-700), var(--navy-800)); border: 1px solid var(--gold-400); border-radius: var(--radius-md); padding: 1rem 1.5rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 0.75rem; }
+    .admin-banner-icon { font-size: 1.5rem; }
+    .admin-banner-text { color: var(--gold-400); font-weight: 600; font-size: 1rem; }
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+    .data-table th { text-align: left; color: var(--slate-400); padding: 0.75rem 0.5rem; border-bottom: 1px solid rgba(201,169,97,0.15); font-weight: 500; }
+    .data-table td { padding: 0.75rem 0.5rem; border-bottom: 1px solid rgba(201,169,97,0.05); color: var(--slate-300); }
+    .data-table tr:hover td { background: rgba(201,169,97,0.03); }
+    .export-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: var(--navy-700); border: 1px solid var(--gold-400); color: var(--gold-400); border-radius: var(--radius-sm); font-size: 0.8125rem; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+    .export-btn:hover { background: var(--gold-400); color: var(--navy-900); }
+    .tab-bar { display: flex; gap: 0.25rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(201,169,97,0.1); }
+    .tab-btn { padding: 0.75rem 1.25rem; background: none; border: none; color: var(--slate-400); cursor: pointer; font-size: 0.875rem; border-bottom: 2px solid transparent; transition: all 0.2s; }
+    .tab-btn.active { color: var(--gold-400); border-bottom-color: var(--gold-400); }
+    .tab-btn:hover { color: var(--white); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .promote-form { display: flex; gap: 0.75rem; align-items: end; flex-wrap: wrap; }
+    .promote-form .form-group { margin-bottom: 0; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <img src="assets/images/logo.png" width="32" height="32" alt="Acumen Logic">
+        <div class="logo-text">
+          <span class="logo-name">ACUMEN LOGIC</span>
+          <span class="logo-tag">Admin Panel</span>
+        </div>
+      </a>
+      <nav class="nav-desktop">
+        <a href="dashboard.html" class="nav-link">User Dashboard</a>
+        <a href="admin.html" class="nav-link active">Admin</a>
+      </nav>
+      <div class="header-actions">
+        <span class="badge" style="background:var(--gold-400);color:var(--navy-900);">ADMIN</span>
+        <a href="settings.html" class="user-avatar" data-user-avatar></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-content">
+    <div class="container">
+      <div class="admin-banner">
+        <span class="admin-banner-icon">&#9881;</span>
+        <span class="admin-banner-text">Admin Dashboard — Platform Management</span>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="stats-grid" style="margin-bottom:2rem;">
+        <div class="card stat-card">
+          <div class="stat-value gold" id="statTotalUsers">—</div>
+          <div class="stat-label">Total Users</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-value" id="statProUsers">—</div>
+          <div class="stat-label">Pro Users</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-value" id="statAssessments">—</div>
+          <div class="stat-label">Total Assessments</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-value" id="statRecent">—</div>
+          <div class="stat-label">Signups (7d)</div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('users')">Users</button>
+        <button class="tab-btn" onclick="switchTab('exports')">Export Data</button>
+        <button class="tab-btn" onclick="switchTab('manage')">Manage</button>
+        <button class="tab-btn" onclick="switchTab('health')">System Health</button>
+      </div>
+
+      <!-- Users Tab -->
+      <div class="tab-panel active" id="tab-users">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+            <h3 style="color:var(--white);font-size:1.125rem;">Registered Users</h3>
+            <span style="color:var(--slate-400);font-size:0.8125rem;" id="userCount"></span>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="data-table" id="usersTable">
+              <thead>
+                <tr><th>Name</th><th>Email</th><th>Tier</th><th>Assessments</th><th>Joined</th><th>Last Login</th></tr>
+              </thead>
+              <tbody id="usersBody">
+                <tr><td colspan="6" style="text-align:center;color:var(--slate-500);">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="margin-top:1rem;display:flex;gap:0.5rem;">
+            <button class="btn btn-ghost btn-sm" id="prevBtn" onclick="loadUsers('prev')" disabled>Previous</button>
+            <button class="btn btn-ghost btn-sm" id="nextBtn" onclick="loadUsers('next')">Next</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Export Tab -->
+      <div class="tab-panel" id="tab-exports">
+        <div class="card">
+          <h3 style="color:var(--white);font-size:1.125rem;margin-bottom:1rem;">Export Platform Data</h3>
+          <p style="color:var(--slate-400);font-size:0.875rem;margin-bottom:1.5rem;">Download CSV files of platform data for analysis.</p>
+          <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+            <a class="export-btn" href="#" onclick="exportData('users')">&#x2913; Export Users (CSV)</a>
+            <a class="export-btn" href="#" onclick="exportData('assessments')">&#x2913; Export Assessments (CSV)</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Manage Tab -->
+      <div class="tab-panel" id="tab-manage">
+        <div class="card" style="margin-bottom:1.5rem;">
+          <h3 style="color:var(--white);font-size:1.125rem;margin-bottom:1rem;">Promote User to Pro</h3>
+          <p style="color:var(--slate-400);font-size:0.875rem;margin-bottom:1rem;">Manually upgrade a user to Pro tier (bypasses payment).</p>
+          <div class="promote-form">
+            <div class="form-group">
+              <label class="form-label">User Email</label>
+              <input class="form-input" type="email" id="promoEmail" placeholder="user@example.com" style="width:280px;">
+            </div>
+            <div class="form-group">
+              <label class="form-label">New Tier</label>
+              <select class="form-input" id="promoTier" style="width:120px;">
+                <option value="pro">Pro</option>
+                <option value="free">Free</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" onclick="promoteUser()">Update Tier</button>
+          </div>
+          <div id="promoResult" style="margin-top:0.75rem;"></div>
+        </div>
+
+        <div class="card">
+          <h3 style="color:var(--white);font-size:1.125rem;margin-bottom:1rem;">Database Direct Access</h3>
+          <p style="color:var(--slate-400);font-size:0.875rem;margin-bottom:0.5rem;">
+            To access the database directly, use the Supabase Dashboard:
+          </p>
+          <ol style="color:var(--slate-300);font-size:0.875rem;line-height:1.8;padding-left:1.25rem;">
+            <li>Go to <a href="https://supabase.com/dashboard" target="_blank" style="color:var(--gold-400);">supabase.com/dashboard</a></li>
+            <li>Select your project</li>
+            <li>Use the <strong>Table Editor</strong> to browse/edit data</li>
+            <li>Use the <strong>SQL Editor</strong> to run custom queries</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Health Tab -->
+      <div class="tab-panel" id="tab-health">
+        <div class="card">
+          <h3 style="color:var(--white);font-size:1.125rem;margin-bottom:1rem;">System Health</h3>
+          <div id="healthData" style="font-family:monospace;font-size:0.8125rem;color:var(--slate-300);background:var(--navy-900);padding:1rem;border-radius:var(--radius-sm);white-space:pre-wrap;">
+            Loading...
+          </div>
+          <button class="btn btn-ghost btn-sm" style="margin-top:1rem;" onclick="loadHealth()">Refresh</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container"><p>&copy; 2026 Acumen Logic. All rights reserved.</p></div>
+  </footer>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    let currentOffset = 0;
+    const PAGE_SIZE = 25;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const loggedIn = await Auth.init();
+      if (!loggedIn) {
+        window.location.href = '/login.html';
+        return;
+      }
+      if (!Auth.isAdmin()) {
+        document.querySelector('.page-content .container').innerHTML =
+          '<div class="card" style="text-align:center;padding:3rem;">' +
+            '<h2 style="color:var(--gold-400);margin-bottom:1rem;">Admin Access Required</h2>' +
+            '<p style="color:var(--slate-400);margin-bottom:1.5rem;">You do not have permission to view this page.</p>' +
+            '<a href="/dashboard.html" class="btn btn-primary">Back to Dashboard</a>' +
+          '</div>';
+        return;
+      }
+      loadStats();
+      loadUsers();
+      loadHealth();
+    });
+
+    function switchTab(name) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + name).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    async function loadStats() {
+      try {
+        const data = await API.get('/api/admin/stats');
+        document.getElementById('statTotalUsers').textContent = data.users.total;
+        document.getElementById('statProUsers').textContent = data.users.pro;
+        document.getElementById('statAssessments').textContent = data.assessments.completed;
+        document.getElementById('statRecent').textContent = data.recent_signups_7d;
+      } catch (err) {
+        console.error('Stats error:', err);
+      }
+    }
+
+    async function loadUsers(direction) {
+      if (direction === 'next') currentOffset += PAGE_SIZE;
+      if (direction === 'prev') currentOffset = Math.max(0, currentOffset - PAGE_SIZE);
+
+      try {
+        const data = await API.get('/api/admin/users?limit=' + PAGE_SIZE + '&offset=' + currentOffset);
+        document.getElementById('userCount').textContent = 'Showing ' + (currentOffset + 1) + '-' + Math.min(currentOffset + PAGE_SIZE, data.total) + ' of ' + data.total;
+
+        const tbody = document.getElementById('usersBody');
+        if (data.users.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--slate-500);">No users found</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = data.users.map(u =>
+          '<tr>' +
+          '<td style="color:var(--white);font-weight:500;">' + escapeHtml(u.name) + '</td>' +
+          '<td>' + escapeHtml(u.email) + '</td>' +
+          '<td><span class="badge ' + (u.tier === 'pro' ? 'badge-pro' : u.tier === 'admin' ? '' : 'badge-gold') + '" style="' + (u.tier === 'admin' ? 'background:var(--gold-400);color:var(--navy-900);' : '') + '">' + u.tier.toUpperCase() + '</span></td>' +
+          '<td>' + (u.assessments_this_month || 0) + '</td>' +
+          '<td>' + formatDate(u.created_at) + '</td>' +
+          '<td>' + (u.last_login_at ? formatDate(u.last_login_at) : 'Never') + '</td>' +
+          '</tr>'
+        ).join('');
+
+        document.getElementById('prevBtn').disabled = currentOffset === 0;
+        document.getElementById('nextBtn').disabled = currentOffset + PAGE_SIZE >= data.total;
+      } catch (err) {
+        console.error('Users error:', err);
+      }
+    }
+
+    async function exportData(type) {
+      try {
+        const res = await fetch('/api/admin/export?type=' + type, { credentials: 'include' });
+        if (!res.ok) throw new Error('Export failed');
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'm2_' + type + '.csv';
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('Export downloaded', 'success');
+      } catch (err) {
+        showToast('Export failed: ' + err.message, 'error');
+      }
+    }
+
+    async function promoteUser() {
+      const email = document.getElementById('promoEmail').value.trim();
+      const tier = document.getElementById('promoTier').value;
+      const resultEl = document.getElementById('promoResult');
+
+      if (!email) { showToast('Enter an email address', 'warning'); return; }
+
+      try {
+        const res = await fetch('/api/admin/promote', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ email, tier })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          resultEl.innerHTML = '<span style="color:var(--green-400);">Updated ' + escapeHtml(data.user.name) + ' to ' + data.user.tier.toUpperCase() + '</span>';
+          loadUsers();
+          loadStats();
+        } else {
+          resultEl.innerHTML = '<span style="color:var(--red-400);">' + (data.error || 'Failed') + '</span>';
+        }
+      } catch (err) {
+        resultEl.innerHTML = '<span style="color:var(--red-400);">Request failed</span>';
+      }
+    }
+
+    async function loadHealth() {
+      try {
+        const data = await API.get('/api/health/details');
+        document.getElementById('healthData').textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        document.getElementById('healthData').textContent = 'Error: ' + err.message;
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings | Acumen Logic</title>
+  <meta name="description" content="Manage your Acumen Logic account settings.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+        <a href="index.html" class="logo">
+            <img src="assets/images/logo.png" width="36" height="36" alt="Acumen Logic">
+            <div class="logo-text">
+                <span class="logo-name">ACUMEN LOGIC</span>
+                <span class="logo-tag">Benchmark Platform</span>
+            </div>
+        </a>
+        <nav class="nav-desktop">
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="assess.html" class="nav-link">Assess</a>
+            <a href="progress.html" class="nav-link" data-auth="pro">Progress</a>
+            <a href="practice.html" class="nav-link" data-auth="pro">Practice</a>
+            <a href="admin.html" class="nav-link" data-auth="admin">Admin</a>
+        </nav>
+        <div class="header-actions">
+            <span data-user-tier class="badge badge-gold"></span>
+            <a href="settings.html" class="user-avatar" data-user-avatar></a>
+        </div>
+        <button class="mobile-toggle" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+    <div id="mobileMenu" class="mobile-menu">
+        <a href="dashboard.html" class="mobile-link">Dashboard</a>
+        <a href="assess.html" class="mobile-link">Assess</a>
+        <a href="progress.html" class="mobile-link" data-auth="pro">Progress</a>
+        <a href="settings.html" class="mobile-link">Settings</a>
+    </div>
+  </header>
+
+  <main class="page-content">
+    <div class="container" style="max-width:600px;">
+      <div class="page-header">
+        <h1 class="page-title">Account Settings</h1>
+      </div>
+
+      <div class="card" style="margin-bottom:1.5rem;padding:2rem;">
+        <h3 style="color:var(--white);margin-bottom:1.5rem;">Profile</h3>
+        <form id="profileForm" onsubmit="updateProfile(event)">
+          <div class="form-group">
+            <label class="form-label">Name</label>
+            <input class="form-input" type="text" id="settingsName">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input class="form-input" type="email" id="settingsEmail" disabled style="opacity:0.6;">
+            <p class="form-hint">Email cannot be changed</p>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Target Firm</label>
+            <input class="form-input" type="text" id="settingsFirm" placeholder="e.g. KPMG, Goldman Sachs">
+          </div>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+      </div>
+
+      <div class="card" style="margin-bottom:1.5rem;padding:2rem;">
+        <h3 style="color:var(--white);margin-bottom:0.5rem;">Subscription</h3>
+        <p style="color:var(--slate-400);font-size:0.875rem;margin-bottom:1rem;">
+          Current plan: <span data-user-tier class="badge badge-gold"></span>
+        </p>
+        <a href="upgrade.html" class="btn btn-outline" data-auth="free">Upgrade to Pro</a>
+        <p data-auth="pro" style="color:var(--green-400);font-size:0.875rem;">You have Pro access.</p>
+      </div>
+
+      <div class="card" style="padding:2rem;">
+        <h3 style="color:var(--white);margin-bottom:1rem;">Account</h3>
+        <button class="btn btn-ghost" onclick="handleLogout()" style="color:var(--red-400);">Sign Out</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <img src="assets/images/logo.png" width="28" height="28" alt="Acumen Logic">
+                    <span>ACUMEN LOGIC</span>
+                </div>
+                <p>Benchmark your assessment performance against other candidates targeting Big 4, investment banking, and consulting roles.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="assess.html">Assessments</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="upgrade.html">Pricing</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="https://acumenlogic.co.uk" target="_blank">Main Website</a></li>
+                    <li><a href="https://acumenlogic.co.uk/pages/privacy.html" target="_blank">Privacy Policy</a></li>
+                    <li><a href="https://acumenlogic.co.uk/pages/terms.html" target="_blank">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Acumen Logic. All rights reserved.</p>
+        </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const loggedIn = await Auth.init();
+      if (!loggedIn) { window.location.href = '/login.html'; return; }
+
+      const data = await API.getMe();
+      document.getElementById('settingsName').value = data.user.name || '';
+      document.getElementById('settingsEmail').value = data.user.email || '';
+      document.getElementById('settingsFirm').value = data.user.target_firm || '';
+    });
+
+    async function updateProfile(e) {
+      e.preventDefault();
+      try {
+        await API.updateProfile({
+          name: document.getElementById('settingsName').value,
+          target_firm: document.getElementById('settingsFirm').value
+        });
+        showToast('Profile updated', 'success');
+      } catch (err) {
+        showToast(err.error || 'Failed to update', 'error');
+      }
+    }
+
+    async function handleLogout() {
+      await API.logout();
+      Auth.clearUser();
+      window.location.href = '/login.html';
+    }
+  </script>
+</body>
+</html>

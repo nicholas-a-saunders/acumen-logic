@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assessment | Acumen Logic</title>
+  <meta name="description" content="Take your Acumen Logic benchmark assessment. Timed aptitude test with percentile ranking.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/assessment.css">
+</head>
+<body>
+  <!-- Assessment Header -->
+  <header class="assess-header">
+    <div class="assess-header-inner">
+      <div class="assess-header-left">
+        <span class="assess-counter" id="questionCounter">Question 1 of 19</span>
+        <span class="badge" id="categoryBadge">NR</span>
+      </div>
+      <div class="assess-header-center">
+        <div class="timer-group">
+          <div id="timer" class="assess-timer">15:00</div>
+          <div class="timer-bar-wrap">
+            <div class="timer-bar" id="timerBar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="assess-header-right">
+        <button class="btn btn-outline btn-sm" id="flagBtn" onclick="toggleFlag()">Flag</button>
+        <button class="btn btn-outline btn-sm" onclick="confirmSubmit()">Submit All</button>
+      </div>
+    </div>
+    <!-- Progress Bar -->
+    <div class="assess-progress">
+      <div class="assess-progress-fill" id="progressBar" style="width:5%;"></div>
+    </div>
+  </header>
+
+  <!-- Question Area -->
+  <main class="assess-main">
+    <div class="container" style="max-width:840px;">
+      <!-- Data Source (Table / Chart) -->
+      <div id="dataSource" class="data-source-container" style="display:none;"></div>
+
+      <!-- Context (text passage) -->
+      <div id="questionContext" class="context-card" style="display:none;"></div>
+
+      <!-- Question Text -->
+      <div id="questionText" class="question-text"></div>
+
+      <!-- Answer Options -->
+      <div id="answerOptions" class="options-list"></div>
+    </div>
+  </main>
+
+  <!-- Navigation Footer -->
+  <footer class="assess-footer">
+    <button class="btn btn-ghost" id="prevBtn" onclick="prevQuestion()" disabled>&larr; Previous</button>
+    <div id="questionDots" class="question-dots"></div>
+    <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">Next &rarr;</button>
+  </footer>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    let session = null;
+    let questions = [];
+    let currentIndex = 0;
+    let answers = {};
+    let flagged = new Set();
+    let timerInterval = null;
+    let timeRemaining = 0;
+    let totalTime = 0;
+    let questionStartTime = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const loggedIn = await Auth.init();
+      if (!loggedIn) { window.location.href = '/login.html'; return; }
+
+      session = JSON.parse(sessionStorage.getItem('currentSession'));
+      if (!session) { window.location.href = '/assess.html'; return; }
+
+      questions = session.questions;
+      timeRemaining = session.time_limit_seconds;
+      totalTime = session.time_limit_seconds;
+
+      renderQuestionDots();
+      showQuestion(0);
+      startTimer();
+
+      // Prevent accidental navigation
+      window.addEventListener('beforeunload', function(e) {
+        e.preventDefault();
+        e.returnValue = 'You have an assessment in progress. Are you sure you want to leave?';
+      });
+    });
+
+    function startTimer() {
+      updateTimerDisplay();
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+        if (timeRemaining <= 0) {
+          clearInterval(timerInterval);
+          autoSubmit();
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const m = Math.floor(timeRemaining / 60);
+      const s = timeRemaining % 60;
+      const el = document.getElementById('timer');
+      el.textContent = m + ':' + String(s).padStart(2, '0');
+
+      // Timer bar
+      const pct = (timeRemaining / totalTime) * 100;
+      const bar = document.getElementById('timerBar');
+      bar.style.width = pct + '%';
+
+      if (timeRemaining <= 120) {
+        el.classList.add('danger');
+        el.classList.remove('warning');
+        bar.classList.add('danger');
+        bar.classList.remove('warning');
+      } else if (timeRemaining <= 300) {
+        el.classList.add('warning');
+        el.classList.remove('danger');
+        bar.classList.add('warning');
+        bar.classList.remove('danger');
+      } else {
+        el.classList.remove('warning', 'danger');
+        bar.classList.remove('warning', 'danger');
+      }
+    }
+
+    function showQuestion(index) {
+      currentIndex = index;
+      const q = questions[index];
+      questionStartTime = Date.now();
+
+      document.getElementById('questionCounter').textContent = 'Question ' + (index + 1) + ' of ' + questions.length;
+
+      const catBadge = document.getElementById('categoryBadge');
+      catBadge.textContent = q.category;
+      catBadge.className = 'badge cat-badge-' + q.category.toLowerCase();
+
+      document.getElementById('progressBar').style.width = ((index + 1) / questions.length * 100) + '%';
+
+      // Flag button state
+      document.getElementById('flagBtn').classList.toggle('flagged', flagged.has(index));
+
+      // Data source (table/chart)
+      const dsEl = document.getElementById('dataSource');
+      if (q.table_data) {
+        dsEl.style.display = '';
+        dsEl.innerHTML = renderDataSource(q.table_data);
+      } else {
+        dsEl.style.display = 'none';
+        dsEl.innerHTML = '';
+      }
+
+      // Context (text passage)
+      const ctxEl = document.getElementById('questionContext');
+      if (q.context && !q.table_data) {
+        ctxEl.style.display = '';
+        ctxEl.textContent = q.context;
+      } else {
+        ctxEl.style.display = 'none';
+      }
+
+      // Question text
+      document.getElementById('questionText').textContent = q.question_text;
+
+      // Options
+      const optionsEl = document.getElementById('answerOptions');
+      optionsEl.innerHTML = q.options.map((opt, i) =>
+        '<button class="answer-option' + (answers[index] === i ? ' selected' : '') + '" onclick="selectAnswer(' + i + ')" data-index="' + i + '">' +
+        '<span class="option-label">' + opt.label + '</span>' +
+        '<span class="option-text">' + opt.display + '</span>' +
+        '</button>'
+      ).join('');
+
+      // Navigation
+      document.getElementById('prevBtn').disabled = index === 0;
+      document.getElementById('nextBtn').textContent = index === questions.length - 1 ? 'Finish' : 'Next \u2192';
+
+      updateQuestionDots();
+    }
+
+    // ── Data Source Rendering ──────────────────────────────
+    function renderDataSource(data) {
+      if (!data || !data.type) return '';
+
+      if (data.type === 'table') return renderTable(data);
+      if (data.type === 'bar-chart') return renderBarChart(data);
+      if (data.type === 'pie-chart') return renderPieChart(data);
+      return '';
+    }
+
+    function renderTable(data) {
+      let html = '<div class="ds-table-wrap">';
+      if (data.title) html += '<div class="ds-title">' + escapeHtml(data.title) + '</div>';
+      html += '<table class="ds-table"><thead><tr>';
+      (data.headers || []).forEach(h => { html += '<th>' + escapeHtml(String(h)) + '</th>'; });
+      html += '</tr></thead><tbody>';
+      (data.rows || []).forEach(row => {
+        html += '<tr>';
+        row.forEach((cell, i) => {
+          const val = typeof cell === 'number' ? cell.toLocaleString('en-GB', { maximumFractionDigits: 2 }) : String(cell);
+          html += '<td' + (i > 0 && typeof cell === 'number' ? ' class="num"' : '') + '>' + escapeHtml(val) + '</td>';
+        });
+        html += '</tr>';
+      });
+      html += '</tbody></table></div>';
+      return html;
+    }
+
+    function renderBarChart(data) {
+      const datasets = data.datasets || [];
+      if (datasets.length === 0) return '';
+      const labels = data.labels || [];
+      const allValues = datasets.flatMap(d => d.values || []);
+      const maxVal = Math.max(...allValues, 1);
+
+      let html = '<div class="ds-chart-wrap">';
+      if (data.title) html += '<div class="ds-title">' + escapeHtml(data.title) + '</div>';
+      html += '<div class="ds-bar-chart">';
+
+      labels.forEach((label, i) => {
+        html += '<div class="bar-group">';
+        html += '<div class="bar-label">' + escapeHtml(String(label)) + '</div>';
+        html += '<div class="bar-tracks">';
+        datasets.forEach((ds, di) => {
+          const val = (ds.values || [])[i] || 0;
+          const pct = (val / maxVal) * 100;
+          const colors = ['var(--gold-400)', 'var(--blue-400)', 'var(--purple-400)', 'var(--green-400)'];
+          html += '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%;background:' + colors[di % colors.length] + ';"></div><span class="bar-value">' + val.toLocaleString('en-GB', { maximumFractionDigits: 1 }) + '</span></div>';
+        });
+        html += '</div></div>';
+      });
+
+      html += '</div>';
+      if (datasets.length > 1) {
+        html += '<div class="ds-legend">';
+        const colors = ['var(--gold-400)', 'var(--blue-400)', 'var(--purple-400)', 'var(--green-400)'];
+        datasets.forEach((ds, i) => {
+          html += '<span class="legend-item"><span class="legend-dot" style="background:' + colors[i % colors.length] + ';"></span>' + escapeHtml(ds.label || '') + '</span>';
+        });
+        html += '</div>';
+      }
+      html += '</div>';
+      return html;
+    }
+
+    function renderPieChart(data) {
+      const segments = data.segments || [];
+      if (segments.length === 0) return '';
+      const total = segments.reduce((s, seg) => s + (seg.value || 0), 0);
+      const colors = ['#C9A961', '#60a5fa', '#a78bfa', '#4ade80', '#f87171', '#facc15', '#94a3b8'];
+
+      let html = '<div class="ds-chart-wrap">';
+      if (data.title) html += '<div class="ds-title">' + escapeHtml(data.title) + '</div>';
+
+      // SVG pie chart
+      html += '<div class="ds-pie-row"><svg viewBox="0 0 200 200" class="ds-pie">';
+      let cumAngle = -90;
+      segments.forEach((seg, i) => {
+        const pct = total > 0 ? (seg.value / total) : 0;
+        const angle = pct * 360;
+        const startAngle = cumAngle;
+        const endAngle = cumAngle + angle;
+        const largeArc = angle > 180 ? 1 : 0;
+
+        const x1 = 100 + 90 * Math.cos(startAngle * Math.PI / 180);
+        const y1 = 100 + 90 * Math.sin(startAngle * Math.PI / 180);
+        const x2 = 100 + 90 * Math.cos(endAngle * Math.PI / 180);
+        const y2 = 100 + 90 * Math.sin(endAngle * Math.PI / 180);
+
+        if (pct > 0.001) {
+          html += '<path d="M100,100 L' + x1 + ',' + y1 + ' A90,90 0 ' + largeArc + ',1 ' + x2 + ',' + y2 + ' Z" fill="' + colors[i % colors.length] + '" opacity="0.85"/>';
+        }
+        cumAngle = endAngle;
+      });
+      html += '</svg>';
+
+      // Legend
+      html += '<div class="ds-pie-legend">';
+      segments.forEach((seg, i) => {
+        const pct = total > 0 ? ((seg.value / total) * 100).toFixed(1) : '0.0';
+        html += '<div class="pie-legend-item"><span class="legend-dot" style="background:' + colors[i % colors.length] + ';"></span><span>' + escapeHtml(seg.label || '') + '</span><span class="pie-legend-val">' + pct + '%</span></div>';
+      });
+      html += '</div></div></div>';
+      return html;
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    // ── Answer Selection ──────────────────────────────────
+    function selectAnswer(optionIndex) {
+      const timeSpent = Math.round((Date.now() - questionStartTime) / 1000);
+      answers[currentIndex] = optionIndex;
+
+      API.submitAnswer(session.session_id, {
+        question_order: currentIndex + 1,
+        selected_answer: optionIndex,
+        time_spent_seconds: timeSpent
+      }).catch(err => {
+        console.error('Submit error:', err);
+        showToast('Failed to save answer. Retrying...', 'warning');
+        setTimeout(() => {
+          API.submitAnswer(session.session_id, {
+            question_order: currentIndex + 1,
+            selected_answer: optionIndex,
+            time_spent_seconds: timeSpent
+          }).catch(() => showToast('Answer may not have saved. Check your connection.', 'error'));
+        }, 2000);
+      });
+
+      document.querySelectorAll('.answer-option').forEach((el, i) => {
+        el.classList.toggle('selected', i === optionIndex);
+      });
+
+      updateQuestionDots();
+    }
+
+    // ── Flag for Review ───────────────────────────────────
+    function toggleFlag() {
+      if (flagged.has(currentIndex)) {
+        flagged.delete(currentIndex);
+      } else {
+        flagged.add(currentIndex);
+      }
+      document.getElementById('flagBtn').classList.toggle('flagged', flagged.has(currentIndex));
+      updateQuestionDots();
+    }
+
+    // ── Navigation ────────────────────────────────────────
+    function nextQuestion() {
+      if (currentIndex < questions.length - 1) {
+        showQuestion(currentIndex + 1);
+      } else {
+        confirmSubmit();
+      }
+    }
+
+    function prevQuestion() {
+      if (currentIndex > 0) showQuestion(currentIndex - 1);
+    }
+
+    function renderQuestionDots() {
+      const el = document.getElementById('questionDots');
+      el.innerHTML = questions.map((_, i) =>
+        '<div class="q-dot" data-idx="' + i + '" onclick="showQuestion(' + i + ')"></div>'
+      ).join('');
+    }
+
+    function updateQuestionDots() {
+      document.querySelectorAll('.q-dot').forEach((dot, i) => {
+        dot.className = 'q-dot';
+        if (i === currentIndex) dot.classList.add('current');
+        else if (flagged.has(i)) dot.classList.add('flagged');
+        else if (answers[i] !== undefined) dot.classList.add('answered');
+      });
+    }
+
+    // ── Submission ────────────────────────────────────────
+    function confirmSubmit() {
+      const unanswered = questions.length - Object.keys(answers).length;
+      const flaggedCount = flagged.size;
+      let msg = 'Submit your assessment?';
+      if (unanswered > 0) msg = unanswered + ' question(s) unanswered.';
+      if (flaggedCount > 0) msg += ' ' + flaggedCount + ' flagged for review.';
+      msg += ' Submit anyway?';
+      if (confirm(msg)) submitAssessment();
+    }
+
+    async function autoSubmit() {
+      showToast('Time is up! Submitting your answers...', 'warning');
+      await submitAssessment();
+    }
+
+    async function submitAssessment() {
+      clearInterval(timerInterval);
+      window.removeEventListener('beforeunload', () => {});
+      showLoading();
+      try {
+        await API.completeAssessment(session.session_id);
+        sessionStorage.removeItem('currentSession');
+        window.location.href = '/results.html?id=' + session.session_id;
+      } catch (err) {
+        hideLoading();
+        showToast(err.error || 'Failed to submit. Please try again.', 'error');
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.key === 'ArrowRight' || e.key === 'Enter') nextQuestion();
+      if (e.key === 'ArrowLeft') prevQuestion();
+      if (e.key === 'f' || e.key === 'F') toggleFlag();
+      if (e.key >= '1' && e.key <= '5') {
+        const idx = parseInt(e.key) - 1;
+        if (idx < questions[currentIndex].options.length) selectAnswer(idx);
+      }
+      if (e.key === 'a' || e.key === 'A') selectAnswer(0);
+      if (e.key === 'b' || e.key === 'B') selectAnswer(1);
+      if (e.key === 'c' || e.key === 'C') selectAnswer(2);
+      if (e.key === 'd' || e.key === 'D') selectAnswer(3);
+      if (e.key === 'e' || e.key === 'E') selectAnswer(4);
+    });
+  </script>
+</body>
+</html>

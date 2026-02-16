@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practice | Acumen Logic</title>
+  <meta name="description" content="Practice category-specific drills to improve your weakest areas.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+        <a href="index.html" class="logo">
+            <img src="assets/images/logo.png" width="36" height="36" alt="Acumen Logic">
+            <div class="logo-text">
+                <span class="logo-name">ACUMEN LOGIC</span>
+                <span class="logo-tag">Benchmark Platform</span>
+            </div>
+        </a>
+        <nav class="nav-desktop">
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="assess.html" class="nav-link">Assess</a>
+            <a href="progress.html" class="nav-link" data-auth="pro">Progress</a>
+            <a href="practice.html" class="nav-link active" data-auth="pro">Practice</a>
+            <a href="admin.html" class="nav-link" data-auth="admin">Admin</a>
+        </nav>
+        <div class="header-actions">
+            <span data-user-tier class="badge badge-gold"></span>
+            <a href="settings.html" class="user-avatar" data-user-avatar></a>
+        </div>
+        <button class="mobile-toggle" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+    <div id="mobileMenu" class="mobile-menu">
+        <a href="dashboard.html" class="mobile-link">Dashboard</a>
+        <a href="assess.html" class="mobile-link">Assess</a>
+        <a href="progress.html" class="mobile-link" data-auth="pro">Progress</a>
+        <a href="settings.html" class="mobile-link">Settings</a>
+    </div>
+  </header>
+
+  <main class="page-content">
+    <div class="container" style="max-width:900px;">
+      <div class="page-header">
+        <h1 class="page-title">Category Practice</h1>
+        <p class="page-subtitle">Focus on your weakest areas with targeted drills</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+        <div class="card" style="padding:2rem;border-left:3px solid var(--gold-400);">
+          <h3 style="color:var(--gold-400);font-size:1.25rem;margin-bottom:0.5rem;">Numerical Reasoning</h3>
+          <p style="color:var(--slate-400);font-size:0.875rem;margin-bottom:0.5rem;">50 question templates</p>
+          <p style="color:var(--slate-500);font-size:0.8125rem;margin-bottom:1.5rem;">Percentages, ratios, compound growth, currency conversions, averages, and financial calculations.</p>
+          <div style="display:flex;gap:0.5rem;margin-bottom:1.5rem;">
+            <span class="badge badge-green">Easy: 15</span>
+            <span class="badge badge-gold">Medium: 20</span>
+            <span class="badge badge-red">Hard: 15</span>
+          </div>
+          <button class="btn btn-primary btn-block" onclick="startDrill('NR')">Start NR Drill (10 questions)</button>
+        </div>
+
+        <div class="card" style="padding:2rem;border-left:3px solid var(--blue-400);">
+          <h3 style="color:var(--blue-400);font-size:1.25rem;margin-bottom:0.5rem;">Data Interpretation</h3>
+          <p style="color:var(--slate-400);font-size:0.875rem;margin-bottom:0.5rem;">50 question templates</p>
+          <p style="color:var(--slate-500);font-size:0.8125rem;margin-bottom:1.5rem;">Tables, bar charts, line graphs, pie charts, multi-source integration, and financial statements.</p>
+          <div style="display:flex;gap:0.5rem;margin-bottom:1.5rem;">
+            <span class="badge badge-green">Easy: 14</span>
+            <span class="badge badge-gold">Medium: 20</span>
+            <span class="badge badge-red">Hard: 16</span>
+          </div>
+          <button class="btn btn-primary btn-block" onclick="startDrill('DI')">Start DI Drill (10 questions)</button>
+        </div>
+
+        <div class="card" style="padding:2rem;border-left:3px solid var(--purple-400);">
+          <h3 style="color:var(--purple-400);font-size:1.25rem;margin-bottom:0.5rem;">Logical Reasoning</h3>
+          <p style="color:var(--slate-400);font-size:0.875rem;margin-bottom:0.5rem;">50 question templates</p>
+          <p style="color:var(--slate-500);font-size:0.8125rem;margin-bottom:1.5rem;">Deductive reasoning, patterns, rule application, verbal analysis, syllogisms, and number series.</p>
+          <div style="display:flex;gap:0.5rem;margin-bottom:1.5rem;">
+            <span class="badge badge-green">Easy: 15</span>
+            <span class="badge badge-gold">Medium: 19</span>
+            <span class="badge badge-red">Hard: 16</span>
+          </div>
+          <button class="btn btn-primary btn-block" onclick="startDrill('LR')">Start LR Drill (10 questions)</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <img src="assets/images/logo.png" width="28" height="28" alt="Acumen Logic">
+                    <span>ACUMEN LOGIC</span>
+                </div>
+                <p>Benchmark your assessment performance against other candidates targeting Big 4, investment banking, and consulting roles.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="assess.html">Assessments</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="upgrade.html">Pricing</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="https://acumenlogic.co.uk" target="_blank">Main Website</a></li>
+                    <li><a href="https://acumenlogic.co.uk/pages/privacy.html" target="_blank">Privacy Policy</a></li>
+                    <li><a href="https://acumenlogic.co.uk/pages/terms.html" target="_blank">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Acumen Logic. All rights reserved.</p>
+        </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const loggedIn = await Auth.init();
+      if (!loggedIn) { window.location.href = '/login.html'; return; }
+      if (!Auth.isPro()) { window.location.href = '/upgrade.html'; return; }
+    });
+
+    async function startDrill(category) {
+      showLoading();
+      try {
+        const data = await API.startAssessment({ type: 'category-drill', category });
+        sessionStorage.setItem('currentSession', JSON.stringify(data));
+        window.location.href = '/assessment.html?id=' + data.session_id;
+      } catch (err) {
+        hideLoading();
+        showToast(err.error || 'Failed to start drill', 'error');
+      }
+    }
+  </script>
+</body>
+</html>

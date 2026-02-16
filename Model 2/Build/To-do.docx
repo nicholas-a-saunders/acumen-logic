@@ -1,0 +1,146 @@
+ACUMEN LOGIC — MODEL 2: TO-DO LIST
+Items Requiring Nicholas's Personal Action
+
+Last Updated: February 2026
+
+
+================================================================================
+PRIORITY 1 — REQUIRED BEFORE LAUNCH
+================================================================================
+
+[ ] 1. INSTALL DEPENDENCIES
+    Run from terminal in /Model 2/Build/server/:
+      cd "/Users/nicksaunders/Desktop/Acumen Logic/Model 2/Build/server"
+      npm install
+    This installs Express, bcrypt, JWT, PostgreSQL client, etc.
+
+[ ] 2. RUN DATABASE MIGRATION
+    Creates the Model 2 tables in your Supabase PostgreSQL database:
+      cd "/Users/nicksaunders/Desktop/Acumen Logic/Model 2/Build/server"
+      node db/migrate.js
+    Verify output shows all 5 tables created.
+
+[ ] 3. SEED PERCENTILE DATA
+    Generates 500 simulated benchmark results for the percentile engine:
+      node db/seed.js
+    Verify output shows "Seeded 500 simulated results" with distribution.
+
+[ ] 4. TEST LOCALLY
+    Start the server:
+      node server.js
+    Open http://localhost:4000 in browser.
+    Test: Register → Login → Take Quick Benchmark → View Results → Dashboard.
+
+[ ] 5. SET UP GOOGLE OAUTH (for Google login)
+    a. Go to https://console.cloud.google.com/
+    b. Create a new project (or use existing)
+    c. Go to APIs & Services → Credentials
+    d. Create OAuth 2.0 Client ID (Web application)
+    e. Add authorized origins: http://localhost:4000, https://app.acumenlogic.co.uk
+    f. Add authorized redirect URIs: same as above
+    g. Copy the Client ID
+    h. Update .env file: GOOGLE_CLIENT_ID=your-actual-client-id
+    i. Update login.html and register.html to use Google Identity Services
+       (replace the placeholder handleGoogleLogin function)
+
+[ ] 6. GENERATE PRODUCTION JWT SECRET
+    Replace the dev JWT secret with a secure random string:
+      node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+    Copy the output and update .env: JWT_SECRET=<the-generated-string>
+
+[ ] 7. SET UP PAYMENT PROCESSING (Stripe recommended)
+    a. Create a Stripe account at https://stripe.com
+    b. Create a Product: "Acumen Logic Pro" at £97/year
+    c. Get your Stripe publishable key and secret key
+    d. Add to .env: STRIPE_SECRET_KEY=sk_live_...
+    e. Implement checkout flow on upgrade.html
+    f. Add webhook endpoint to handle successful payments
+       (update user tier to 'pro' and set pro_expires_at)
+
+[ ] 8. DEPLOY TO RENDER
+    a. Push Model 2/Build/ to a new GitHub repository
+    b. Create new Web Service on Render
+    c. Root directory: server
+    d. Build command: npm install
+    e. Start command: node server.js
+    f. Add environment variables:
+       - DATABASE_URL (your Supabase connection string)
+       - JWT_SECRET (the production secret from step 6)
+       - GOOGLE_CLIENT_ID (from step 5)
+       - NODE_ENV=production
+       - PORT=4000
+       - ALLOWED_ORIGINS=https://app.acumenlogic.co.uk
+    g. Deploy
+
+[ ] 9. SET UP CUSTOM DOMAIN
+    a. In Render, add custom domain: app.acumenlogic.co.uk
+    b. In your DNS provider, add CNAME record:
+       app.acumenlogic.co.uk → your-render-service.onrender.com
+    c. Wait for SSL certificate to provision (automatic)
+
+
+================================================================================
+PRIORITY 2 — POST-LAUNCH IMPROVEMENTS
+================================================================================
+
+[ ] 10. REVIEW QUESTION BANK
+     All 150 question templates use randomised numbers. Review a sample of
+     generated questions to ensure:
+     - Questions make business sense
+     - Numbers are realistic
+     - Distractor answers are plausible
+     - Explanations are clear
+
+[ ] 11. CREATE ADMIN ACCOUNT
+     After deployment, register a normal account, then manually update
+     the tier in Supabase:
+       UPDATE m2_users SET tier = 'admin' WHERE email = 'your@email.com';
+
+[ ] 12. SET UP EMAIL NOTIFICATIONS
+     Consider integrating Kit/ConvertKit for:
+     - Welcome email on registration
+     - Weekly progress summary for Pro users
+     - Re-engagement emails for inactive users
+
+[ ] 13. CONNECT TO MAIN WEBSITE
+     Add a link from acumenlogic.co.uk to app.acumenlogic.co.uk:
+     - Add "Benchmark" to the main site navigation
+     - Update the diagnostic results page to link to the benchmark platform
+
+[ ] 14. MONITOR & SCALE
+     - Check Render dashboard for performance metrics
+     - Monitor Supabase for database usage
+     - Once real user count exceeds 1,000 benchmarks, the "Estimated"
+       label will automatically be removed from percentile rankings
+
+[ ] 15. ADD GOOGLE IDENTITY SERVICES SCRIPT
+     When Google OAuth is configured, add to login.html and register.html:
+     <script src="https://accounts.google.com/gsi/client" async defer></script>
+     And update the handleGoogleLogin() function to use:
+     google.accounts.id.initialize({
+       client_id: 'YOUR_CLIENT_ID',
+       callback: async (response) => {
+         const data = await API.googleLogin(response.credential);
+         Auth.setUser(data.user);
+         window.location.href = '/dashboard.html';
+       }
+     });
+     google.accounts.id.renderButton(document.getElementById('googleBtn'), {
+       theme: 'outline', size: 'large', width: '100%'
+     });
+
+
+================================================================================
+PRIORITY 3 — FUTURE FEATURES (from PRD roadmap)
+================================================================================
+
+[ ] 16. LinkedIn shareable result cards (Phase 2, Month 3)
+[ ] 17. Plus tier — £297/year with community access (Phase 3, Month 6)
+[ ] 18. Elite tier — £497/quarter with group coaching (Phase 4, Month 9)
+[ ] 19. Corporate tier — £3-5k/year (Phase 5, Month 12)
+[ ] 20. SJT and Verbal Reasoning question banks (Phase 6, Month 18)
+
+
+================================================================================
+END OF TO-DO LIST
+================================================================================

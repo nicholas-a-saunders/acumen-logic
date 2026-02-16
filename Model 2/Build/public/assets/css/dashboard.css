@@ -1,0 +1,6 @@
+/* Dashboard-specific styles */
+
+/* ── Responsive grid collapse ────────────────────────── */
+@media (max-width: 768px) {
+  .dashboard-grid { grid-template-columns: 1fr !important; }
+}

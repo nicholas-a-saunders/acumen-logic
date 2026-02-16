@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing &amp; Plans | Acumen Logic Benchmark Platform</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Choose your Acumen Logic plan. Free benchmarking, Pro unlimited access with progress tracking, or Elite with the full training course. Prepare for Big 4, investment banking, and consulting assessments.">
+  <meta name="keywords" content="Acumen Logic pricing, assessment benchmark plans, Big 4 preparation, numerical reasoning training, SHL practice, consulting assessment prep">
+  <meta name="author" content="Acumen Logic">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://app.acumenlogic.co.uk/upgrade.html">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Pricing &amp; Plans | Acumen Logic">
+  <meta property="og:description" content="Benchmark your assessment performance. Choose Free, Pro, or Elite to accelerate your preparation for Big 4, investment banking, and consulting roles.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://app.acumenlogic.co.uk/upgrade.html">
+  <meta property="og:image" content="https://app.acumenlogic.co.uk/assets/images/og-pricing.png">
+  <meta property="og:site_name" content="Acumen Logic">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Pricing &amp; Plans | Acumen Logic">
+  <meta name="twitter:description" content="Benchmark your assessment performance. Choose Free, Pro, or Elite to accelerate your preparation.">
+
+  <!-- Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+
+  <style>
+    /* ── Pricing Grid ── */
+    .pricing-hero { text-align: center; }
+    .pricing-hero h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+    .pricing-hero p {
+      color: var(--slate-300);
+      font-size: 1.125rem;
+      margin-bottom: 3rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 1060px;
+      margin: 0 auto 4rem;
+      align-items: start;
+    }
+
+    .pricing-card {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(201,169,97,.10);
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      position: relative;
+      transition: all 300ms ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .pricing-card:hover {
+      border-color: rgba(201,169,97,.25);
+    }
+    .pricing-card.featured {
+      border-color: var(--gold-400);
+      transform: scale(1.03);
+      box-shadow: var(--shadow-gold);
+    }
+    .pricing-card.elite {
+      border-color: rgba(167,139,250,.4);
+    }
+    .pricing-card.elite:hover {
+      border-color: rgba(167,139,250,.6);
+    }
+
+    .tier-badge {
+      position: absolute;
+      top: -13px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      padding: 0.3rem 1rem;
+      border-radius: var(--radius-full);
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    .tier-badge.popular {
+      background: linear-gradient(135deg, var(--gold-400), var(--gold-600));
+      color: var(--navy-900);
+    }
+    .tier-badge.best-value {
+      background: linear-gradient(135deg, var(--purple-400), #7c3aed);
+      color: var(--white);
+    }
+
+    .tier-name {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .tier-name.free  { color: var(--slate-300); }
+    .tier-name.pro   { color: var(--gold-400); }
+    .tier-name.elite { color: var(--purple-400); }
+
+    .tier-price {
+      font-size: 2.75rem;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.1;
+    }
+    .tier-period {
+      font-size: 0.875rem;
+      color: var(--slate-400);
+      margin-bottom: 1.5rem;
+    }
+    .tier-period-spacer {
+      height: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tier-desc {
+      font-size: 0.8125rem;
+      color: var(--slate-400);
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(201,169,97,.08);
+    }
+
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+      margin-bottom: 2rem;
+      flex: 1;
+    }
+    .feature-list li {
+      font-size: 0.8125rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      line-height: 1.4;
+    }
+    .feature-list li .check {
+      color: var(--green-400);
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+    .feature-list li .cross {
+      color: var(--slate-500);
+      flex-shrink: 0;
+      opacity: 0.5;
+    }
+    .feature-list li.included  { color: var(--slate-300); }
+    .feature-list li.excluded  { color: var(--slate-500); opacity: 0.5; }
+    .feature-list li.inherited { color: var(--slate-400); font-style: italic; }
+
+    .pricing-cta { margin-top: auto; }
+
+    .btn-elite {
+      background: linear-gradient(135deg, var(--purple-400), #7c3aed);
+      color: var(--white);
+      border-color: var(--purple-400);
+    }
+    .btn-elite:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(167,139,250,.25);
+    }
+
+    .btn-current {
+      background: rgba(255,255,255,.05);
+      color: var(--slate-400);
+      border-color: rgba(201,169,97,.15);
+      cursor: default;
+    }
+    .btn-current:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .weekly-cost {
+      font-size: 0.75rem;
+      color: var(--slate-500);
+      margin-top: 0.75rem;
+      text-align: center;
+    }
+
+    /* ── Comparison Table ── */
+    .comparison-section {
+      max-width: 1060px;
+      margin: 0 auto 4rem;
+    }
+    .comparison-section h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--white);
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+    .comparison-table thead th {
+      padding: 1rem 1.25rem;
+      text-align: center;
+      color: var(--white);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      border-bottom: 1px solid rgba(201,169,97,.15);
+    }
+    .comparison-table thead th:first-child {
+      text-align: left;
+    }
+    .comparison-table thead th.col-pro {
+      color: var(--gold-400);
+    }
+    .comparison-table thead th.col-elite {
+      color: var(--purple-400);
+    }
+    .comparison-table tbody td {
+      padding: 0.875rem 1.25rem;
+      border-bottom: 1px solid rgba(201,169,97,.06);
+      color: var(--slate-300);
+    }
+    .comparison-table tbody td:not(:first-child) {
+      text-align: center;
+    }
+    .comparison-table tbody tr:hover {
+      background: rgba(201,169,97,.03);
+    }
+    .comparison-table .section-row td {
+      padding-top: 1.5rem;
+      font-weight: 600;
+      color: var(--white);
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid rgba(201,169,97,.1);
+    }
+    .icon-check { color: var(--green-400); font-weight: 700; }
+    .icon-cross { color: var(--slate-500); opacity: 0.4; }
+    .icon-value { color: var(--slate-300); font-weight: 500; }
+
+    /* ── Elite Course Details ── */
+    .course-section {
+      max-width: 1060px;
+      margin: 0 auto 4rem;
+    }
+    .course-section-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .course-section-header h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+    .course-section-header .elite-label {
+      display: inline-block;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-full);
+      background: linear-gradient(135deg, var(--purple-400), #7c3aed);
+      color: var(--white);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+    }
+    .course-section-header p {
+      color: var(--slate-400);
+      font-size: 0.9375rem;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    .module-card {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(167,139,250,.12);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      transition: border-color 300ms ease;
+    }
+    .module-card:hover {
+      border-color: rgba(167,139,250,.3);
+    }
+    .module-number {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: var(--purple-400);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.375rem;
+    }
+    .module-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.625rem;
+    }
+    .module-topics {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.375rem;
+    }
+    .module-topics li {
+      font-size: 0.8125rem;
+      color: var(--slate-400);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      line-height: 1.4;
+    }
+    .module-topics li::before {
+      content: "›";
+      color: var(--purple-400);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .course-cta {
+      text-align: center;
+      margin-top: 2.5rem;
+    }
+    .course-cta p {
+      color: var(--slate-500);
+      font-size: 0.8125rem;
+      margin-top: 0.75rem;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .pricing-hero h1 { font-size: 2rem; }
+      .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+      }
+      .pricing-card.featured {
+        transform: none;
+      }
+      .comparison-table {
+        font-size: 0.8125rem;
+      }
+      .comparison-table thead th,
+      .comparison-table tbody td {
+        padding: 0.75rem 0.5rem;
+      }
+      .module-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .module-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <img src="assets/images/logo.png" width="36" height="36" alt="Acumen Logic">
+        <div class="logo-text">
+          <span class="logo-name">ACUMEN LOGIC</span>
+          <span class="logo-tag">Benchmark Platform</span>
+        </div>
+      </a>
+      <nav class="nav-desktop">
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+        <a href="assess.html" class="nav-link">Assess</a>
+        <a href="progress.html" class="nav-link" data-auth="pro">Progress</a>
+        <a href="practice.html" class="nav-link" data-auth="pro">Practice</a>
+        <a href="admin.html" class="nav-link" data-auth="admin">Admin</a>
+      </nav>
+      <div class="header-actions">
+        <span data-user-tier class="badge badge-gold"></span>
+        <a href="settings.html" class="user-avatar" data-user-avatar></a>
+      </div>
+      <button class="mobile-toggle" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div id="mobileMenu" class="mobile-menu">
+      <a href="dashboard.html" class="mobile-link">Dashboard</a>
+      <a href="assess.html" class="mobile-link">Assess</a>
+      <a href="upgrade.html" class="mobile-link active">Pricing</a>
+      <a href="settings.html" class="mobile-link">Settings</a>
+    </div>
+  </header>
+
+  <!-- ── Main Content ── -->
+  <main class="page-content">
+    <div class="container">
+
+      <!-- Hero -->
+      <div class="pricing-hero">
+        <h1>Choose Your Plan</h1>
+        <p>Unlock the full power of Acumen Logic's benchmark platform and accelerate your preparation.</p>
+      </div>
+
+      <!-- ── Pricing Cards ── -->
+      <div class="pricing-grid">
+
+        <!-- Free Tier -->
+        <div class="pricing-card">
+          <div class="tier-name free">Free</div>
+          <div class="tier-price">&pound;0</div>
+          <div class="tier-period-spacer"></div>
+          <div class="tier-desc">Get started with core benchmarking to see where you stand.</div>
+          <ul class="feature-list">
+            <li class="included"><span class="check">&#10003;</span> 3 benchmarks per month</li>
+            <li class="included"><span class="check">&#10003;</span> 19 questions per benchmark</li>
+            <li class="included"><span class="check">&#10003;</span> Percentile ranking</li>
+            <li class="included"><span class="check">&#10003;</span> Category breakdown</li>
+            <li class="excluded"><span class="cross">&#10007;</span> Progress tracking</li>
+            <li class="excluded"><span class="cross">&#10007;</span> Category drills</li>
+            <li class="excluded"><span class="cross">&#10007;</span> Detailed question review</li>
+            <li class="excluded"><span class="cross">&#10007;</span> Training course access</li>
+          </ul>
+          <div class="pricing-cta">
+            <button class="btn btn-current btn-block" id="btnFree" disabled>Current Plan</button>
+          </div>
+        </div>
+
+        <!-- Pro Tier -->
+        <div class="pricing-card featured">
+          <span class="tier-badge popular">MOST POPULAR</span>
+          <div class="tier-name pro">Pro</div>
+          <div class="tier-price">&pound;97</div>
+          <div class="tier-period">per year</div>
+          <div class="tier-desc">Everything you need to benchmark, drill, and track your improvement.</div>
+          <ul class="feature-list">
+            <li class="inherited"><span class="check">&#10003;</span> Everything in Free</li>
+            <li class="included"><span class="check">&#10003;</span> Unlimited benchmarks</li>
+            <li class="included"><span class="check">&#10003;</span> Full 30-question benchmarks</li>
+            <li class="included"><span class="check">&#10003;</span> Category drills</li>
+            <li class="included"><span class="check">&#10003;</span> Progress tracking</li>
+            <li class="included"><span class="check">&#10003;</span> Detailed question review</li>
+            <li class="included"><span class="check">&#10003;</span> Priority support</li>
+            <li class="excluded"><span class="cross">&#10007;</span> Training course access</li>
+          </ul>
+          <div class="pricing-cta">
+            <button class="btn btn-primary btn-block btn-lg" id="btnPro" onclick="handleUpgrade('pro')">Upgrade to Pro</button>
+            <div class="weekly-cost">That&rsquo;s less than &pound;1.87/week</div>
+          </div>
+        </div>
+
+        <!-- Elite Tier -->
+        <div class="pricing-card elite">
+          <span class="tier-badge best-value">BEST VALUE</span>
+          <div class="tier-name elite">Elite</div>
+          <div class="tier-price">&pound;197</div>
+          <div class="tier-period">per year</div>
+          <div class="tier-desc">Complete preparation: benchmarking platform plus the full Acumen Logic training course.</div>
+          <ul class="feature-list">
+            <li class="inherited"><span class="check">&#10003;</span> Everything in Pro</li>
+            <li class="included"><span class="check">&#10003;</span> Full Acumen Logic Training Course</li>
+            <li class="included"><span class="check">&#10003;</span> 6 structured course modules</li>
+            <li class="included"><span class="check">&#10003;</span> Practice question banks</li>
+            <li class="included"><span class="check">&#10003;</span> Strategy &amp; time-management training</li>
+            <li class="included"><span class="check">&#10003;</span> Direct support channel</li>
+          </ul>
+          <div class="pricing-cta">
+            <button class="btn btn-elite btn-block btn-lg" id="btnElite" onclick="handleUpgrade('elite')">Upgrade to Elite</button>
+            <div class="weekly-cost">That&rsquo;s less than &pound;3.79/week</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── Feature Comparison Table ── -->
+      <div class="comparison-section">
+        <h2>Feature Comparison</h2>
+        <div class="card" style="padding:0;overflow:hidden;">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Free</th>
+                <th class="col-pro">Pro</th>
+                <th class="col-elite">Elite</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Benchmarking -->
+              <tr class="section-row"><td colspan="4">Benchmarking</td></tr>
+              <tr>
+                <td>Benchmarks per month</td>
+                <td><span class="icon-value">3</span></td>
+                <td><span class="icon-value">Unlimited</span></td>
+                <td><span class="icon-value">Unlimited</span></td>
+              </tr>
+              <tr>
+                <td>Questions per benchmark</td>
+                <td><span class="icon-value">19</span></td>
+                <td><span class="icon-value">30</span></td>
+                <td><span class="icon-value">30</span></td>
+              </tr>
+              <tr>
+                <td>Percentile ranking</td>
+                <td><span class="icon-check">&#10003;</span></td>
+                <td><span class="icon-check">&#10003;</span></td>
+                <td><span class="icon-check">&#10003;</span></td>
+              </tr>
+              <tr>
+                <td>Category breakdown</td>
+                <td><span class="icon-check">&#10003;</span></td>
+                <td><span class="icon-check">&#10003;</span></td>
+                <td><span class="icon-check">&#10003;</span></td>
+              </tr>
+
+              <!-- Analytics & Practice -->
+              <tr class="section-row"><td colspan="4">Analytics &amp; Practice</td></tr>
+              <tr>
+                <td>Progress tracking</td>
+                <td><span class="icon-cross">&#10007;</span></td>
+                <td><span class="icon-check">&#10003;</span></td>
+                <td><span class="icon-check">&#10003;</span></td>
+              </tr>
+              <tr>
+                <td>Category drills</td>
+                <td><span class="icon-cross">&#10007;</span></td>
+                <td><span class="icon-check">&#10003;</span></td>
+                <td><span class="icon-check">&#10003;</span></td>
+              </tr>
+              <tr>
+                <td>Detailed question review</td>
+                <td><span class="icon-cross">&#10007;</span></td>
+                <td><span class="icon-check">&#10003;</span></td>
+                <td><span class="icon-check">&#10003;</span></td>
+              </tr>
+
+              <!-- Training Course -->
+              <tr class="section-row"><td colspan="4">Training Course</td></tr>
+              <tr>
+                <td>Full Acumen Logic Training Course</td>
+                <td><span class="icon-cross">&#10007;</span></td>
+                <td><span class="icon-cross">&#10007;</span></td>
+                <td><span class="icon-check">&#10003;</span></td>
+              </tr>
+              <tr>
+                <td>6 structured course modules</td>
+                <td><span class="icon-cross">&#10007;</span></td>
+                <td><span class="icon-cross">&#10007;</span></td>
+                <td><span class="icon-check">&#10003;</span></td>
+              </tr>
+              <tr>
+                <td>Practice question banks</td>
+                <td><span class="icon-cross">&#10007;</span></td>
+                <td><span class="icon-cross">&#10007;</span></td>
+                <td><span class="icon-check">&#10003;</span></td>
+              </tr>
+              <tr>
+                <td>Strategy &amp; time-management training</td>
+                <td><span class="icon-cross">&#10007;</span></td>
+                <td><span class="icon-cross">&#10007;</span></td>
+                <td><span class="icon-check">&#10003;</span></td>
+              </tr>
+
+              <!-- Support -->
+              <tr class="section-row"><td colspan="4">Support</td></tr>
+              <tr>
+                <td>Community support</td>
+                <td><span class="icon-check">&#10003;</span></td>
+                <td><span class="icon-check">&#10003;</span></td>
+                <td><span class="icon-check">&#10003;</span></td>
+              </tr>
+              <tr>
+                <td>Priority support</td>
+                <td><span class="icon-cross">&#10007;</span></td>
+                <td><span class="icon-check">&#10003;</span></td>
+                <td><span class="icon-check">&#10003;</span></td>
+              </tr>
+              <tr>
+                <td>Direct support channel</td>
+                <td><span class="icon-cross">&#10007;</span></td>
+                <td><span class="icon-cross">&#10007;</span></td>
+                <td><span class="icon-check">&#10003;</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── Elite Course Details ── -->
+      <section class="course-section" id="courseDetails">
+        <div class="course-section-header">
+          <span class="elite-label">ELITE TIER</span>
+          <h2>What the Training Course Includes</h2>
+          <p>Six comprehensive modules designed to systematically build every skill tested in graduate-level numerical, verbal, and logical reasoning assessments.</p>
+        </div>
+
+        <div class="module-grid">
+
+          <!-- Module 1 -->
+          <div class="module-card">
+            <div class="module-number">Module 1</div>
+            <div class="module-title">Foundations &amp; Introduction</div>
+            <ul class="module-topics">
+              <li>Assessment landscape overview</li>
+              <li>How benchmarking works</li>
+              <li>Setting your target percentile</li>
+              <li>Study plan &amp; course navigation</li>
+            </ul>
+          </div>
+
+          <!-- Module 2 -->
+          <div class="module-card">
+            <div class="module-number">Module 2</div>
+            <div class="module-title">Core Numerical Skills</div>
+            <ul class="module-topics">
+              <li>Percentages &amp; percentage change</li>
+              <li>Ratios &amp; proportions</li>
+              <li>Fractions &amp; decimals</li>
+              <li>Currency conversions</li>
+              <li>Multi-step numerical problems</li>
+            </ul>
+          </div>
+
+          <!-- Module 3 -->
+          <div class="module-card">
+            <div class="module-number">Module 3</div>
+            <div class="module-title">Data Interpretation &amp; Applied Numeracy</div>
+            <ul class="module-topics">
+              <li>Table-based data analysis</li>
+              <li>Chart &amp; graph interpretation</li>
+              <li>Multi-source data synthesis</li>
+              <li>Applied business numeracy</li>
+            </ul>
+          </div>
+
+          <!-- Module 4 -->
+          <div class="module-card">
+            <div class="module-number">Module 4</div>
+            <div class="module-title">Logical Reasoning Systems</div>
+            <ul class="module-topics">
+              <li>Deductive reasoning</li>
+              <li>Verbal True/False/Cannot Say</li>
+              <li>Rule application &amp; conditional logic</li>
+              <li>Pattern &amp; sequence recognition</li>
+            </ul>
+          </div>
+
+          <!-- Module 5 -->
+          <div class="module-card">
+            <div class="module-number">Module 5</div>
+            <div class="module-title">Time Management &amp; Test Strategy</div>
+            <ul class="module-topics">
+              <li>Pacing techniques per question type</li>
+              <li>When to skip &amp; return</li>
+              <li>Eliminating wrong answers quickly</li>
+              <li>Managing test-day pressure</li>
+            </ul>
+          </div>
+
+          <!-- Module 6 -->
+          <div class="module-card">
+            <div class="module-number">Module 6</div>
+            <div class="module-title">Pre-Assessment Strategy Review</div>
+            <ul class="module-topics">
+              <li>Full-length mock walkthrough</li>
+              <li>Weak-area identification drill</li>
+              <li>Final revision checklist</li>
+              <li>Day-before &amp; day-of protocols</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <div class="course-cta">
+          <button class="btn btn-elite btn-lg" id="btnEliteCourse" onclick="handleUpgrade('elite')">Get Elite Access</button>
+          <p>Includes full platform access + all 6 training modules</p>
+        </div>
+      </section>
+
+      <p style="color:var(--slate-500);font-size:0.875rem;margin-bottom:2rem;text-align:center;">
+        Payment processing will be configured during deployment.
+      </p>
+
+    </div>
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="assets/images/logo.png" width="28" height="28" alt="Acumen Logic">
+            <span>ACUMEN LOGIC</span>
+          </div>
+          <p>Benchmark your assessment performance against other candidates targeting Big 4, investment banking, and consulting roles.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Platform</h4>
+          <ul>
+            <li><a href="assess.html">Assessments</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="upgrade.html">Pricing</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="https://acumenlogic.co.uk" target="_blank">Main Website</a></li>
+            <li><a href="https://acumenlogic.co.uk/pages/privacy.html" target="_blank">Privacy Policy</a></li>
+            <li><a href="https://acumenlogic.co.uk/pages/terms.html" target="_blank">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Acumen Logic. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── Scripts ── -->
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const loggedIn = await Auth.init();
+      if (!loggedIn) { window.location.href = '/login.html'; return; }
+      updateButtons();
+    });
+
+    function updateButtons() {
+      const user = Auth.user;
+      if (!user) return;
+
+      const tier = (user.tier || 'free').toLowerCase();
+      const btnFree  = document.getElementById('btnFree');
+      const btnPro   = document.getElementById('btnPro');
+      const btnElite = document.getElementById('btnElite');
+      const btnEliteCourse = document.getElementById('btnEliteCourse');
+
+      if (tier === 'free') {
+        btnFree.textContent = 'Current Plan';
+        btnFree.disabled = true;
+        btnFree.className = 'btn btn-current btn-block';
+      } else if (tier === 'pro') {
+        btnFree.textContent = 'Downgrade';
+        btnFree.disabled = false;
+        btnFree.className = 'btn btn-ghost btn-block';
+        btnFree.onclick = () => handleDowngrade('free');
+
+        btnPro.textContent = 'Current Plan';
+        btnPro.disabled = true;
+        btnPro.className = 'btn btn-current btn-block btn-lg';
+      } else if (tier === 'elite') {
+        btnFree.textContent = 'Downgrade';
+        btnFree.disabled = false;
+        btnFree.className = 'btn btn-ghost btn-block';
+        btnFree.onclick = () => handleDowngrade('free');
+
+        btnPro.textContent = 'Downgrade';
+        btnPro.disabled = false;
+        btnPro.className = 'btn btn-ghost btn-block btn-lg';
+        btnPro.onclick = () => handleDowngrade('pro');
+
+        btnElite.textContent = 'Current Plan';
+        btnElite.disabled = true;
+        btnElite.className = 'btn btn-current btn-block btn-lg';
+
+        btnEliteCourse.textContent = 'Current Plan';
+        btnEliteCourse.disabled = true;
+        btnEliteCourse.className = 'btn btn-current btn-lg';
+      }
+    }
+
+    function handleUpgrade(tier) {
+      showToast('Payment integration coming soon. See To-do list for setup instructions.', 'info');
+    }
+
+    function handleDowngrade(tier) {
+      showToast('Downgrade functionality coming soon.', 'info');
+    }
+  </script>
+</body>
+</html>

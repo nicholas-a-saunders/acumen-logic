@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progress | Acumen Logic</title>
+  <meta name="description" content="Track your assessment performance over time with detailed progress analytics.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+        <a href="index.html" class="logo">
+            <img src="assets/images/logo.png" width="36" height="36" alt="Acumen Logic">
+            <div class="logo-text">
+                <span class="logo-name">ACUMEN LOGIC</span>
+                <span class="logo-tag">Benchmark Platform</span>
+            </div>
+        </a>
+        <nav class="nav-desktop">
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="assess.html" class="nav-link">Assess</a>
+            <a href="progress.html" class="nav-link active" data-auth="pro">Progress</a>
+            <a href="practice.html" class="nav-link" data-auth="pro">Practice</a>
+            <a href="admin.html" class="nav-link" data-auth="admin">Admin</a>
+        </nav>
+        <div class="header-actions">
+            <span data-user-tier class="badge badge-gold"></span>
+            <a href="settings.html" class="user-avatar" data-user-avatar></a>
+        </div>
+        <button class="mobile-toggle" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+    <div id="mobileMenu" class="mobile-menu">
+        <a href="dashboard.html" class="mobile-link">Dashboard</a>
+        <a href="assess.html" class="mobile-link">Assess</a>
+        <a href="progress.html" class="mobile-link" data-auth="pro">Progress</a>
+        <a href="settings.html" class="mobile-link">Settings</a>
+    </div>
+  </header>
+
+  <main class="page-content">
+    <div class="container" style="max-width:900px;">
+      <div class="page-header">
+        <h1 class="page-title">Progress Tracking</h1>
+        <p class="page-subtitle">Your performance trends over time</p>
+      </div>
+
+      <div id="progressContent">
+        <div class="card" style="text-align:center;padding:3rem;">
+          <div class="spinner" style="margin:0 auto 1rem;width:32px;height:32px;"></div>
+          <p style="color:var(--slate-400);">Loading progress data...</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <img src="assets/images/logo.png" width="28" height="28" alt="Acumen Logic">
+                    <span>ACUMEN LOGIC</span>
+                </div>
+                <p>Benchmark your assessment performance against other candidates targeting Big 4, investment banking, and consulting roles.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="assess.html">Assessments</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="upgrade.html">Pricing</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="https://acumenlogic.co.uk" target="_blank">Main Website</a></li>
+                    <li><a href="https://acumenlogic.co.uk/pages/privacy.html" target="_blank">Privacy Policy</a></li>
+                    <li><a href="https://acumenlogic.co.uk/pages/terms.html" target="_blank">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Acumen Logic. All rights reserved.</p>
+        </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const loggedIn = await Auth.init();
+      if (!loggedIn) { window.location.href = '/login.html'; return; }
+      if (!Auth.isPro()) { window.location.href = '/upgrade.html'; return; }
+      loadProgress();
+    });
+
+    async function loadProgress() {
+      try {
+        const data = await API.getProgress();
+        if (!data.progress || data.progress.length === 0) {
+          document.getElementById('progressContent').innerHTML =
+            '<div class="card" style="text-align:center;padding:3rem;"><p style="color:var(--slate-400);">No benchmark data yet. Take your first benchmark to start tracking progress.</p><a href="/assess.html" class="btn btn-primary" style="margin-top:1rem;">Take Benchmark</a></div>';
+          return;
+        }
+
+        const points = data.progress;
+        const latest = points[points.length - 1];
+        const first = points[0];
+
+        let html = `
+          <div class="stats-grid" style="margin-bottom:2rem;">
+            <div class="card stat-card">
+              <div class="stat-value gold">${points.length}</div>
+              <div class="stat-label">Benchmarks Taken</div>
+            </div>
+            <div class="card stat-card">
+              <div class="stat-value">${latest.score}%</div>
+              <div class="stat-label">Latest Score</div>
+            </div>
+            <div class="card stat-card">
+              <div class="stat-value" style="color:${latest.score >= first.score ? 'var(--green-400)' : 'var(--red-400)'};">${latest.score >= first.score ? '+' : ''}${latest.score - first.score}%</div>
+              <div class="stat-label">Score Change</div>
+            </div>
+            <div class="card stat-card">
+              <div class="stat-value gold">${latest.percentile ? getOrdinal(latest.percentile) : '—'}</div>
+              <div class="stat-label">Current Percentile</div>
+            </div>
+          </div>
+
+          <!-- Score History Chart (simple CSS-based) -->
+          <div class="card" style="margin-bottom:2rem;padding:2rem;">
+            <h3 style="color:var(--white);font-size:1.125rem;margin-bottom:1.5rem;">Score History</h3>
+            <div style="display:flex;align-items:flex-end;gap:4px;height:200px;padding-bottom:2rem;position:relative;">
+              ${points.map((p, i) => {
+                const height = p.score;
+                return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;" title="' + formatDate(p.date) + ': ' + p.score + '%">' +
+                  '<div style="font-size:0.625rem;color:var(--slate-400);margin-bottom:0.25rem;">' + p.score + '%</div>' +
+                  '<div style="width:100%;max-width:40px;height:' + height + '%;background:var(--gold-400);border-radius:4px 4px 0 0;min-height:4px;"></div>' +
+                  '<div style="font-size:0.5rem;color:var(--slate-500);margin-top:0.25rem;white-space:nowrap;">' + formatDate(p.date).split(' ').slice(0,2).join(' ') + '</div>' +
+                '</div>';
+              }).join('')}
+            </div>
+          </div>
+
+          <!-- Category Trends -->
+          <div class="card" style="margin-bottom:2rem;padding:2rem;">
+            <h3 style="color:var(--white);font-size:1.125rem;margin-bottom:1.5rem;">Category Trends</h3>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;">
+              ${renderCategoryTrend('Numerical Reasoning', points.map(p => p.nr).filter(v => v !== null), 'var(--gold-400)')}
+              ${renderCategoryTrend('Data Interpretation', points.map(p => p.di).filter(v => v !== null), 'var(--blue-400)')}
+              ${renderCategoryTrend('Logical Reasoning', points.map(p => p.lr).filter(v => v !== null), 'var(--purple-400)')}
+            </div>
+          </div>`;
+
+        document.getElementById('progressContent').innerHTML = html;
+      } catch (err) {
+        document.getElementById('progressContent').innerHTML =
+          '<div class="alert alert-error">Failed to load progress data.</div>';
+      }
+    }
+
+    function renderCategoryTrend(name, scores, color) {
+      if (scores.length === 0) return '<div style="text-align:center;"><div style="color:' + color + ';font-weight:600;font-size:0.875rem;">' + name + '</div><div style="color:var(--slate-500);font-size:0.8125rem;">No data</div></div>';
+      const latest = scores[scores.length - 1];
+      const first = scores[0];
+      const change = latest - first;
+      return '<div style="text-align:center;">' +
+        '<div style="color:' + color + ';font-weight:600;font-size:0.875rem;margin-bottom:0.5rem;">' + name + '</div>' +
+        '<div style="font-size:1.5rem;font-weight:700;color:var(--white);">' + latest + '%</div>' +
+        '<div style="font-size:0.8125rem;color:' + (change >= 0 ? 'var(--green-400)' : 'var(--red-400)') + ';">' + (change >= 0 ? '↑' : '↓') + ' ' + Math.abs(change) + '%</div>' +
+      '</div>';
+    }
+  </script>
+</body>
+</html>

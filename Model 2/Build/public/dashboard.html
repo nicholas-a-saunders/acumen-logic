@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Acumen Logic</title>
+  <meta name="description" content="Your Acumen Logic benchmark dashboard. Track your percentile ranking, assessment history, and category performance.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/dashboard.css">
+  <style>
+    /* ── Skeleton Loading States ─────────────────────────── */
+    .skeleton-stats .stat-card { min-height: 100px; }
+    .skeleton-stats .stat-card .skeleton { margin: 0 auto; }
+    .skeleton-stats .skel-value { height: 2rem; width: 60%; margin: 0 auto 0.5rem; }
+    .skeleton-stats .skel-label { height: 0.875rem; width: 80%; margin: 0 auto; }
+
+    .skeleton-card-block { padding: 1.5rem; }
+    .skeleton-card-block .skel-heading { height: 1.25rem; width: 50%; margin-bottom: 1.25rem; }
+    .skeleton-card-block .skel-line { height: 0.875rem; width: 100%; margin-bottom: 0.75rem; }
+    .skeleton-card-block .skel-line:last-child { width: 70%; margin-bottom: 0; }
+
+    .skeleton-bar { height: 8px; border-radius: var(--radius-full); margin-top: 0.375rem; }
+
+    .skeleton-table .skel-row {
+      display: grid; grid-template-columns: 1.5fr 1fr 1.2fr 1fr 0.8fr;
+      gap: 1rem; padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(201,169,97,0.05);
+    }
+    .skeleton-table .skel-cell { height: 0.875rem; border-radius: var(--radius-sm); }
+
+    /* ── Empty State ─────────────────────────────────────── */
+    .empty-state { text-align: center; padding: 3rem 1.5rem; }
+    .empty-state-icon {
+      width: 120px; height: 120px; margin: 0 auto 1.5rem;
+      background: rgba(201,169,97,0.06);
+      border: 2px dashed rgba(201,169,97,0.2);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    }
+    .empty-state-icon svg { width: 48px; height: 48px; color: var(--gold-400); opacity: 0.7; }
+    .empty-state h3 { color: var(--white); font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .empty-state p { color: var(--slate-400); font-size: 0.9375rem; max-width: 400px; margin: 0 auto 1.5rem; line-height: 1.6; }
+
+    /* ── Quick Actions ───────────────────────────────────── */
+    .quick-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
+    .quick-action {
+      display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+      padding: 1.25rem 1rem; background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(201,169,97,0.1); border-radius: var(--radius-lg);
+      transition: all 300ms ease; cursor: pointer; text-decoration: none;
+    }
+    .quick-action:hover {
+      border-color: rgba(201,169,97,0.3);
+      background: rgba(201,169,97,0.05);
+      transform: translateY(-2px);
+    }
+    .quick-action-icon {
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem;
+    }
+    .quick-action-icon.gold { background: rgba(201,169,97,0.12); color: var(--gold-400); }
+    .quick-action-icon.blue { background: rgba(96,165,250,0.12); color: var(--blue-400); }
+    .quick-action-icon.purple { background: rgba(167,139,250,0.12); color: var(--purple-400); }
+    .quick-action-icon.green { background: rgba(74,222,128,0.12); color: var(--green-400); }
+    .quick-action-label { font-size: 0.8125rem; font-weight: 600; color: var(--white); }
+    .quick-action-sub { font-size: 0.6875rem; color: var(--slate-500); margin-top: -0.375rem; }
+
+    /* ── Trend Chart (Pro) ───────────────────────────────── */
+    .trend-chart { display: flex; align-items: flex-end; gap: 3px; height: 140px; padding-bottom: 1.75rem; position: relative; }
+    .trend-chart::after {
+      content: ''; position: absolute; bottom: 1.75rem; left: 0; right: 0;
+      height: 1px; background: rgba(201,169,97,0.1);
+    }
+    .trend-bar {
+      flex: 1; display: flex; flex-direction: column; align-items: center;
+      justify-content: flex-end; height: 100%; position: relative; z-index: 1;
+    }
+    .trend-bar-fill {
+      width: 100%; max-width: 32px; border-radius: 4px 4px 0 0;
+      background: var(--gold-400); min-height: 4px;
+      transition: height 0.5s ease;
+    }
+    .trend-bar-label {
+      font-size: 0.5625rem; color: var(--slate-500); margin-top: 0.375rem;
+      white-space: nowrap; text-align: center;
+    }
+    .trend-bar-value {
+      font-size: 0.625rem; color: var(--slate-400); margin-bottom: 0.25rem;
+    }
+
+    /* ── Course Access Card (Elite) ──────────────────────── */
+    .course-card {
+      background: linear-gradient(135deg, rgba(201,169,97,0.08) 0%, rgba(167,139,250,0.06) 100%);
+      border: 1px solid rgba(201,169,97,0.2);
+    }
+    .course-card-inner { display: flex; align-items: center; gap: 1.25rem; }
+    .course-card-icon {
+      width: 56px; height: 56px; border-radius: var(--radius-lg); flex-shrink: 0;
+      background: linear-gradient(135deg, var(--gold-400), var(--gold-600));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; color: var(--navy-900);
+    }
+    .course-card-info { flex: 1; }
+    .course-card-info h4 { color: var(--white); font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .course-card-info p { color: var(--slate-400); font-size: 0.8125rem; line-height: 1.5; }
+
+    /* ── History expand transition ────────────────────────── */
+    #historyTable table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+    #historyTable thead tr { color: var(--slate-400); text-align: left; border-bottom: 1px solid rgba(201,169,97,0.1); }
+    #historyTable th { padding: 0.5rem 0; font-weight: 500; }
+    #historyTable tbody tr {
+      border-bottom: 1px solid rgba(201,169,97,0.05);
+      cursor: pointer; transition: background var(--transition-fast);
+    }
+    #historyTable tbody tr:hover { background: rgba(201,169,97,0.03); }
+    #historyTable td { padding: 0.75rem 0; }
+
+    /* ── View All toggle ─────────────────────────────────── */
+    .view-all-btn { cursor: pointer; }
+
+    /* ── Responsive tweaks ───────────────────────────────── */
+    @media (max-width: 768px) {
+      .quick-actions { grid-template-columns: repeat(2, 1fr); }
+      .course-card-inner { flex-direction: column; text-align: center; }
+      .skeleton-table .skel-row { grid-template-columns: 1fr 1fr; }
+      .trend-chart { height: 100px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ═══ Header ═══ -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <img src="assets/images/logo.png" width="36" height="36" alt="Acumen Logic">
+        <div class="logo-text">
+          <span class="logo-name">ACUMEN LOGIC</span>
+          <span class="logo-tag">Benchmark Platform</span>
+        </div>
+      </a>
+      <nav class="nav-desktop">
+        <a href="dashboard.html" class="nav-link active">Dashboard</a>
+        <a href="assess.html" class="nav-link">Assess</a>
+        <a href="progress.html" class="nav-link" data-auth="pro">Progress</a>
+        <a href="practice.html" class="nav-link" data-auth="pro">Practice</a>
+        <a href="admin.html" class="nav-link" data-auth="admin">Admin</a>
+      </nav>
+      <div class="header-actions">
+        <span data-user-tier class="badge badge-gold"></span>
+        <a href="settings.html" class="user-avatar" data-user-avatar></a>
+      </div>
+      <button class="mobile-toggle" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div id="mobileMenu" class="mobile-menu">
+      <a href="dashboard.html" class="mobile-link active">Dashboard</a>
+      <a href="assess.html" class="mobile-link">Assess</a>
+      <a href="progress.html" class="mobile-link" data-auth="pro">Progress</a>
+      <a href="settings.html" class="mobile-link">Settings</a>
+    </div>
+  </header>
+
+  <!-- ═══ Main Content ═══ -->
+  <main class="page-content">
+    <div class="container">
+
+      <!-- Welcome Header -->
+      <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+        <div>
+          <h1 class="page-title">Welcome back, <span data-user-name></span></h1>
+          <p class="page-subtitle">Here's your performance overview</p>
+        </div>
+        <a href="assess.html" class="btn btn-primary">Take Assessment →</a>
+      </div>
+
+      <!-- ── Skeleton: Stats Row ── -->
+      <div id="skeletonStats" class="stats-grid skeleton-stats" style="margin-bottom:2rem;">
+        <div class="card stat-card"><div class="skeleton skel-value"></div><div class="skeleton skel-label"></div></div>
+        <div class="card stat-card"><div class="skeleton skel-value"></div><div class="skeleton skel-label"></div></div>
+        <div class="card stat-card"><div class="skeleton skel-value"></div><div class="skeleton skel-label"></div></div>
+        <div class="card stat-card"><div class="skeleton skel-value"></div><div class="skeleton skel-label"></div></div>
+      </div>
+
+      <!-- ── Live: Stats Row (hidden until loaded) ── -->
+      <div class="stats-grid" id="statsGrid" style="margin-bottom:2rem;display:none;">
+        <div class="card stat-card">
+          <div class="stat-value gold" id="statPercentile">—</div>
+          <div class="stat-label" id="statPercentileLabel">Percentile</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-value" id="statAssessments">0</div>
+          <div class="stat-label">Assessments</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-value" id="statAvgScore">—</div>
+          <div class="stat-label">Avg Score</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-value" id="statBestScore">—</div>
+          <div class="stat-label">Best Score</div>
+        </div>
+      </div>
+
+      <!-- ── Empty State (hidden by default) ── -->
+      <div id="emptyState" class="card" style="display:none;margin-bottom:2rem;">
+        <div class="empty-state">
+          <div class="empty-state-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" />
+            </svg>
+          </div>
+          <h3>No Assessments Yet</h3>
+          <p>Take your first benchmark assessment to see your percentile ranking, category breakdown, and personalised recommendations.</p>
+          <a href="assess.html" class="btn btn-primary btn-lg">Start Your First Benchmark →</a>
+        </div>
+      </div>
+
+      <!-- ── Quick Actions ── -->
+      <div id="quickActions" style="margin-bottom:2rem;display:none;">
+        <h3 style="color:var(--white);font-size:1.125rem;margin-bottom:1rem;">Quick Actions</h3>
+        <div class="quick-actions" id="quickActionsGrid">
+          <a href="assess.html" class="quick-action">
+            <div class="quick-action-icon gold">📝</div>
+            <span class="quick-action-label">Start Benchmark</span>
+          </a>
+          <a href="progress.html" class="quick-action" data-requires="pro" id="qaProgress">
+            <div class="quick-action-icon blue">📈</div>
+            <span class="quick-action-label">View Progress</span>
+            <span class="quick-action-sub" id="qaProgressSub"></span>
+          </a>
+          <a href="practice.html" class="quick-action" data-requires="pro" id="qaDrill">
+            <div class="quick-action-icon purple">🎯</div>
+            <span class="quick-action-label">Category Drill</span>
+            <span class="quick-action-sub" id="qaDrillSub"></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ── Skeleton: Main Grid ── -->
+      <div id="skeletonGrid" style="display:grid;grid-template-columns:2fr 1fr;gap:1.5rem;margin-bottom:2rem;" class="dashboard-grid">
+        <div class="card skeleton-card-block">
+          <div class="skeleton skel-heading"></div>
+          <div class="skeleton" style="height:120px;margin-bottom:1rem;"></div>
+          <div class="skeleton skel-line"></div>
+        </div>
+        <div class="card skeleton-card-block">
+          <div class="skeleton skel-heading"></div>
+          <div class="skeleton skel-line"></div>
+          <div class="skeleton skeleton-bar" style="width:75%;"></div>
+          <div style="height:1rem;"></div>
+          <div class="skeleton skel-line"></div>
+          <div class="skeleton skeleton-bar" style="width:60%;"></div>
+          <div style="height:1rem;"></div>
+          <div class="skeleton skel-line"></div>
+          <div class="skeleton skeleton-bar" style="width:45%;"></div>
+        </div>
+      </div>
+
+      <!-- ── Live: Main Grid (hidden until loaded) ── -->
+      <div id="mainGrid" style="display:none;">
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:1.5rem;margin-bottom:2rem;" class="dashboard-grid">
+
+          <!-- Percentile Card -->
+          <div class="card" id="percentileCard">
+            <h3 style="color:var(--white);font-size:1.125rem;margin-bottom:1rem;">Your Percentile Ranking</h3>
+            <div id="percentileContent">
+              <p style="color:var(--slate-400);">Take a benchmark assessment to see your percentile ranking.</p>
+              <a href="assess.html" class="btn btn-primary" style="margin-top:1rem;">Start Benchmark</a>
+            </div>
+          </div>
+
+          <!-- Category Breakdown -->
+          <div class="card">
+            <h3 style="color:var(--white);font-size:1.125rem;margin-bottom:1rem;">Category Breakdown</h3>
+            <div id="categoryBreakdown">
+              <div class="category-row" style="margin-bottom:1rem;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:0.375rem;">
+                  <span class="cat-nr" style="font-size:0.875rem;font-weight:600;">Numerical Reasoning</span>
+                  <span id="catNR" style="font-size:0.875rem;color:var(--slate-400);">—</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill gold" id="barNR" style="width:0%;"></div></div>
+              </div>
+              <div class="category-row" style="margin-bottom:1rem;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:0.375rem;">
+                  <span class="cat-di" style="font-size:0.875rem;font-weight:600;">Data Interpretation</span>
+                  <span id="catDI" style="font-size:0.875rem;color:var(--slate-400);">—</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill blue" id="barDI" style="width:0%;"></div></div>
+              </div>
+              <div class="category-row">
+                <div style="display:flex;justify-content:space-between;margin-bottom:0.375rem;">
+                  <span class="cat-lr" style="font-size:0.875rem;font-weight:600;">Logical Reasoning</span>
+                  <span id="catLR" style="font-size:0.875rem;color:var(--slate-400);">—</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" id="barLR" style="width:0%;background:var(--purple-400);"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Trend Chart (Pro users) ── -->
+      <div id="trendChartSection" class="card" style="display:none;margin-bottom:2rem;padding:2rem;">
+        <h3 style="color:var(--white);font-size:1.125rem;margin-bottom:1.5rem;">Score Trend</h3>
+        <div class="trend-chart" id="trendChart"></div>
+      </div>
+
+      <!-- ── Course Access Card (Elite users) ── -->
+      <div id="courseCard" class="card course-card" style="display:none;margin-bottom:2rem;">
+        <div class="course-card-inner">
+          <div class="course-card-icon">🎓</div>
+          <div class="course-card-info">
+            <h4>Training Course Access</h4>
+            <p>As an Elite member, you have full access to our structured training modules. Build your skills with guided lessons and practice exercises.</p>
+          </div>
+          <a href="https://acumenlogic.co.uk/pages/course.html" class="btn btn-primary" target="_blank">Go to Course →</a>
+        </div>
+      </div>
+
+      <!-- ── Recommendations ── -->
+      <div class="card" id="recsCard" style="margin-bottom:2rem;display:none;">
+        <h3 style="color:var(--white);font-size:1.125rem;margin-bottom:1rem;">💡 Recommendations</h3>
+        <div id="recommendations"></div>
+      </div>
+
+      <!-- ── Skeleton: History ── -->
+      <div id="skeletonHistory" class="card" style="margin-bottom:2rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+          <div class="skeleton" style="height:1.25rem;width:180px;"></div>
+          <div class="skeleton" style="height:2rem;width:80px;border-radius:var(--radius);"></div>
+        </div>
+        <div class="skeleton-table">
+          <div class="skel-row"><div class="skeleton skel-cell"></div><div class="skeleton skel-cell"></div><div class="skeleton skel-cell"></div><div class="skeleton skel-cell"></div><div class="skeleton skel-cell"></div></div>
+          <div class="skel-row"><div class="skeleton skel-cell"></div><div class="skeleton skel-cell"></div><div class="skeleton skel-cell"></div><div class="skeleton skel-cell"></div><div class="skeleton skel-cell"></div></div>
+          <div class="skel-row"><div class="skeleton skel-cell"></div><div class="skeleton skel-cell"></div><div class="skeleton skel-cell"></div><div class="skeleton skel-cell"></div><div class="skeleton skel-cell"></div></div>
+        </div>
+      </div>
+
+      <!-- ── Live: Recent History (hidden until loaded) ── -->
+      <div id="historySection" class="card" style="margin-bottom:2rem;display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+          <h3 style="color:var(--white);font-size:1.125rem;">Recent Assessments</h3>
+          <button class="btn btn-ghost btn-sm view-all-btn" id="viewAllBtn" data-auth="pro" onclick="toggleViewAll()" style="display:none;">View All</button>
+        </div>
+        <div id="historyTable">
+          <p style="color:var(--slate-400);font-size:0.875rem;">No assessments yet. Take your first benchmark to get started.</p>
+        </div>
+      </div>
+
+      <!-- ── Upgrade Banner (Free users) ── -->
+      <div class="card card-gold" data-auth="free" id="upgradeBanner" style="text-align:center;padding:2rem;display:none;">
+        <h3 style="color:var(--gold-400);font-size:1.25rem;margin-bottom:0.5rem;">Unlock Pro Features</h3>
+        <p style="color:var(--slate-300);margin-bottom:1.5rem;">Get unlimited assessments, progress tracking, detailed analytics, and category drills.</p>
+        <a href="upgrade.html" class="btn btn-primary btn-lg">Upgrade to Pro — £97/year</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══ Footer ═══ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="assets/images/logo.png" width="28" height="28" alt="Acumen Logic">
+            <span>ACUMEN LOGIC</span>
+          </div>
+          <p>Benchmark your assessment performance against other candidates targeting Big 4, investment banking, and consulting roles.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Platform</h4>
+          <ul>
+            <li><a href="assess.html">Assessments</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="upgrade.html">Pricing</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="https://acumenlogic.co.uk" target="_blank">Main Website</a></li>
+            <li><a href="https://acumenlogic.co.uk/pages/privacy.html" target="_blank">Privacy Policy</a></li>
+            <li><a href="https://acumenlogic.co.uk/pages/terms.html" target="_blank">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Acumen Logic. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    let historyExpanded = false;
+    let allAssessments = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const loggedIn = await Auth.init();
+      if (!loggedIn) { window.location.href = '/login.html'; return; }
+      setupTierUI();
+      loadDashboard();
+    });
+
+    function setupTierUI() {
+      const tier = Auth.user && Auth.user.tier ? Auth.user.tier : 'free';
+
+      document.getElementById('quickActions').style.display = '';
+
+      if (tier === 'free') {
+        const progressAction = document.getElementById('qaProgress');
+        const drillAction = document.getElementById('qaDrill');
+        if (progressAction) {
+          progressAction.href = 'upgrade.html';
+          document.getElementById('qaProgressSub').textContent = 'Pro';
+        }
+        if (drillAction) {
+          drillAction.href = 'upgrade.html';
+          document.getElementById('qaDrillSub').textContent = 'Pro';
+        }
+        document.getElementById('upgradeBanner').style.display = '';
+      }
+
+      if (tier === 'elite') {
+        document.getElementById('courseCard').style.display = '';
+      }
+    }
+
+    async function loadDashboard() {
+      try {
+        const data = await API.getDashboard();
+
+        const isEstimated = data.is_estimated !== undefined ? data.is_estimated : (data.percentile && data.percentile.isEstimated);
+        const totalAssessments = data.total_assessments !== undefined ? data.total_assessments : (data.percentile ? data.percentile.totalAssessments : 0);
+
+        if (totalAssessments === 0 && (!data.stats || data.stats.total_assessments === 0)) {
+          document.getElementById('skeletonStats').style.display = 'none';
+          document.getElementById('skeletonGrid').style.display = 'none';
+          document.getElementById('skeletonHistory').style.display = 'none';
+          document.getElementById('emptyState').style.display = '';
+          document.getElementById('quickActions').style.display = '';
+          return;
+        }
+
+        // Populate stats
+        if (data.percentile) {
+          const pctValue = data.percentile.percentile;
+          document.getElementById('statPercentile').textContent = getOrdinal(pctValue);
+          if (isEstimated) {
+            document.getElementById('statPercentileLabel').innerHTML = '<span class="estimated-tag">Estimated Percentile</span>';
+          } else {
+            document.getElementById('statPercentileLabel').textContent = 'Percentile';
+          }
+        }
+
+        const statsTotal = data.stats ? data.stats.total_assessments : (data.total_assessments || 0);
+        document.getElementById('statAssessments').textContent = statsTotal;
+        if (data.stats && data.stats.avg_score !== null) document.getElementById('statAvgScore').textContent = data.stats.avg_score + '%';
+        if (data.stats && data.stats.best_score !== null) document.getElementById('statBestScore').textContent = data.stats.best_score + '%';
+
+        // Category breakdown
+        if (data.latest_assessment) {
+          const la = data.latest_assessment;
+          if (la.score_nr_total > 0) {
+            const pct = Math.round(la.score_nr_correct / la.score_nr_total * 100);
+            document.getElementById('catNR').textContent = la.score_nr_correct + '/' + la.score_nr_total + ' (' + pct + '%)';
+            document.getElementById('barNR').style.width = pct + '%';
+          }
+          if (la.score_di_total > 0) {
+            const pct = Math.round(la.score_di_correct / la.score_di_total * 100);
+            document.getElementById('catDI').textContent = la.score_di_correct + '/' + la.score_di_total + ' (' + pct + '%)';
+            document.getElementById('barDI').style.width = pct + '%';
+          }
+          if (la.score_lr_total > 0) {
+            const pct = Math.round(la.score_lr_correct / la.score_lr_total * 100);
+            document.getElementById('catLR').textContent = la.score_lr_correct + '/' + la.score_lr_total + ' (' + pct + '%)';
+            document.getElementById('barLR').style.width = pct + '%';
+          }
+
+          if (data.percentile) {
+            renderPercentileCard(data.percentile, data.performance_tier, isEstimated, totalAssessments);
+          }
+        }
+
+        // Recommendations
+        if (data.recommendations && data.recommendations.length > 0) {
+          document.getElementById('recsCard').style.display = '';
+          document.getElementById('recommendations').innerHTML = data.recommendations.map(function(r) {
+            return '<div class="alert alert-' + (r.type === 'weakness' ? 'warning' : r.type === 'strength' ? 'success' : 'info') + '" style="margin-bottom:0.5rem;">' + r.message + '</div>';
+          }).join('');
+        }
+
+        // Swap skeletons for live content
+        document.getElementById('skeletonStats').style.display = 'none';
+        document.getElementById('skeletonGrid').style.display = 'none';
+        document.getElementById('statsGrid').style.display = '';
+        document.getElementById('mainGrid').style.display = '';
+
+        // Load history
+        await loadHistory();
+
+        // Load trend chart for Pro+ users
+        loadTrendChart();
+      } catch (err) {
+        console.error('Dashboard load error:', err);
+        document.getElementById('skeletonStats').style.display = 'none';
+        document.getElementById('skeletonGrid').style.display = 'none';
+        document.getElementById('skeletonHistory').style.display = 'none';
+        document.getElementById('statsGrid').style.display = '';
+        document.getElementById('mainGrid').style.display = '';
+        document.getElementById('historySection').style.display = '';
+      }
+    }
+
+    function renderPercentileCard(percentile, tier, isEstimated, totalAssessments) {
+      var pctValue = percentile.percentile;
+      var tierColor = tier ? tier.color : 'var(--gold-400)';
+      var tierLabel = tier ? tier.label : '';
+      var assessCount = totalAssessments || percentile.totalAssessments || 0;
+
+      var estimatedHtml = isEstimated
+        ? '<span class="estimated-tag">Estimated — based on ' + assessCount + ' assessment' + (assessCount !== 1 ? 's' : '') + '</span>'
+        : '<span style="font-size:0.75rem;color:var(--slate-500);">Based on ' + assessCount + ' assessment' + (assessCount !== 1 ? 's' : '') + '</span>';
+
+      var el = document.getElementById('percentileContent');
+      el.innerHTML =
+        '<div style="text-align:center;">' +
+          '<div style="font-size:3.5rem;font-weight:700;color:' + tierColor + ';">' + getOrdinal(pctValue) + '</div>' +
+          '<div style="font-size:1rem;color:var(--slate-300);margin-bottom:0.25rem;">' + tierLabel + '</div>' +
+          estimatedHtml +
+          '<div style="margin-top:1.5rem;position:relative;height:60px;background:var(--navy-700);border-radius:var(--radius-sm);overflow:hidden;">' +
+            '<div style="position:absolute;left:' + Math.min(95, Math.max(5, pctValue)) + '%;top:0;bottom:0;width:3px;background:var(--gold-400);"></div>' +
+            '<div style="position:absolute;left:64%;top:0;bottom:0;width:1px;background:rgba(96,165,250,0.3);"></div>' +
+            '<div style="position:absolute;left:82%;top:0;bottom:0;width:1px;background:rgba(201,169,97,0.3);"></div>' +
+            '<div style="position:absolute;left:64%;bottom:2px;font-size:0.625rem;color:var(--blue-400);transform:translateX(-50%);">Big 4 Avg</div>' +
+            '<div style="position:absolute;left:82%;bottom:2px;font-size:0.625rem;color:var(--gold-400);transform:translateX(-50%);">MBB Avg</div>' +
+          '</div>' +
+        '</div>';
+    }
+
+    async function loadHistory() {
+      try {
+        var data = await API.getHistory(5, 0);
+        allAssessments = data.assessments || [];
+
+        document.getElementById('skeletonHistory').style.display = 'none';
+        document.getElementById('historySection').style.display = '';
+
+        if (allAssessments.length === 0) return;
+
+        renderHistoryTable(allAssessments.slice(0, 5));
+
+        if (allAssessments.length >= 5) {
+          document.getElementById('viewAllBtn').style.display = '';
+        }
+      } catch (err) {
+        console.error('History error:', err);
+        document.getElementById('skeletonHistory').style.display = 'none';
+        document.getElementById('historySection').style.display = '';
+      }
+    }
+
+    function renderHistoryTable(assessments) {
+      var html = '<table>' +
+        '<thead><tr>' +
+        '<th>Date</th><th>Type</th><th>Score</th><th>Percentile</th><th>Time</th>' +
+        '</tr></thead><tbody>' +
+        assessments.map(function(a) {
+          return '<tr onclick="window.location.href=\'/results.html?id=' + a.id + '\'">' +
+            '<td style="color:var(--slate-300);">' + formatDate(a.completed_at) + '</td>' +
+            '<td><span class="badge badge-gold">' + a.assessment_type.replace('-', ' ') + '</span></td>' +
+            '<td style="color:var(--white);font-weight:600;">' + a.score_correct + '/' + a.score_total + ' (' + a.score_percentage + '%)</td>' +
+            '<td style="color:var(--gold-400);">' + (a.percentile_overall ? getOrdinal(a.percentile_overall) : '—') + '</td>' +
+            '<td style="color:var(--slate-400);">' + (a.time_taken_seconds ? formatTime(a.time_taken_seconds) : '—') + '</td>' +
+          '</tr>';
+        }).join('') +
+        '</tbody></table>';
+
+      document.getElementById('historyTable').innerHTML = html;
+    }
+
+    async function toggleViewAll() {
+      var btn = document.getElementById('viewAllBtn');
+
+      if (!historyExpanded) {
+        btn.textContent = 'Loading...';
+        btn.disabled = true;
+
+        try {
+          var data = await API.getHistory(100, 0);
+          allAssessments = data.assessments || allAssessments;
+          renderHistoryTable(allAssessments);
+          historyExpanded = true;
+          btn.textContent = 'Show Less';
+          btn.disabled = false;
+        } catch (err) {
+          console.error('Load all history error:', err);
+          btn.textContent = 'View All';
+          btn.disabled = false;
+          if (typeof showToast === 'function') showToast('Failed to load full history', 'error');
+        }
+      } else {
+        renderHistoryTable(allAssessments.slice(0, 5));
+        historyExpanded = false;
+        btn.textContent = 'View All';
+      }
+    }
+
+    async function loadTrendChart() {
+      var tier = Auth.user && Auth.user.tier ? Auth.user.tier : 'free';
+      if (tier === 'free') return;
+
+      try {
+        var data = await API.getHistory(20, 0);
+        var assessments = data.assessments || [];
+        if (assessments.length < 2) return;
+
+        var points = assessments.slice().reverse();
+        var chartEl = document.getElementById('trendChart');
+        var maxScore = 100;
+
+        chartEl.innerHTML = points.map(function(a) {
+          var pct = a.score_percentage || Math.round(a.score_correct / a.score_total * 100);
+          var height = Math.max(4, (pct / maxScore) * 100);
+          var dateStr = '';
+          try { dateStr = formatDate(a.completed_at).split(' ').slice(0, 2).join(' '); } catch(e) { dateStr = ''; }
+          return '<div class="trend-bar">' +
+            '<div class="trend-bar-value">' + pct + '%</div>' +
+            '<div class="trend-bar-fill" style="height:' + height + '%;"></div>' +
+            '<div class="trend-bar-label">' + dateStr + '</div>' +
+          '</div>';
+        }).join('');
+
+        document.getElementById('trendChartSection').style.display = '';
+      } catch (err) {
+        console.error('Trend chart error:', err);
+      }
+    }
+  </script>
+</body>
+</html>

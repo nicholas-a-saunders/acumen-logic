@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Results | Acumen Logic</title>
+  <meta name="description" content="Your Acumen Logic benchmark results. See your percentile ranking and category breakdown.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+        <a href="index.html" class="logo">
+            <img src="assets/images/logo.png" width="36" height="36" alt="Acumen Logic">
+            <div class="logo-text">
+                <span class="logo-name">ACUMEN LOGIC</span>
+                <span class="logo-tag">Benchmark Platform</span>
+            </div>
+        </a>
+        <nav class="nav-desktop">
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="assess.html" class="nav-link">Assess</a>
+            <a href="progress.html" class="nav-link" data-auth="pro">Progress</a>
+            <a href="practice.html" class="nav-link" data-auth="pro">Practice</a>
+            <a href="admin.html" class="nav-link" data-auth="admin">Admin</a>
+        </nav>
+        <div class="header-actions">
+            <span data-user-tier class="badge badge-gold"></span>
+            <a href="settings.html" class="user-avatar" data-user-avatar></a>
+        </div>
+        <button class="mobile-toggle" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+    <div id="mobileMenu" class="mobile-menu">
+        <a href="dashboard.html" class="mobile-link">Dashboard</a>
+        <a href="assess.html" class="mobile-link">Assess</a>
+        <a href="progress.html" class="mobile-link" data-auth="pro">Progress</a>
+        <a href="settings.html" class="mobile-link">Settings</a>
+    </div>
+  </header>
+
+  <main class="page-content">
+    <div class="container" style="max-width:900px;">
+      <div id="resultsContent" style="text-align:center;">
+        <div class="spinner" style="margin:4rem auto;width:48px;height:48px;border-width:4px;"></div>
+        <p style="color:var(--slate-400);">Loading results...</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <img src="assets/images/logo.png" width="28" height="28" alt="Acumen Logic">
+                    <span>ACUMEN LOGIC</span>
+                </div>
+                <p>Benchmark your assessment performance against other candidates targeting Big 4, investment banking, and consulting roles.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="assess.html">Assessments</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="upgrade.html">Pricing</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="https://acumenlogic.co.uk" target="_blank">Main Website</a></li>
+                    <li><a href="https://acumenlogic.co.uk/pages/privacy.html" target="_blank">Privacy Policy</a></li>
+                    <li><a href="https://acumenlogic.co.uk/pages/terms.html" target="_blank">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Acumen Logic. All rights reserved.</p>
+        </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const loggedIn = await Auth.init();
+      if (!loggedIn) { window.location.href = '/login.html'; return; }
+
+      const params = new URLSearchParams(window.location.search);
+      const sessionId = params.get('id');
+      if (!sessionId) { window.location.href = '/dashboard.html'; return; }
+
+      try {
+        const data = await API.getResults(sessionId);
+        renderResults(data);
+      } catch (err) {
+        document.getElementById('resultsContent').innerHTML =
+          '<div class="alert alert-error" style="max-width:500px;margin:4rem auto;">Failed to load results. <a href="/dashboard.html" style="color:var(--gold-400);">Return to dashboard</a></div>';
+      }
+    });
+
+    function renderResults(data) {
+      const s = data.session;
+      const tierColors = { 'Elite': '#C9A961', 'Strong': '#4ade80', 'Competitive': '#60a5fa', 'Developing': '#facc15', 'Needs Work': '#f87171' };
+
+      let tierLabel = 'Competitive';
+      let tierColor = '#60a5fa';
+      if (s.percentile_overall >= 90) { tierLabel = 'Elite'; tierColor = tierColors.Elite; }
+      else if (s.percentile_overall >= 75) { tierLabel = 'Strong'; tierColor = tierColors.Strong; }
+      else if (s.percentile_overall >= 50) { tierLabel = 'Competitive'; tierColor = tierColors.Competitive; }
+      else if (s.percentile_overall >= 25) { tierLabel = 'Developing'; tierColor = tierColors.Developing; }
+      else { tierLabel = 'Needs Work'; tierColor = tierColors['Needs Work']; }
+
+      const isEstimated = data.is_estimated !== undefined ? data.is_estimated : true;
+
+      let html = `
+        <div style="margin-bottom:3rem;">
+          <h1 style="font-size:2rem;font-weight:700;color:var(--white);margin-bottom:0.5rem;">Assessment Complete</h1>
+          <p style="color:var(--slate-400);">${s.assessment_type.replace('-', ' ')} · ${formatDate(s.completed_at)} · ${s.time_taken_seconds ? formatTime(s.time_taken_seconds) : '—'}</p>
+        </div>
+
+        <!-- Score + Percentile -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem;text-align:center;">
+          <div class="card" style="padding:2rem;">
+            <div style="font-size:3rem;font-weight:700;color:var(--white);">${s.score_correct}/${s.score_total}</div>
+            <div style="font-size:1.25rem;color:var(--slate-300);">${s.score_percentage}%</div>
+            <div style="font-size:0.875rem;color:var(--slate-400);margin-top:0.5rem;">Overall Score</div>
+          </div>
+          <div class="card" style="padding:2rem;">
+            <div style="font-size:3rem;font-weight:700;color:${tierColor};">${s.percentile_overall ? getOrdinal(s.percentile_overall) : '—'}</div>
+            <div style="font-size:1.25rem;color:${tierColor};">${tierLabel}</div>
+            <div style="font-size:0.875rem;color:var(--slate-400);margin-top:0.5rem;">
+              ${isEstimated ? '<span class="estimated-tag">Estimated Percentile</span>' : 'Percentile'}
+            </div>
+          </div>
+        </div>
+
+        <!-- Bell Curve Position -->
+        <div class="card" style="margin-bottom:2rem;padding:2rem;">
+          <h3 style="color:var(--white);font-size:1.125rem;margin-bottom:1rem;text-align:left;">Your Position</h3>
+          <div style="position:relative;height:80px;background:var(--navy-700);border-radius:var(--radius-sm);overflow:hidden;">
+            <div style="position:absolute;left:${Math.min(95, Math.max(5, s.percentile_overall || 50))}%;top:0;bottom:0;width:3px;background:${tierColor};z-index:2;"></div>
+            <div style="position:absolute;left:64%;top:0;bottom:0;width:1px;background:rgba(96,165,250,0.4);"></div>
+            <div style="position:absolute;left:82%;top:0;bottom:0;width:1px;background:rgba(201,169,97,0.4);"></div>
+            <div style="position:absolute;left:${Math.min(95, Math.max(5, s.percentile_overall || 50))}%;top:8px;font-size:0.75rem;font-weight:700;color:${tierColor};transform:translateX(-50%);">You</div>
+            <div style="position:absolute;left:64%;bottom:8px;font-size:0.625rem;color:var(--blue-400);transform:translateX(-50%);">Big 4 Avg (64th)</div>
+            <div style="position:absolute;left:82%;bottom:8px;font-size:0.625rem;color:var(--gold-400);transform:translateX(-50%);">MBB Avg (82nd)</div>
+          </div>
+        </div>
+
+        <!-- Category Breakdown -->
+        <div class="card" style="margin-bottom:2rem;padding:2rem;">
+          <h3 style="color:var(--white);font-size:1.125rem;margin-bottom:1.5rem;text-align:left;">Category Breakdown</h3>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;text-align:center;">
+            ${renderCategoryCard('NR', 'Numerical Reasoning', s.score_nr_correct, s.score_nr_total, s.percentile_nr, 'var(--gold-400)')}
+            ${renderCategoryCard('DI', 'Data Interpretation', s.score_di_correct, s.score_di_total, s.percentile_di, 'var(--blue-400)')}
+            ${renderCategoryCard('LR', 'Logical Reasoning', s.score_lr_correct, s.score_lr_total, s.percentile_lr, 'var(--purple-400)')}
+          </div>
+        </div>`;
+
+      // Question Review (Pro only)
+      if (data.is_pro && data.answers) {
+        html += `
+          <div class="card" style="margin-bottom:2rem;padding:2rem;">
+            <h3 style="color:var(--white);font-size:1.125rem;margin-bottom:1rem;text-align:left;">Question Review</h3>
+            <div style="display:flex;flex-direction:column;gap:0.5rem;">
+              ${data.answers.map((a, i) => `
+                <div style="display:flex;align-items:center;gap:1rem;padding:0.75rem;border-radius:var(--radius-sm);background:var(--navy-700);">
+                  <span style="width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;background:${a.is_correct ? 'rgba(74,222,128,0.15)' : 'rgba(248,113,113,0.15)'};color:${a.is_correct ? 'var(--green-400)' : 'var(--red-400)'};">${a.is_correct ? '✓' : '✗'}</span>
+                  <span style="font-size:0.8125rem;color:var(--slate-300);flex:1;">Q${a.order}</span>
+                  <span class="badge cat-badge-${a.category.toLowerCase()}" style="font-size:0.625rem;">${a.category}</span>
+                  <span style="font-size:0.75rem;color:var(--slate-500);">${a.time_spent_seconds ? a.time_spent_seconds + 's' : '—'}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>`;
+      } else if (!data.is_pro) {
+        html += `
+          <div class="card card-gold" style="text-align:center;padding:2rem;margin-bottom:2rem;">
+            <h3 style="color:var(--gold-400);margin-bottom:0.5rem;">Unlock Detailed Question Review</h3>
+            <p style="color:var(--slate-300);margin-bottom:1rem;">Pro users can review every question with explanations.</p>
+            <a href="/upgrade.html" class="btn btn-primary">Upgrade to Pro</a>
+          </div>`;
+      }
+
+      html += `
+        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+          <a href="/assess.html" class="btn btn-primary btn-lg">Take Another Assessment</a>
+          <a href="/dashboard.html" class="btn btn-outline btn-lg">Back to Dashboard</a>
+        </div>`;
+
+      document.getElementById('resultsContent').innerHTML = html;
+    }
+
+    function renderCategoryCard(code, name, correct, total, percentile, color) {
+      const pct = total > 0 ? Math.round(correct / total * 100) : 0;
+      return `
+        <div>
+          <div style="font-size:1.75rem;font-weight:700;color:${color};">${correct}/${total}</div>
+          <div style="font-size:0.875rem;color:var(--slate-300);">${pct}%</div>
+          <div style="font-size:0.75rem;color:var(--slate-400);margin-top:0.25rem;">${name}</div>
+          ${percentile ? '<div style="font-size:0.75rem;color:' + color + ';margin-top:0.25rem;">' + getOrdinal(percentile) + ' percentile</div>' : ''}
+          <div class="progress-bar" style="margin-top:0.5rem;"><div class="progress-fill" style="width:${pct}%;background:${color};"></div></div>
+        </div>`;
+    }
+  </script>
+</body>
+</html>

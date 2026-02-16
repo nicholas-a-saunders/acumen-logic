@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin.html
+Disallow: /settings.html
+Disallow: /assessment.html
+
+Sitemap: https://acumen-logic-model-2.onrender.com/sitemap.xml

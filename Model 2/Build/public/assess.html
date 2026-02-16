@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start Assessment | Acumen Logic</title>
+  <meta name="description" content="Choose your benchmark assessment type. Quick benchmark, full benchmark, or category drills.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <style>
+    .pro-overlay {
+        position: absolute; inset: 0; z-index: 10;
+        background: rgba(10,22,40,0.85); border-radius: 16px;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        gap: 0.75rem; opacity: 0; transition: opacity 200ms ease; pointer-events: none;
+    }
+    .pro-card:hover .pro-overlay { opacity: 1; pointer-events: auto; }
+    .pro-card { position: relative; overflow: hidden; }
+  </style>
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+        <a href="index.html" class="logo">
+            <img src="assets/images/logo.png" width="36" height="36" alt="Acumen Logic">
+            <div class="logo-text">
+                <span class="logo-name">ACUMEN LOGIC</span>
+                <span class="logo-tag">Benchmark Platform</span>
+            </div>
+        </a>
+        <nav class="nav-desktop">
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="assess.html" class="nav-link active">Assess</a>
+            <a href="progress.html" class="nav-link" data-auth="pro">Progress</a>
+            <a href="practice.html" class="nav-link" data-auth="pro">Practice</a>
+            <a href="admin.html" class="nav-link" data-auth="admin">Admin</a>
+        </nav>
+        <div class="header-actions">
+            <span data-user-tier class="badge badge-gold"></span>
+            <a href="settings.html" class="user-avatar" data-user-avatar></a>
+        </div>
+        <button class="mobile-toggle" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+    <div id="mobileMenu" class="mobile-menu">
+        <a href="dashboard.html" class="mobile-link">Dashboard</a>
+        <a href="assess.html" class="mobile-link active">Assess</a>
+        <a href="progress.html" class="mobile-link" data-auth="pro">Progress</a>
+        <a href="settings.html" class="mobile-link">Settings</a>
+    </div>
+  </header>
+
+  <main class="page-content">
+    <div class="container">
+      <div class="page-header" style="text-align:center;margin-bottom:3rem;">
+        <h1 class="page-title">Choose Your Assessment</h1>
+        <p class="page-subtitle">Select an assessment type to begin</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;max-width:900px;margin:0 auto;">
+
+        <!-- Quick Benchmark -->
+        <div class="card" style="text-align:center;padding:2rem;">
+          <div style="font-size:2.5rem;margin-bottom:0.75rem;">🎯</div>
+          <h3 style="color:var(--white);font-size:1.25rem;margin-bottom:0.5rem;">Quick Benchmark</h3>
+          <p style="color:var(--slate-400);font-size:0.875rem;margin-bottom:1rem;">20 questions · 15 minutes<br>Mixed categories · Percentile ranking</p>
+          <span class="badge badge-green" style="margin-bottom:1.5rem;">Free</span>
+          <div id="monthlyLimit" style="font-size:0.75rem;color:var(--slate-500);margin-bottom:1rem;"></div>
+          <button class="btn btn-primary btn-block" onclick="startAssessment('quick-benchmark')">Start Benchmark</button>
+        </div>
+
+        <!-- Full Benchmark -->
+        <div class="card pro-card" style="text-align:center;padding:2rem;">
+          <div class="pro-overlay" data-auth="free">
+              <span style="font-size:0.8125rem;color:var(--slate-300);">Pro Feature</span>
+              <a href="upgrade.html" class="btn btn-primary">Get Access Now</a>
+          </div>
+          <div style="font-size:2.5rem;margin-bottom:0.75rem;">📊</div>
+          <h3 style="color:var(--white);font-size:1.25rem;margin-bottom:0.5rem;">Full Benchmark</h3>
+          <p style="color:var(--slate-400);font-size:0.875rem;margin-bottom:1rem;">30 questions · 25 minutes<br>Comprehensive percentile analysis</p>
+          <span class="badge badge-pro" style="margin-bottom:1.5rem;">Pro</span>
+          <div style="margin-bottom:1rem;"></div>
+          <button class="btn btn-primary btn-block" onclick="startAssessment('full-benchmark')">Start Full Benchmark</button>
+        </div>
+
+        <!-- Category Drill -->
+        <div class="card pro-card" style="text-align:center;padding:2rem;">
+          <div class="pro-overlay" data-auth="free">
+              <span style="font-size:0.8125rem;color:var(--slate-300);">Pro Feature</span>
+              <a href="upgrade.html" class="btn btn-primary">Get Access Now</a>
+          </div>
+          <div style="font-size:2.5rem;margin-bottom:0.75rem;">🔬</div>
+          <h3 style="color:var(--white);font-size:1.25rem;margin-bottom:0.5rem;">Category Drill</h3>
+          <p style="color:var(--slate-400);font-size:0.875rem;margin-bottom:1rem;">10 questions · 8 minutes<br>Focus on one category</p>
+          <span class="badge badge-pro" style="margin-bottom:1.5rem;">Pro</span>
+          <div style="display:flex;gap:0.5rem;justify-content:center;margin-bottom:1rem;">
+            <button class="btn btn-outline btn-sm" onclick="startDrill('NR')" style="border-color:var(--gold-400);color:var(--gold-400);">NR</button>
+            <button class="btn btn-outline btn-sm" onclick="startDrill('DI')" style="border-color:var(--blue-400);color:var(--blue-400);">DI</button>
+            <button class="btn btn-outline btn-sm" onclick="startDrill('LR')" style="border-color:var(--purple-400);color:var(--purple-400);">LR</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <img src="assets/images/logo.png" width="28" height="28" alt="Acumen Logic">
+                    <span>ACUMEN LOGIC</span>
+                </div>
+                <p>Benchmark your assessment performance against other candidates targeting Big 4, investment banking, and consulting roles.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="assess.html">Assessments</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="upgrade.html">Pricing</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="https://acumenlogic.co.uk" target="_blank">Main Website</a></li>
+                    <li><a href="https://acumenlogic.co.uk/pages/privacy.html" target="_blank">Privacy Policy</a></li>
+                    <li><a href="https://acumenlogic.co.uk/pages/terms.html" target="_blank">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Acumen Logic. All rights reserved.</p>
+        </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const loggedIn = await Auth.init();
+      if (!loggedIn) { window.location.href = '/login.html'; return; }
+
+      // Show monthly limit for free users
+      if (!Auth.isPro()) {
+        try {
+          const dash = await API.getDashboard();
+          const remaining = 3 - (dash.monthly_assessments || 0);
+          document.getElementById('monthlyLimit').textContent = remaining + ' of 3 free benchmarks remaining this month';
+        } catch (e) {}
+      }
+    });
+
+    async function startAssessment(type) {
+      if (!Auth.requireAuth()) return;
+      if ((type === 'full-benchmark' || type === 'category-drill') && !Auth.isPro()) {
+        window.location.href = '/upgrade.html';
+        return;
+      }
+
+      showLoading();
+      try {
+        const data = await API.startAssessment({ type });
+        sessionStorage.setItem('currentSession', JSON.stringify(data));
+        window.location.href = '/assessment.html?id=' + data.session_id;
+      } catch (err) {
+        hideLoading();
+        if (err.upgrade) {
+          window.location.href = '/upgrade.html';
+        } else {
+          showToast(err.error || 'Failed to start assessment', 'error');
+        }
+      }
+    }
+
+    async function startDrill(category) {
+      if (!Auth.requireAuth()) return;
+      if (!Auth.isPro()) { window.location.href = '/upgrade.html'; return; }
+
+      showLoading();
+      try {
+        const data = await API.startAssessment({ type: 'category-drill', category });
+        sessionStorage.setItem('currentSession', JSON.stringify(data));
+        window.location.href = '/assessment.html?id=' + data.session_id;
+      } catch (err) {
+        hideLoading();
+        showToast(err.error || 'Failed to start drill', 'error');
+      }
+    }
+  </script>
+</body>
+</html>
