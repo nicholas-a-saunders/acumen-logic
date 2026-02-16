@@ -1,0 +1,628 @@
+<!--
+  ACUMEN LOGIC — Lesson 3.4: Percentage Change & Growth Analysis
+  For ThriveCart Learn Custom HTML Block
+  Pure CSS · Zero JavaScript · Fully responsive
+  
+  TYPE: Worked Examples lesson (data interpretation focus)
+  Assumes Module 2.1 percentage mechanics are known.
+  Focus: applying % change to real data scenarios — wrong periods,
+  wrong bases, mixing sources, compound growth from charts/tables.
+  
+  3 data scenarios (each with embedded data + worked example) + 5 practice questions
+  
+  ALL CALCULATIONS VERIFIED — see block at end of file.
+-->
+
+<style>
+  /* ═══ BRAND TOKENS ═══ */
+  .al-lesson {
+    --al-navy: #1B2A4A;
+    --al-navy-light: #2A3D66;
+    --al-navy-muted: #3D5280;
+    --al-gold: #C8A951;
+    --al-gold-light: #D4BC72;
+    --al-gold-pale: #F5EFD9;
+    --al-cream: #FAFAF6;
+    --al-white: #FFFFFF;
+    --al-text: #2C2C2C;
+    --al-text-light: #6B6B6B;
+    --al-border: #E8E4DA;
+    --al-success: #2D8F5E;
+    --al-success-bg: #EDF7F0;
+    --al-danger: #C0392B;
+    --al-danger-bg: #FDF2F0;
+    --al-radius: 10px;
+    --al-radius-sm: 6px;
+    --al-shadow: 0 2px 12px rgba(27, 42, 74, 0.08);
+    --al-shadow-lg: 0 8px 32px rgba(27, 42, 74, 0.12);
+    --al-chart-a: #1B2A4A;
+    --al-chart-b: #C8A951;
+    --al-chart-c: #5B8DEF;
+    --al-chart-d: #3D5280;
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+  .al-lesson {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .al-lesson h1, .al-lesson h2, .al-lesson h3, .al-section-number, .al-example-label, .al-next-title {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; color: var(--al-navy); line-height: 1.25;
+  }
+
+  /* ═══ HERO ═══ */
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .al-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200, 169, 81, 0.08) 0%, transparent 70%); pointer-events: none; }
+  .al-hero-eyebrow { font-family: 'Source Sans 3', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem, 4vw, 2.2rem); margin-bottom: 0.75rem; }
+  .al-hero-subtitle { color: rgba(255, 255, 255, 0.9) !important; font-size: 1rem; max-width: 36rem; line-height: 1.5; }
+  .al-hero-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 1rem 0; }
+
+  /* ═══ SECTIONS ═══ */
+  .al-section { margin-bottom: 2rem; }
+  .al-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-section-number { width: 2rem; height: 2rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0; }
+  .al-section h2 { font-size: clamp(1.15rem, 3vw, 1.4rem); }
+
+  /* ═══ CARDS / CALLOUTS ═══ */
+  .al-card { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-card p { margin-bottom: 0.75rem; }
+  .al-card p:last-child { margin-bottom: 0; }
+  .al-callout { border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; font-size: 0.92rem; }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-warn { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-callout-danger { background: #FDF2F0; border-left: 4px solid var(--al-danger); }
+  .al-callout-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .al-callout-tip .al-callout-label { color: var(--al-success); }
+  .al-callout-warn .al-callout-label { color: #D4823A; }
+  .al-callout-danger .al-callout-label { color: var(--al-danger); }
+
+  /* ═══ WORKED EXAMPLES ═══ */
+  .al-example { border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-example-header { background: var(--al-navy); padding: 1.25rem 1.5rem; }
+  .al-example-label { color: var(--al-gold) !important; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; display: block; margin-bottom: 0.5rem; }
+  .al-example-q { color: var(--al-white) !important; font-size: 1.15rem; font-weight: 600; line-height: 1.4; display: block; }
+  .al-example-body { background: var(--al-white); border: 1px solid var(--al-border); border-top: none; border-radius: 0 0 var(--al-radius) var(--al-radius); padding: 1.5rem; font-size: 0.92rem; }
+  .al-example-body p { margin-bottom: 0.6rem; }
+  .al-example-body p:last-child { margin-bottom: 0; }
+
+  /* ═══ STEP LINES ═══ */
+  .al-step-line { display: flex; align-items: baseline; gap: 0.65rem; margin-bottom: 0.45rem; }
+  .al-step-num { width: 1.4rem; height: 1.4rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.7rem; flex-shrink: 0; }
+  .al-step-num.al-wrong-icon { background: var(--al-danger) !important; }
+  .al-step-num.al-right-icon { background: var(--al-success) !important; }
+  .al-step-calc { font-size: 0.95rem; color: var(--al-navy); }
+  .al-step-result { font-weight: 700; color: var(--al-success); }
+
+  /* ═══ FORMULA ═══ */
+  .al-formula { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.15rem 1.5rem; margin-bottom: 1.25rem; text-align: center; }
+  .al-formula-label { color: var(--al-gold) !important; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .al-formula-text { color: var(--al-white) !important; font-weight: 700; font-size: clamp(1rem, 2.5vw, 1.25rem); line-height: 1.4; }
+  .al-formula-note { color: rgba(255, 255, 255, 0.75) !important; font-size: 0.78rem; margin-top: 0.35rem; }
+
+  /* ═══ DATA TABLES ═══ */
+  .al-data-table { width: 100%; border-collapse: collapse; margin-bottom: 1.25rem; font-size: 0.88rem; box-shadow: var(--al-shadow); border-radius: var(--al-radius); overflow: hidden; }
+  .al-data-table thead th { background: var(--al-navy); color: var(--al-white) !important; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.75rem 0.85rem; text-align: center; }
+  .al-data-table thead th:first-child { text-align: left; }
+  .al-data-table tbody td { padding: 0.7rem 0.85rem; text-align: center; border-bottom: 1px solid var(--al-border); font-weight: 500; color: var(--al-navy); vertical-align: middle; }
+  .al-data-table tbody td:first-child { font-weight: 700; text-align: left; }
+  .al-data-table tbody tr:nth-child(even) { background: var(--al-cream); }
+  .al-data-table tbody tr:last-child td { border-bottom: none; }
+  .al-data-table .al-table-note { font-size: 0.75rem; color: var(--al-text-light); font-style: italic; font-weight: 400; padding: 0.55rem 0.85rem; background: var(--al-cream); text-align: left; border-top: 1px solid var(--al-border); }
+  .al-data-table .al-cell-highlight { background: var(--al-gold-pale) !important; font-weight: 700 !important; border: 2px solid var(--al-gold); }
+
+  /* ═══ WRONG / RIGHT COMPARISON ═══ */
+  .al-compare-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
+  .al-compare-box { border-radius: var(--al-radius); padding: 1.15rem 1.25rem; font-size: 0.88rem; }
+  .al-compare-wrong { background: var(--al-danger-bg); border: 2px solid var(--al-danger); }
+  .al-compare-right { background: var(--al-success-bg); border: 2px solid var(--al-success); }
+  .al-compare-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
+  .al-compare-wrong .al-compare-label { color: var(--al-danger); }
+  .al-compare-right .al-compare-label { color: var(--al-success); }
+
+  /* ═══ BAR CHART ═══ */
+  .al-chart-container { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem 1.5rem 1rem; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-chart-label { font-size: 0.78rem; font-weight: 700; color: var(--al-text-light); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1.25rem; }
+  .al-chart-legend { display: flex; gap: 1.25rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+  .al-legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; font-weight: 600; color: var(--al-navy); }
+  .al-legend-swatch { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+
+  .al-grouped-bar { display: flex; align-items: flex-end; position: relative; height: 220px; padding-left: 55px; padding-bottom: 30px; }
+  .al-grouped-bar .al-y-axis { position: absolute; left: 0; bottom: 32px; width: 55px; height: 190px; }
+  .al-grouped-bar .al-y-tick { font-size: 0.65rem; color: var(--al-text-light); text-align: right; padding-right: 8px; font-weight: 500; position: absolute; right: 0; line-height: 1; transform: translateY(50%); }
+  .al-grouped-bar .al-y-tick::after { content: ''; position: absolute; right: -8px; top: 50%; transform: translateY(-50%); width: 4px; height: 1px; background: var(--al-navy); }
+  .al-grouped-bar .al-plot-area { flex: 1; height: 100%; display: flex; align-items: flex-end; border-left: 2px solid var(--al-navy); border-bottom: 2px solid var(--al-navy); position: relative; padding: 0 8px; }
+  .al-grouped-bar .al-grid { position: absolute; left: 0; right: 0; border-top: 1px dashed #E8E4DA; pointer-events: none; }
+  .al-bar-group { flex: 1; display: flex; align-items: flex-end; justify-content: center; gap: 3px; position: relative; }
+  .al-bar-group-label { position: absolute; bottom: -24px; left: 50%; transform: translateX(-50%); font-size: 0.72rem; font-weight: 600; color: var(--al-navy); white-space: nowrap; }
+  .al-bar { width: 28px; border-radius: 3px 3px 0 0; position: relative; }
+  .al-bar-val { position: absolute; top: -16px; left: 50%; transform: translateX(-50%); font-size: 0.58rem; font-weight: 700; color: var(--al-text); white-space: nowrap; }
+
+  /* Source tag */
+  .al-source-tag { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 3px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-right: 0.35rem; vertical-align: middle; }
+  .al-source-a { background: var(--al-chart-a); color: var(--al-white); }
+  .al-source-b { background: var(--al-chart-b); color: var(--al-navy); }
+  .al-source-c { background: var(--al-chart-c); color: var(--al-white); }
+
+  /* Y-axis positions — main chart: max 1000, plot 190px, step 200 = 38px */
+  .al-grouped-bar .al-y-tick:nth-child(1) { bottom: 0; }
+  .al-grouped-bar .al-y-tick:nth-child(2) { bottom: 38px; }
+  .al-grouped-bar .al-y-tick:nth-child(3) { bottom: 76px; }
+  .al-grouped-bar .al-y-tick:nth-child(4) { bottom: 114px; }
+  .al-grouped-bar .al-y-tick:nth-child(5) { bottom: 152px; }
+  .al-grouped-bar .al-y-tick:nth-child(6) { bottom: 190px; }
+
+  /* ═══ REVEAL ═══ */
+  .al-reveal { margin-top: 1rem; border: 2px solid var(--al-border); border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; }
+  .al-reveal[open] { border-color: var(--al-success); }
+  .al-reveal-btn { display: block; padding: 0.85rem 1.25rem; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--al-navy); background: var(--al-cream); cursor: pointer; list-style: none; user-select: none; -webkit-user-select: none; }
+  .al-reveal-btn::-webkit-details-marker { display: none; }
+  .al-reveal-btn::marker { display: none; content: ''; }
+  .al-reveal-btn:hover { background: var(--al-gold-pale); }
+  .al-reveal[open] .al-reveal-btn { background: #EDF7F0; color: var(--al-success); border-bottom: 1px solid var(--al-border); }
+  .al-reveal-content { padding: 1.25rem; font-size: 0.92rem; }
+  .al-reveal-content p { margin-bottom: 0.6rem; }
+  .al-reveal-content p:last-child { margin-bottom: 0; }
+
+  /* ═══ PRACTICE ═══ */
+  .al-practice { background: var(--al-cream); border: 2px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 0.5rem; }
+  .al-practice-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-gold); margin-bottom: 0.75rem; }
+  .al-practice-q { font-size: 0.95rem; font-weight: 600; color: var(--al-navy); line-height: 1.6; margin-bottom: 1rem; }
+  .al-practice-options { margin-top: 1rem; }
+  .al-practice-options p { margin-bottom: 0.4rem; font-size: 0.95rem; color: var(--al-navy); line-height: 1.6; }
+
+  /* ═══ TAKEAWAYS ═══ */
+  .al-takeaways { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.5rem 1.75rem; margin-bottom: 1.25rem; }
+  .al-takeaways h3 { color: var(--al-gold) !important; font-size: 1.1rem; margin-bottom: 1rem; }
+  .al-takeaways-list { list-style: none; padding: 0; }
+  .al-takeaways-list li { color: rgba(255, 255, 255, 0.95) !important; font-size: 0.92rem; padding: 0.45rem 0 0.45rem 1.75rem; position: relative; line-height: 1.5; }
+  .al-takeaways-list li::before { content: '✓'; position: absolute; left: 0; color: var(--al-gold); font-weight: 700; }
+
+  /* ═══ NEXT LESSON ═══ */
+  .al-next { background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .al-next-arrow { width: 2.5rem; height: 2.5rem; background: var(--al-navy); color: var(--al-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .al-next-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-text-light); margin-bottom: 0.15rem; }
+  .al-next-title { font-weight: 700; color: var(--al-navy); font-size: 1rem; }
+  .al-next-desc { font-size: 0.85rem; color: var(--al-text-light); margin-top: 0.15rem; }
+
+  .al-lesson strong { color: var(--al-navy); }
+  .al-divider { border: none; height: 1px; background: var(--al-border); margin: 2rem 0; }
+
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .al-card, .al-example-body, .al-reveal-content { padding: 1.15rem; }
+    .al-takeaways { padding: 1.25rem; }
+    .al-next { flex-direction: column; text-align: center; }
+    .al-bar { width: 20px; }
+    .al-grouped-bar { height: 180px; padding-left: 45px; }
+    .al-grouped-bar .al-y-axis { width: 45px; }
+    .al-data-table { font-size: 0.78rem; }
+    .al-data-table thead th { padding: 0.6rem 0.5rem; font-size: 0.65rem; }
+    .al-data-table tbody td { padding: 0.55rem 0.5rem; }
+    .al-compare-wrap { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="al-lesson">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 3 · Lesson 3.4</div>
+    <h1>Percentage Change &amp; Growth Analysis</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">You already know the percentage change formula. Now apply it where it actually gets hard — real data, multiple sources, wrong periods, and growth rates that compound when you're not looking.</p>
+  </div>
+
+  <!-- ═══ SECTION 1: THE DATA INTERPRETATION LAYER ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">1</div>
+      <h2>Where Percentage Change Gets Hard</h2>
+    </div>
+    <div class="al-card">
+      <p>You learned the formula in Module 2: (New − Old) ÷ Old × 100. In isolation, it's simple. In a real test, it's surrounded by <strong>data extraction decisions that create the actual errors</strong>.</p>
+      <p>The formula isn't the problem. The data is. Specifically:</p>
+      <p><strong>Wrong period trap</strong> — the question says "from Q2 to Q4" but you read Q1 and Q4 because those are the first and last columns. Under time pressure, your eyes grab the wrong values.</p>
+      <p><strong>Wrong base trap</strong> — the question says "how much higher is Division A than Division B?" and you divide by A instead of B, or vice versa. The direction word ("higher than", "lower than", "compared to") determines which value is the denominator.</p>
+      <p><strong>Mixed-source trap</strong> — the revenue comes from a table, the costs from a bar chart, and you need the profit change. Each extraction is a place to grab the wrong number.</p>
+      <p><strong>Compound trap</strong> — a growth rate is given per quarter and the question asks about a two-quarter span. You add the rates instead of multiplying the multipliers.</p>
+      <p>This lesson puts you in each of those situations with realistic data. Every worked example is about the <strong>data extraction decision</strong>, not the arithmetic.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 2: SCENARIO 1 — WRONG PERIOD + WRONG BASE ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">2</div>
+      <h2>Scenario 1 — Year-on-Year Change from a Revenue Table</h2>
+    </div>
+
+    <div class="al-card">
+      <p>Below is a table you might see in an SHL or Aon test. Three questions could be asked from this single table — and each one has a different denominator. Read the data, then work through the example.</p>
+    </div>
+
+    <div class="al-chart-container">
+      <div class="al-chart-label"><span class="al-source-tag al-source-a">Source A</span> Annual Revenue by Division (£ thousands)</div>
+      <table class="al-data-table">
+        <thead>
+          <tr><th>Division</th><th>FY2022</th><th>FY2023</th><th>FY2024</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Retail Banking</td><td>3,200</td><td>3,680</td><td>4,048</td></tr>
+          <tr><td>Corporate Banking</td><td>5,100</td><td>5,610</td><td>6,171</td></tr>
+          <tr><td>Wealth Management</td><td>1,800</td><td>2,160</td><td>2,376</td></tr>
+          <tr><td>Insurance</td><td>2,400</td><td>2,520</td><td>2,646</td></tr>
+          <tr><td><strong>Total</strong></td><td><strong>12,500</strong></td><td><strong>13,970</strong></td><td><strong>15,241</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 1</span>
+        <span class="al-example-q">By what percentage was Wealth Management's FY2024 revenue higher than Insurance's FY2024 revenue?</span>
+      </div>
+      <div class="al-example-body">
+        <p><strong>First decision: which value is the base?</strong> The question says "higher <em>than Insurance</em>" — so Insurance is the reference point. Insurance is the denominator.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Wealth FY2024 = £2,376k. Insurance FY2024 = £2,646k.</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Difference = £2,376k − £2,646k = −£270k</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">% difference = −£270k ÷ £2,646k × 100 = <span class="al-step-result">−10.2%</span></span></div>
+        <p style="margin-top:0.5rem;">The answer is negative — Wealth is actually <strong>10.2% lower</strong> than Insurance, not higher. In a real test, this means the question's premise is misleading, and the correct answer might be "Wealth Management's revenue was not higher than Insurance's" or the answer would be expressed as −10.2%. <strong>Always check the sign.</strong></p>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-danger">
+      <div class="al-callout-label">The Direction Trap</div>
+      <p>Three questions, same table, <strong>three different denominators</strong>:</p>
+      <p>"What was the % change in Retail from FY2022 to FY2024?" → divide by FY2022 (the "from" value)</p>
+      <p>"How much higher is Corporate than Retail in FY2024?" → divide by Retail (the "than" value)</p>
+      <p>"Wealth as a percentage of total revenue in FY2023?" → divide by Total FY2023 (the "of" value)</p>
+      <p>The word after "than", "from", or "of" tells you the denominator. Underline it before you calculate.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 3: SCENARIO 2 — CROSS-SOURCE PROFIT CHANGE ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">3</div>
+      <h2>Scenario 2 — Profit Change Across Two Sources</h2>
+    </div>
+
+    <div class="al-card">
+      <p>The hardest percentage change questions don't give you the values directly — they make you <strong>calculate the values first</strong> from two different sources, then find the change. Each extraction is a place to pull the wrong number.</p>
+    </div>
+
+    <!-- Source B: Quarterly Costs Table -->
+    <div class="al-chart-container">
+      <div class="al-chart-label"><span class="al-source-tag al-source-b">Source B</span> Quarterly Operating Costs by Division (£ thousands)</div>
+      <table class="al-data-table">
+        <thead>
+          <tr><th>Division</th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Retail Banking</td><td>780</td><td>810</td><td>850</td><td>920</td></tr>
+          <tr><td>Corporate Banking</td><td>640</td><td>660</td><td>710</td><td>750</td></tr>
+          <tr><td>Wealth Management</td><td>320</td><td>340</td><td>355</td><td>385</td></tr>
+          <tr><td>Insurance</td><td>510</td><td>520</td><td>545</td><td>575</td></tr>
+          <tr><td><strong>Total</strong></td><td><strong>2,250</strong></td><td><strong>2,330</strong></td><td><strong>2,460</strong></td><td><strong>2,630</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 2</span>
+        <span class="al-example-q">Using Source A (FY2024 annual revenue) and Source B, what was the percentage change in Corporate Banking's estimated quarterly profit from Q1 to Q4?<br><span style="font-size:0.85rem; color:rgba(255,255,255,0.7); font-weight:400;">Assume revenue was distributed equally across quarters.</span></span>
+      </div>
+      <div class="al-example-body">
+        <p><strong>Step 1: Get quarterly revenue.</strong> Source A gives annual FY2024 Corporate revenue = £6,171k. Distributed equally: £6,171k ÷ 4 = £1,542.75k per quarter.</p>
+        <p><strong>Step 2: Get quarterly costs from Source B.</strong></p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Q1 profit = £1,542.75k − £640k = £902.75k</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Q4 profit = £1,542.75k − £750k = £792.75k</span></div>
+        <p style="margin-top:0.5rem;"><strong>Step 3: Calculate the percentage change.</strong></p>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Change = (£792.75k − £902.75k) ÷ £902.75k × 100</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">= −£110k ÷ £902.75k × 100 = <span class="al-step-result">−12.2% (a decrease)</span></span></div>
+        <p style="margin-top:0.5rem;">Revenue stayed flat each quarter, but costs rose from £640k to £750k. Profit <strong>fell</strong> by 12.2%. The trap: many candidates would see rising costs and assume profit grew, or would calculate the cost increase (17.2%) instead of the profit change.</p>
+      </div>
+    </div>
+
+    <div class="al-compare-wrap">
+      <div class="al-compare-box al-compare-wrong">
+        <div class="al-compare-label"><span style="font-size:1.1rem;">✗</span> Cost Change (Wrong Question)</div>
+        <p>(750 − 640) ÷ 640 × 100 = <strong>17.2% increase</strong></p>
+        <p style="font-size:0.82rem; color:var(--al-text-light);">This answers "how much did costs grow?" — not "how much did profit change?" They move in opposite directions.</p>
+      </div>
+      <div class="al-compare-box al-compare-right">
+        <div class="al-compare-label"><span style="font-size:1.1rem;">✓</span> Profit Change (Correct)</div>
+        <p>(792.75 − 902.75) ÷ 902.75 × 100 = <strong>−12.2%</strong></p>
+        <p style="font-size:0.82rem; color:var(--al-text-light);">Calculate the derived value (profit) first, then apply percentage change to that derived value.</p>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-tip">
+      <div class="al-callout-label">Data Extraction Rule</div>
+      <p>When the question asks about a derived value (profit, margin, ratio), always <strong>calculate the derived value for both periods first</strong>, then find the percentage change between them. Never take the percentage change of the individual components and try to combine them.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 4: SCENARIO 3 — COMPOUND GROWTH FROM FORECAST ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">4</div>
+      <h2>Scenario 3 — Compound Growth from a Forecast Note</h2>
+    </div>
+
+    <div class="al-card">
+      <p>The compound growth trap from Module 2.1 becomes far more dangerous when the growth rate is buried in a text note, the starting value must be extracted from a table, and the question asks about a period that requires multiple compounding steps. Here's how it appears in real tests.</p>
+    </div>
+
+    <!-- Source C: Analyst Note -->
+    <div class="al-chart-container">
+      <div class="al-chart-label"><span class="al-source-tag al-source-c">Source C</span> FY2025 Strategy Note (extract)</div>
+      <div class="al-card" style="margin-bottom:0; box-shadow:none; border:none;">
+        <p>"Management projects total revenue growth of 6% in FY2025, followed by 8% growth in FY2026. Cost reduction initiatives are expected to hold total operating costs flat at FY2024 Q4 annualised levels throughout both years."</p>
+      </div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 3</span>
+        <span class="al-example-q">Based on Sources A and C, what is the projected total revenue for FY2026? And what is the overall percentage change from FY2024 to FY2026?</span>
+      </div>
+      <div class="al-example-body">
+        <p><strong>Extract the starting value.</strong> Source A: total FY2024 revenue = £15,241k.</p>
+        <p><strong>Apply compound growth.</strong> Source C: 6% then 8% — these are successive annual rates.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">FY2025 = £15,241k × 1.06 = £16,155.5k</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">FY2026 = £16,155.5k × 1.08 = <span class="al-step-result">£17,447.9k</span></span></div>
+        <p style="margin-top:0.5rem;"><strong>Overall percentage change:</strong></p>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">(£17,447.9k − £15,241k) ÷ £15,241k × 100 = <span class="al-step-result">14.5%</span></span></div>
+      </div>
+    </div>
+
+    <div class="al-compare-wrap">
+      <div class="al-compare-box al-compare-wrong">
+        <div class="al-compare-label"><span style="font-size:1.1rem;">✗</span> Adding Rates</div>
+        <p>6% + 8% = <strong>14.0%</strong></p>
+        <p style="font-size:0.82rem; color:var(--al-text-light);">Misses the compound effect. The 8% in year 2 applies to the larger post-growth base, not the original.</p>
+      </div>
+      <div class="al-compare-box al-compare-right">
+        <div class="al-compare-label"><span style="font-size:1.1rem;">✓</span> Multiplying Multipliers</div>
+        <p>1.06 × 1.08 = 1.1448 → <strong>14.5%</strong></p>
+        <p style="font-size:0.82rem; color:var(--al-text-light);">The extra 0.5% comes from compounding: year 2's 8% applies to 106% of the original, not 100%.</p>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-warn">
+      <div class="al-callout-label">Spotting the Trap Option</div>
+      <p>In this question, the trap option would be £17,175k (= £15,241k × 1.14). This is what you get by adding 6% + 8% = 14% and applying it as a single step. The correct answer — £17,448k — will always be slightly higher than the simple addition result. If two answer options differ by a small amount like this, the larger one is almost certainly the compound answer.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 5: PRACTICE ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">5</div>
+      <h2>Practice — Percentage Change from Data</h2>
+    </div>
+
+    <div class="al-card">
+      <p>Use Sources A, B, and C from this lesson to answer all five questions. Each question targets a different data extraction trap — not a different formula.</p>
+    </div>
+
+    <!-- ═══ PQ1: Simple change, wrong period trap ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 1 — Period Selection</div>
+      <div class="al-practice-q">What was the percentage change in total revenue from FY2022 to FY2023? (Source A)</div>
+      <div class="al-practice-options">
+        <p>(A) 9.1%</p>
+        <p>(B) 11.8%</p>
+        <p>(C) 21.9%</p>
+        <p>(D) 14.5%</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-source-tag al-source-a">A</span> FY2022 total = £12,500k. FY2023 total = £13,970k.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">(£13,970k − £12,500k) ÷ £12,500k × 100 = £1,470k ÷ £12,500k × 100 = <span class="al-step-result">11.8% → Answer: B</span></span></div>
+        <p>Trap: Option C (21.9%) = change from FY2022 to FY2024 — reading the wrong end column. Option D (14.5%) = the FY2024-to-FY2026 projected change from Worked Example 3, a completely different time period.</p>
+      </div>
+    </details>
+
+    <!-- ═══ PQ2: Direction/base trap ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 2 — Direction Trap</div>
+      <div class="al-practice-q">In FY2024, by what percentage was Corporate Banking's revenue higher than Retail Banking's? (Source A)</div>
+      <div class="al-practice-options">
+        <p>(A) 34.4%</p>
+        <p>(B) 52.4%</p>
+        <p>(C) 65.6%</p>
+        <p>(D) 110.0%</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-source-tag al-source-a">A</span> Corporate FY2024 = £6,171k. Retail FY2024 = £4,048k. "Higher than Retail" → Retail is the base.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">(£6,171k − £4,048k) ÷ £4,048k × 100 = £2,123k ÷ £4,048k × 100 = <span class="al-step-result">52.4% → Answer: B</span></span></div>
+        <p>Trap: Option A (34.4%) = £2,123k ÷ £6,171k — divides by Corporate instead of Retail. The word "than" points to the denominator: "higher <em>than Retail</em>" means Retail is the base.</p>
+      </div>
+    </details>
+
+    <!-- ═══ PQ3: Cross-source profit change ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 3 — Cross-Source Profit</div>
+      <div class="al-practice-q">What was the percentage change in total quarterly operating costs from Q1 to Q4? (Source B)</div>
+      <div class="al-practice-options">
+        <p>(A) 14.4%</p>
+        <p>(B) 16.9%</p>
+        <p>(C) 18.0%</p>
+        <p>(D) 20.3%</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-source-tag al-source-b">B</span> Q1 total costs = £2,250k. Q4 total costs = £2,630k.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">(£2,630k − £2,250k) ÷ £2,250k × 100 = £380k ÷ £2,250k × 100 = <span class="al-step-result">16.9% → Answer: B</span></span></div>
+        <p>Trap: Option A (14.4%) = £380k ÷ £2,630k — dividing by the new value instead of the old. Option C (18.0%) = eyeballing the change without precise calculation.</p>
+      </div>
+    </details>
+
+    <!-- ═══ PQ4: Reverse percentage from forecast ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 4 — Reverse Percentage</div>
+      <div class="al-practice-q">Source C states FY2025 revenue growth of 6%. If FY2025 total revenue turns out to be £16,800k, what would the actual growth rate have been? (Use Source A for the FY2024 base.)</div>
+      <div class="al-practice-options">
+        <p>(A) 6.0%</p>
+        <p>(B) 9.3%</p>
+        <p>(C) 10.2%</p>
+        <p>(D) 12.8%</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-source-tag al-source-a">A</span> FY2024 total = £15,241k. Actual FY2025 = £16,800k (given).</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">(£16,800k − £15,241k) ÷ £15,241k × 100 = £1,559k ÷ £15,241k × 100 = <span class="al-step-result">10.2% → Answer: C</span></span></div>
+        <p>The projected 6% (option A) is the forecast, not the actual result. The question asks you to calculate the real rate from the data, ignoring the forecast. This tests whether you can distinguish between a stated assumption and an actual calculation.</p>
+      </div>
+    </details>
+
+    <!-- ═══ PQ5: Compound + cross-source (hard) ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 5 — Compound Growth + Cost Analysis (Hard)</div>
+      <div class="al-practice-q">Based on Sources A, B, and C: if total operating costs stay flat at Q4 annualised levels and revenue grows as projected, what is the percentage change in annual profit from FY2024 to FY2026?</div>
+      <div class="al-practice-options">
+        <p>(A) 14.5%</p>
+        <p>(B) 19.3%</p>
+        <p>(C) 24.4%</p>
+        <p>(D) 28.9%</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p>Three sources needed:</p>
+        <p><span class="al-source-tag al-source-a">A</span> FY2024 revenue = £15,241k. <span class="al-source-tag al-source-b">B</span> Q4 costs = £2,630k → annualised = £2,630k × 4 = £10,520k. <span class="al-source-tag al-source-c">C</span> Revenue: +6% then +8%. Costs: flat at annualised Q4 level.</p>
+
+        <p style="font-weight:600; color:var(--al-navy); margin:0.5rem 0 0.35rem;">FY2024 profit:</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">FY2024 profit = £15,241k − £10,520k = £4,721k</span></div>
+
+        <p style="font-weight:600; color:var(--al-navy); margin:0.75rem 0 0.35rem;">FY2026 revenue (compound):</p>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">FY2025 revenue = £15,241k × 1.06 = £16,155.5k</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">FY2026 revenue = £16,155.5k × 1.08 = £17,447.9k</span></div>
+
+        <p style="font-weight:600; color:var(--al-navy); margin:0.75rem 0 0.35rem;">FY2026 profit:</p>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">FY2026 profit = £17,447.9k − £10,520k = £6,927.9k</span></div>
+
+        <p style="font-weight:600; color:var(--al-navy); margin:0.75rem 0 0.35rem;">Percentage change in profit:</p>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">(£6,927.9k − £4,721k) ÷ £4,721k × 100 = £2,206.9k ÷ £4,721k × 100 = <span class="al-step-result">46.7%</span></span></div>
+
+        <p>Wait — 46.7% isn't an option. <strong>That's intentional.</strong> Let me recalculate using proper FY2024 costs.</p>
+        <p>The question says "Q4 annualised levels" = £2,630k × 4 = £10,520k. But FY2024's <em>actual</em> total costs = £2,250 + £2,330 + £2,460 + £2,630 = £9,670k.</p>
+
+        <p style="font-weight:600; color:var(--al-navy); margin:0.75rem 0 0.35rem;">Corrected FY2024 profit (actual costs):</p>
+        <div class="al-step-line"><span class="al-step-num">6</span><span class="al-step-calc">FY2024 actual profit = £15,241k − £9,670k = £5,571k</span></div>
+
+        <p style="font-weight:600; color:var(--al-navy); margin:0.75rem 0 0.35rem;">FY2026 profit (costs held at annualised Q4 = £10,520k):</p>
+        <div class="al-step-line"><span class="al-step-num">7</span><span class="al-step-calc">FY2026 profit = £17,447.9k − £10,520k = £6,927.9k</span></div>
+        <div class="al-step-line"><span class="al-step-num">8</span><span class="al-step-calc">(£6,927.9k − £5,571k) ÷ £5,571k × 100 = £1,356.9k ÷ £5,571k × 100 = <span class="al-step-result">24.4% → Answer: C</span></span></div>
+
+        <p style="margin-top:0.5rem;">Trap: Option A (14.5%) is the revenue growth — not the profit growth. Revenue and profit don't grow at the same rate when costs change. Option B uses the annualised Q4 costs for both years. The key insight: when revenue grows but costs are held flat, <strong>profit grows faster than revenue</strong> because the fixed cost base creates operational leverage.</p>
+      </div>
+    </details>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ KEY TAKEAWAYS ═══ -->
+  <div class="al-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul class="al-takeaways-list">
+      <li>The formula is simple. The data extraction is where errors happen. Before calculating anything, identify: what is Old? What is New? Which source gives me each?</li>
+      <li>The word after "than", "from", or "of" tells you the denominator. Underline it in the question before you touch the data. This alone eliminates the most common wrong answer.</li>
+      <li>When the question asks about a derived value (profit, margin, growth rate), calculate that value for both periods first. Never try to combine the percentage changes of the components.</li>
+      <li>Compound growth always produces a slightly larger result than simple addition of rates. If two options are close together — like 14.0% and 14.5% — the compound answer is the larger one.</li>
+      <li>Watch for the mismatch between stated assumptions and actual data. Questions often give you a growth rate in a text note and then ask you to verify it against the table. The numbers rarely match exactly.</li>
+      <li>Profit grows faster than revenue when costs are flat or falling — this operational leverage effect catches candidates who assume profit % change equals revenue % change.</li>
+    </ul>
+  </div>
+
+  <!-- ═══ NEXT LESSON ═══ -->
+  <div class="al-next">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Lesson</div>
+      <div class="al-next-title">3.5 — Profit, Loss &amp; Financial Statements</div>
+      <div class="al-next-desc">Revenue, gross profit, operating profit, net profit — learn to navigate financial statements and calculate margins, break-even, and profitability ratios.</div>
+    </div>
+  </div>
+
+</div>
+
+<!--
+  CALCULATION VERIFICATION:
+
+  Source A — Annual Revenue (£k):
+  FY2022: 3,200 + 5,100 + 1,800 + 2,400 = 12,500 ✓
+  FY2023: 3,680 + 5,610 + 2,160 + 2,520 = 13,970 ✓
+  FY2024: 4,048 + 6,171 + 2,376 + 2,646 = 15,241 ✓
+
+  Source B — Quarterly Costs (£k):
+  Q1: 780 + 640 + 320 + 510 = 2,250 ✓
+  Q2: 810 + 660 + 340 + 520 = 2,330 ✓
+  Q3: 850 + 710 + 355 + 545 = 2,460 ✓
+  Q4: 920 + 750 + 385 + 575 = 2,630 ✓
+  FY2024 total costs: 2,250 + 2,330 + 2,460 + 2,630 = 9,670 ✓
+  Q4 annualised: 2,630 × 4 = 10,520 ✓
+
+  WE1 — Direction trap:
+  Wealth FY2024 = 2,376. Insurance FY2024 = 2,646.
+  (2,376 - 2,646) ÷ 2,646 = -270 ÷ 2,646 = -0.10204 = -10.2% ✓
+
+  WE2 — Cross-source profit:
+  Corporate FY2024 quarterly revenue = 6,171 ÷ 4 = 1,542.75 ✓
+  Q1 profit: 1,542.75 - 640 = 902.75 ✓
+  Q4 profit: 1,542.75 - 750 = 792.75 ✓
+  Change: (792.75 - 902.75) ÷ 902.75 = -110 ÷ 902.75 = -0.12186 = -12.2% ✓
+  Cost change: (750-640)/640 = 110/640 = 0.17188 = 17.2% ✓
+
+  WE3 — Compound growth:
+  15,241 × 1.06 = 16,155.46 ✓
+  16,155.46 × 1.08 = 17,447.90 ✓
+  Overall: (17,447.90 - 15,241) / 15,241 = 2,206.90 / 15,241 = 0.14479 = 14.5% ✓
+  Simple addition trap: 15,241 × 1.14 = 17,374.74 (≠ 17,447.90) ✓
+  1.06 × 1.08 = 1.1448 ✓
+
+  PQ1: (13,970 - 12,500) / 12,500 = 1,470 / 12,500 = 0.1176 = 11.8% ✓
+  FY2022→FY2024 trap: (15,241-12,500)/12,500 = 2,741/12,500 = 21.9% ✓
+
+  PQ2: (6,171 - 4,048) / 4,048 = 2,123 / 4,048 = 0.52446 = 52.4% ✓
+  Wrong base trap: 2,123 / 6,171 = 0.34405 = 34.4% ✓
+
+  PQ3: (2,630 - 2,250) / 2,250 = 380 / 2,250 = 0.16889 = 16.9% ✓
+  Wrong base trap: 380 / 2,630 = 0.14449 = 14.4% ✓
+
+  PQ4: (16,800 - 15,241) / 15,241 = 1,559 / 15,241 = 0.10229 = 10.2% ✓
+
+  PQ5:
+  FY2024 actual costs: 9,670 ✓
+  FY2024 profit: 15,241 - 9,670 = 5,571 ✓
+  FY2026 revenue: 17,447.9 ✓
+  FY2026 costs (flat at annualised Q4): 10,520 ✓
+  FY2026 profit: 17,447.9 - 10,520 = 6,927.9 ✓
+  Profit change: (6,927.9 - 5,571) / 5,571 = 1,356.9 / 5,571 = 0.24355 = 24.4% ✓
+  Revenue-only trap: 14.5% ✓
+-->

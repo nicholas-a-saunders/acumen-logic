@@ -1,0 +1,180 @@
+<!--
+  ACUMEN LOGIC — Lesson 5.4: Personality Tests & Gamified Assessments
+  For ThriveCart Learn Custom HTML Block
+  Pure CSS · Zero JavaScript · Fully responsive
+
+  TYPE: Theory lesson
+  Big Five, Arctic Shores, Pymetrics. Honest guidance on assessments
+  that cannot and should not be faked.
+-->
+
+<style>
+  .al-lesson { --al-navy: #1B2A4A; --al-navy-light: #2A3D66; --al-navy-muted: #3D5280; --al-gold: #C8A951; --al-gold-light: #D4BC72; --al-gold-pale: #F5EFD9; --al-cream: #FAFAF6; --al-white: #FFFFFF; --al-text: #2C2C2C; --al-text-light: #6B6B6B; --al-border: #E8E4DA; --al-success: #2D8F5E; --al-danger: #C0392B; --al-radius: 10px; --al-radius-sm: 6px; --al-shadow: 0 2px 12px rgba(27,42,74,0.08); }
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+  .al-lesson { font-family: 'Source Sans 3','Segoe UI',system-ui,sans-serif; color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .al-lesson h1, .al-lesson h2, .al-lesson h3 { font-family: 'Source Sans 3','Segoe UI',system-ui,sans-serif; font-weight: 700; color: var(--al-navy); line-height: 1.25; }
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .al-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200,169,81,0.08) 0%, transparent 70%); pointer-events: none; }
+  .al-hero-eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem,4vw,2.2rem); margin-bottom: 0.75rem; }
+  .al-hero-subtitle { color: rgba(255,255,255,0.9) !important; font-size: 1rem; max-width: 36rem; line-height: 1.5; }
+  .al-hero-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 1rem 0; }
+  .al-section { margin-bottom: 2rem; }
+  .al-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-section-number { width: 2rem; height: 2rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.95rem; flex-shrink: 0; }
+  .al-section h2 { font-size: clamp(1.15rem, 3vw, 1.4rem); }
+  .al-card { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-card p { margin-bottom: 0.75rem; }
+  .al-card p:last-child { margin-bottom: 0; }
+  .al-callout { border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; font-size: 0.92rem; }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-warn { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-callout-danger { background: #FDF2F0; border-left: 4px solid var(--al-danger); }
+  .al-callout-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .al-callout-tip .al-callout-label { color: var(--al-success); }
+  .al-callout-warn .al-callout-label { color: #D4823A; }
+  .al-callout-danger .al-callout-label { color: var(--al-danger); }
+  .al-conv-table { width: 100%; border-collapse: collapse; margin-bottom: 1.25rem; font-size: 0.88rem; box-shadow: var(--al-shadow); border-radius: var(--al-radius); overflow: hidden; }
+  .al-conv-table thead th { background: var(--al-navy); color: var(--al-white) !important; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.75rem 1rem; text-align: left; }
+  .al-conv-table tbody td { padding: 0.65rem 1rem; border-bottom: 1px solid var(--al-border); }
+  .al-conv-table tbody tr:hover { background: var(--al-gold-pale); }
+  .al-takeaways { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.5rem 1.75rem; margin-bottom: 1.25rem; }
+  .al-takeaways h3 { color: var(--al-gold) !important; font-size: 1.1rem; margin-bottom: 1rem; }
+  .al-takeaways-list { list-style: none; padding: 0; }
+  .al-takeaways-list li { color: rgba(255,255,255,0.95) !important; font-size: 0.92rem; padding: 0.45rem 0 0.45rem 1.75rem; position: relative; line-height: 1.5; }
+  .al-takeaways-list li::before { content: '✓'; position: absolute; left: 0; color: var(--al-gold); font-weight: 700; }
+  .al-takeaways strong { color: var(--al-gold) !important; }
+  .al-next { background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .al-next-arrow { width: 2.5rem; height: 2.5rem; background: var(--al-navy); color: var(--al-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .al-next-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-text-light); margin-bottom: 0.15rem; }
+  .al-next-title { font-weight: 700; color: var(--al-navy); font-size: 1rem; }
+  .al-next-desc { font-size: 0.85rem; color: var(--al-text-light); margin-top: 0.15rem; }
+  .al-lesson strong { color: var(--al-navy); }
+  .al-divider { border: none; height: 1px; background: var(--al-border); margin: 2rem 0; }
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .al-card { padding: 1.15rem; }
+    .al-takeaways { padding: 1.25rem; }
+    .al-next { flex-direction: column; text-align: center; }
+    .al-conv-table { font-size: 0.8rem; }
+  }
+</style>
+
+<div class="al-lesson">
+
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 5 · Lesson 5.4</div>
+    <h1>Personality Tests &amp; Gamified Assessments</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">Big Five traits, Arctic Shores, and Pymetrics — assessments you can't fake, and honest guidance on how to approach them authentically.</p>
+  </div>
+
+  <!-- ═══ SECTION 1 ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">1</div>
+      <h2>The Big Five Personality Model</h2>
+    </div>
+    <div class="al-card">
+      <p>Most personality assessments in finance are based on the <strong>Big Five</strong> (OCEAN) model. Understanding what's being measured helps you approach the test calmly — not to fake it, but to avoid anxiety about "right" answers.</p>
+    </div>
+
+    <table class="al-conv-table">
+      <thead><tr><th>Trait</th><th>What It Measures</th><th>Finance Preference</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Openness</strong></td><td>Curiosity, creativity, openness to new ideas</td><td>Moderate — innovative but grounded</td></tr>
+        <tr><td><strong>Conscientiousness</strong></td><td>Organisation, reliability, attention to detail</td><td>High — finance demands precision</td></tr>
+        <tr><td><strong>Extraversion</strong></td><td>Sociability, assertiveness, energy</td><td>Varies by role — higher for client-facing</td></tr>
+        <tr><td><strong>Agreeableness</strong></td><td>Cooperation, trust, empathy</td><td>Moderate — collaborative but able to challenge</td></tr>
+        <tr><td><strong>Neuroticism</strong></td><td>Emotional stability, stress response</td><td>Low — calm under pressure is essential</td></tr>
+      </tbody>
+    </table>
+
+    <div class="al-callout al-callout-danger">
+      <div class="al-callout-label">Do Not Try to Fake</div>
+      <p>Modern personality tests have built-in consistency checks. They ask the same question in different ways at different points in the test. Contradictory answers flag your profile as inconsistent — which is worse than any "unfavourable" trait score.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 2 ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">2</div>
+      <h2>Gamified Assessments: Arctic Shores &amp; Pymetrics</h2>
+    </div>
+    <div class="al-card">
+      <p><strong>Arctic Shores</strong> uses game-based tasks to measure cognitive traits: risk tolerance, processing speed, working memory, and decision-making under uncertainty. The "games" include things like balloon-inflating (risk appetite), card-matching (working memory), and reaction tasks (processing speed).</p>
+      <p><strong>Pymetrics</strong> uses neuroscience-based games to assess 90+ cognitive and emotional traits. Each game takes 2–3 minutes. Tasks include the balloon game, delayed gratification tasks, and emotion recognition exercises.</p>
+    </div>
+
+    <div class="al-callout al-callout-tip">
+      <div class="al-callout-label">What They Actually Measure</div>
+      <p>These aren't IQ tests. They measure behavioural tendencies — how you approach risk, how quickly you adapt to changing rules, whether you explore or exploit. There's no single "correct" profile. Different roles at the same employer may have different target profiles.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 3 ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">3</div>
+      <h2>Honest Preparation Strategies</h2>
+    </div>
+    <div class="al-card">
+      <p>You can't study for personality or gamified assessments, but you can <strong>prepare your conditions</strong>:</p>
+      <p><strong>1. Take them when rested.</strong> Fatigue increases neuroticism scores and slows processing speed. Do them in the morning, not at midnight.</p>
+      <p><strong>2. Minimise distractions.</strong> These tests measure reaction times and decision speed. A noisy environment introduces noise into your data.</p>
+      <p><strong>3. Be consistent.</strong> Answer the way you genuinely feel, not the way you think they want. The consistency checks will catch you.</p>
+      <p><strong>4. Don't overthink.</strong> Personality questions have no right answer. Speed of response matters — hesitation suggests you're calculating rather than responding naturally.</p>
+      <p><strong>5. Accept the outcome.</strong> If your personality doesn't match a role's target profile, that role genuinely isn't a good fit. Better to find out now than six months into a miserable job.</p>
+    </div>
+
+    <div class="al-callout al-callout-warn">
+      <div class="al-callout-label">The "Desirability" Trap</div>
+      <p>Some candidates answer every question with the most "positive" option: "I always lead teams," "I never feel stressed," "I always meet deadlines." This creates an impossibly perfect profile that the test flags as <strong>socially desirable responding</strong>. Real humans have imperfections — your profile should too.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 4 ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">4</div>
+      <h2>When Gamified Assessments Feel Unfair</h2>
+    </div>
+    <div class="al-card">
+      <p>Many candidates feel frustrated by gamified assessments because there's no clear way to "prepare." This is by design — they measure <strong>natural cognitive tendencies</strong>, not learned skills.</p>
+      <p>The good news: if you pass the aptitude tests (Modules 2–4), your cognitive abilities are likely strong enough for the gamified assessments. These tests primarily screen for extremes — very high risk-taking, very low processing speed, or very poor emotional regulation — not minor trait differences.</p>
+      <p>Focus your preparation energy on the aptitude and SJT components, where practice genuinely improves performance. For personality and gamified assessments, prepare your environment and mindset, then trust your natural responses.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ KEY TAKEAWAYS ═══ -->
+  <div class="al-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul class="al-takeaways-list">
+      <li><strong>Personality tests measure traits, not skills.</strong> They use the Big Five model. Finance values conscientiousness and emotional stability most.</li>
+      <li><strong>Do not fake.</strong> Consistency checks will catch you. An inconsistent profile is worse than any individual trait score.</li>
+      <li><strong>Gamified assessments measure behavioural tendencies</strong> — how you approach risk, adapt to change, and process information. There's no "studying" for them.</li>
+      <li><strong>Prepare your conditions:</strong> rested, quiet environment, morning timing. These factors genuinely affect your results.</li>
+      <li><strong>Trust your natural responses.</strong> If your personality doesn't match the role, that's useful information — not a failure.</li>
+    </ul>
+  </div>
+
+  <div class="al-next">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Lesson</div>
+      <div class="al-next-title">5.5 — Error Pattern Recognition &amp; Stress Management</div>
+      <div class="al-next-desc">Identify your personal error patterns under pressure and learn cognitive load management techniques.</div>
+    </div>
+  </div>
+
+</div>

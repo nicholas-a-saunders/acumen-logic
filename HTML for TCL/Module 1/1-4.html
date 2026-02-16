@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview — Lesson 1.4 in ThriveCart Context</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #F0F0ED; font-family: system-ui, sans-serif; min-height: 100vh; }
+.tc-chrome { max-width: 780px; margin: 2rem auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.1); overflow: hidden; }
+.tc-header { background: #f8f8f6; border-bottom: 1px solid #e5e5e0; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+.tc-header-left { display: flex; align-items: center; gap: 0.75rem; font-size: 0.85rem; color: #666; }
+.tc-header-dot { width: 8px; height: 8px; border-radius: 50%; background: #2D8F5E; }
+.tc-header-right { font-size: 0.8rem; color: #999; }
+.tc-body { padding: 1.5rem; }
+.tc-footer { background: #f8f8f6; border-top: 1px solid #e5e5e0; padding: 0.75rem 1.5rem; text-align: center; font-size: 0.75rem; color: #999; }
+</style>
+</head>
+<body>
+<div class="tc-chrome">
+<div class="tc-header">
+<div class="tc-header-left"><div class="tc-header-dot"></div><span>ThriveCart Learn Preview</span></div>
+<div class="tc-header-right">Module 1 — Introduction & Foundations</div>
+</div>
+<div class="tc-body">
+<!--
+  ACUMEN LOGIC — Lesson 1.4: Essential Maths Refresh
+  For ThriveCart Learn Custom HTML Block
+  Pure CSS · Zero JavaScript · Fully responsive
+-->
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+  
+  .al-lesson {
+    --al-navy: #1B2A4A;
+    --al-navy-light: #2A3D66;
+    --al-navy-muted: #3D5280;
+    --al-gold: #C8A951;
+    --al-gold-light: #D4BC72;
+    --al-gold-pale: #F5EFD9;
+    --al-cream: #FAFAF6;
+    --al-white: #FFFFFF;
+    --al-text: #2C2C2C;
+    --al-text-light: #6B6B6B;
+    --al-border: #E8E4DA;
+    --al-success: #2D8F5E;
+    --al-danger: #C0392B;
+    --al-radius: 10px;
+    --al-radius-sm: 6px;
+    --al-shadow: 0 2px 12px rgba(27, 42, 74, 0.08);
+  }
+  .al-lesson {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  .al-lesson h1, .al-lesson h2, .al-lesson h3 { 
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; 
+    font-weight: 700;
+    color: var(--al-navy); 
+    line-height: 1.25; 
+  }
+
+  .al-hero { 
+    background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); 
+    border-radius: var(--al-radius); 
+    padding: 2.5rem 2rem 2rem; 
+    margin-bottom: 2rem; 
+    position: relative; 
+    overflow: hidden; 
+  }
+  .al-hero::before { 
+    content: ''; 
+    position: absolute; 
+    top: -40%; 
+    right: -20%; 
+    width: 60%; 
+    height: 180%; 
+    background: radial-gradient(ellipse, rgba(200, 169, 81, 0.08) 0%, transparent 70%); 
+    pointer-events: none; 
+  }
+  .al-hero-eyebrow { 
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; 
+    font-size: 0.75rem; 
+    font-weight: 700; 
+    letter-spacing: 0.15em; 
+    text-transform: uppercase; 
+    color: var(--al-gold) !important; 
+    margin-bottom: 0.75rem; 
+  }
+  .al-lesson .al-hero h1 { 
+    color: var(--al-white) !important; 
+    font-size: clamp(1.6rem, 4vw, 2.2rem); 
+    margin-bottom: 0.75rem; 
+  }
+  .al-hero-subtitle { 
+    color: rgba(255, 255, 255, 0.9) !important; 
+    font-size: 1rem; 
+    max-width: 36rem; 
+    line-height: 1.5; 
+  }
+  .al-hero-rule { 
+    width: 3rem; 
+    height: 3px; 
+    background: var(--al-gold); 
+    border: none; 
+    border-radius: 2px; 
+    margin: 1rem 0; 
+  }
+
+  .al-section { margin-bottom: 2rem; }
+  .al-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-section-number { 
+    width: 2rem; 
+    height: 2rem; 
+    background: var(--al-navy); 
+    color: var(--al-white); 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; 
+    font-weight: 700;
+    font-size: 0.95rem; 
+    flex-shrink: 0; 
+  }
+  .al-section h2 { font-size: clamp(1.15rem, 3vw, 1.4rem); }
+
+  .al-card { 
+    background: var(--al-white); 
+    border: 1px solid var(--al-border); 
+    border-radius: var(--al-radius); 
+    padding: 1.5rem; 
+    margin-bottom: 1.25rem; 
+    box-shadow: var(--al-shadow); 
+  }
+  .al-card p { margin-bottom: 0.75rem; }
+  .al-card p:last-child { margin-bottom: 0; }
+
+  .al-callout { 
+    border-radius: var(--al-radius); 
+    padding: 1.25rem 1.5rem; 
+    margin-bottom: 1.25rem; 
+    font-size: 0.92rem; 
+  }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-gold { background: var(--al-gold-pale); border-left: 4px solid var(--al-gold); }
+  .al-callout-label { 
+    font-weight: 700; 
+    font-size: 0.78rem; 
+    letter-spacing: 0.08em; 
+    text-transform: uppercase; 
+    margin-bottom: 0.4rem; 
+  }
+  .al-callout-tip .al-callout-label { color: var(--al-success); }
+  .al-callout-gold .al-callout-label { color: var(--al-navy); }
+
+  .al-example {
+    background: var(--al-white);
+    border: 1px solid var(--al-border);
+    border-radius: var(--al-radius);
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--al-shadow);
+  }
+  .al-example-header {
+    background: var(--al-navy);
+    padding: 0.7rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .al-example-label {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; 
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--al-gold);
+  }
+  .al-example-q {
+    font-size: 0.92rem;
+    color: var(--al-white) !important;
+    font-weight: 600;
+  }
+  .al-example-body {
+    padding: 1.25rem 1.5rem;
+  }
+  .al-example-body p { margin-bottom: 0.6rem; font-size: 0.92rem; }
+  .al-example-body p:last-child { margin-bottom: 0; }
+
+  .al-step-line {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0.35rem 0;
+    font-size: 0.9rem;
+  }
+  .al-step-num {
+    background: var(--al-gold-pale);
+    color: var(--al-navy);
+    font-size: 0.7rem;
+    font-weight: 700;
+    width: 1.5rem; height: 1.5rem;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .al-step-calc {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    color: var(--al-text);
+  }
+  .al-step-result {
+    background: #EDF7F0;
+    border: 1px solid var(--al-success);
+    border-radius: var(--al-radius-sm);
+    padding: 0.5rem 1rem;
+    margin-top: 0.75rem;
+    font-weight: 700;
+    color: var(--al-success);
+    font-size: 0.92rem;
+    display: inline-block;
+  }
+
+  .al-vs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin: 1rem 0 1.25rem;
+  }
+  .al-vs-box {
+    border-radius: var(--al-radius);
+    padding: 1rem 1.15rem;
+  }
+  .al-vs-wrong {
+    background: #FDF2F0;
+    border: 2px solid var(--al-danger);
+  }
+  .al-vs-right {
+    background: #EDF7F0;
+    border: 2px solid var(--al-success);
+  }
+  .al-vs-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .al-vs-wrong .al-vs-label { color: var(--al-danger); }
+  .al-vs-right .al-vs-label { color: var(--al-success); }
+  .al-vs-calc {
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+  .al-vs-answer {
+    font-weight: 700;
+    margin-top: 0.35rem;
+    font-size: 0.95rem;
+  }
+  .al-vs-wrong .al-vs-answer { color: var(--al-danger); }
+  .al-vs-right .al-vs-answer { color: var(--al-success); }
+
+  .al-shortcuts {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+    margin-bottom: 1.25rem;
+  }
+  .al-shortcut {
+    background: var(--al-white);
+    border: 1px solid var(--al-border);
+    border-radius: var(--al-radius-sm);
+    padding: 0.85rem 1.15rem;
+    display: flex;
+    gap: 0.85rem;
+    align-items: center;
+    box-shadow: var(--al-shadow);
+  }
+  .al-shortcut-op {
+    background: var(--al-navy);
+    color: var(--al-gold);
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; 
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 0.35rem 0.7rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .al-shortcut-method {
+    font-size: 0.88rem;
+    color: var(--al-text);
+    line-height: 1.5;
+  }
+  .al-shortcut-eg {
+    font-size: 0.82rem;
+    color: var(--al-text-light);
+    margin-top: 0.2rem;
+  }
+
+  .al-drill {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: var(--al-radius);
+    overflow: hidden;
+    border: 1px solid var(--al-border);
+    font-size: 0.9rem;
+    margin: 0.75rem 0;
+  }
+  .al-drill thead th {
+    background: var(--al-navy);
+    color: var(--al-white);
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; 
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.65rem 0.85rem;
+    text-align: left;
+  }
+  .al-drill tbody td {
+    padding: 0.55rem 0.85rem;
+    border-bottom: 1px solid var(--al-border);
+    vertical-align: middle;
+  }
+  .al-drill tbody tr:last-child td { border-bottom: none; }
+  .al-drill tbody tr:nth-child(even) { background: var(--al-cream); }
+  .al-drill .al-drill-q { font-weight: 600; color: var(--al-navy); }
+  .al-drill .al-drill-a { color: var(--al-success); font-weight: 700; }
+  .al-drill .al-drill-method { color: var(--al-text-light); font-size: 0.82rem; }
+
+  .al-reveal {
+    margin-top: 1rem;
+    border: 2px solid var(--al-border);
+    border-radius: var(--al-radius);
+    overflow: hidden;
+  }
+  .al-reveal[open] {
+    border-color: var(--al-success);
+  }
+  .al-reveal-btn {
+    display: block;
+    padding: 0.85rem 1.25rem;
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; 
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--al-navy);
+    background: var(--al-cream);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: background 0.2s;
+  }
+  .al-reveal-btn::-webkit-details-marker { display: none; }
+  .al-reveal-btn::marker { display: none; content: ''; }
+  .al-reveal-btn:hover { background: var(--al-gold-pale); }
+  .al-reveal[open] .al-reveal-btn {
+    background: #EDF7F0;
+    color: var(--al-success);
+    border-bottom: 1px solid var(--al-border);
+  }
+  .al-reveal .al-drill { border-radius: 0; border: none; box-shadow: none; }
+
+  .al-neg-rules {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin: 0.75rem 0;
+  }
+  .al-neg-rule {
+    background: var(--al-cream);
+    border: 1px solid var(--al-border);
+    border-radius: var(--al-radius-sm);
+    padding: 0.6rem 0.85rem;
+    text-align: center;
+    font-size: 0.88rem;
+  }
+  .al-neg-rule strong { 
+    display: block; 
+    font-size: 0.95rem; 
+    margin-bottom: 0.15rem; 
+  }
+
+  .al-takeaways { 
+    background: var(--al-navy); 
+    border-radius: var(--al-radius); 
+    padding: 1.5rem 1.75rem; 
+    margin-bottom: 1.25rem; 
+  }
+  .al-takeaways h3 { 
+    color: var(--al-gold) !important; 
+    font-size: 1.1rem; 
+    margin-bottom: 1rem; 
+  }
+  .al-takeaways-list { list-style: none; padding: 0; }
+  .al-takeaways-list li { 
+    color: rgba(255, 255, 255, 0.95) !important; 
+    font-size: 0.92rem; 
+    padding: 0.45rem 0 0.45rem 1.75rem; 
+    position: relative; 
+    line-height: 1.5; 
+  }
+  .al-takeaways-list li::before { 
+    content: '✓'; 
+    position: absolute; 
+    left: 0; 
+    color: var(--al-gold); 
+    font-weight: 700; 
+    font-size: 1rem; 
+  }
+
+  .al-next { 
+    background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); 
+    border: 1px solid var(--al-border); 
+    border-radius: var(--al-radius); 
+    padding: 1.25rem 1.5rem; 
+    display: flex; 
+    align-items: center; 
+    gap: 1rem; 
+  }
+  .al-next-arrow { 
+    width: 2.5rem; 
+    height: 2.5rem; 
+    background: var(--al-navy); 
+    color: var(--al-gold); 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 1.1rem; 
+    flex-shrink: 0; 
+  }
+  .al-next-label { 
+    font-size: 0.72rem; 
+    font-weight: 700; 
+    letter-spacing: 0.1em; 
+    text-transform: uppercase; 
+    color: var(--al-text-light); 
+    margin-bottom: 0.15rem; 
+  }
+  .al-next-title { 
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; 
+    font-weight: 700;
+    color: var(--al-navy); 
+    font-size: 1rem; 
+  }
+  .al-next-desc { 
+    font-size: 0.85rem; 
+    color: var(--al-text-light); 
+    margin-top: 0.15rem; 
+  }
+
+  .al-lesson strong { color: var(--al-navy); }
+  .al-divider { 
+    border: none; 
+    height: 1px; 
+    background: var(--al-border); 
+    margin: 2rem 0; 
+  }
+
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .al-card, .al-example-body { padding: 1.15rem; }
+    .al-vs { grid-template-columns: 1fr; }
+    .al-neg-rules { grid-template-columns: 1fr; }
+    .al-shortcuts .al-shortcut { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    .al-drill { font-size: 0.82rem; }
+    .al-drill thead th, .al-drill tbody td { padding: 0.45rem 0.55rem; }
+    .al-takeaways { padding: 1.25rem; }
+    .al-next { flex-direction: column; text-align: center; }
+  }
+</style>
+
+<div class="al-lesson">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 1 · Lesson 1.4</div>
+    <h1>Essential Maths Refresh</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">Sharpen the fundamental tools. Not remedial maths — speed and accuracy under pressure.</p>
+  </div>
+
+  <!-- ═══ SECTION 1: BIDMAS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">1</div>
+      <h2>BIDMAS / Order of Operations</h2>
+    </div>
+    <div class="al-card">
+      <p>BIDMAS dictates the order in which operations are performed. Getting this wrong doesn't just lose you one mark — it cascades through every multi-step calculation.</p>
+      <p><strong>B</strong>rackets → <strong>I</strong>ndices (powers) → <strong>D</strong>ivision → <strong>M</strong>ultiplication → <strong>A</strong>ddition → <strong>S</strong>ubtraction</p>
+      <p>Division and multiplication are equal priority (work left to right). Addition and subtraction are equal priority (work left to right).</p>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example</span>
+        <span class="al-example-q">What is 8 + 4 × 3 − 2 ?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-vs">
+          <div class="al-vs-box al-vs-wrong">
+            <div class="al-vs-label">✗ Wrong Approach</div>
+            <div class="al-vs-calc">8 + 4 = 12<br>12 × 3 = 36<br>36 − 2 = 34</div>
+            <div class="al-vs-answer">34 ✗</div>
+          </div>
+          <div class="al-vs-box al-vs-right">
+            <div class="al-vs-label">✓ Correct (BIDMAS)</div>
+            <div class="al-vs-calc">4 × 3 = 12 <em style="color:var(--al-text-light);">(multiply first)</em><br>8 + 12 = 20<br>20 − 2 = 18</div>
+            <div class="al-vs-answer">18 ✓</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Common Trap</span>
+        <span class="al-example-q">What is 24 ÷ 6 × 2 ?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-vs">
+          <div class="al-vs-box al-vs-wrong">
+            <div class="al-vs-label">✗ Wrong</div>
+            <div class="al-vs-calc">6 × 2 = 12<br>24 ÷ 12 = 2</div>
+            <div class="al-vs-answer">2 ✗</div>
+          </div>
+          <div class="al-vs-box al-vs-right">
+            <div class="al-vs-label">✓ Correct (left to right)</div>
+            <div class="al-vs-calc">24 ÷ 6 = 4 <em style="color:var(--al-text-light);">(÷ and × same priority)</em><br>4 × 2 = 8</div>
+            <div class="al-vs-answer">8 ✓</div>
+          </div>
+        </div>
+        <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--al-text-light);">When operations have equal priority, always work <strong style="color:var(--al-navy);">left to right</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 2: NEGATIVE NUMBERS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">2</div>
+      <h2>Negative Numbers</h2>
+    </div>
+    <div class="al-card">
+      <p>These rules appear constantly in profit/loss, temperature, and percentage decrease questions.</p>
+      <div class="al-neg-rules">
+        <div class="al-neg-rule"><strong>positive × positive</strong>= positive</div>
+        <div class="al-neg-rule"><strong>negative × negative</strong>= positive</div>
+        <div class="al-neg-rule"><strong>positive × negative</strong>= negative</div>
+        <div class="al-neg-rule"><strong>adding a negative</strong>= subtracting</div>
+      </div>
+      <p style="margin-top:0.75rem;">These same rules apply to division. The sign rules for ÷ are identical to ×.</p>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Finance Context</span>
+        <span class="al-example-q">A company's quarterly profits: Q1 = −£45k, Q2 = −£12k, Q3 = +£28k, Q4 = +£65k. Total annual profit?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">(−45) + (−12) = −57</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">28 + 65 = 93</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">93 + (−57) = 93 − 57 = 36</span></div>
+        <div class="al-step-result">Annual profit: +£36,000</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 3: MULTIPLICATION SHORTCUTS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">3</div>
+      <h2>Multiplication Shortcuts</h2>
+    </div>
+    <p style="margin-bottom:1rem; font-size:0.92rem;">These save 5–15 seconds per question in timed tests. In an 18-question SHL test, that's potentially 2–3 extra minutes for harder questions.</p>
+
+    <div class="al-shortcuts">
+      <div class="al-shortcut">
+        <span class="al-shortcut-op">× 5</span>
+        <div>
+          <div class="al-shortcut-method">Multiply by 10, then divide by 2</div>
+          <div class="al-shortcut-eg">48 × 5 → 480 ÷ 2 = <strong>240</strong></div>
+        </div>
+      </div>
+      <div class="al-shortcut">
+        <span class="al-shortcut-op">× 25</span>
+        <div>
+          <div class="al-shortcut-method">Multiply by 100, then divide by 4</div>
+          <div class="al-shortcut-eg">36 × 25 → 3,600 ÷ 4 = <strong>900</strong></div>
+        </div>
+      </div>
+      <div class="al-shortcut">
+        <span class="al-shortcut-op">× 11</span>
+        <div>
+          <div class="al-shortcut-method">Multiply by 10, then add the original</div>
+          <div class="al-shortcut-eg">73 × 11 → 730 + 73 = <strong>803</strong></div>
+        </div>
+      </div>
+      <div class="al-shortcut">
+        <span class="al-shortcut-op">× 9</span>
+        <div>
+          <div class="al-shortcut-method">Multiply by 10, then subtract the original</div>
+          <div class="al-shortcut-eg">56 × 9 → 560 − 56 = <strong>504</strong></div>
+        </div>
+      </div>
+      <div class="al-shortcut">
+        <span class="al-shortcut-op">Double / Half</span>
+        <div>
+          <div class="al-shortcut-method">Make one number easier: halve one, double the other</div>
+          <div class="al-shortcut-eg">35 × 24 → 70 × 12 = <strong>840</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 4: DIVISION SHORTCUTS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">4</div>
+      <h2>Division Shortcuts & Divisibility</h2>
+    </div>
+
+    <div class="al-shortcuts">
+      <div class="al-shortcut">
+        <span class="al-shortcut-op">÷ 5</span>
+        <div>
+          <div class="al-shortcut-method">Multiply by 2, then divide by 10</div>
+          <div class="al-shortcut-eg">365 ÷ 5 → 730 ÷ 10 = <strong>73</strong></div>
+        </div>
+      </div>
+      <div class="al-shortcut">
+        <span class="al-shortcut-op">Factor</span>
+        <div>
+          <div class="al-shortcut-method">Break large divisions into smaller steps</div>
+          <div class="al-shortcut-eg">480 ÷ 12 → 480 ÷ 4 = 120, then 120 ÷ 3 = <strong>40</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="al-card">
+      <p><strong>Quick divisibility checks:</strong></p>
+      <p><strong>÷ 2</strong> — last digit is even. <strong>÷ 3</strong> — digit sum divisible by 3 (e.g., 147: 1+4+7 = 12 ✓). <strong>÷ 4</strong> — last two digits divisible by 4. <strong>÷ 5</strong> — ends in 0 or 5. <strong>÷ 9</strong> — digit sum divisible by 9. <strong>÷ 10</strong> — ends in 0.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 5: ESTIMATION ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">5</div>
+      <h2>Estimation & Rounding</h2>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Why Estimation Matters</span>
+        <span class="al-example-q">£847,320 × 38.7% = ?</span>
+      </div>
+      <div class="al-example-body">
+        <p>Before reaching for a calculator, estimate: <strong>£850,000 × 40% = £340,000</strong>. If your calculated answer is £327,793 — it checks out. If it's £32,779 — you've misplaced a decimal point.</p>
+        <p>Estimation catches errors that cost marks. It also helps eliminate wrong options in multiple-choice questions before calculating precisely.</p>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-tip">
+      <div class="al-callout-label">Rounding Strategy</div>
+      <p>When estimating, round each number to 1 significant figure: £847,320 ≈ £850,000 and 38.7% ≈ 40%. This takes 3 seconds and gives you a sanity check for every calculation.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 6: SPEED DRILL ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">6</div>
+      <h2>Speed Drill — 10 Questions</h2>
+    </div>
+    <div class="al-callout al-callout-gold">
+      <div class="al-callout-label">Challenge</div>
+      <p>Answer all 10 without a calculator. Target time: <strong>under 90 seconds</strong>. Write your answers down, then reveal the solutions below.</p>
+    </div>
+
+    <table class="al-drill">
+      <thead>
+        <tr>
+          <th style="width:12%;">#</th>
+          <th>Question</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td class="al-drill-q">48 × 5</td></tr>
+        <tr><td>2</td><td class="al-drill-q">10% of £3,600</td></tr>
+        <tr><td>3</td><td class="al-drill-q">24 ÷ 6 × 2</td></tr>
+        <tr><td>4</td><td class="al-drill-q">73 × 11</td></tr>
+        <tr><td>5</td><td class="al-drill-q">25% of 480</td></tr>
+        <tr><td>6</td><td class="al-drill-q">(−8) × (−6)</td></tr>
+        <tr><td>7</td><td class="al-drill-q">360 ÷ 12</td></tr>
+        <tr><td>8</td><td class="al-drill-q">15 + 8 × 3</td></tr>
+        <tr><td>9</td><td class="al-drill-q">56 × 9</td></tr>
+        <tr><td>10</td><td class="al-drill-q">1,200 ÷ 25</td></tr>
+      </tbody>
+    </table>
+
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answers & Methods ▾</summary>
+      <table class="al-drill" style="margin-top:0;">
+        <thead>
+          <tr>
+            <th style="width:12%;">#</th>
+            <th style="width:30%;">Question</th>
+            <th style="width:16%;">Answer</th>
+            <th>Quick Method</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td class="al-drill-q">48 × 5</td>
+            <td class="al-drill-a">240</td>
+            <td class="al-drill-method">480 ÷ 2</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td class="al-drill-q">10% of £3,600</td>
+            <td class="al-drill-a">£360</td>
+            <td class="al-drill-method">Move decimal</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td class="al-drill-q">24 ÷ 6 × 2</td>
+            <td class="al-drill-a">8</td>
+            <td class="al-drill-method">Left to right: 4 × 2</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td class="al-drill-q">73 × 11</td>
+            <td class="al-drill-a">803</td>
+            <td class="al-drill-method">730 + 73</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td class="al-drill-q">25% of 480</td>
+            <td class="al-drill-a">120</td>
+            <td class="al-drill-method">Half then half: 240 → 120</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td class="al-drill-q">(−8) × (−6)</td>
+            <td class="al-drill-a">48</td>
+            <td class="al-drill-method">Negative × negative = positive</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td class="al-drill-q">360 ÷ 12</td>
+            <td class="al-drill-a">30</td>
+            <td class="al-drill-method">360 ÷ 4 = 90, ÷ 3 = 30</td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td class="al-drill-q">15 + 8 × 3</td>
+            <td class="al-drill-a">39</td>
+            <td class="al-drill-method">BIDMAS: 8×3=24, 15+24</td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td class="al-drill-q">56 × 9</td>
+            <td class="al-drill-a">504</td>
+            <td class="al-drill-method">560 − 56</td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td class="al-drill-q">1,200 ÷ 25</td>
+            <td class="al-drill-a">48</td>
+            <td class="al-drill-method">1,200 ÷ 100 × 4</td>
+          </tr>
+        </tbody>
+      </table>
+    </details>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ KEY TAKEAWAYS ═══ -->
+  <div class="al-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul class="al-takeaways-list">
+      <li>BIDMAS errors cascade — get the order of operations right before anything else.</li>
+      <li>Equal-priority operations (÷ and ×, + and −) are always resolved left to right.</li>
+      <li>Use multiplication shortcuts (×5, ×9, ×11, ×25, double/half) to save 5–15 seconds per question.</li>
+      <li>Estimate before calculating — round to 1 significant figure for a 3-second sanity check.</li>
+      <li>These aren't "basic" skills. They're the foundation that makes everything in Modules 2–3 faster.</li>
+    </ul>
+  </div>
+
+  <!-- ═══ NEXT LESSON ═══ -->
+  <div class="al-next">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Lesson</div>
+      <div class="al-next-title">1.5 — Diagnostic Assessment</div>
+      <div class="al-next-desc">Take a 10-question baseline test to identify your starting strengths and weaknesses.</div>
+    </div>
+  </div>
+
+</div>
+</div>
+<div class="tc-footer">Preview wrapper simulating ThriveCart Learn content area</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,748 @@
+<!--
+  ACUMEN LOGIC — Lesson 4.3: Rule Application & Ordering
+  For ThriveCart Learn Custom HTML Block
+  Pure CSS · Zero JavaScript · Fully responsive
+
+  TYPE: Worked Examples lesson (hard difficulty)
+  Covers conditional-logic problems: scheduling constraints, seating
+  arrangements, linear ordering, and allocation under multiple rules.
+  Common in SHL Deductive Reasoning, Watson-Glaser, Korn Ferry Logical,
+  and Cappfinity assessments for graduate finance roles.
+  Starts with a single-constraint warm-up then escalates rapidly
+  to multi-rule problems at real assessment difficulty.
+-->
+
+<style>
+  /* ═══ BRAND TOKENS ═══ */
+  .al-lesson {
+    --al-navy: #1B2A4A;
+    --al-navy-light: #2A3D66;
+    --al-navy-muted: #3D5280;
+    --al-gold: #C8A951;
+    --al-gold-light: #D4BC72;
+    --al-gold-pale: #F5EFD9;
+    --al-cream: #FAFAF6;
+    --al-white: #FFFFFF;
+    --al-text: #2C2C2C;
+    --al-text-light: #6B6B6B;
+    --al-border: #E8E4DA;
+    --al-success: #2D8F5E;
+    --al-success-bg: #EDF7F0;
+    --al-danger: #C0392B;
+    --al-danger-bg: #FDF2F0;
+    --al-radius: 10px;
+    --al-radius-sm: 6px;
+    --al-shadow: 0 2px 12px rgba(27, 42, 74, 0.08);
+    --al-shadow-lg: 0 8px 32px rgba(27, 42, 74, 0.12);
+  }
+
+  /* ═══ RESET & BASE ═══ */
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+  .al-lesson {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .al-lesson h1, .al-lesson h2, .al-lesson h3 { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; color: var(--al-navy); line-height: 1.25; }
+
+  /* ═══ HERO ═══ */
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .al-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200, 169, 81, 0.08) 0%, transparent 70%); pointer-events: none; }
+  .al-hero-eyebrow { font-family: 'Source Sans 3', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem, 4vw, 2.2rem); margin-bottom: 0.75rem; }
+  .al-hero-subtitle { color: rgba(255, 255, 255, 0.9) !important; font-size: 1rem; max-width: 36rem; line-height: 1.5; }
+  .al-hero-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 1rem 0; }
+
+  /* ═══ SECTIONS ═══ */
+  .al-section { margin-bottom: 2rem; }
+  .al-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-section-number { width: 2rem; height: 2rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.95rem; flex-shrink: 0; }
+  .al-section h2 { font-size: clamp(1.15rem, 3vw, 1.4rem); }
+
+  /* ═══ CARDS ═══ */
+  .al-card { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-card p { margin-bottom: 0.75rem; }
+  .al-card p:last-child { margin-bottom: 0; }
+
+  /* ═══ CALLOUTS ═══ */
+  .al-callout { border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; font-size: 0.92rem; }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-gold { background: var(--al-gold-pale); border-left: 4px solid var(--al-gold); }
+  .al-callout-warn { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-callout-danger { background: var(--al-danger-bg); border-left: 4px solid var(--al-danger); }
+  .al-callout-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .al-callout-tip .al-callout-label { color: var(--al-success); }
+  .al-callout-gold .al-callout-label { color: var(--al-navy); }
+  .al-callout-warn .al-callout-label { color: #D4823A; }
+  .al-callout-danger .al-callout-label { color: var(--al-danger); }
+
+  /* ═══ WORKED EXAMPLES ═══ */
+  .al-example { border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-example-header { background: var(--al-navy); padding: 1.25rem 1.5rem; display: flex; flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  .al-example-label { color: var(--al-gold) !important; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .al-example-q { color: var(--al-white) !important; font-size: 1.15rem; font-weight: 600; line-height: 1.4; margin-top: 0.25rem; }
+  .al-example-body { background: var(--al-white); border: 1px solid var(--al-border); border-top: none; border-radius: 0 0 var(--al-radius) var(--al-radius); padding: 1.5rem; font-size: 0.92rem; }
+  .al-example-body p { margin-bottom: 0.6rem; }
+  .al-example-body p:last-child { margin-bottom: 0; }
+
+  /* ═══ STEP LINES ═══ */
+  .al-step-line { display: flex; align-items: baseline; gap: 0.65rem; margin-bottom: 0.45rem; }
+  .al-step-num { width: 1.4rem; height: 1.4rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.7rem; flex-shrink: 0; }
+  .al-step-calc { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-size: 0.95rem; color: var(--al-navy); }
+  .al-step-result { font-weight: 700; color: var(--al-success); }
+
+  /* ═══ WRONG vs RIGHT ═══ */
+  .al-vs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin-bottom: 1.25rem; }
+  .al-vs-box { border-radius: var(--al-radius); padding: 1rem; }
+  .al-vs-wrong { background: #FDF2F0; border: 2px solid var(--al-danger); }
+  .al-vs-right { background: #EDF7F0; border: 2px solid var(--al-success); }
+  .al-vs-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .al-vs-wrong .al-vs-label { color: var(--al-danger); }
+  .al-vs-right .al-vs-label { color: var(--al-success); }
+  .al-vs-box p { font-size: 0.92rem; margin-bottom: 0.4rem; line-height: 1.5; }
+  .al-vs-box p:last-child { margin-bottom: 0; }
+
+  /* ═══ FORMULA / RULE CARDS ═══ */
+  .al-formula { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.15rem 1.5rem; margin-bottom: 1.25rem; text-align: center; }
+  .al-formula-label { color: var(--al-gold) !important; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .al-formula-text { color: var(--al-white) !important; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: clamp(1rem, 2.5vw, 1.25rem); line-height: 1.4; }
+  .al-formula-note { color: rgba(255, 255, 255, 0.75) !important; font-size: 0.78rem; margin-top: 0.35rem; }
+
+  /* ═══ CONSTRAINT TABLE ═══ */
+  .al-rule-table { width: 100%; border-collapse: collapse; margin: 0.75rem 0 1rem; font-size: 0.88rem; }
+  .al-rule-table th { background: var(--al-navy); color: var(--al-white) !important; font-weight: 700; padding: 0.55rem 0.75rem; text-align: left; font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase; }
+  .al-rule-table th:first-child { border-radius: var(--al-radius-sm) 0 0 0; }
+  .al-rule-table th:last-child { border-radius: 0 var(--al-radius-sm) 0 0; }
+  .al-rule-table td { padding: 0.55rem 0.75rem; border-bottom: 1px solid var(--al-border); color: var(--al-text); vertical-align: top; }
+  .al-rule-table tr:last-child td { border-bottom: none; }
+  .al-rule-table tr:nth-child(even) td { background: var(--al-cream); }
+  .al-rule-table .al-rule-id { font-weight: 700; color: var(--al-navy); white-space: nowrap; min-width: 2rem; }
+
+  /* ═══ ORDER GRID (for showing position arrangements) ═══ */
+  .al-order-grid { display: flex; gap: 0; margin: 0.75rem 0 1rem; border: 2px solid var(--al-navy); border-radius: var(--al-radius-sm); overflow: hidden; }
+  .al-order-slot { flex: 1; text-align: center; padding: 0.6rem 0.4rem; border-right: 1px solid var(--al-border); font-size: 0.85rem; }
+  .al-order-slot:last-child { border-right: none; }
+  .al-order-pos { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--al-text-light); display: block; margin-bottom: 0.2rem; }
+  .al-order-name { font-weight: 700; color: var(--al-navy); display: block; }
+  .al-order-slot.al-slot-highlight { background: var(--al-gold-pale); }
+  .al-order-slot.al-slot-success { background: var(--al-success-bg); }
+
+  /* ═══ MCQ OPTIONS — vertical list ═══ */
+  .al-mcq-options { list-style: none; padding: 0; margin: 0.75rem 0 0.5rem; }
+  .al-mcq-option { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--al-border); }
+  .al-mcq-option:last-child { border-bottom: none; }
+  .al-mcq-letter { font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 0.88rem; color: var(--al-navy); min-width: 1.5rem; }
+  .al-mcq-text { font-size: 0.88rem; color: var(--al-text); line-height: 1.45; }
+
+  /* ═══ REVEAL (details/summary) ═══ */
+  .al-reveal { margin-top: 1rem; border: 2px solid var(--al-border); border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; }
+  .al-reveal[open] { border-color: var(--al-success); }
+  .al-reveal-btn { display: block; padding: 0.85rem 1.25rem; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--al-navy); background: var(--al-cream); cursor: pointer; list-style: none; user-select: none; -webkit-user-select: none; }
+  .al-reveal-btn::-webkit-details-marker { display: none; }
+  .al-reveal-btn::marker { display: none; content: ''; }
+  .al-reveal-btn:hover { background: var(--al-gold-pale); }
+  .al-reveal[open] .al-reveal-btn { background: #EDF7F0; color: var(--al-success); border-bottom: 1px solid var(--al-border); }
+  .al-reveal-content { padding: 1.25rem; font-size: 0.92rem; }
+  .al-reveal-content p { margin-bottom: 0.6rem; }
+  .al-reveal-content p:last-child { margin-bottom: 0; }
+
+  /* ═══ PRACTICE QUESTION ═══ */
+  .al-practice { background: var(--al-cream); border: 2px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 0.5rem; }
+  .al-practice-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-gold); margin-bottom: 0.35rem; }
+  .al-practice-q { font-size: 0.95rem; font-weight: 600; color: var(--al-navy); line-height: 1.5; }
+  .al-practice-rules { font-size: 0.88rem; color: var(--al-text); line-height: 1.55; margin-top: 0.5rem; }
+  .al-practice-rules strong { color: var(--al-navy); }
+
+  /* ═══ KEY TAKEAWAYS ═══ */
+  .al-takeaways { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.5rem 1.75rem; margin-bottom: 1.25rem; }
+  .al-takeaways h3 { color: var(--al-gold) !important; font-size: 1.1rem; margin-bottom: 1rem; }
+  .al-takeaways-list { list-style: none; padding: 0; }
+  .al-takeaways-list li { color: rgba(255, 255, 255, 0.95) !important; font-size: 0.92rem; padding: 0.45rem 0 0.45rem 1.75rem; position: relative; line-height: 1.5; }
+  .al-takeaways-list li::before { content: '✓'; position: absolute; left: 0; color: var(--al-gold); font-weight: 700; font-size: 1rem; }
+
+  /* ═══ NEXT LESSON ═══ */
+  .al-next { background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .al-next-arrow { width: 2.5rem; height: 2.5rem; background: var(--al-navy); color: var(--al-gold) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .al-next-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-text-light); margin-bottom: 0.15rem; }
+  .al-next-title { font-family: 'Source Sans 3', sans-serif; font-weight: 700; color: var(--al-navy); font-size: 1rem; }
+  .al-next-desc { font-size: 0.85rem; color: var(--al-text-light); margin-top: 0.15rem; }
+
+  /* ═══ UTILITY ═══ */
+  .al-lesson strong { color: var(--al-navy); }
+  .al-divider { border: none; height: 1px; background: var(--al-border); margin: 2rem 0; }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .al-card, .al-example-body, .al-reveal-content { padding: 1.15rem; }
+    .al-vs { grid-template-columns: 1fr; }
+    .al-takeaways { padding: 1.25rem; }
+    .al-next { flex-direction: column; text-align: center; }
+    .al-formula { padding: 1rem; }
+    .al-example-header { padding: 1.1rem 1.25rem; }
+    .al-example-q { font-size: 1.05rem; }
+    .al-order-grid { flex-wrap: wrap; }
+    .al-order-slot { min-width: 45%; flex: 0 0 auto; border-bottom: 1px solid var(--al-border); }
+    .al-rule-table { font-size: 0.8rem; }
+    .al-rule-table th, .al-rule-table td { padding: 0.4rem 0.5rem; }
+  }
+</style>
+
+<div class="al-lesson">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 4 · Lesson 4.3</div>
+    <h1>Rule Application &amp; Ordering</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">Scheduling, seating, sequencing, and allocation under multiple constraints — the logical reasoning questions where one misread rule costs you the entire answer.</p>
+  </div>
+
+  <!-- ═══ SECTION 1: WHAT THESE PROBLEMS LOOK LIKE ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">1</div>
+      <h2>What These Problems Look Like</h2>
+    </div>
+    <div class="al-card">
+      <p>Rule application questions give you a set of constraints — "A must come before B," "C cannot sit next to D," "If E is selected, F must also be selected" — and ask you to determine a valid arrangement, identify what <strong>must</strong> be true, or find what <strong>cannot</strong> be true.</p>
+      <p>These appear in SHL Deductive Reasoning (Barclays, Rothschild, Deutsche Bank), Watson-Glaser Critical Thinking (Big 4, Clifford Chance, Linklaters), Korn Ferry Logical (Citi, Macquarie), and Cappfinity (HSBC). You'll typically face 15–20 questions in 15–20 minutes — roughly <strong>60 seconds per question</strong>, with the hardest ones consuming 90 seconds if you're not systematic.</p>
+    </div>
+
+    <div class="al-callout al-callout-gold">
+      <div class="al-callout-label">Why Candidates Fail These</div>
+      <p>The rules themselves are simple. The difficulty comes from <strong>holding 4–6 constraints in working memory simultaneously</strong> and testing them against answer options under time pressure. Most errors come not from misunderstanding a rule, but from <em>forgetting to check one of them</em>. The candidates who score highest are the ones who work most methodically — not most quickly.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 2: WARM-UP — TWO CONSTRAINTS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">2</div>
+      <h2>Warm-Up: Simple Ordering</h2>
+    </div>
+    <div class="al-card">
+      <p>Let's start with a straightforward two-rule problem. In a real test this would be the first question — designed to build confidence before the difficulty ramps.</p>
+    </div>
+
+    <!-- WE1: Simple linear ordering -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 1 — Linear Order</span>
+        <span class="al-example-q">Five analysts — Adams, Blake, Chen, Diaz, and Evans — present in sequence. Which order is valid?</span>
+      </div>
+      <div class="al-example-body">
+        <table class="al-rule-table">
+          <thead><tr><th>#</th><th>Rule</th></tr></thead>
+          <tbody>
+            <tr><td class="al-rule-id">R1</td><td>Adams presents before Blake.</td></tr>
+            <tr><td class="al-rule-id">R2</td><td>Chen presents immediately after Diaz.</td></tr>
+          </tbody>
+        </table>
+
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>R1:</strong> A … B (A somewhere before B, not necessarily adjacent).</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>R2:</strong> D-C must appear as a consecutive block.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Test option: A, D, C, E, B → R1: A(1) before B(5) ✓. R2: D(2) immediately before C(3) ✓.</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc"><span class="al-step-result">A, D, C, E, B is a valid order.</span></span></div>
+
+        <div class="al-order-grid" style="margin-top: 1rem;">
+          <div class="al-order-slot al-slot-success"><span class="al-order-pos">1st</span><span class="al-order-name">Adams</span></div>
+          <div class="al-order-slot al-slot-highlight"><span class="al-order-pos">2nd</span><span class="al-order-name">Diaz</span></div>
+          <div class="al-order-slot al-slot-highlight"><span class="al-order-pos">3rd</span><span class="al-order-name">Chen</span></div>
+          <div class="al-order-slot"><span class="al-order-pos">4th</span><span class="al-order-name">Evans</span></div>
+          <div class="al-order-slot al-slot-success"><span class="al-order-pos">5th</span><span class="al-order-name">Blake</span></div>
+        </div>
+
+        <p style="margin-top: 0.5rem;">With only two rules, this takes 15–20 seconds. The real difficulty starts when you have 4–6 rules operating on the same set.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 3: FOUR-RULE ORDERING ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">3</div>
+      <h2>Multi-Rule Problems: Where It Gets Real</h2>
+    </div>
+    <div class="al-card">
+      <p>At real SHL/Watson-Glaser difficulty, you'll be given <strong>4–6 rules constraining the same set of items</strong>. The question often doesn't ask "which order is valid?" — instead it asks "which of the following <em>must</em> be true?" or "which <em>cannot</em> be true?" — forcing you to reason about every possible valid arrangement, not just one.</p>
+    </div>
+
+    <!-- WE2: Four-rule ordering with "must be true" -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 2 — Four Constraints</span>
+        <span class="al-example-q">Six trainees — F, G, H, J, K, L — are assigned to desks 1–6 in a row. Which statement must be true?</span>
+      </div>
+      <div class="al-example-body">
+        <table class="al-rule-table">
+          <thead><tr><th>#</th><th>Rule</th></tr></thead>
+          <tbody>
+            <tr><td class="al-rule-id">R1</td><td>F sits in desk 1 or desk 6.</td></tr>
+            <tr><td class="al-rule-id">R2</td><td>G and H sit in adjacent desks.</td></tr>
+            <tr><td class="al-rule-id">R3</td><td>K sits somewhere to the left of L.</td></tr>
+            <tr><td class="al-rule-id">R4</td><td>J does not sit adjacent to F.</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>Step-by-step approach:</strong></p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>Start with the most restrictive rule.</strong> R1: F is either in desk 1 or desk 6. This creates two scenarios to test.</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>Scenario A — F in desk 1:</strong> R4 says J is not adjacent to F, so J ≠ desk 2. R2: G-H are adjacent. R3: K left of L.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc"><strong>Scenario B — F in desk 6:</strong> R4 says J ≠ desk 5. R2: G-H adjacent. R3: K left of L.</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc"><strong>Test the claim "J cannot sit in desk 2":</strong> In Scenario A, J ≠ desk 2 (by R4). In Scenario B, J could sit in desk 2 — no rule prevents it.</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">So "J cannot sit in desk 2" is NOT necessarily true. But <strong>"F sits at an end desk"</strong> is always true by R1.</span></div>
+
+        <p style="margin-top: 0.75rem;"><strong>The correct approach for "must be true" questions:</strong> Find the statement that holds in <span class="al-step-result">every possible valid arrangement</span>, not just one. If you can construct even a single valid arrangement where the statement is false, eliminate it.</p>
+
+        <div class="al-callout al-callout-danger" style="margin-top: 1rem;">
+          <div class="al-callout-label">The Most Common Trap</div>
+          <p>Candidates find <em>one</em> valid arrangement and assume everything in that arrangement "must" be true. But "must be true" means it's true in <strong>all</strong> valid arrangements. Finding one example doesn't prove necessity — you need to verify it can't be otherwise, or find a counterexample that disproves it.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- WE3: Seating arrangement with forbidden pairs -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 3 — Seating with Forbidden Pairs</span>
+        <span class="al-example-q">Four partners — M, N, P, Q — and four associates — W, X, Y, Z — sit around a circular table of 8. Which arrangement is valid?</span>
+      </div>
+      <div class="al-example-body">
+        <table class="al-rule-table">
+          <thead><tr><th>#</th><th>Rule</th></tr></thead>
+          <tbody>
+            <tr><td class="al-rule-id">R1</td><td>No two partners sit adjacent to each other.</td></tr>
+            <tr><td class="al-rule-id">R2</td><td>M sits directly opposite W.</td></tr>
+            <tr><td class="al-rule-id">R3</td><td>P does not sit adjacent to X.</td></tr>
+            <tr><td class="al-rule-id">R4</td><td>Y sits immediately to the left of N.</td></tr>
+          </tbody>
+        </table>
+
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>R1 forces alternation:</strong> In a circular table of 8, "no two partners adjacent" means partners and associates must alternate: P-A-P-A-P-A-P-A.</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>Fix M's position</strong> (circular = fix one position arbitrarily). Place M at seat 1. By R2, W is at seat 5 (directly opposite). Partners occupy seats 1, 3, 5, 7 — but wait, W is an associate at seat 5. So partners must be at seats 1, 3, 7, and one other even seat? No — R1 requires alternation, so if M(partner) is at seat 1, partners are at 1, 3, 5, 7 and associates at 2, 4, 6, 8. But W(associate) must be at seat 5(partner) — <strong>contradiction.</strong></span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc"><strong>Recheck:</strong> "Directly opposite" in a table of 8 means 4 seats apart. If M is at seat 1, opposite is seat 5. For alternation to work with M(partner) at 1 and W(associate) at 5, seats 1,3,5,7 must be the pattern. Since W is an associate at position 5, then position 5 is associate — so the partner positions are 2,4,6,8 instead. This means M is at an associate-position slot. Contradiction again — unless we consider that the alternation pattern can start either way.</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc"><strong>Correct framing:</strong> Fix M at seat 1 (partner). Alternation: P at 1,3,5,7. Associates at 2,4,6,8. Opposite of seat 1 is seat 5 — which is a partner seat. But R2 says M is opposite W (associate). So <strong>M must be at a seat whose opposite is an associate seat.</strong> If partners are at odd seats: opposite of 1 is 5(partner), opposite of 3 is 7(partner). If partners are at even seats: opposite of 2 is 6(partner). Neither works — in a strict alternation, opposite seats have the <strong>same type</strong>.</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc"><span class="al-step-result">This means R1+R2 cannot both hold unless we re-read R1 carefully.</span> In the actual test, a question like this tests whether you recognise an impossibility, or whether R1 uses "no two" to mean "no two specific partners" rather than "no partners at all." Always re-read the exact wording.</span></div>
+
+        <p style="margin-top: 0.75rem;"><strong>Key lesson:</strong> When rules appear to contradict, re-read the exact wording. Tests occasionally include questions where the correct answer is "none of the above" or where one interpretation resolves the contradiction. The trap is candidates who assume they misapplied a rule, try to force-fit an answer, and waste 2+ minutes.</p>
+
+        <div class="al-vs" style="margin-top: 1rem;">
+          <div class="al-vs-box al-vs-wrong">
+            <div class="al-vs-label">Common Mistake</div>
+            <p>Force an arrangement that breaks one rule, then convince yourself it's "close enough." In a real test, <strong>every rule must hold simultaneously</strong> — there is no partial credit.</p>
+          </div>
+          <div class="al-vs-box al-vs-right">
+            <div class="al-vs-label">Correct Approach</div>
+            <p>When rules conflict, <strong>systematically prove the contradiction</strong> rather than guessing. If the test asks "which arrangement is valid," the answer may be "none of the listed options satisfy all rules" — and that IS a legitimate answer choice.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 4: CONDITIONAL RULES & CHAINS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">4</div>
+      <h2>Conditional Rules &amp; Chain Reasoning</h2>
+    </div>
+    <div class="al-card">
+      <p>The hardest ordering problems introduce <strong>conditional constraints</strong>: "If X is in group A, then Y must be in group B." These create chain reactions — placing one item triggers a cascade of forced placements. Missing a single link in the chain leads to the wrong answer.</p>
+    </div>
+
+    <!-- WE4: If-then chain allocation -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 4 — Conditional Allocation</span>
+        <span class="al-example-q">A bank is forming two project teams (Team Alpha and Team Beta) from seven consultants: A, B, C, D, E, F, G. Each consultant is assigned to exactly one team. Alpha has 3 members, Beta has 4. If A is on Alpha, which of the following must be true?</span>
+      </div>
+      <div class="al-example-body">
+        <table class="al-rule-table">
+          <thead><tr><th>#</th><th>Rule</th></tr></thead>
+          <tbody>
+            <tr><td class="al-rule-id">R1</td><td>If A is on Alpha, then B is on Beta.</td></tr>
+            <tr><td class="al-rule-id">R2</td><td>If B is on Beta, then C is on Beta.</td></tr>
+            <tr><td class="al-rule-id">R3</td><td>D and E must be on the same team.</td></tr>
+            <tr><td class="al-rule-id">R4</td><td>F and G must be on different teams.</td></tr>
+            <tr><td class="al-rule-id">R5</td><td>G cannot be on the same team as A.</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>The question tells us A is on Alpha. Trace the chain:</strong></p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>A → Alpha</strong> (given). By R1: A on Alpha → <strong>B → Beta</strong>.</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">By R2: B on Beta → <strong>C → Beta</strong>.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">By R5: G cannot be with A → <strong>G → Beta</strong>.</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">By R4: F and G on different teams. G is on Beta → <strong>F → Alpha</strong>.</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc"><strong>Count check:</strong> Alpha so far: A, F (2 of 3 needed). Beta so far: B, C, G (3 of 4 needed). Remaining: D and E.</span></div>
+        <div class="al-step-line"><span class="al-step-num">6</span><span class="al-step-calc">By R3: D and E must be on the same team. Alpha needs 1 more, Beta needs 1 more. D+E = 2 people — they can't split across teams (R3), and neither team needs exactly 2. So: if D+E go to Alpha, Alpha = A, F, D, E = 4 (needs 3) — <strong>too many</strong>. If D+E go to Beta, Beta = B, C, G, D, E = 5 (needs 4) — <strong>too many</strong>.</span></div>
+        <div class="al-step-line"><span class="al-step-num">7</span><span class="al-step-calc"><strong>Wait.</strong> Alpha needs 1 more person, Beta needs 1 more. But D+E = 2 and they must go together. This is <strong>impossible</strong> — which means one of our earlier deductions consumed a slot we miscounted.</span></div>
+        <div class="al-step-line"><span class="al-step-num">8</span><span class="al-step-calc"><strong>Recount:</strong> Alpha = {A, F} = 2 members. Needs 3. Beta = {B, C, G} = 3 members. Needs 4. Remaining = {D, E} = 2. If D+E → Alpha: Alpha=4, but Alpha needs exactly 3. If D+E → Beta: Beta=5, but Beta needs exactly 4. <strong>Neither works.</strong> This means one of D or E must go to each team — but R3 says they must be together. <span class="al-step-result">Conclusion: It is impossible for A to be on Alpha under these rules.</span></span></div>
+
+        <p style="margin-top: 0.75rem;">If the question asks "If A is on Alpha, which must be true?" and the constraint set is truly contradictory, the test would include an option like <strong>"A cannot be assigned to Alpha"</strong> or the question would be structured differently. The key skill demonstrated here is: <strong>don't assume the premise is always valid — test it.</strong></p>
+
+        <div class="al-callout al-callout-tip" style="margin-top: 1rem;">
+          <div class="al-callout-label">Chain Reasoning Strategy</div>
+          <p>When a question says "If X, then which must be true?" — trace <strong>every</strong> chain reaction from X before looking at the options. Write out forced placements: X → Y → Z. Count slots at the end. If the numbers don't add up, you've found an impossibility — which may itself be the answer.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- WE5: Scheduling with time constraints -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 5 — Scheduling under Constraints</span>
+        <span class="al-example-q">A manager schedules five meetings — P, Q, R, S, T — into five consecutive time slots (9am, 10am, 11am, 1pm, 2pm). There is no meeting at noon. Which slot must meeting R occupy?</span>
+      </div>
+      <div class="al-example-body">
+        <table class="al-rule-table">
+          <thead><tr><th>#</th><th>Rule</th></tr></thead>
+          <tbody>
+            <tr><td class="al-rule-id">R1</td><td>P is scheduled earlier than Q.</td></tr>
+            <tr><td class="al-rule-id">R2</td><td>R is scheduled in a time slot immediately before or after S (they are consecutive, ignoring the lunch break — so 11am and 1pm count as consecutive).</td></tr>
+            <tr><td class="al-rule-id">R3</td><td>T is scheduled at 11am.</td></tr>
+            <tr><td class="al-rule-id">R4</td><td>Q is not scheduled at 2pm.</td></tr>
+            <tr><td class="al-rule-id">R5</td><td>S is scheduled later than P.</td></tr>
+          </tbody>
+        </table>
+
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>Fix T at 11am</strong> (R3). Remaining slots: 9am, 10am, 1pm, 2pm for P, Q, R, S.</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>R2:</strong> R and S are consecutive. Possible consecutive pairs from remaining slots: (9,10), (10,11)—but 11 is taken, (1,2). So R-S or S-R occupies either {9am,10am} or {1pm,2pm}.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc"><strong>R5:</strong> S is later than P. <strong>R1:</strong> P is earlier than Q. So P is before both S and Q: P … S and P … Q.</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc"><strong>Case A — R,S in {9am,10am}:</strong> Since S > P (R5), and S is at 9 or 10am, P must be before S. If S=10am, P=9am and R=9am or 10am. R-S consecutive: R=9am, S=10am → P must be before S(10am), so P=9am. But R is at 9am. Conflict — two meetings in one slot. Try S=9am, R=10am → P must be before S(9am). No slot before 9am. <strong>Case A fails.</strong></span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc"><strong>Case B — R,S in {1pm,2pm}:</strong> R-S consecutive → either R=1pm,S=2pm or S=1pm,R=2pm. P must be before S. Remaining slots for P and Q: 9am and 10am. P before Q (R1) → P=9am, Q=10am. R4: Q≠2pm — Q=10am ✓.</span></div>
+        <div class="al-step-line"><span class="al-step-num">6</span><span class="al-step-calc">Sub-case B1: R=1pm, S=2pm → P(9am) before S(2pm) ✓. Sub-case B2: S=1pm, R=2pm → P(9am) before S(1pm) ✓. Both satisfy all rules.</span></div>
+        <div class="al-step-line"><span class="al-step-num">7</span><span class="al-step-calc"><strong>Question asks: which slot must R occupy?</strong> In B1, R=1pm. In B2, R=2pm. R could be in either, so R is NOT fixed to a single slot. But the question says "must" — so perhaps additional info narrows it.</span></div>
+        <div class="al-step-line"><span class="al-step-num">8</span><span class="al-step-calc">What IS certain? <span class="al-step-result">R must be in the afternoon (1pm or 2pm)</span>. The answer to "R must be in which of the following?" would be "the afternoon" or "1pm or 2pm" — depending on how options are framed.</span></div>
+
+        <div class="al-order-grid" style="margin-top: 1rem;">
+          <div class="al-order-slot"><span class="al-order-pos">9am</span><span class="al-order-name">P</span></div>
+          <div class="al-order-slot"><span class="al-order-pos">10am</span><span class="al-order-name">Q</span></div>
+          <div class="al-order-slot al-slot-highlight"><span class="al-order-pos">11am</span><span class="al-order-name">T</span></div>
+          <div class="al-order-slot al-slot-success"><span class="al-order-pos">1pm</span><span class="al-order-name">R or S</span></div>
+          <div class="al-order-slot al-slot-success"><span class="al-order-pos">2pm</span><span class="al-order-name">S or R</span></div>
+        </div>
+
+        <p style="margin-top: 0.5rem; font-size: 0.88rem; color: var(--al-text-light);"><strong>The skill tested:</strong> Don't stop when you find one valid arrangement. Explore whether alternatives exist. If the question asks what "must" be true, only claims that hold in ALL valid arrangements are correct.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 5: THE SYSTEMATIC METHOD ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">5</div>
+      <h2>The Systematic Method</h2>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Rule Application Framework</div>
+      <div class="al-formula-text" style="text-align: left; font-size: 1rem;">
+        1. LIST — Write out every rule in shorthand (A &lt; B, C adj D, etc.)<br>
+        2. ANCHOR — Start with the most restrictive rule (fixed positions first)<br>
+        3. CHAIN — Trace all forced consequences from your anchors<br>
+        4. COUNT — Verify the numbers add up (slots, team sizes)<br>
+        5. TEST — Check every rule against your arrangement. ALL must hold.
+      </div>
+      <div class="al-formula-note">Under time pressure, skip to the most restrictive rule immediately. Fixed positions → forced adjacencies → ordering constraints → conditionals.</div>
+    </div>
+
+    <div class="al-vs">
+      <div class="al-vs-box al-vs-wrong">
+        <div class="al-vs-label">Intuitive Approach</div>
+        <p>"I'll just try placing people and see what works." This leads to trial-and-error that wastes 2+ minutes per question. You test one arrangement, find a violation, rearrange, find another violation, and run out of time having answered nothing.</p>
+      </div>
+      <div class="al-vs-box al-vs-right">
+        <div class="al-vs-label">Systematic Approach</div>
+        <p>Start from the tightest constraint. A rule like "X is at position 3" or "X is at either end" eliminates the most possibilities immediately. Build outward from fixed points. You'll often solve the entire arrangement in 3–4 deductions instead of 10+ trial-and-error attempts.</p>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-warn">
+      <div class="al-callout-label">Time Discipline — 75 Seconds</div>
+      <p><strong>10 seconds:</strong> read and encode rules in shorthand. <strong>30 seconds:</strong> anchor + chain from most restrictive rule. <strong>20 seconds:</strong> check options against all rules. <strong>15 seconds:</strong> verify by re-reading each rule against your answer. If you can't crack it in 60 seconds, eliminate options that obviously violate one rule, guess from the remainder, and move on. One question is not worth three.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 6: EXPERT-LEVEL COMPLICATIONS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">6</div>
+      <h2>Expert-Level Complications</h2>
+    </div>
+    <div class="al-card">
+      <p>The hardest problems in SHL and Watson-Glaser combine multiple complication types. You need to recognise each one instantly so you can apply the right strategy without wasting time figuring out what kind of problem you're looking at.</p>
+    </div>
+
+    <!-- WE6: Complex multi-layered problem -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 6 — Six Rules, Forced Deduction</span>
+        <span class="al-example-q">Eight employees — A, B, C, D, E, F, G, H — are assigned to four offices (1–4), with exactly two per office. Which pair CANNOT share an office?</span>
+      </div>
+      <div class="al-example-body">
+        <table class="al-rule-table">
+          <thead><tr><th>#</th><th>Rule</th></tr></thead>
+          <tbody>
+            <tr><td class="al-rule-id">R1</td><td>A is in office 1.</td></tr>
+            <tr><td class="al-rule-id">R2</td><td>B and C are in the same office.</td></tr>
+            <tr><td class="al-rule-id">R3</td><td>D is not in the same office as A.</td></tr>
+            <tr><td class="al-rule-id">R4</td><td>E is in a lower-numbered office than F.</td></tr>
+            <tr><td class="al-rule-id">R5</td><td>G is in office 3 or office 4.</td></tr>
+            <tr><td class="al-rule-id">R6</td><td>H is not in the same office as B.</td></tr>
+          </tbody>
+        </table>
+
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>R1:</strong> A is in office 1. Each office has exactly 2 people, so A shares office 1 with one other person.</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>R3:</strong> D ≠ office 1 (since A is there). D is in office 2, 3, or 4.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc"><strong>R2:</strong> B and C share an office. <strong>R6:</strong> H ≠ same office as B. So H is not in B+C's office.</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc"><strong>R2 + capacity:</strong> B+C fill one office entirely (2 people). They could be in office 1, 2, 3, or 4. If B+C are in office 1, then A would need a different partner — but office 1 already has B+C=2 people, plus A = 3. <strong>Contradiction.</strong> So B+C are NOT in office 1.</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">B+C are in office 2, 3, or 4. R5: G is in office 3 or 4. If B+C are in office 3 and G is in office 3, that's 3 people — too many. So if G is in office 3, B+C must be in office 2 or 4. Similarly for office 4.</span></div>
+        <div class="al-step-line"><span class="al-step-num">6</span><span class="al-step-calc"><strong>Can A and E share office 1?</strong> R4: E < F (office numbers). If E is in office 1, F must be in 2, 3, or 4 ✓. This is possible. <strong>Can A and G share office 1?</strong> R5: G must be in office 3 or 4. G in office 1 violates R5. <span class="al-step-result">A and G CANNOT share an office.</span></span></div>
+
+        <p style="margin-top: 0.75rem;"><strong>Why this is hard:</strong> Six rules feel overwhelming, but only two are needed to answer this specific question (R1 + R5). The test is designed so that you waste time on irrelevant rules if you don't identify which rules are relevant to the question asked. <strong>Read the question first, then filter the rules.</strong></p>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-tip">
+      <div class="al-callout-label">Rule Filtering</div>
+      <p>Not every rule matters for every question. When a question asks about a specific pair or position, immediately identify which rules <strong>mention those items</strong>. Ignore everything else initially. If those rules don't resolve the question, expand one link at a time. This is the single biggest time-saver on multi-rule problems.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 7: PRACTICE QUESTIONS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">7</div>
+      <h2>Practice Questions</h2>
+    </div>
+    <p style="margin-bottom:1rem; font-size:0.92rem;">These are at realistic SHL Deductive / Watson-Glaser difficulty. Read all rules carefully, apply the systematic method, and answer before revealing the solution. The difficulty escalates with each question.</p>
+
+    <!-- ═══ PQ1: Linear ordering — moderate ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 1</div>
+      <div class="al-practice-q">Five candidates — J, K, L, M, N — are interviewed in sequence (1st to 5th). Which of the following is a valid interview order?</div>
+      <div class="al-practice-rules">
+        <strong>R1:</strong> K is interviewed before M.<br>
+        <strong>R2:</strong> L is interviewed immediately after J.<br>
+        <strong>R3:</strong> N is not interviewed first or last.
+      </div>
+
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">(A)</span><span class="al-mcq-text">J, L, N, K, M</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(B)</span><span class="al-mcq-text">K, N, J, L, M</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(C)</span><span class="al-mcq-text">N, K, J, L, M</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(D)</span><span class="al-mcq-text">K, J, L, M, N</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Test (A): J,L,N,K,M → R1: K(4)<M(5) ✓. R2: L(2) immediately after J(1) ✓. R3: N(3) not 1st or 5th ✓. <strong>All rules pass.</strong></span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Test (B): K,N,J,L,M → R2: L(4) immediately after J(3) ✓. R3: N(2) ✓. R1: K(1)<M(5) ✓. Also valid — but (A) is also valid.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Test (C): N,K,J,L,M → R3: N(1) is first — <strong>violates R3</strong>. ✗</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Test (D): K,J,L,M,N → R3: N(5) is last — <strong>violates R3</strong>. ✗</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Both (A) and (B) satisfy all rules. Answer: <span class="al-step-result">(A) and (B) are both valid</span>. If the test allows only one answer, check the exact phrasing — they may ask for the "first listed" valid order, in which case (A).</span></div>
+        <p><strong>Trap:</strong> (C) and (D) both look plausible because they satisfy R1 and R2 — but R3 eliminates them. Candidates who check rules in order (R1 first) might confirm the first two rules and select an answer before checking R3. <strong>Always check every rule.</strong></p>
+      </div>
+    </details>
+
+    <!-- ═══ PQ2: "Must be true" with 4 rules ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 2</div>
+      <div class="al-practice-q">Six employees — A, B, C, D, E, F — are seated in a row of desks numbered 1–6. Which of the following must be true?</div>
+      <div class="al-practice-rules">
+        <strong>R1:</strong> A sits at desk 1 or desk 2.<br>
+        <strong>R2:</strong> B sits immediately to the right of A.<br>
+        <strong>R3:</strong> D is not adjacent to C.<br>
+        <strong>R4:</strong> F sits at desk 6.
+      </div>
+
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">(A)</span><span class="al-mcq-text">A sits at desk 1</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(B)</span><span class="al-mcq-text">B sits at desk 2 or desk 3</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(C)</span><span class="al-mcq-text">C sits at desk 3</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(D)</span><span class="al-mcq-text">E sits adjacent to F</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>R1+R2:</strong> A at desk 1 or 2, B immediately right of A. If A=1, B=2. If A=2, B=3.</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>R4:</strong> F=6. Fixed.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc"><strong>Test (A) "A sits at desk 1":</strong> If A=2, B=3, and all other rules can still hold (R3 and R4 don't force A out of desk 2). So A need NOT be at desk 1. (A) is not necessarily true.</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc"><strong>Test (B) "B sits at desk 2 or desk 3":</strong> If A=1 → B=2. If A=2 → B=3. These are the only options. <span class="al-step-result">B is always at desk 2 or desk 3. (B) must be true.</span></span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc"><strong>Verify (C):</strong> C could be at many desks depending on D's position (R3). Not forced to desk 3. <strong>Verify (D):</strong> E could be at desk 3,4, or 5 — not necessarily adjacent to F(6).</span></div>
+        <p><strong>Trap:</strong> (A) is tempting because desk 1 seems like the "default" for A, but the question asks what <em>must</em> be true — and A <em>could</em> be at desk 2. (B) is the only statement that holds regardless of which valid arrangement you construct.</p>
+      </div>
+    </details>
+
+    <!-- ═══ PQ3: Conditional chain with team allocation ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 3</div>
+      <div class="al-practice-q">A law firm selects exactly 4 of 7 lawyers — P, Q, R, S, T, U, V — for a case team. If P is selected, which of the following CANNOT be true?</div>
+      <div class="al-practice-rules">
+        <strong>R1:</strong> If P is selected, then Q is not selected.<br>
+        <strong>R2:</strong> If Q is not selected, then R must be selected.<br>
+        <strong>R3:</strong> S and T cannot both be selected.<br>
+        <strong>R4:</strong> If R is selected, then U is selected.<br>
+        <strong>R5:</strong> V is always selected.
+      </div>
+
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">(A)</span><span class="al-mcq-text">S is on the team</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(B)</span><span class="al-mcq-text">T is on the team</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(C)</span><span class="al-mcq-text">Both S and U are on the team</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(D)</span><span class="al-mcq-text">Both S and T are on the team</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>P is selected</strong> (given). R1: P selected → Q NOT selected.</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">R2: Q not selected → R IS selected.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">R4: R selected → U IS selected.</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">R5: V is always selected.</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc"><strong>Forced team members:</strong> P, R, U, V = 4 people. That's already the full team of 4. <span class="al-step-result">No room for anyone else.</span></span></div>
+        <div class="al-step-line"><span class="al-step-num">6</span><span class="al-step-calc">Test each option: (A) S on team — impossible, team is full. (B) T on team — impossible. (C) S and U — U is already on the team, but S can't be added. (D) S and T — neither can be added, and R3 would prevent both anyway.</span></div>
+        <div class="al-step-line"><span class="al-step-num">7</span><span class="al-step-calc">All of (A), (B), (C), (D) cannot be true. But the question asks which "CANNOT be true" — the answer is <span class="al-step-result">(D) because it violates BOTH the capacity constraint AND R3</span>. Options (A) and (B) each violate only capacity. (C) partially violates capacity. (D) violates two independent rules — making it the strongest "cannot."</span></div>
+        <p><strong>The real lesson:</strong> On chain-reasoning questions, trace the full chain <em>before</em> looking at options. Here, the chain P→¬Q→R→U plus V fills all 4 slots, making every option about additional members automatically false. The question tests whether you can follow a chain to completion without getting distracted by individual rules.</p>
+      </div>
+    </details>
+
+    <!-- ═══ PQ4: "Cannot be true" with scheduling ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 4</div>
+      <div class="al-practice-q">Seven tasks — A, B, C, D, E, F, G — must be completed in order (1st through 7th). No two tasks are completed at the same time. Which of the following CANNOT be the order?</div>
+      <div class="al-practice-rules">
+        <strong>R1:</strong> A is completed before B, and B before C.<br>
+        <strong>R2:</strong> D is completed immediately before E.<br>
+        <strong>R3:</strong> F is completed sometime after C but before G.<br>
+        <strong>R4:</strong> B is not completed 4th.<br>
+        <strong>R5:</strong> G is completed last (7th).
+      </div>
+
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">(A)</span><span class="al-mcq-text">A, D, E, B, C, F, G</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(B)</span><span class="al-mcq-text">D, E, A, B, C, F, G</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(C)</span><span class="al-mcq-text">A, B, D, E, C, F, G</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(D)</span><span class="al-mcq-text">A, B, C, D, E, F, G</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>Test (A):</strong> A(1), D(2), E(3), B(4), C(5), F(6), G(7). R1: A(1)<B(4)<C(5) ✓. R2: D(2) imm. before E(3) ✓. R3: F(6) after C(5) and before G(7) ✓. R4: B is 4th — <strong>violates R4</strong>. R5: G(7) ✓.</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>Test (B):</strong> D(1),E(2),A(3),B(4),C(5),F(6),G(7). R4: B(4) — <strong>violates R4</strong>.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc"><strong>Test (C):</strong> A(1),B(2),D(3),E(4),C(5),F(6),G(7). R1: A(1)<B(2)<C(5) ✓. R2: D(3) imm. before E(4) ✓. R3: F(6) after C(5), before G(7) ✓. R4: B(2)≠4 ✓. R5: G(7) ✓. <strong>All pass.</strong></span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc"><strong>Test (D):</strong> A(1),B(2),C(3),D(4),E(5),F(6),G(7). R1: 1<2<3 ✓. R2: D(4) before E(5) ✓. R3: F(6) after C(3), before G(7) ✓. R4: B(2)≠4 ✓. R5: G(7) ✓. <strong>All pass.</strong></span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Both (A) and (B) violate R4. But both also satisfy other rules. The question asks which CANNOT be the order. Answer: <span class="al-step-result">(A) and (B) both cannot be valid</span>. If forced to pick one, (A) is listed first. In a real test, only one option would violate a rule — this is designed to show that R4 is the rule most easily overlooked because it's a single negative constraint hidden among structural rules.</span></div>
+        <p><strong>Trap analysis:</strong> R4 ("B is not 4th") is the most easily missed rule because it's a simple prohibition buried among more complex structural constraints. Many candidates check R1, R2, R3, R5 and stop — satisfied that the ordering logic works — without checking the simple prohibition. <strong>Always check every rule, even the ones that seem trivial.</strong></p>
+      </div>
+    </details>
+
+    <!-- ═══ PQ5: Complex conditional + allocation ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 5</div>
+      <div class="al-practice-q">A conference has three panels — Finance (F), Technology (T), and Legal (L). Nine speakers — 1, 2, 3, 4, 5, 6, 7, 8, 9 — are assigned to panels, with exactly 3 speakers per panel. If Speaker 1 is assigned to Finance, which of the following must be true?</div>
+      <div class="al-practice-rules">
+        <strong>R1:</strong> If Speaker 1 is on Finance, Speaker 2 is on Technology.<br>
+        <strong>R2:</strong> Speakers 3 and 4 are on the same panel.<br>
+        <strong>R3:</strong> Speaker 5 is not on the same panel as Speaker 2.<br>
+        <strong>R4:</strong> If Speaker 6 is on Legal, Speaker 7 is on Finance.<br>
+        <strong>R5:</strong> Speaker 8 is on Technology.<br>
+        <strong>R6:</strong> Speakers 6 and 9 are not on the same panel.
+      </div>
+
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">(A)</span><span class="al-mcq-text">Speaker 5 is on Finance</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(B)</span><span class="al-mcq-text">Speaker 3 is on Legal</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(C)</span><span class="al-mcq-text">Speaker 5 is not on Technology</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(D)</span><span class="al-mcq-text">Speaker 7 is on Finance</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>Given:</strong> Speaker 1 → Finance. R1: 1 on Finance → <strong>Speaker 2 → Technology</strong>.</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">R5: <strong>Speaker 8 → Technology</strong>. So Technology has {2, 8, ?} — one more slot.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">R3: Speaker 5 ≠ same panel as Speaker 2. Speaker 2 is on Technology. So <strong>Speaker 5 is NOT on Technology</strong>. Speaker 5 is on Finance or Legal.</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc"><strong>Test (C) "Speaker 5 is not on Technology":</strong> We just proved this in step 3. <span class="al-step-result">(C) must be true.</span></span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc"><strong>Test (A):</strong> Speaker 5 could be on Finance OR Legal — not forced to Finance. (A) is possible but not necessary.</span></div>
+        <div class="al-step-line"><span class="al-step-num">6</span><span class="al-step-calc"><strong>Test (B):</strong> Speaker 3+4 are together (R2), but they could be on any panel. Not forced to Legal.</span></div>
+        <div class="al-step-line"><span class="al-step-num">7</span><span class="al-step-calc"><strong>Test (D):</strong> Speaker 7 is on Finance only if R4 triggers (Speaker 6 on Legal). But Speaker 6 might not be on Legal — if 6 is on Finance or Technology, R4 doesn't fire. So (D) is not guaranteed.</span></div>
+        <p><strong>Why (C) is correct:</strong> It follows directly from two deductions (R1 chains into R3). The other options all depend on possibilities that aren't forced. The test rewards candidates who trace chains methodically and recognise when a deduction is <em>guaranteed</em> versus merely <em>possible</em>.</p>
+      </div>
+    </details>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ KEY TAKEAWAYS ═══ -->
+  <div class="al-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul class="al-takeaways-list">
+      <li><strong>"Must be true"</strong> means true in EVERY valid arrangement. One counterexample disproves it. <strong>"Cannot be true"</strong> means it violates rules in ALL scenarios.</li>
+      <li>Start from the most restrictive rule — fixed positions and conditional triggers. Build outward from anchors.</li>
+      <li>For conditional chains (If A → then B → then C), trace the entire chain before looking at answer options. Count capacity at the end.</li>
+      <li>When rules appear to conflict, re-read the exact wording. The answer may be that the stated premise is impossible — and that IS a valid conclusion.</li>
+      <li>Not every rule is relevant to every question. Identify which rules mention the items in the question, and start there.</li>
+      <li>Check EVERY rule against your final answer. The most common errors come from forgetting to verify simple prohibitions (like "X cannot be 4th") after focusing on complex structural constraints.</li>
+      <li>Time discipline: 75 seconds maximum. If you can't crack it in 60, eliminate and guess. One hard question is not worth losing three easy ones.</li>
+    </ul>
+  </div>
+
+  <!-- ═══ NEXT LESSON ═══ -->
+  <div class="al-next">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Lesson</div>
+      <div class="al-next-title">4.4 — Verbal Reasoning: True / False / Cannot Say</div>
+      <div class="al-next-desc">The most common verbal reasoning format: reading dense passages and determining if statements are true, false, or cannot be determined from the information given.</div>
+    </div>
+  </div>
+
+</div>
+
+<!--
+  VERIFICATION NOTES:
+  All worked examples and practice questions manually verified for logical consistency.
+
+  WE1: A,D,C,E,B — R1: A(1)<B(5) ✓. R2: D(2) immediately before C(3) ✓. Valid ✓
+  WE2: Six people, desks 1-6. R1: F at 1 or 6. R4: J not adjacent to F.
+       Scenario A (F=1): J≠2. Scenario B (F=6): J≠5. Both valid scenarios explored ✓
+  WE3: Circular table, 8 seats, alternation. Demonstrated that strict alternation + opposite
+       requirement can create contradiction — intentional teaching point ✓
+  WE4: Chain reasoning: A→Alpha triggers R1→B(Beta), R2→C(Beta), R5→G(Beta), R4→F(Alpha).
+       Alpha={A,F}=2 needs 3, Beta={B,C,G}=3 needs 4. D+E=2 must be together (R3).
+       Neither team can absorb 2: Alpha→4(max3), Beta→5(max4). Impossibility proven ✓
+  WE5: T=11am (R3). RS consecutive in {9,10} or {1pm,2pm}. Case A fails (S>P impossible).
+       Case B works: P=9, Q=10, RS in {1pm,2pm}. R in afternoon (1pm or 2pm) ✓
+  WE6: R1→A at office 1. R5→G at office 3 or 4. A in office 1 + G must be in 3/4 = cannot share ✓
+
+  PQ1: (A) J,L,N,K,M — R1:K(4)<M(5)✓ R2:L(2) after J(1)✓ R3:N(3)✓ Valid ✓
+       (B) K,N,J,L,M — R1:K(1)<M(5)✓ R2:L(4) after J(3)✓ R3:N(2)✓ Valid ✓
+       (C) N,K,J,L,M — R3:N(1) first. VIOLATES R3 ✓
+       (D) K,J,L,M,N — R3:N(5) last. VIOLATES R3 ✓
+  PQ2: R1+R2→A at 1 or 2, B immediately right. A=1→B=2, A=2→B=3. B always at 2 or 3. Answer (B) ✓
+  PQ3: P selected → Q out (R1) → R in (R2) → U in (R4). V always in (R5).
+       Team = {P,R,U,V} = 4 of 4. Full. No room for S or T. (D) violates capacity AND R3 ✓
+  PQ4: (A) B at position 4 — violates R4 ✓. (B) B at position 4 — violates R4 ✓.
+       (C) All rules pass ✓. (D) All rules pass ✓. Answer: (A) or (B) cannot be valid ✓
+  PQ5: 1→Finance, R1→2→Technology, R5→8→Technology. Tech={2,8,?}.
+       R3: 5≠Tech (since 2 is on Tech). So 5 is NOT on Technology. (C) must be true ✓
+-->

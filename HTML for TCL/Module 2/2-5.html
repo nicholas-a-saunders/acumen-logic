@@ -1,0 +1,1021 @@
+<!--
+  ACUMEN LOGIC — Lesson 2.5: Speed Arithmetic & Estimation
+  For ThriveCart Learn Custom HTML Block
+  Pure CSS · Zero JavaScript · Fully responsive
+  
+  TYPE: Strategy lesson (NOT theory)
+  About cognitive speed in calculator-permitted tests — deciding faster,
+  not calculating faster. Every technique framed in seconds saved.
+-->
+
+<style>
+  /* ═══ BRAND TOKENS ═══ */
+  .al-lesson {
+    --al-navy: #1B2A4A;
+    --al-navy-light: #2A3D66;
+    --al-navy-muted: #3D5280;
+    --al-gold: #C8A951;
+    --al-gold-light: #D4BC72;
+    --al-gold-pale: #F5EFD9;
+    --al-cream: #FAFAF6;
+    --al-white: #FFFFFF;
+    --al-text: #2C2C2C;
+    --al-text-light: #6B6B6B;
+    --al-border: #E8E4DA;
+    --al-success: #2D8F5E;
+    --al-success-bg: #EDF7F0;
+    --al-danger: #C0392B;
+    --al-danger-bg: #FDF2F0;
+    --al-radius: 10px;
+    --al-radius-sm: 6px;
+    --al-shadow: 0 2px 12px rgba(27, 42, 74, 0.08);
+    --al-shadow-lg: 0 8px 32px rgba(27, 42, 74, 0.12);
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+  .al-lesson {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  /* ═══ TYPOGRAPHY ═══ */
+  .al-lesson h1, .al-lesson h2, .al-lesson h3, .al-section-number, .al-example-label, .al-next-title {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; 
+    font-weight: 700; 
+    color: var(--al-navy); 
+    line-height: 1.25; 
+  }
+
+  /* ═══ HERO ═══ */
+  .al-hero { 
+    background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); 
+    border-radius: var(--al-radius); 
+    padding: 2.5rem 2rem 2rem; 
+    margin-bottom: 2rem; 
+    position: relative; 
+    overflow: hidden; 
+  }
+  .al-hero::before { 
+    content: ''; 
+    position: absolute; 
+    top: -40%; 
+    right: -20%; 
+    width: 60%; 
+    height: 180%; 
+    background: radial-gradient(ellipse, rgba(200, 169, 81, 0.08) 0%, transparent 70%); 
+    pointer-events: none; 
+  }
+  .al-hero-eyebrow { 
+    font-family: 'Source Sans 3', sans-serif; 
+    font-size: 0.75rem; 
+    font-weight: 700; 
+    letter-spacing: 0.15em; 
+    text-transform: uppercase; 
+    color: var(--al-gold) !important; 
+    margin-bottom: 0.75rem; 
+  }
+  .al-lesson .al-hero h1 { 
+    color: var(--al-white) !important; 
+    font-size: clamp(1.6rem, 4vw, 2.2rem); 
+    margin-bottom: 0.75rem; 
+  }
+  .al-hero-subtitle { 
+    color: rgba(255, 255, 255, 0.9) !important; 
+    font-size: 1rem; 
+    max-width: 36rem; 
+    line-height: 1.5; 
+  }
+  .al-hero-rule { 
+    width: 3rem; 
+    height: 3px; 
+    background: var(--al-gold); 
+    border: none; 
+    border-radius: 2px; 
+    margin: 1rem 0; 
+  }
+
+  /* ═══ SECTIONS ═══ */
+  .al-section { margin-bottom: 2rem; }
+  .al-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-section-number { 
+    width: 2rem; 
+    height: 2rem; 
+    background: var(--al-navy); 
+    color: var(--al-white) !important; 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 0.95rem; 
+    flex-shrink: 0; 
+  }
+  .al-section h2 { font-size: clamp(1.15rem, 3vw, 1.4rem); }
+
+  /* ═══ CARDS ═══ */
+  .al-card { 
+    background: var(--al-white); 
+    border: 1px solid var(--al-border); 
+    border-radius: var(--al-radius); 
+    padding: 1.5rem; 
+    margin-bottom: 1.25rem; 
+    box-shadow: var(--al-shadow); 
+  }
+  .al-card p { margin-bottom: 0.75rem; }
+  .al-card p:last-child { margin-bottom: 0; }
+
+  /* ═══ CALLOUTS ═══ */
+  .al-callout { 
+    border-radius: var(--al-radius); 
+    padding: 1.25rem 1.5rem; 
+    margin-bottom: 1.25rem; 
+    font-size: 0.92rem; 
+  }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-warn { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-callout-danger { background: #FDF2F0; border-left: 4px solid var(--al-danger); }
+  .al-callout-label { 
+    font-weight: 700; 
+    font-size: 0.78rem; 
+    letter-spacing: 0.08em; 
+    text-transform: uppercase; 
+    margin-bottom: 0.4rem; 
+  }
+  .al-callout-tip .al-callout-label { color: var(--al-success); }
+  .al-callout-warn .al-callout-label { color: #D4823A; }
+  .al-callout-danger .al-callout-label { color: var(--al-danger); }
+
+  /* ═══ WORKED EXAMPLES ═══ */
+  .al-example { 
+    border-radius: var(--al-radius); 
+    overflow: hidden; 
+    margin-bottom: 1.25rem; 
+    box-shadow: var(--al-shadow); 
+  }
+  .al-example-header { 
+    background: var(--al-navy); 
+    padding: 1.25rem 1.5rem; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: flex-start; 
+    gap: 0.75rem; 
+  }
+  .al-example-label { 
+    color: var(--al-gold) !important; 
+    font-size: 0.72rem; 
+    letter-spacing: 0.1em; 
+    text-transform: uppercase; 
+  }
+  .al-example-q { 
+    color: var(--al-white) !important; 
+    font-size: 1.15rem; 
+    font-weight: 600; 
+    line-height: 1.4; 
+    margin-top: 0.25rem; 
+  }
+  .al-example-body { 
+    background: var(--al-white); 
+    border: 1px solid var(--al-border); 
+    border-top: none; 
+    border-radius: 0 0 var(--al-radius) var(--al-radius); 
+    padding: 1.5rem; 
+    font-size: 0.92rem; 
+  }
+  .al-example-body p { margin-bottom: 0.6rem; }
+  .al-example-body p:last-child { margin-bottom: 0; }
+
+  /* ═══ STEP LINES ═══ */
+  .al-step-line { 
+    display: flex; 
+    align-items: baseline; 
+    gap: 0.65rem; 
+    margin-bottom: 0.45rem; 
+  }
+  .al-step-num { 
+    width: 1.4rem; 
+    height: 1.4rem; 
+    background: var(--al-navy); 
+    color: var(--al-white) !important; 
+    border-radius: 50%; 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-weight: 700; 
+    font-size: 0.7rem; 
+    flex-shrink: 0; 
+  }
+  /* Red X for incorrect */
+  .al-step-num.al-wrong-icon {
+    background: var(--al-danger) !important;
+    color: var(--al-white) !important;
+  }
+  /* Green check for correct */
+  .al-step-num.al-right-icon {
+    background: var(--al-success) !important;
+    color: var(--al-white) !important;
+  }
+  .al-step-calc { 
+    font-size: 0.95rem; 
+    color: var(--al-navy); 
+  }
+  .al-step-result { font-weight: 700; color: var(--al-success); }
+
+  /* ═══ FORMULA / RULE CARDS (GOLD BOX) ═══ */
+  .al-formula { 
+    background: var(--al-navy); 
+    border-radius: var(--al-radius); 
+    padding: 1.15rem 1.5rem; 
+    margin-bottom: 1.25rem; 
+    text-align: center; 
+  }
+  .al-formula-label { 
+    color: var(--al-gold) !important; 
+    font-size: 0.7rem; 
+    font-weight: 700; 
+    letter-spacing: 0.12em; 
+    text-transform: uppercase; 
+    margin-bottom: 0.35rem; 
+  }
+  .al-formula-text { 
+    color: var(--al-white) !important; 
+    font-weight: 700; 
+    font-size: clamp(1rem, 2.5vw, 1.25rem); 
+    line-height: 1.4; 
+  }
+  .al-formula-note { 
+    color: rgba(255, 255, 255, 0.75) !important; 
+    font-size: 0.78rem; 
+    margin-top: 0.35rem; 
+  }
+
+  /* ═══ TIME BREAKDOWN BAR ═══ */
+  .al-time-bar { 
+    display: flex; 
+    border-radius: var(--al-radius); 
+    overflow: hidden; 
+    margin-bottom: 0.5rem; 
+    font-size: 0.72rem; 
+    font-weight: 700; 
+    text-align: center; 
+  }
+  .al-time-bar > div { 
+    padding: 0.55rem 0.25rem; 
+    color: var(--al-white); 
+    line-height: 1.3; 
+  }
+  .al-time-bar .al-tb-read { background: var(--al-navy); flex: 20; }
+  .al-time-bar .al-tb-decide { background: var(--al-navy-light); flex: 15; }
+  /* FIX: Changed text color to white */
+  .al-time-bar .al-tb-calc { 
+    background: var(--al-gold); 
+    color: var(--al-white) !important; 
+    flex: 25; 
+  }
+  .al-time-bar .al-tb-check { background: var(--al-navy-muted); flex: 10; }
+  .al-time-bar .al-tb-waste { background: var(--al-danger); flex: 13; }
+  .al-time-legend { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 0.75rem; 
+    margin-bottom: 1.25rem; 
+    font-size: 0.78rem; 
+    color: var(--al-text-light); 
+  }
+  .al-time-legend span::before { 
+    content: ''; 
+    display: inline-block; 
+    width: 10px; 
+    height: 10px; 
+    border-radius: 2px; 
+    margin-right: 0.35rem; 
+    vertical-align: middle; 
+  }
+  .al-time-legend .al-tl-read::before { background: var(--al-navy); }
+  .al-time-legend .al-tl-decide::before { background: var(--al-navy-light); }
+  .al-time-legend .al-tl-calc::before { background: var(--al-gold); }
+  .al-time-legend .al-tl-check::before { background: var(--al-navy-muted); }
+  .al-time-legend .al-tl-waste::before { background: var(--al-danger); }
+
+  /* ═══ VS BOXES (ESTIMATION SECTION) ═══ */
+  .al-vs { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 1rem; 
+    margin: 1.5rem 0;
+  }
+  .al-vs-box { 
+    border-radius: var(--al-radius); 
+    padding: 1.25rem; 
+    border: 2px solid;
+    background: var(--al-white);
+  }
+  .al-vs-wrong { 
+    border-color: var(--al-danger); 
+    background: var(--al-danger-bg);
+  }
+  .al-vs-right { 
+    border-color: var(--al-success); 
+    background: var(--al-success-bg);
+  }
+  .al-vs-label { 
+    font-size: 0.72rem; 
+    font-weight: 700; 
+    letter-spacing: 0.08em; 
+    text-transform: uppercase; 
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+  .al-vs-wrong .al-vs-label { 
+    color: var(--al-danger); 
+  }
+  .al-vs-right .al-vs-label { 
+    color: var(--al-success); 
+  }
+  .al-vs-box p {
+    margin-bottom: 0.35rem;
+    font-size: 0.92rem;
+    color: var(--al-navy);
+    line-height: 1.5;
+  }
+  .al-vs-answer { 
+    font-weight: 700; 
+    font-size: 1.15rem; 
+    margin: 0.75rem 0 0.5rem;
+    display: block;
+  }
+  .al-vs-wrong .al-vs-answer { 
+    color: var(--al-danger); 
+  }
+  .al-vs-right .al-vs-answer { 
+    color: var(--al-success); 
+  }
+  .al-vs-explain { 
+    font-size: 0.85rem; 
+    color: var(--al-text-light); 
+    margin-top: 0.75rem;
+    line-height: 1.5;
+    display: block;
+  }
+
+  @media (max-width: 600px) {
+    .al-vs { 
+      grid-template-columns: 1fr; 
+    }
+  }
+
+  /* ═══ TRIAGE TABLE ═══ */
+  .al-triage-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-bottom: 1.25rem; 
+    font-size: 0.92rem; 
+    box-shadow: var(--al-shadow); 
+    border-radius: var(--al-radius); 
+    overflow: hidden; 
+  }
+  .al-triage-table thead th { 
+    background: var(--al-navy); 
+    color: var(--al-white) !important; 
+    font-weight: 700; 
+    font-size: 0.72rem; 
+    letter-spacing: 0.1em; 
+    text-transform: uppercase; 
+    padding: 0.75rem 1rem; 
+    text-align: center; 
+  }
+  .al-triage-table tbody td { 
+    padding: 0.85rem 1rem; 
+    text-align: center; 
+    border-bottom: 1px solid var(--al-border); 
+    font-weight: 500; 
+    color: var(--al-navy); 
+    vertical-align: top;
+  }
+  .al-triage-table tbody tr:nth-child(even) { background: var(--al-cream); }
+  .al-triage-table tbody td:first-child { font-weight: 700; }
+
+  /* ═══ REVEAL (details/summary) ═══ */
+  .al-reveal { 
+    margin-top: 1rem; 
+    border: 2px solid var(--al-border); 
+    border-radius: var(--al-radius); 
+    overflow: hidden; 
+    margin-bottom: 1.25rem; 
+  }
+  .al-reveal[open] { border-color: var(--al-success); }
+  .al-reveal-btn { 
+    display: block; 
+    padding: 0.85rem 1.25rem; 
+    font-family: 'Source Sans 3', sans-serif; 
+    font-size: 0.9rem; 
+    font-weight: 700; 
+    color: var(--al-navy); 
+    background: var(--al-cream); 
+    cursor: pointer; 
+    list-style: none; 
+    user-select: none; 
+    -webkit-user-select: none; 
+  }
+  .al-reveal-btn::-webkit-details-marker { display: none; }
+  .al-reveal-btn::marker { display: none; content: ''; }
+  .al-reveal-btn:hover { background: var(--al-gold-pale); }
+  .al-reveal[open] .al-reveal-btn { 
+    background: #EDF7F0; 
+    color: var(--al-success); 
+    border-bottom: 1px solid var(--al-border); 
+  }
+  .al-reveal-content { 
+    padding: 1.25rem; 
+    font-size: 0.92rem; 
+  }
+  .al-reveal-content p { margin-bottom: 0.6rem; }
+  .al-reveal-content p:last-child { margin-bottom: 0; }
+
+  /* ═══ PRACTICE QUESTION ═══ */
+  .al-practice { 
+    background: var(--al-cream); 
+    border: 2px solid var(--al-border); 
+    border-radius: var(--al-radius); 
+    padding: 1.5rem; 
+    margin-bottom: 0.5rem; 
+  }
+  .al-practice-label { 
+    font-size: 0.7rem; 
+    font-weight: 700; 
+    letter-spacing: 0.1em; 
+    text-transform: uppercase; 
+    color: var(--al-gold); 
+    margin-bottom: 0.75rem; 
+  }
+  .al-practice-q { 
+    font-size: 0.95rem; 
+    font-weight: 600; 
+    color: var(--al-navy); 
+    line-height: 1.6; 
+    margin-bottom: 1rem;
+  }
+  .al-practice-options {
+    margin-top: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .al-practice-options p {
+    margin-bottom: 0.35rem;
+    font-size: 0.95rem;
+    color: var(--al-navy);
+  }
+
+  /* ═══ KEY TAKEAWAYS ═══ */
+  .al-takeaways { 
+    background: var(--al-navy); 
+    border-radius: var(--al-radius); 
+    padding: 1.5rem 1.75rem; 
+    margin-bottom: 1.25rem; 
+  }
+  .al-takeaways h3 { 
+    color: var(--al-gold) !important; 
+    font-size: 1.1rem; 
+    margin-bottom: 1rem; 
+  }
+  .al-takeaways-list { 
+    list-style: none; 
+    padding: 0; 
+  }
+  .al-takeaways-list li { 
+    color: rgba(255, 255, 255, 0.95) !important; 
+    font-size: 0.92rem; 
+    padding: 0.45rem 0 0.45rem 1.75rem; 
+    position: relative; 
+    line-height: 1.5; 
+  }
+  .al-takeaways-list li::before { 
+    content: '✓'; 
+    position: absolute; 
+    left: 0; 
+    color: var(--al-gold); 
+    font-weight: 700; 
+    font-size: 1rem; 
+  }
+
+  /* ═══ NEXT LESSON ═══ */
+  .al-next { 
+    background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); 
+    border: 1px solid var(--al-border); 
+    border-radius: var(--al-radius); 
+    padding: 1.25rem 1.5rem; 
+    display: flex; 
+    align-items: center; 
+    gap: 1rem; 
+  }
+  .al-next-arrow { 
+    width: 2.5rem; 
+    height: 2.5rem; 
+    background: var(--al-navy); 
+    color: var(--al-gold); 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 1.1rem; 
+    flex-shrink: 0; 
+  }
+  .al-next-label { 
+    font-size: 0.72rem; 
+    font-weight: 700; 
+    letter-spacing: 0.1em; 
+    text-transform: uppercase; 
+    color: var(--al-text-light); 
+    margin-bottom: 0.15rem; 
+  }
+  .al-next-title { 
+    font-weight: 700; 
+    color: var(--al-navy); 
+    font-size: 1rem; 
+  }
+  .al-next-desc { 
+    font-size: 0.85rem; 
+    color: var(--al-text-light); 
+    margin-top: 0.15rem; 
+  }
+
+  /* ═══ UTILITY ═══ */
+  .al-lesson strong { color: var(--al-navy); }
+  .al-divider { 
+    border: none; 
+    height: 1px; 
+    background: var(--al-border); 
+    margin: 2rem 0; 
+  }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .al-card, .al-example-body, .al-reveal-content { padding: 1.15rem; }
+    .al-takeaways { padding: 1.25rem; }
+    .al-next { flex-direction: column; text-align: center; }
+    .al-formula { padding: 1rem; }
+    .al-example-header { padding: 1.1rem 1.25rem; }
+    .al-example-q { font-size: 1.05rem; }
+    .al-time-bar { font-size: 0.6rem; }
+    .al-triage-table tbody td { font-size: 0.85rem; padding: 0.75rem 0.5rem; }
+  }
+</style>
+
+<div class="al-lesson">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 2 · Lesson 2.5</div>
+    <h1>Speed Arithmetic &amp; Estimation</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">You have a calculator. The bottleneck isn't arithmetic — it's everything around the arithmetic. This lesson is about deciding faster, not calculating faster.</p>
+  </div>
+
+  <!-- ═══ SECTION 1: WHERE YOUR TIME ACTUALLY GOES ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">1</div>
+      <h2>Where Your Time Actually Goes</h2>
+    </div>
+    <div class="al-card">
+      <p>An SHL numerical reasoning test gives you approximately <strong>83 seconds per question</strong>. Most candidates assume the calculation eats most of that time. It doesn't. Here's the real breakdown — including the hidden time sink nobody talks about.</p>
+    </div>
+
+    <div class="al-time-bar">
+      <div class="al-tb-read">Read<br>~20s</div>
+      <div class="al-tb-decide">Decide<br>~15s</div>
+      <div class="al-tb-calc">Calculate<br>~25s</div>
+      <div class="al-tb-check">Check<br>~10s</div>
+      <div class="al-tb-waste">Wasted<br>~13s</div>
+    </div>
+    <div class="al-time-legend">
+      <span class="al-tl-read">Read question (20s)</span>
+      <span class="al-tl-decide">Decide what to calculate (15s)</span>
+      <span class="al-tl-calc">Calculator work (25s)</span>
+      <span class="al-tl-check">Sanity check (10s)</span>
+      <span class="al-tl-waste">Wasted — hesitation, re-reads, restarts (13s)</span>
+    </div>
+
+    <div class="al-card">
+      <p>The red bar is where you lose. Those 13 seconds aren't spent calculating — they're spent <strong>hesitating</strong>. Re-reading the question because you're unsure what they want. Staring at the data table deciding which numbers to use. Starting a calculation, realising it's wrong, and restarting.</p>
+      <p>With a calculator, the arithmetic takes 25 seconds regardless of the numbers. You can't meaningfully speed that up. But you <strong>can</strong> eliminate the 13 seconds of waste — and that's worth two extra questions in a 25-question test.</p>
+      <p>Every technique in this lesson targets the time <strong>around</strong> the calculation, not the calculation itself.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 2: READ BEFORE YOU CALCULATE ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">2</div>
+      <h2>Read Before You Calculate</h2>
+    </div>
+    <div class="al-card">
+      <p>The single biggest time killer is calculating the wrong thing. You crunch the numbers perfectly, get an answer that matches one of the options, select it — and it's wrong because you answered a different question to the one being asked. That costs you 60–90 seconds: the original attempt plus the restart.</p>
+      <p>The fix takes 10 seconds. Before touching your calculator, answer three questions.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">The 10-Second Pre-Check</div>
+      <div class="al-formula-text">1. What FORMAT do they want? (%, £, ratio, units?)<br>2. What is the BASE? (of revenue? of cost? of total?)<br>3. How many STEPS will this take?</div>
+      <div class="al-formula-note">10 seconds upfront saves 60+ seconds of wrong-answer restarts.</div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Pre-Check in Action</span>
+        <span class="al-example-q">"Operating costs were 62% of revenue in Q1 and 58% of revenue in Q2. Revenue was £340k in Q1 and £425k in Q2. What was the percentage change in profit between Q1 and Q2?"</span>
+      </div>
+      <div class="al-example-body">
+        <p style="font-weight:600; color:var(--al-navy); margin-bottom:0.5rem;">Pre-check (10 seconds):</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>FORMAT:</strong> Percentage change (not £ profit, not a ratio)</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>BASE:</strong> Percentage change of profit — divide by Q1 profit (the OLD value)</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc"><strong>STEPS:</strong> Four — calculate Q1 profit, Q2 profit, find difference, divide by Q1 profit</span></div>
+        <p style="margin-top:0.75rem;">Now calculate:</p>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Q1 profit: £340k × (1 − 0.62) = £340k × 0.38 = £129,200</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Q2 profit: £425k × (1 − 0.58) = £425k × 0.42 = £178,500</span></div>
+        <div class="al-step-line"><span class="al-step-num">6</span><span class="al-step-calc">Change: (£178,500 − £129,200) ÷ £129,200 × 100 = <span class="al-step-result">38.2%</span></span></div>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-danger">
+      <div class="al-callout-label">What Goes Wrong Without the Pre-Check</div>
+      <p>Without step 1, you might calculate £ profit instead of % change — correct number, wrong format. Without step 2, you might divide by Q2 profit instead of Q1 — the reverse percentage trap. Without step 3, you might calculate Q1 profit and immediately try to jump to the answer, forgetting you need Q2 as well. All three errors produce answers that appear in the options. The pre-check prevents all of them.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 3: QUESTION TRIAGE ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">3</div>
+      <h2>Question Triage — The 5-Second Classification</h2>
+    </div>
+    <div class="al-card">
+      <p>Not all questions demand equal time. Elite scorers classify every question within 5 seconds of reading it, then allocate time accordingly. The goal isn't perfection — it's <strong>maximum correct answers across the entire test</strong>.</p>
+    </div>
+
+    <table class="al-triage-table">
+      <thead>
+        <tr><th>Tier</th><th>Steps</th><th>Time Budget</th><th>Strategy</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Tier 1</td><td>1 step</td><td>~40 seconds</td><td>Execute immediately. Bank the spare time.</td></tr>
+        <tr><td>Tier 2</td><td>2–3 steps</td><td>~75 seconds</td><td>Standard execution. Store intermediate results in calculator memory.</td></tr>
+        <tr><td>Tier 3</td><td>4+ steps</td><td>~90 seconds</td><td>Read twice. If you immediately see the path forward, proceed with caution. If confused after two reads, mark and move on — return if time permits.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="al-formula">
+      <div class="al-formula-label">The 45-Second Rule</div>
+      <div class="al-formula-text">If you've spent 45 seconds and aren't close to an answer — stop, guess, move on.</div>
+      <div class="al-formula-note">One abandoned question costs you ~4 points. Running out of time costs you every unanswered question.</div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Triage in Action</span>
+        <span class="al-example-q">You see these three questions in sequence. How do you allocate your time?</span>
+      </div>
+      <div class="al-example-body">
+        <p style="margin-bottom: 1rem;"><strong>Q12:</strong> "What is 15% of £240,000?"</p>
+        <div class="al-step-line" style="margin-bottom: 1rem;"><span class="al-step-num">→</span><span class="al-step-calc"><strong>Tier 1.</strong> One calculation. Budget: 40s. You'll finish in 20s and bank 20s.</span></div>
+        
+        <p style="margin-bottom: 1rem; margin-top: 1.5rem;"><strong>Q13:</strong> "Revenue rose from £550k to £680k. Costs rose from £340k to £425k. What was the percentage change in profit margin?"</p>
+        <div class="al-step-line" style="margin-bottom: 1rem;"><span class="al-step-num">→</span><span class="al-step-calc"><strong>Tier 3.</strong> Four steps minimum (two margins, difference, % change). Budget: 90s. Read carefully — if the path is clear, proceed; if not, mark and return.</span></div>
+        
+        <p style="margin-bottom: 1rem; margin-top: 1.5rem;"><strong>Q14:</strong> "A workforce of 1,200 is reduced by 8%. How many remain?"</p>
+        <div class="al-step-line"><span class="al-step-num">→</span><span class="al-step-calc"><strong>Tier 1.</strong> One multiplication. Budget: 40s. Finish in 15s, bank 25s.</span></div>
+        
+        <p style="margin-top:1.5rem; color:var(--al-text-light); font-size:0.85rem;">By triaging, you do Q12 and Q14 first (35 seconds total), bank 45 spare seconds, then tackle Q13 with a combined budget of 135 seconds instead of 83.</p>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-warn">
+      <div class="al-callout-label">How to Count Steps Instantly</div>
+      <p>Count the <strong>number of intermediate values</strong> you need before you can reach the answer. "15% of £240k" needs zero intermediates — one step. "Percentage change in profit margin" needs Q1 margin, Q2 margin, and a percentage change calculation — that's three intermediates, so four steps total. If you count 3+ intermediates, it's Tier 3.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 4: ESTIMATION ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">4</div>
+      <h2>Estimation — When Exact Answers Are Overkill</h2>
+    </div>
+    <div class="al-card">
+      <p>In a multiple-choice test, you sometimes don't need the exact answer. If the options are spread far enough apart, a rough estimate eliminates three of four options in seconds. <strong>Glance at the options before calculating.</strong> If they're far apart, estimate. If they're clustered, calculate precisely.</p>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Estimation Saves 20 Seconds</span>
+        <span class="al-example-q">What is 23% of £648,000?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-practice-options" style="margin-bottom: 1.5rem; margin-top: 0;">
+          <p>(A) £124,000</p>
+          <p>(B) £149,040</p>
+          <p>(C) £186,000</p>
+          <p>(D) £212,000</p>
+        </div>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Options are spread apart. Estimate: ~25% of ~£650k ≈ £162,500</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Actual is slightly less (23%, not 25%) → ~£149k</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Only B (£149,040) is close → <span class="al-step-result">Answer: B</span></span></div>
+        <p style="margin-top:0.5rem; color:var(--al-text-light); font-size:0.85rem;">No calculator needed. ~8 seconds vs ~25 seconds for precise arithmetic.</p>
+      </div>
+    </div>
+
+    <div class="al-vs">
+      <div class="al-vs-box al-vs-wrong">
+        <div class="al-vs-label">Options Clustered — Must Be Precise</div>
+        <p>(A) £58,200</p>
+        <p>(B) £61,200</p>
+        <p>(C) £63,800</p>
+        <p>(D) £68,000</p>
+        <div class="al-vs-answer">Use calculator</div>
+        <div class="al-vs-explain">Options are within ~15% of each other. An estimate won't reliably distinguish between A, B, and C. Calculate precisely.</div>
+      </div>
+      <div class="al-vs-box al-vs-right">
+        <div class="al-vs-label">Options Spread — Estimate</div>
+        <p>(A) £124,000</p>
+        <p>(B) £149,040</p>
+        <p>(C) £186,000</p>
+        <p>(D) £212,000</p>
+        <div class="al-vs-answer">Estimate</div>
+        <div class="al-vs-explain">Options are 20–40% apart. A rough estimate clearly points to one answer. Don't waste time on precision.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 5: CALCULATOR DISCIPLINE ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">5</div>
+      <h2>Calculator Discipline</h2>
+    </div>
+    <div class="al-card">
+      <p>Your calculator gives you the right answer to whatever you type in. The problem is that what you type in is often wrong. Three errors account for almost every calculator mistake in timed tests.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">The Three Calculator Killers</div>
+      <div class="al-formula-text">1. Decimal placement &nbsp;&nbsp; 2. Unit mismatch &nbsp;&nbsp; 3. Stale display</div>
+      <div class="al-formula-note">Each costs 30–60 seconds when you have to identify the error and recalculate.</div>
+    </div>
+
+    <!-- Decimal error -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Killer 1 — Decimal Placement</span>
+        <span class="al-example-q">"Operating costs are 68% of revenue (£2.4m)." You type 2,400,000 × 6.8 instead of × 0.68.</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num al-wrong-icon">✗</span><span class="al-step-calc">2,400,000 × 6.8 = <strong style="color:var(--al-danger);">16,320,000</strong> — costs are 7× revenue. Impossible.</span></div>
+        <div class="al-step-line"><span class="al-step-num al-right-icon">✓</span><span class="al-step-calc">2,400,000 × 0.68 = <span class="al-step-result">1,632,000</span></span></div>
+        <p style="margin-top:0.5rem; color:var(--al-text-light); font-size:0.85rem;">Fix: always convert percentages to decimals <strong>before</strong> you touch the calculator. 68% → type 0.68 directly.</p>
+      </div>
+    </div>
+
+    <!-- Unit error -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Killer 2 — Unit Mismatch</span>
+        <span class="al-example-q">The data table shows revenue in £ millions, but one column is in £ thousands. You calculate without noticing.</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num al-wrong-icon">✗</span><span class="al-step-calc">Revenue £2.4m minus costs "£680" → reads as £2,400,000 − £680 = <strong style="color:var(--al-danger);">£2,399,320</strong></span></div>
+        <div class="al-step-line"><span class="al-step-num al-right-icon">✓</span><span class="al-step-calc">Costs are £680k = £680,000 → £2,400,000 − £680,000 = <span class="al-step-result">£1,720,000</span></span></div>
+        <p style="margin-top:0.5rem; color:var(--al-text-light); font-size:0.85rem;">Fix: before calculating, check the column headers and footnotes for units. If mixed, standardise everything to one unit first.</p>
+      </div>
+    </div>
+
+    <!-- Stale display -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Killer 3 — Stale Display</span>
+        <span class="al-example-q">You calculated £340,000 for the previous step. Now you need 15% of £240,000, but you accidentally multiply the old result.</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num al-wrong-icon">✗</span><span class="al-step-calc">340,000 × 0.15 = <strong style="color:var(--al-danger);">51,000</strong> — wrong base number.</span></div>
+        <div class="al-step-line"><span class="al-step-num al-right-icon">✓</span><span class="al-step-calc">Clear → 240,000 × 0.15 = <span class="al-step-result">36,000</span></span></div>
+        <p style="margin-top:0.5rem; color:var(--al-text-light); font-size:0.85rem;">Fix: for multi-step problems, store intermediate values in calculator memory (STO function) rather than keeping them on display. This prevents stale display errors and keeps your working organised.</p>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-tip">
+      <div class="al-callout-label">The Memory Habit (STO Function)</div>
+      <p>Use your calculator's memory (STO) to store intermediate results, not just the display. For multi-step problems: Revenue → STO A, Costs → STO B, then recall with RCL A or RCL B when needed. This is faster than retyping and eliminates stale display errors. Create a simple mental map: A always = Revenue, B always = Costs, C always = Profit, etc. Three seconds of storage saves thirty seconds of recalculation.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 6: SANITY CHECKING ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">6</div>
+      <h2>Sanity Checking — The 5-Second Safety Net</h2>
+    </div>
+    <div class="al-card">
+      <p>Before selecting your answer, spend 5 seconds asking: <strong>"Does this number make sense?"</strong> This single habit catches decimal errors, direction errors, and unit errors — the three mistakes that account for the vast majority of wrong answers from candidates who know the maths.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Three Instant Sanity Checks</div>
+      <div class="al-formula-text">1. Order of magnitude &nbsp;&nbsp; 2. Direction &nbsp;&nbsp; 3. Reasonableness</div>
+      <div class="al-formula-note">5 seconds. Catches 80% of errors. Non-negotiable on every question.</div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Check 1 — Order of Magnitude</span>
+        <span class="al-example-q">You're calculating 15% of £240,000 and get £360,000.</span>
+      </div>
+      <div class="al-example-body">
+        <p><strong>Sanity check:</strong> 15% of something must be smaller than the original. £360,000 > £240,000. Impossible. You've multiplied by 1.5 instead of 0.15.</p>
+        <div class="al-step-line"><span class="al-step-num al-right-icon">✓</span><span class="al-step-calc">£240,000 × 0.15 = <span class="al-step-result">£36,000</span></span></div>
+      </div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Check 2 — Direction</span>
+        <span class="al-example-q">Revenue fell by 12%, and you've calculated the new revenue as higher than the original.</span>
+      </div>
+      <div class="al-example-body">
+        <p><strong>Sanity check:</strong> "Fell" means the new value must be <strong>lower</strong>. If your answer is higher, you've multiplied by 1.12 instead of 0.88. Five-second catch.</p>
+      </div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Check 3 — Reasonableness</span>
+        <span class="al-example-q">You've calculated that a mid-level employee's annual salary is £450,000, or that a company's profit margin is 340%.</span>
+      </div>
+      <div class="al-example-body">
+        <p><strong>Sanity check:</strong> Does this pass the smell test? A mid-level salary of £450k is almost certainly a decimal error (probably £45,000). A 340% margin is virtually impossible in any real business — likely a unit or base error. Trust your instincts.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 7: PRACTICE — STRATEGY APPLICATION ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">7</div>
+      <h2>Practice — Strategy Application</h2>
+    </div>
+    <p style="margin-bottom:1rem; font-size:0.92rem;">For each question below, apply the strategies from this lesson: pre-check (format, base, steps), triage (tier classification), and decide whether to estimate or calculate precisely.</p>
+
+    <!-- Practice Q1 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 1</div>
+      <div class="al-practice-q">A company's revenue is £3.6m. Operating costs are 72% of revenue. What is the profit?</div>
+      <div class="al-practice-options">
+        <p>(A) £1,008,000</p>
+        <p>(B) £1,260,000</p>
+        <p>(C) £2,592,000</p>
+        <p>(D) £3,200,000</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><strong>Pre-check:</strong> Format = £. Base = revenue. Steps = 1 (profit = revenue × (1 − 0.72)).</p>
+        <p><strong>Triage:</strong> Tier 1. One step.</p>
+        <p><strong>Estimate or precise?</strong> Options are spread. Estimate: ~30% of ~£3.6m ≈ £1.08m. Only A is close.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">£3,600,000 × 0.28 = <span class="al-step-result">£1,008,000 → Answer: A</span></span></div>
+        <p>Trap: Option C (£2,592,000) is 72% of revenue — the <strong>costs</strong>, not the profit. The pre-check ("what is the profit?") prevents this.</p>
+      </div>
+    </details>
+
+    <!-- Practice Q2 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 2</div>
+      <div class="al-practice-q">Revenue grew from £1.8m to £2.34m. What was the percentage increase?</div>
+      <div class="al-practice-options">
+        <p>(A) 23%</p>
+        <p>(B) 30%</p>
+        <p>(C) 35%</p>
+        <p>(D) 77%</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><strong>Pre-check:</strong> Format = %. Base = OLD revenue (£1.8m). Steps = 2 (difference, then divide by old).</p>
+        <p><strong>Triage:</strong> Tier 1–2. Two sub-calculations but straightforward.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Difference: £2.34m − £1.8m = £0.54m</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">% change: £0.54m ÷ £1.8m × 100 = <span class="al-step-result">30% → Answer: B</span></span></div>
+        <p>Trap: Option A (23%) is what you get dividing by the NEW value (£0.54m ÷ £2.34m = 23.1%). Always divide by the OLD value. Option D (77%) is £1.8m ÷ £2.34m — completely wrong operation.</p>
+      </div>
+    </details>
+
+    <!-- Practice Q3 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 3</div>
+      <div class="al-practice-q">Classify this question as Tier 1, 2, or 3 — then decide your approach: "In 2023, Company A had revenue of £4.2m (profit margin 18%) and Company B had revenue of £3.1m (profit margin 24%). What was the combined profit of both companies, and which company contributed the greater share?"</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><strong>Triage: Tier 3.</strong> You need: A's profit, B's profit, combined total, and a comparison. That's 4 intermediate values.</p>
+        <p><strong>Strategy:</strong> If you're ahead on time, attempt it. If you're behind, mark and return. If you attempt it, use calculator memory (STO) for each profit figure.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">A's profit: £4,200,000 × 0.18 = £756,000 → STO A</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">B's profit: £3,100,000 × 0.24 = £744,000 → STO B</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Combined: RCL A + RCL B = <span class="al-step-result">£1,500,000</span></span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Company A contributes more (£756k vs £744k) — <span class="al-step-result">despite lower margin, higher revenue wins.</span></span></div>
+      </div>
+    </details>
+
+    <!-- Practice Q4 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 4</div>
+      <div class="al-practice-q">You calculate that a 12% decrease on £850,000 gives £952,000. What went wrong?</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><strong>Sanity check — Direction:</strong> A 12% <strong>decrease</strong> must produce a number <strong>smaller</strong> than £850,000. £952,000 is larger. You multiplied by 1.12 (increase) instead of 0.88 (decrease).</p>
+        <div class="al-step-line"><span class="al-step-num al-right-icon">✓</span><span class="al-step-calc">£850,000 × 0.88 = <span class="al-step-result">£748,000</span></span></div>
+        <p>This is exactly the kind of error that a 5-second sanity check catches before you commit to the wrong answer.</p>
+      </div>
+    </details>
+
+    <!-- Practice Q5 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 5</div>
+      <div class="al-practice-q">After a 20% price increase, a product costs £54. What was the original price?</div>
+      <div class="al-practice-options">
+        <p>(A) £43.20</p>
+        <p>(B) £45.00</p>
+        <p>(C) £46.80</p>
+        <p>(D) £64.80</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><strong>Pre-check:</strong> Format = £. This is a reverse percentage — they give you the result and ask for the original. Divide by the multiplier, don't subtract 20%.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">£54 ÷ 1.20 = <span class="al-step-result">£45.00 → Answer: B</span></span></div>
+        <p>Trap: Option A (£43.20) is £54 − 20% of £54 = £54 − £10.80 — the classic reverse percentage error. Option D (£64.80) is £54 × 1.20 — wrong direction entirely. The pre-check ("they give me the result, I need the original") prevents both traps.</p>
+      </div>
+    </details>
+
+    <!-- Practice Q6 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 6</div>
+      <div class="al-practice-q">A data table shows costs in £ thousands and revenue in £ millions. Revenue = £4.2m. Costs = £2,940 (in £k). What is the profit margin?</div>
+      <div class="al-practice-options">
+        <p>(A) 30%</p>
+        <p>(B) 42%</p>
+        <p>(C) 58%</p>
+        <p>(D) 70%</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><strong>Pre-check:</strong> Format = %. Base = revenue (profit margin is always profit ÷ revenue). <strong>Unit check:</strong> costs are in £k → £2,940k = £2,940,000.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Profit: £4,200,000 − £2,940,000 = £1,260,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Margin: £1,260,000 ÷ £4,200,000 × 100 = <span class="al-step-result">30% → Answer: A</span></span></div>
+        <p>Trap: If you miss the unit mismatch and treat costs as £2,940, you get profit of £4,197,060 and a margin of 99.9% — which isn't even an option. If your answer isn't among the options, check units first.</p>
+      </div>
+    </details>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ KEY TAKEAWAYS ═══ -->
+  <div class="al-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul class="al-takeaways-list">
+      <li>Your calculator handles the arithmetic. The bottleneck is deciding what to calculate — eliminate hesitation with the 10-second pre-check (format, base, steps).</li>
+      <li>Triage every question in 5 seconds: Tier 1 (one step — execute fast), Tier 2 (two to three steps — standard time), Tier 3 (four+ steps — read twice, proceed only if the path is clear).</li>
+      <li>The 45-second rule: if you're not close to an answer after 45 seconds, make your best guess and move on. Protecting your remaining time is more valuable than one question.</li>
+      <li>Glance at the answer options before calculating. Spread options = estimate. Clustered options = calculate precisely.</li>
+      <li>Three calculator killers: decimal placement (0.68 not 6.8), unit mismatch (£k vs £m), and stale display (use STO/RCL memory functions). Store Revenue → A, Costs → B, Profit → C.</li>
+      <li>Sanity check every answer in 5 seconds: right magnitude, right direction, reasonable in context. This catches errors that otherwise cost you 60+ seconds.</li>
+    </ul>
+  </div>
+
+  <!-- ═══ NEXT LESSON ═══ -->
+  <div class="al-next">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Lesson</div>
+      <div class="al-next-title">2.6 — Core Skills Practice Test</div>
+      <div class="al-next-desc">A timed practice test covering everything from Lessons 2.1–2.5 in exam-style format with detailed worked solutions.</div>
+    </div>
+  </div>
+
+</div>

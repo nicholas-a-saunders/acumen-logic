@@ -1,0 +1,567 @@
+<!--
+  ACUMEN LOGIC — Lesson 4.1: Deductive Reasoning & Syllogisms
+  For ThriveCart Learn Custom HTML Block
+  Pure CSS · Zero JavaScript · Fully responsive
+
+  TYPE: Theory lesson
+  Introduces deductive logic fundamentals: if-then rules, syllogisms,
+  multi-rule deduction, and the key traps that appear in Barclays SHL
+  Deductive and Korn Ferry Logical tests. Visual Venn diagrams via SVG.
+-->
+
+<style>
+  /* ═══ BRAND TOKENS ═══ */
+  .al-lesson {
+    --al-navy: #1B2A4A;
+    --al-navy-light: #2A3D66;
+    --al-navy-muted: #3D5280;
+    --al-gold: #C8A951;
+    --al-gold-light: #D4BC72;
+    --al-gold-pale: #F5EFD9;
+    --al-cream: #FAFAF6;
+    --al-white: #FFFFFF;
+    --al-text: #2C2C2C;
+    --al-text-light: #6B6B6B;
+    --al-border: #E8E4DA;
+    --al-success: #2D8F5E;
+    --al-success-bg: #EDF7F0;
+    --al-danger: #C0392B;
+    --al-danger-bg: #FDF2F0;
+    --al-radius: 10px;
+    --al-radius-sm: 6px;
+    --al-shadow: 0 2px 12px rgba(27, 42, 74, 0.08);
+    --al-shadow-lg: 0 8px 32px rgba(27, 42, 74, 0.12);
+  }
+
+  /* ═══ RESET & BASE ═══ */
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+  .al-lesson {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .al-lesson h1, .al-lesson h2, .al-lesson h3 {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    font-weight: 700; color: var(--al-navy); line-height: 1.25;
+  }
+
+  /* ═══ HERO ═══ */
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .al-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200, 169, 81, 0.08) 0%, transparent 70%); pointer-events: none; }
+  .al-hero-eyebrow { font-family: 'Source Sans 3', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem, 4vw, 2.2rem); margin-bottom: 0.75rem; }
+  .al-hero-subtitle { color: rgba(255, 255, 255, 0.9) !important; font-size: 1rem; max-width: 36rem; line-height: 1.5; }
+  .al-hero-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 1rem 0; }
+
+  /* ═══ SECTIONS ═══ */
+  .al-section { margin-bottom: 2rem; }
+  .al-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-section-number { width: 2rem; height: 2rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.95rem; flex-shrink: 0; }
+  .al-section h2 { font-size: clamp(1.15rem, 3vw, 1.4rem); }
+
+  /* ═══ CARDS ═══ */
+  .al-card { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-card p { margin-bottom: 0.75rem; }
+  .al-card p:last-child { margin-bottom: 0; }
+
+  /* ═══ CALLOUTS ═══ */
+  .al-callout { border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; font-size: 0.92rem; }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-gold { background: var(--al-gold-pale); border-left: 4px solid var(--al-gold); }
+  .al-callout-warn { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-callout-danger { background: var(--al-danger-bg); border-left: 4px solid var(--al-danger); }
+  .al-callout-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .al-callout-tip .al-callout-label { color: var(--al-success); }
+  .al-callout-gold .al-callout-label { color: var(--al-navy); }
+  .al-callout-warn .al-callout-label { color: #D4823A; }
+  .al-callout-danger .al-callout-label { color: var(--al-danger); }
+
+  /* ═══ FORMULA/RULE CARDS ═══ */
+  .al-formula { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; }
+  .al-formula-label { color: var(--al-gold) !important; font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .al-formula-text { color: var(--al-white) !important; font-size: 1.1rem; font-weight: 600; line-height: 1.45; margin-bottom: 0.35rem; }
+  .al-formula-note { color: rgba(255, 255, 255, 0.75) !important; font-size: 0.85rem; line-height: 1.45; }
+
+  /* ═══ WRONG vs RIGHT COMPARISON ═══ */
+  .al-vs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 1.25rem; }
+  .al-vs-box { border-radius: var(--al-radius); padding: 1.25rem; }
+  .al-vs-wrong { background: var(--al-danger-bg); border: 2px solid var(--al-danger); }
+  .al-vs-right { background: var(--al-success-bg); border: 2px solid var(--al-success); }
+  .al-vs-label { font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .al-vs-wrong .al-vs-label { color: var(--al-danger); }
+  .al-vs-right .al-vs-label { color: var(--al-success); }
+  .al-vs-box p { font-size: 0.92rem; margin-bottom: 0.5rem; line-height: 1.5; }
+  .al-vs-box p:last-child { margin-bottom: 0; }
+
+  /* ═══ LOGIC BLOCK — for rule/premise/conclusion display ═══ */
+  .al-logic-block { background: var(--al-cream); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; }
+  .al-logic-block p { font-size: 0.92rem; margin-bottom: 0.45rem; line-height: 1.55; }
+  .al-logic-block p:last-child { margin-bottom: 0; }
+  .al-logic-label { font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-navy); margin-bottom: 0.65rem; }
+  .al-logic-premise { padding-left: 1rem; border-left: 3px solid var(--al-gold); margin-bottom: 0.5rem; }
+  .al-logic-conclusion { padding-left: 1rem; border-left: 3px solid var(--al-success); margin-bottom: 0.5rem; }
+  .al-logic-invalid { padding-left: 1rem; border-left: 3px solid var(--al-danger); margin-bottom: 0.5rem; }
+  .al-logic-result { font-weight: 700; font-size: 0.88rem; margin-top: 0.5rem; }
+  .al-logic-result.al-valid { color: var(--al-success); }
+  .al-logic-result.al-invalid { color: var(--al-danger); }
+
+  /* ═══ SVG VENN DIAGRAMS ═══ */
+  .al-venn-container { background: var(--al-cream); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.25rem; text-align: center; }
+  .al-venn-title { font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--al-navy); margin-bottom: 1rem; }
+  .al-venn-svg { width: 100%; max-width: 420px; height: auto; margin: 0 auto; display: block; }
+  .al-venn-caption { font-size: 0.82rem; color: var(--al-text-light); margin-top: 0.75rem; line-height: 1.45; }
+
+  /* ═══ RULES LIST ═══ */
+  .al-rules { list-style: none; padding: 0; counter-reset: rule; }
+  .al-rules li { position: relative; padding: 1rem 0 1rem 3.25rem; border-bottom: 1px solid var(--al-border); font-size: 0.92rem; counter-increment: rule; }
+  .al-rules li:last-child { border-bottom: none; }
+  .al-rules li::before { content: counter(rule); position: absolute; left: 0; top: 0.9rem; width: 2.2rem; height: 2.2rem; background: var(--al-navy); color: var(--al-gold) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', sans-serif; font-size: 1rem; font-weight: 700; }
+
+  /* ═══ FLOW STEPS ═══ */
+  .al-flow { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin: 1rem 0; }
+  .al-flow-step { background: var(--al-navy); color: var(--al-white) !important; padding: 0.55rem 1rem; border-radius: 2rem; font-size: 0.85rem; font-weight: 600; white-space: nowrap; }
+  .al-flow-arrow { color: var(--al-gold); font-size: 1.1rem; font-weight: 700; }
+
+  /* ═══ SCENARIO TABLE ═══ */
+  .al-data-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: var(--al-radius); overflow: hidden; border: 1px solid var(--al-border); font-size: 0.88rem; margin: 0.75rem 0 1.25rem; }
+  .al-data-table thead th { background: var(--al-navy); color: var(--al-white) !important; font-weight: 700; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.7rem 1rem; text-align: left; }
+  .al-data-table tbody td { padding: 0.65rem 1rem; border-bottom: 1px solid var(--al-border); vertical-align: top; }
+  .al-data-table tbody tr:last-child td { border-bottom: none; }
+  .al-data-table tbody tr:nth-child(even) { background: var(--al-cream); }
+
+  /* ═══ KEY TAKEAWAYS ═══ */
+  .al-takeaways { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.5rem 1.75rem; margin-bottom: 1.25rem; }
+  .al-takeaways h3 { color: var(--al-gold) !important; font-size: 1.1rem; margin-bottom: 1rem; font-family: 'Source Sans 3', sans-serif; font-weight: 700; }
+  .al-takeaways-list { list-style: none; padding: 0; }
+  .al-takeaways-list li { color: rgba(255, 255, 255, 0.95) !important; font-size: 0.92rem; padding: 0.45rem 0 0.45rem 1.75rem; position: relative; line-height: 1.5; }
+  .al-takeaways-list li::before { content: '✓'; position: absolute; left: 0; color: var(--al-gold); font-weight: 700; font-size: 1rem; }
+
+  /* ═══ NEXT LESSON ═══ */
+  .al-next { background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .al-next-arrow { width: 2.5rem; height: 2.5rem; background: var(--al-navy); color: var(--al-gold) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .al-next-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-text-light); margin-bottom: 0.15rem; }
+  .al-next-title { font-family: 'Source Sans 3', sans-serif; font-weight: 700; color: var(--al-navy); font-size: 1rem; }
+  .al-next-desc { font-size: 0.85rem; color: var(--al-text-light); margin-top: 0.15rem; }
+
+  /* ═══ UTILITY ═══ */
+  .al-lesson strong { color: var(--al-navy); }
+  .al-divider { border: none; height: 1px; background: var(--al-border); margin: 2rem 0; }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .al-card { padding: 1.15rem; }
+    .al-vs { grid-template-columns: 1fr; }
+    .al-flow { gap: 0.35rem; }
+    .al-flow-step { padding: 0.4rem 0.75rem; font-size: 0.78rem; }
+    .al-logic-block { padding: 1rem 1.15rem; }
+    .al-venn-svg { max-width: 280px; }
+    .al-data-table { font-size: 0.82rem; }
+    .al-data-table thead th, .al-data-table tbody td { padding: 0.5rem 0.65rem; }
+    .al-takeaways { padding: 1.25rem; }
+    .al-next { flex-direction: column; text-align: center; }
+  }
+</style>
+
+<div class="al-lesson">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 4 · Lesson 4.1</div>
+    <h1>Deductive Reasoning &amp; Syllogisms</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">If-then logic, valid vs invalid inferences, and the reasoning traps that catch most candidates in Barclays SHL Deductive and Korn Ferry Logical tests.</p>
+  </div>
+
+  <!-- ═══ SECTION 1: WHAT DEDUCTIVE REASONING TESTS MEASURE ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">1</div>
+      <h2>What Deductive Reasoning Tests Measure</h2>
+    </div>
+    <div class="al-card">
+      <p>Deductive reasoning is about drawing <strong>guaranteed conclusions</strong> from a set of given rules. Unlike numerical reasoning, there's no calculation — and unlike verbal reasoning, there's no passage to interpret. You're given rules and asked: <strong>what must be true?</strong></p>
+      <p>This question type appears in SHL Deductive Reasoning tests (used by Barclays, Deloitte, Rothschild), Korn Ferry Logical Reasoning (Citi, Macquarie), and various bespoke assessments across investment banking and consulting.</p>
+    </div>
+
+    <div class="al-callout al-callout-gold">
+      <div class="al-callout-label">Why This Matters</div>
+      <p>Deductive reasoning questions are designed to feel intuitive — and that's exactly what makes them dangerous. The answers that <strong>feel</strong> right are often logically invalid. This lesson teaches you to distinguish valid from invalid inferences before you encounter them under time pressure.</p>
+    </div>
+
+    <div class="al-card">
+      <p>Three core skills are tested:</p>
+      <div class="al-flow">
+        <span class="al-flow-step">If-Then Logic</span>
+        <span class="al-flow-arrow">→</span>
+        <span class="al-flow-step">Syllogisms</span>
+        <span class="al-flow-arrow">→</span>
+        <span class="al-flow-step">Multi-Rule Deduction</span>
+      </div>
+      <p>Master these three patterns and you can handle any deductive question. Get them confused and you'll pick trap answers with total confidence — which is worse than guessing.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 2: IF-THEN LOGIC ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">2</div>
+      <h2>If-Then Logic: The Foundation</h2>
+    </div>
+    <div class="al-card">
+      <p>An if-then rule has two parts: a <strong>condition</strong> (the "if") and a <strong>consequence</strong> (the "then"). Understanding what you can and cannot conclude from such a rule is the single most important deductive skill.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">The Rule</div>
+      <div class="al-formula-text">If P, then Q</div>
+      <div class="al-formula-note">P is the sufficient condition. Q is the necessary condition. P guarantees Q — but Q does not guarantee P.</div>
+    </div>
+
+    <!-- Valid inference: Modus Ponens -->
+    <div class="al-logic-block">
+      <div class="al-logic-label">Valid Inference — Modus Ponens</div>
+      <div class="al-logic-premise"><p><strong>Rule:</strong> If an employee works more than 37.5 hours per week, they receive overtime pay.</p></div>
+      <div class="al-logic-premise"><p><strong>Fact:</strong> John worked 42 hours this week.</p></div>
+      <div class="al-logic-conclusion"><p><strong>Conclusion:</strong> John receives overtime pay. ✔</p></div>
+      <p class="al-logic-result al-valid">VALID — the condition is met, so the consequence must follow.</p>
+    </div>
+
+    <!-- Valid inference: Modus Tollens -->
+    <div class="al-logic-block">
+      <div class="al-logic-label">Valid Inference — Modus Tollens</div>
+      <div class="al-logic-premise"><p><strong>Rule:</strong> If an employee works more than 37.5 hours per week, they receive overtime pay.</p></div>
+      <div class="al-logic-premise"><p><strong>Fact:</strong> Sarah did not receive overtime pay.</p></div>
+      <div class="al-logic-conclusion"><p><strong>Conclusion:</strong> Sarah did not work more than 37.5 hours. ✔</p></div>
+      <p class="al-logic-result al-valid">VALID — if the consequence didn't happen, the condition couldn't have been met.</p>
+    </div>
+
+    <div class="al-callout al-callout-danger">
+      <div class="al-callout-label">The Two Traps</div>
+      <p>The following two inferences look reasonable — and are <strong>both invalid</strong>.</p>
+    </div>
+
+    <!-- Invalid inference: Affirming the Consequent -->
+    <div class="al-logic-block">
+      <div class="al-logic-label">Invalid Inference — Affirming the Consequent</div>
+      <div class="al-logic-premise"><p><strong>Rule:</strong> If an employee works more than 37.5 hours per week, they receive overtime pay.</p></div>
+      <div class="al-logic-premise"><p><strong>Fact:</strong> Maria received overtime pay.</p></div>
+      <div class="al-logic-invalid"><p><strong>Conclusion:</strong> Maria worked more than 37.5 hours. ✘</p></div>
+      <p class="al-logic-result al-invalid">INVALID — overtime pay could have other causes (contractual bonus, bank holiday premium, error correction). The rule doesn't say overtime is the only way to receive overtime pay.</p>
+    </div>
+
+    <!-- Invalid inference: Denying the Antecedent -->
+    <div class="al-logic-block">
+      <div class="al-logic-label">Invalid Inference — Denying the Antecedent</div>
+      <div class="al-logic-premise"><p><strong>Rule:</strong> If an employee works more than 37.5 hours per week, they receive overtime pay.</p></div>
+      <div class="al-logic-premise"><p><strong>Fact:</strong> David worked 35 hours this week.</p></div>
+      <div class="al-logic-invalid"><p><strong>Conclusion:</strong> David did not receive overtime pay. ✘</p></div>
+      <p class="al-logic-result al-invalid">INVALID — the rule says what happens when you DO work overtime. It says nothing about what happens when you don't. David might still receive overtime pay for other reasons.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Summary — If P, Then Q</div>
+      <div class="al-formula-text">P is true → Q must be true ✔ &nbsp;&nbsp;|&nbsp;&nbsp; Q is false → P must be false ✔</div>
+      <div class="al-formula-note">Q is true → P might or might not be true ✘ &nbsp;&nbsp;|&nbsp;&nbsp; P is false → Q might or might not be true ✘</div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 3: SYLLOGISMS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">3</div>
+      <h2>Syllogisms: All, Some, and None</h2>
+    </div>
+    <div class="al-card">
+      <p>A syllogism is a logical argument with two premises and a conclusion. In aptitude tests, they typically use <strong>"All," "Some,"</strong> or <strong>"No"</strong> statements about categories of people or things. The challenge is distinguishing conclusions that <strong>must</strong> be true from those that merely <strong>could</strong> be true.</p>
+    </div>
+
+    <!-- Valid syllogism -->
+    <div class="al-logic-block">
+      <div class="al-logic-label">Valid Syllogism</div>
+      <div class="al-logic-premise"><p><strong>Premise 1:</strong> All analysts at Meridian Capital have passed CFA Level 1.</p></div>
+      <div class="al-logic-premise"><p><strong>Premise 2:</strong> Tom is an analyst at Meridian Capital.</p></div>
+      <div class="al-logic-conclusion"><p><strong>Conclusion:</strong> Tom has passed CFA Level 1. ✔</p></div>
+      <p class="al-logic-result al-valid">VALID — Tom is inside the "analysts" group, which is entirely inside the "CFA Level 1" group.</p>
+    </div>
+
+    <!-- Venn diagram for valid syllogism -->
+    <div class="al-venn-container">
+      <div class="al-venn-title">Why This Works — Venn Diagram</div>
+      <svg class="al-venn-svg" viewBox="0 0 420 245" preserveAspectRatio="xMidYMid meet">
+        <!-- Label above everything -->
+        <text x="210" y="16" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="13" font-weight="600" fill="#C8A951">CFA Level 1 Holders</text>
+        <!-- Large circle: CFA Level 1 holders -->
+        <circle cx="210" cy="138" r="95" fill="none" stroke="#C8A951" stroke-width="2.5" stroke-dasharray="6,3"/>
+        <!-- Medium circle: Analysts -->
+        <circle cx="195" cy="148" r="55" fill="rgba(27, 42, 74, 0.08)" stroke="#1B2A4A" stroke-width="2.5"/>
+        <text x="195" y="128" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="12" font-weight="700" fill="#1B2A4A">Analysts</text>
+        <!-- Tom dot inside Analysts -->
+        <circle cx="195" cy="163" r="6" fill="#2D8F5E"/>
+        <text x="210" y="168" font-family="Source Sans 3, sans-serif" font-size="11" font-weight="600" fill="#2D8F5E">Tom</text>
+      </svg>
+      <div class="al-venn-caption">Tom is inside Analysts, which is entirely inside CFA Level 1 Holders. Therefore Tom must have CFA Level 1.</div>
+    </div>
+
+    <!-- Invalid syllogism — the classic trap -->
+    <div class="al-logic-block">
+      <div class="al-logic-label">Invalid Syllogism — The Classic Trap</div>
+      <div class="al-logic-premise"><p><strong>Premise 1:</strong> All analysts at Meridian Capital have passed CFA Level 1.</p></div>
+      <div class="al-logic-premise"><p><strong>Premise 2:</strong> Rachel has passed CFA Level 1.</p></div>
+      <div class="al-logic-invalid"><p><strong>Conclusion:</strong> Rachel is an analyst at Meridian Capital. ✘</p></div>
+      <p class="al-logic-result al-invalid">INVALID — Rachel could be an accountant, a portfolio manager, or work at a completely different firm. CFA Level 1 holders are not all analysts.</p>
+    </div>
+
+    <!-- Venn diagram for invalid syllogism -->
+    <div class="al-venn-container">
+      <div class="al-venn-title">Why This Fails — Venn Diagram</div>
+      <svg class="al-venn-svg" viewBox="0 0 420 245" preserveAspectRatio="xMidYMid meet">
+        <!-- Label above everything -->
+        <text x="210" y="16" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="13" font-weight="600" fill="#C8A951">CFA Level 1 Holders</text>
+        <!-- Large circle: CFA Level 1 holders -->
+        <circle cx="210" cy="138" r="95" fill="none" stroke="#C8A951" stroke-width="2.5" stroke-dasharray="6,3"/>
+        <!-- Medium circle: Analysts -->
+        <circle cx="195" cy="148" r="55" fill="rgba(27, 42, 74, 0.08)" stroke="#1B2A4A" stroke-width="2.5"/>
+        <text x="195" y="128" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="12" font-weight="700" fill="#1B2A4A">Analysts</text>
+        <!-- Rachel dot outside Analysts but inside CFA -->
+        <circle cx="290" cy="100" r="6" fill="#C0392B"/>
+        <text x="305" y="104" font-family="Source Sans 3, sans-serif" font-size="11" font-weight="600" fill="#C0392B">Rachel</text>
+      </svg>
+      <div class="al-venn-caption">Rachel is inside CFA Level 1 Holders — but she could be anywhere in that circle. She is not necessarily inside the Analysts subset.</div>
+    </div>
+
+    <div class="al-callout al-callout-warn">
+      <div class="al-callout-label">The Core Principle</div>
+      <p><strong>"All A are B" does not mean "All B are A."</strong> This is the single most common logical error in deductive reasoning tests. "All analysts have CFA" does not mean "Everyone with CFA is an analyst." The direction of the relationship matters.</p>
+    </div>
+
+    <!-- "Some" and "No" syllogisms -->
+    <div class="al-card">
+      <p>Tests also use <strong>"Some"</strong> and <strong>"No"</strong> quantifiers:</p>
+    </div>
+
+    <div class="al-vs">
+      <div class="al-vs-box al-vs-right">
+        <div class="al-vs-label">Valid Conclusions</div>
+        <p><strong>"No managers are interns"</strong></p>
+        <p>→ No interns are managers ✔</p>
+        <p style="margin-top: 0.75rem;"><strong>"Some consultants are bilingual"</strong></p>
+        <p>→ Some bilingual people are consultants ✔</p>
+      </div>
+      <div class="al-vs-box al-vs-wrong">
+        <div class="al-vs-label">Invalid Conclusions</div>
+        <p><strong>"Some consultants are bilingual"</strong></p>
+        <p>→ All consultants are bilingual ✘</p>
+        <p style="margin-top: 0.75rem;"><strong>"All partners are qualified"</strong></p>
+        <p>→ All qualified people are partners ✘</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 4: MULTI-RULE DEDUCTION ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">4</div>
+      <h2>Multi-Rule Deduction Problems</h2>
+    </div>
+    <div class="al-card">
+      <p>The hardest deductive questions give you <strong>3–5 rules</strong> and a scenario, then ask which conclusion <strong>must follow</strong>. The technique is systematic elimination: apply each rule in sequence to narrow down the possibilities.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">The Approach</div>
+      <div class="al-formula-text">Read all rules → Apply rules one by one → Eliminate what can't be true → What remains must be true</div>
+      <div class="al-formula-note">Never jump to a conclusion based on one rule alone. Chain the rules together.</div>
+    </div>
+
+    <!-- Multi-rule scenario -->
+    <div class="al-card">
+      <p><strong>Scenario:</strong> A consulting firm has the following policies for its London office:</p>
+    </div>
+
+    <table class="al-data-table">
+      <thead>
+        <tr>
+          <th style="width: 12%;">Rule</th>
+          <th>Policy</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1</strong></td>
+          <td>All senior consultants must hold a professional qualification (ACA, ACCA, or CFA).</td>
+        </tr>
+        <tr>
+          <td><strong>2</strong></td>
+          <td>If a consultant leads a client engagement, they must be a senior consultant.</td>
+        </tr>
+        <tr>
+          <td><strong>3</strong></td>
+          <td>No consultant without at least 3 years of experience may lead a client engagement.</td>
+        </tr>
+        <tr>
+          <td><strong>4</strong></td>
+          <td>James leads a client engagement for a FTSE 250 company.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="al-card">
+      <p><strong>Question:</strong> Which of the following must be true?</p>
+      <p>(A) James has more than 3 years of experience and holds a professional qualification.</p>
+      <p>(B) James is the most experienced consultant in the firm.</p>
+      <p>(C) James holds an ACA qualification specifically.</p>
+      <p>(D) All senior consultants lead client engagements.</p>
+    </div>
+
+    <div class="al-logic-block">
+      <div class="al-logic-label">Chain of Reasoning</div>
+      <div class="al-logic-premise"><p><strong>From Rule 4:</strong> James leads a client engagement.</p></div>
+      <div class="al-logic-premise"><p><strong>From Rule 2:</strong> Leading requires being a senior consultant → James is a senior consultant.</p></div>
+      <div class="al-logic-premise"><p><strong>From Rule 1:</strong> Senior consultants must hold a professional qualification → James holds a professional qualification.</p></div>
+      <div class="al-logic-premise"><p><strong>From Rule 3:</strong> Leading requires at least 3 years of experience → James has at least 3 years of experience.</p></div>
+      <div class="al-logic-conclusion"><p><strong>Answer: (A)</strong> — James must have both 3+ years of experience and a professional qualification. ✔</p></div>
+    </div>
+
+    <div class="al-callout al-callout-danger">
+      <div class="al-callout-label">Why the Other Options Fail</div>
+      <p><strong>(B)</strong> is unsupported — "at least 3 years" does not mean "the most experienced." <strong>(C)</strong> is too specific — he holds a professional qualification, but it could be ACA, ACCA, or CFA. <strong>(D)</strong> reverses the rule — Rule 2 says leaders must be senior, not that all seniors must lead.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 5: THE FIVE COMMON TRAPS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">5</div>
+      <h2>The Five Deductive Reasoning Traps</h2>
+    </div>
+    <p style="margin-bottom: 1rem; font-size: 0.92rem; color: var(--al-text-light);">Every wrong answer in a deductive reasoning test corresponds to one of these five errors. Learn to recognise them and you'll eliminate trap answers instinctively.</p>
+
+    <div class="al-card">
+      <ol class="al-rules">
+        <li><strong>Reversing the direction</strong> — "All A are B" does not mean "All B are A." This is the most frequent trap. If all analysts have CFA, it does not follow that all CFA holders are analysts.</li>
+        <li><strong>Affirming the consequent</strong> — Knowing the outcome happened doesn't mean the specific cause occurred. "If it rains, the ground is wet. The ground is wet." You cannot conclude it rained — a sprinkler could be responsible.</li>
+        <li><strong>Denying the antecedent</strong> — Just because the condition isn't met doesn't mean the consequence doesn't occur. "If you work overtime, you get extra pay. You didn't work overtime." You might still get extra pay for another reason.</li>
+        <li><strong>Confusing "some" with "all"</strong> — "Some managers attended the conference" does not mean all did. And it does not mean most did. "Some" means at least one — nothing more.</li>
+        <li><strong>Going beyond the rules</strong> — Your own knowledge is irrelevant. If the rules don't say it, you cannot conclude it. A conclusion might be true in real life and still be unsupported by the given premises.</li>
+      </ol>
+    </div>
+
+    <div class="al-callout al-callout-tip">
+      <div class="al-callout-label">Test-Day Technique</div>
+      <p>When evaluating a conclusion, ask: <strong>"Can I construct a scenario where the premises are all true but the conclusion is false?"</strong> If yes, the conclusion is invalid. If you cannot construct such a scenario, the conclusion must be valid. This single test resolves nearly every deductive question.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 6: NECESSARY vs SUFFICIENT CONDITIONS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">6</div>
+      <h2>Necessary vs Sufficient Conditions</h2>
+    </div>
+    <div class="al-card">
+      <p>This distinction underpins every if-then question. Confusing the two is the root cause of most deductive errors in aptitude tests.</p>
+    </div>
+
+    <div class="al-vs">
+      <div class="al-vs-box al-vs-right">
+        <div class="al-vs-label">Sufficient Condition</div>
+        <p><strong>Definition:</strong> If this is true, the outcome is <strong>guaranteed</strong>.</p>
+        <p style="margin-top: 0.5rem;"><strong>Example:</strong> "Scoring above 85% is sufficient to pass." → If you score 90%, you definitely pass.</p>
+        <p style="margin-top: 0.5rem;">But you might also pass with 75% if the threshold is lower. The sufficient condition is not the <strong>only</strong> way.</p>
+      </div>
+      <div class="al-vs-box" style="background: var(--al-gold-pale); border: 2px solid var(--al-gold);">
+        <div class="al-vs-label" style="color: var(--al-navy);">Necessary Condition</div>
+        <p><strong>Definition:</strong> This must be true for the outcome to occur — but alone, it may not be <strong>enough</strong>.</p>
+        <p style="margin-top: 0.5rem;"><strong>Example:</strong> "A degree is necessary to apply." → Without a degree, you cannot apply.</p>
+        <p style="margin-top: 0.5rem;">But having a degree alone doesn't guarantee your application succeeds. Other conditions may also apply.</p>
+      </div>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">The Quick Test</div>
+      <div class="al-formula-text">"If P, then Q" → P is sufficient for Q. Q is necessary for P.</div>
+      <div class="al-formula-note">Sufficient = guarantees the outcome. Necessary = required for the outcome but may not be enough alone.</div>
+    </div>
+
+    <div class="al-callout al-callout-gold">
+      <div class="al-callout-label">In Real Tests</div>
+      <p>Questions often phrase these as: "Which of the following <strong>must</strong> be true?" (testing necessary conditions) or "Which of the following <strong>guarantees</strong> the outcome?" (testing sufficient conditions). Reading the question word precisely — must, could, guarantees, is possible — determines which logical tool to apply.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ KEY TAKEAWAYS ═══ -->
+  <div class="al-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul class="al-takeaways-list">
+      <li>"If P, then Q" means P guarantees Q — but Q does not guarantee P. Never reverse the direction.</li>
+      <li>Affirming the consequent (Q is true, therefore P) and denying the antecedent (P is false, therefore not Q) are both invalid — and both common trap answers.</li>
+      <li>"All A are B" does not mean "All B are A." Use Venn diagrams to visualise the relationship when in doubt.</li>
+      <li>For multi-rule problems: read all rules first, chain them in sequence, eliminate options one by one.</li>
+      <li>The counterexample test — "Can I imagine a scenario where premises are true but conclusion is false?" — resolves nearly every deductive question.</li>
+      <li>Distinguish necessary from sufficient: "must" tests necessity, "guarantees" tests sufficiency. Read question wording precisely.</li>
+    </ul>
+  </div>
+
+  <!-- ═══ NEXT LESSON ═══ -->
+  <div class="al-next">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Lesson</div>
+      <div class="al-next-title">4.2 — Pattern Recognition</div>
+      <div class="al-next-desc">Visual sequences, abstract patterns, and the systematic approach to inductive reasoning questions.</div>
+    </div>
+  </div>
+
+</div>
+
+<!--
+  VERIFICATION NOTES:
+  This is a Theory lesson — no numerical calculations to verify.
+
+  LOGICAL VERIFICATION:
+  Section 2 — If-Then Logic:
+    Modus Ponens:     P→Q, P ∴ Q          — valid ✓
+    Modus Tollens:    P→Q, ¬Q ∴ ¬P        — valid ✓
+    Affirming Conseq: P→Q, Q ∴ P          — invalid ✓
+    Denying Anteced:  P→Q, ¬P ∴ ¬Q        — invalid ✓
+
+  Section 3 — Syllogisms:
+    All A are B, x∈A ∴ x∈B                — valid ✓
+    All A are B, x∈B ∴ x∈A                — invalid ✓
+    "No A are B" ↔ "No B are A"           — valid (symmetric) ✓
+    "Some A are B" ↔ "Some B are A"       — valid (symmetric) ✓
+    "Some A are B" → "All A are B"        — invalid ✓
+    "All A are B" → "All B are A"         — invalid ✓
+
+  Section 4 — Multi-Rule Problem:
+    Rule 4: James leads engagement
+    Rule 2: Leads → Senior consultant     → James is senior ✓
+    Rule 1: Senior → holds ACA/ACCA/CFA   → James holds qualification ✓
+    Rule 3: Leads → 3+ years experience   → James has 3+ years ✓
+    Answer (A): Both 3+ years AND qualification — correct ✓
+    Answer (B): "Most experienced" — unsupported (only "at least 3") ✓
+    Answer (C): "ACA specifically" — too narrow (could be any of three) ✓
+    Answer (D): Reverses Rule 2 (leaders must be senior ≠ seniors must lead) ✓
+
+  Section 6 — Necessary vs Sufficient:
+    P→Q: P is sufficient for Q              ✓
+    P→Q: Q is necessary for P               ✓
+    Sufficient ≠ only way                    ✓
+    Necessary ≠ enough alone                 ✓
+-->

@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en-GB" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acumen Logic | Finance Aptitude Training | Big 4 & Investment Banking</title>
+    <meta name="description" content="Professional-grade training for Big 4, investment banking, and consulting aptitude assessments. Six-module methodology with a 30-day Score Improvement Guarantee based on diagnostic-to-mock progress.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script src="assets/js/main.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        /* Exact colors from logo */
+                        navy: {
+                            50: '#f0f3f7',
+                            100: '#dae1eb',
+                            200: '#b8c5d4',
+                            300: '#8da3ba',
+                            400: '#5d7a99',
+                            500: '#3d5a7a',
+                            600: '#2d4561',
+                            700: '#1b263b',  /* Primary navy from logo */
+                            800: '#151e2f',
+                            900: '#0f1624',
+                            950: '#0a0f18',
+                        },
+                        gold: {
+                            50: '#faf6ef',
+                            100: '#f3ebdb',
+                            200: '#e6d4b5',
+                            300: '#d6ba8a',
+                            400: '#c9a961',  /* Primary gold from logo */
+                            500: '#b8935e',
+                            600: '#a17a4a',
+                            700: '#86633d',
+                            800: '#6e5035',
+                            900: '#5a422d',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .text-balance { text-wrap: balance; }
+        
+        /* Reveal animations */
+                
+        /* Stagger delays */
+        .delay-1 { transition-delay: 100ms; }
+        .delay-2 { transition-delay: 200ms; }
+        .delay-3 { transition-delay: 300ms; }
+        .delay-4 { transition-delay: 400ms; }
+        .delay-5 { transition-delay: 500ms; }
+        
+        /* Card hover effect */
+        .card-hover {
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), 
+                        box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(27, 38, 59, 0.15);
+        }
+        
+        /* Module card number hover */
+        .module-card .module-number {
+            transition: all 0.3s ease;
+        }
+        .module-card:hover .module-number {
+            background-color: rgba(201, 169, 97, 0.15);
+            color: #c9a961;
+        }
+        
+        /* Trust bar marquee */
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 45s linear infinite;
+        }
+        .marquee-content:hover {
+            animation-play-state: paused;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        /* Interactive question preview */
+        .option-card {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .option-card:hover {
+            border-color: rgba(201, 169, 97, 0.5);
+            background-color: #faf6ef;
+        }
+        .option-card.selected {
+            border-color: #1b263b;
+            background-color: #f0f3f7;
+            color: #1b263b;
+        }
+        .option-card .option-badge {
+            width: 24px;
+            height: 24px;
+            border-radius: 9999px;
+            border: 2px solid #8da3ba;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 12px;
+            color: #3d5a7a;
+            margin-top: 2px;
+        }
+        .option-card.selected .option-badge {
+            border-color: #1b263b;
+            background-color: #1b263b;
+            color: #ffffff;
+        }
+        
+        /* Step connector line */
+        .step-connector {
+            position: absolute;
+            left: 28px;
+            top: 72px;
+            bottom: -32px;
+            width: 2px;
+            background: linear-gradient(180deg, #dae1eb 0%, #b8c5d4 100%);
+        }
+        @media (min-width: 768px) {
+            .step-connector { left: 36px; }
+        }
+        
+        /* Navbar scroll effect */
+        .navbar-scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 20px rgba(27, 38, 59, 0.08);
+        }
+        
+        /* Custom selection */
+        ::selection {
+            background: rgba(201, 169, 97, 0.3);
+            color: #1b263b;
+        }
+        
+        /* Focus states */
+        a:focus-visible, button:focus-visible {
+            outline: 2px solid #c9a961;
+            outline-offset: 2px;
+        }
+        
+        /* Final CTA gradient mesh background */
+        .cta-gradient {
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(201, 169, 97, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(201, 169, 97, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(27, 38, 59, 0.05) 0%, transparent 70%),
+                linear-gradient(135deg, #1b263b 0%, #151e2f 50%, #0f1624 100%);
+        }
+        
+        /* Animated gradient border for CTA */
+        .cta-border-glow {
+            position: relative;
+        }
+        .cta-border-glow::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, #c9a961 0%, #1b263b 50%, #c9a961 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.3;
+        }
+
+        /* Match diagnostic dotted background pattern */
+        .assessment-pattern {
+            background-color: #0f1624;
+            background-image:
+                radial-gradient(circle at 1px 1px, rgba(233, 239, 248, 0.09) 0.85px, transparent 1px),
+                linear-gradient(165deg, #0c1526 0%, #0b1424 54%, #0a1221 100%);
+            background-size: 28px 28px, 100% 100%;
+        }
+    </style>
+</head>
+<body class="font-sans text-navy-700 bg-white antialiased">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full bg-white/95 backdrop-blur-md border-b border-navy-100/50 z-50 transition-all duration-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <div class="relative">
+                        <img src="assets/images/logo.png" width="42" height="42" alt="Acumen Logic" class="relative z-10 transition-transform duration-300 group-hover:scale-105">
+                    </div>
+                    <div>
+                        <span class="font-display text-xl font-bold text-navy-700 tracking-tight">Acumen Logic</span>
+                        <span class="hidden sm:block text-xs text-gold-400 font-medium tracking-wide">Precision Training</span>
+                    </div>
+                </a>
+                
+                <div class="hidden md:flex items-center gap-10">
+                    <a href="index.html" class="text-sm font-medium text-gold-500">Home</a>
+                    <a href="diagnostic.html" class="text-sm font-medium text-navy-600 hover:text-gold-400 transition-colors duration-300">Diagnostic</a>
+                    <a href="masterclass.html" class="text-sm font-medium text-navy-600 hover:text-gold-400 transition-colors duration-300">Product</a>
+                    <a href="blog/index.html" class="text-sm font-medium text-navy-600 hover:text-gold-400 transition-colors duration-300">Blog</a>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <a href="diagnostic.html" class="bg-navy-700 hover:bg-navy-800 text-white px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-300 shadow-lg shadow-navy-700/20 hover:shadow-xl hover:shadow-navy-700/25 hover:-translate-y-0.5">
+                        Start Free Diagnostic
+                    </a>
+                    <button class="md:hidden text-navy-700" data-mobile-menu-button aria-expanded="false" aria-controls="mobileMenu">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-navy-100">
+            <div class="px-4 py-6 space-y-4">
+                <a href="index.html" class="block text-gold-500 font-medium">Home</a>
+                <a href="diagnostic.html" class="block text-navy-600 hover:text-gold-500">Diagnostic</a>
+                <a href="masterclass.html" class="block text-navy-600 hover:text-gold-500">Product</a>
+                <a href="blog/index.html" class="block text-navy-600 hover:text-gold-500">Blog</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="assessment-pattern relative pt-28 pb-20 lg:pt-36 lg:pb-28 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                <div class="space-y-8">
+                    <!-- Urgency badge -->
+                    <div class="reveal inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-gold-400/10 border border-gold-400/30 text-gold-300">
+                        <span class="relative flex h-2.5 w-2.5">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-gold-400"></span>
+                        </span>
+                        <span class="text-sm font-semibold">Founding Member Pricing — 13 spots remaining</span>
+                    </div>
+                    
+                    <h1 class="reveal delay-1 font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1] text-balance">
+                        Master the assessments that determine your 
+                        <span class="text-gold-400">career trajectory</span>
+                    </h1>
+                    
+                    <p class="reveal delay-2 text-lg lg:text-xl text-navy-200 leading-relaxed max-w-xl">
+                        Professional training for Big 4, investment banking, and consulting aptitude tests. Structured six-module methodology with a 30-day Score Improvement Guarantee based on your Acumen Logic diagnostic-to-mock progress.
+                    </p>
+
+                    <div class="reveal delay-3 flex flex-col sm:flex-row gap-4">
+                        <a href="diagnostic.html" class="group inline-flex items-center justify-center gap-2.5 bg-gold-400 hover:bg-gold-500 text-navy-900 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg shadow-gold-400/25 hover:shadow-xl hover:shadow-gold-400/30 hover:-translate-y-0.5">
+                            Take Free Diagnostic
+                            <i data-lucide="arrow-right" class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"></i>
+                        </a>
+                        <a href="#programme" class="inline-flex items-center justify-center gap-2 bg-transparent border-2 border-navy-300 hover:border-gold-400 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:bg-gold-400/10">
+                            Explore the Programme
+                        </a>
+                    </div>
+
+                    <div class="reveal delay-4 flex flex-wrap items-center gap-6 pt-2 text-sm text-navy-300">
+                        <span class="flex items-center gap-2">
+                            <i data-lucide="shield-check" class="w-5 h-5 text-gold-400"></i>
+                            30-Day Score Improvement Guarantee
+                        </span>
+                        <span class="flex items-center gap-2">
+                            <i data-lucide="zap" class="w-5 h-5 text-gold-400"></i>
+                            Immediate Access
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Interactive Preview Card -->
+                <div class="reveal delay-3 relative">
+                    <div class="absolute -inset-4 bg-gradient-to-br from-gold-400/20 via-navy-400/10 to-gold-400/20 rounded-3xl blur-2xl"></div>
+                    <div class="relative bg-white rounded-2xl shadow-2xl shadow-navy-700/10 border border-navy-100 overflow-hidden">
+                        <!-- Window chrome -->
+                        <div class="bg-navy-50 border-b border-navy-100 px-6 py-4 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-red-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+                            </div>
+                            <div class="flex items-center gap-2 text-red-600 text-sm font-bold">
+                                <i data-lucide="clock" class="w-4 h-4"></i>
+                                <span>4:47</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Question content -->
+                        <div class="p-6 lg:p-8 space-y-6">
+                            <div class="mb-7 pt-1">
+                                <div class="flex items-center gap-3 mb-6">
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-gold-400/20 text-gold-400 border border-gold-400/40">Data Interpretation</span>
+                                    <span class="text-xs text-navy-400">Question 14 of 20</span>
+                                </div>
+                                <div class="space-y-1 text-sm text-navy-500 mb-6 bg-navy-50 rounded-lg p-4 border border-navy-100">
+                                    <p>Q2 Revenue: £4.2 million</p>
+                                    <p>Operating Cost Ratio: 68%</p>
+                                </div>
+                                <p class="text-lg font-medium text-navy-700 leading-relaxed">
+                                    What is the approximate operating profit for Q2?
+                                </p>
+                            </div>
+
+                            <div class="space-y-3" id="preview-options">
+                                <div class="option-card p-4 rounded-lg border-2 border-navy-200 bg-white text-navy-600 flex items-start gap-3" onclick="selectOption(this)">
+                                    <span class="option-badge">A</span>
+                                    <span class="text-sm leading-relaxed">£1.84M</span>
+                                </div>
+                                <div class="option-card p-4 rounded-lg border-2 border-navy-200 bg-white text-navy-600 flex items-start gap-3" onclick="selectOption(this)">
+                                    <span class="option-badge">B</span>
+                                    <span class="text-sm leading-relaxed">£2.86M</span>
+                                </div>
+                                <div class="option-card p-4 rounded-lg border-2 border-navy-200 bg-white text-navy-600 flex items-start gap-3" onclick="selectOption(this)">
+                                    <span class="option-badge">C</span>
+                                    <span class="text-sm leading-relaxed">£1.34M</span>
+                                </div>
+                                <div class="option-card p-4 rounded-lg border-2 border-navy-200 bg-white text-navy-600 flex items-start gap-3" onclick="selectOption(this)">
+                                    <span class="option-badge">D</span>
+                                    <span class="text-sm leading-relaxed">£2.96M</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Bar -->
+    <section class="border-y border-navy-100 bg-navy-50/50 py-10 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
+            <p class="text-center text-sm text-navy-400 uppercase tracking-widest font-semibold">Trusted by candidates targeting</p>
+        </div>
+        <div class="marquee-container">
+            <div class="marquee-content flex items-center gap-20 px-10">
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">Deloitte</span>
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">PwC</span>
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">KPMG</span>
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">EY</span>
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">Goldman Sachs</span>
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">JP Morgan</span>
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">Morgan Stanley</span>
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">Barclays</span>
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">Deutsche Bank</span>
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">UBS</span>
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">HSBC</span>
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">Citi</span>
+                <!-- Duplicate for seamless loop -->
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">Deloitte</span>
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">PwC</span>
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">KPMG</span>
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">EY</span>
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">Goldman Sachs</span>
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">JP Morgan</span>
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">Morgan Stanley</span>
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">Barclays</span>
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">Deutsche Bank</span>
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">UBS</span>
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">HSBC</span>
+                <span class="text-xl font-bold text-navy-400/80 hover:text-navy-600 transition-colors">Citi</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="py-24 lg:py-32 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mx-auto text-center mb-20 reveal">
+                <span class="text-gold-400 font-semibold text-sm uppercase tracking-widest">The Challenge</span>
+                <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-navy-700 mt-3 mb-6">
+                    Why most candidates fail finance assessments
+                </h2>
+                <p class="text-lg text-navy-600 leading-relaxed">
+                    Big 4 and investment banks don't test what you learned at university. They test how you perform under pressure with complex, unfamiliar data.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="reveal card-hover bg-white rounded-2xl p-8 border border-navy-100 shadow-sm">
+                    <div class="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center mb-6">
+                        <i data-lucide="brain-circuit" class="w-7 h-7 text-red-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-navy-700 mb-4">Data Overload</h3>
+                    <p class="text-navy-600 leading-relaxed">
+                        Multiple tables, conflicting metrics, and irrelevant data designed to overwhelm working memory. Most candidates attempt to hold everything in their head—and fail.
+                    </p>
+                </div>
+
+                <div class="reveal delay-1 card-hover bg-white rounded-2xl p-8 border border-navy-100 shadow-sm">
+                    <div class="w-14 h-14 bg-amber-50 rounded-2xl flex items-center justify-center mb-6">
+                        <i data-lucide="shuffle" class="w-7 h-7 text-amber-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-navy-700 mb-4">Context Switching</h3>
+                    <p class="text-navy-600 leading-relaxed">
+                        Rapid alternation between calculation types destroys rhythm and invites error. The test forces you to jump from percentages to ratios to logic without warning.
+                    </p>
+                </div>
+
+                <div class="reveal delay-2 card-hover bg-white rounded-2xl p-8 border border-navy-100 shadow-sm">
+                    <div class="w-14 h-14 bg-rose-50 rounded-2xl flex items-center justify-center mb-6">
+                        <i data-lucide="target" class="w-7 h-7 text-rose-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-navy-700 mb-4">Precision Traps</h3>
+                    <p class="text-navy-600 leading-relaxed">
+                        Small misreads—percentage vs. percentage points, thousands vs. millions—result in confident wrong answers. The test rewards precision, not just speed.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Methodology Section -->
+    <section id="methodology" class="py-24 lg:py-32 bg-navy-50/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+                <div class="lg:sticky lg:top-32 reveal">
+                    <span class="text-gold-400 font-semibold text-sm uppercase tracking-widest">Our Methodology</span>
+                    <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-navy-700 mt-3 mb-6">
+                        Structured preparation based on assessment psychology
+                    </h2>
+                    <p class="text-lg text-navy-600 mb-10 leading-relaxed">
+                        We don't just give you practice questions. We teach you the decision frameworks that assessment designers expect successful candidates to use.
+                    </p>
+
+                    <div class="bg-white rounded-2xl p-6 shadow-md border border-navy-100 mb-8">
+                        <h4 class="font-bold text-navy-700 mb-5 flex items-center gap-3">
+                            <div class="w-8 h-8 bg-gold-100 rounded-lg flex items-center justify-center">
+                                <i data-lucide="sparkles" class="w-4 h-4 text-gold-500"></i>
+                            </div>
+                            What makes this different
+                        </h4>
+                        <ul class="space-y-4 text-navy-600">
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check" class="w-5 h-5 text-gold-400 flex-shrink-0 mt-0.5"></i>
+                                <span>Six precision-engineered modules from foundations to advanced multi-table integration</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check" class="w-5 h-5 text-gold-400 flex-shrink-0 mt-0.5"></i>
+                                <span>Questions mirroring real finance aptitude tests</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check" class="w-5 h-5 text-gold-400 flex-shrink-0 mt-0.5"></i>
+                                <span>Method-specific error analysis, not just right/wrong</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check" class="w-5 h-5 text-gold-400 flex-shrink-0 mt-0.5"></i>
+                                <span>Personalised study pathway based on diagnostic results</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="#programme" class="group inline-flex items-center gap-2 text-gold-500 font-semibold hover:text-gold-600 transition-colors">
+                        See the full curriculum
+                        <i data-lucide="arrow-right" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"></i>
+                    </a>
+                </div>
+
+                <!-- Steps -->
+                <div class="space-y-10 relative">
+                    <div class="reveal relative pl-20 lg:pl-24">
+                        <div class="step-connector"></div>
+                        <div class="absolute left-0 top-0 w-14 h-14 lg:w-18 lg:h-18 bg-navy-700 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg">1</div>
+                        <div class="bg-white rounded-2xl p-6 shadow-sm border border-navy-100">
+                            <h3 class="text-xl font-bold text-navy-700 mb-3">Free Diagnostic Assessment</h3>
+                            <p class="text-navy-600 mb-4 leading-relaxed">
+                                Complete a 20-question, 15-minute simulation. Identify your specific bottlenecks in Numerical, Data, and Logical reasoning before you invest in training.
+                            </p>
+                            <div class="flex items-center gap-4 text-sm text-gold-500 font-medium">
+                                <span class="flex items-center gap-1.5">
+                                    <i data-lucide="clock" class="w-4 h-4"></i>
+                                    15 minutes
+                                </span>
+                                <span class="flex items-center gap-1.5">
+                                    <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                                    3 categories
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="reveal delay-1 relative pl-20 lg:pl-24">
+                        <div class="step-connector"></div>
+                        <div class="absolute left-0 top-0 w-14 h-14 lg:w-18 lg:h-18 bg-navy-700 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg">2</div>
+                        <div class="bg-white rounded-2xl p-6 shadow-sm border border-navy-100">
+                            <h3 class="text-xl font-bold text-navy-700 mb-3">Receive Your Analysis</h3>
+                            <p class="text-navy-600 mb-4 leading-relaxed">
+                                Get your scores for each category. Understand exactly which question types are costing you points and which modules you need to prioritise.
+                            </p>
+                            <div class="bg-navy-50 rounded-xl p-4 border border-navy-100">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm font-medium text-navy-700">Recommended Focus</span>
+                                    <span class="text-sm font-bold text-navy-700">Module 3: Multi-Table</span>
+                                </div>
+                                <div class="w-full h-2.5 bg-navy-200 rounded-full overflow-hidden">
+                                    <div class="w-[65%] h-full bg-navy-700 rounded-full"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="reveal delay-2 relative pl-20 lg:pl-24">
+                        <div class="step-connector"></div>
+                        <div class="absolute left-0 top-0 w-14 h-14 lg:w-18 lg:h-18 bg-navy-700 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg">3</div>
+                        <div class="bg-white rounded-2xl p-6 shadow-sm border border-navy-100">
+                            <h3 class="text-xl font-bold text-navy-700 mb-3">Targeted Training Programme</h3>
+                            <p class="text-navy-600 leading-relaxed">
+                                Access all six modules via ThriveCart Learn. Work through structured lessons, practice sets, and timed assessments at your own pace.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="reveal delay-3 relative pl-20 lg:pl-24">
+                        <div class="absolute left-0 top-0 w-14 h-14 lg:w-18 lg:h-18 bg-emerald-600 rounded-2xl flex items-center justify-center text-white shadow-lg">
+                            <i data-lucide="trophy" class="w-7 h-7"></i>
+                        </div>
+                        <div class="bg-white rounded-2xl p-6 shadow-sm border border-navy-100">
+                            <h3 class="text-xl font-bold text-navy-700 mb-3">Assessment Ready</h3>
+                            <p class="text-navy-600 leading-relaxed">
+                                Enter your real assessment with proven methodology, clear strategy, and confidence. Retake the diagnostic to verify your improvement.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Programme -->
+    <section id="programme" class="py-24 lg:py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+                <span class="text-gold-400 font-semibold text-sm uppercase tracking-widest">The Complete Programme</span>
+                <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-navy-700 mt-3 mb-6">
+                    Six precision-engineered modules
+                </h2>
+                <p class="text-lg text-navy-600">
+                    Delivered via ThriveCart Learn. From mental math foundations to advanced multi-table integration.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="reveal card-hover module-card bg-white rounded-2xl p-8 border border-navy-100 shadow-sm">
+                    <div class="module-number w-14 h-14 rounded-xl bg-navy-100 flex items-center justify-center mb-6">
+                        <span class="text-navy-500 font-bold text-xl font-mono">01</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-navy-700 mb-3">Foundations & Calculation Speed</h3>
+                    <p class="text-navy-600 leading-relaxed">
+                        Mental maths optimisation, percentage shortcuts, and ratio simplification. The baseline competency for 60-second question targets.
+                    </p>
+                </div>
+
+                <div class="reveal delay-1 card-hover module-card bg-white rounded-2xl p-8 border border-navy-100 shadow-sm">
+                    <div class="module-number w-14 h-14 rounded-xl bg-navy-100 flex items-center justify-center mb-6">
+                        <span class="text-navy-500 font-bold text-xl font-mono">02</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-navy-700 mb-3">Data Interpretation Architecture</h3>
+                    <p class="text-navy-600 leading-relaxed">
+                        Systematic approaches to tables and text-based data. Pattern recognition for trend identification without visual overload.
+                    </p>
+                </div>
+
+                <div class="reveal delay-2 card-hover module-card bg-white rounded-2xl p-8 border border-navy-100 shadow-sm">
+                    <div class="module-number w-14 h-14 rounded-xl bg-navy-100 flex items-center justify-center mb-6">
+                        <span class="text-navy-500 font-bold text-xl font-mono">03</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-navy-700 mb-3">Multi-Table Integration</h3>
+                    <p class="text-navy-600 leading-relaxed">
+                        The critical skill separating pass from fail. Synthesising data across 3+ synchronised tables. Core competency for Big 4 assessments.
+                    </p>
+                </div>
+
+                <div class="reveal delay-3 card-hover module-card bg-white rounded-2xl p-8 border border-navy-100 shadow-sm">
+                    <div class="module-number w-14 h-14 rounded-xl bg-navy-100 flex items-center justify-center mb-6">
+                        <span class="text-navy-500 font-bold text-xl font-mono">04</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-navy-700 mb-3">Numerical Reasoning Systems</h3>
+                    <p class="text-navy-600 leading-relaxed">
+                        Decision trees for word problems, currency and unit conversion protocols, and compound growth calculations under pressure.
+                    </p>
+                </div>
+
+                <div class="reveal delay-4 card-hover module-card bg-white rounded-2xl p-8 border border-navy-100 shadow-sm">
+                    <div class="module-number w-14 h-14 rounded-xl bg-navy-100 flex items-center justify-center mb-6">
+                        <span class="text-navy-500 font-bold text-xl font-mono">05</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-navy-700 mb-3">Pressure Protocols</h3>
+                    <p class="text-navy-600 leading-relaxed">
+                        Time management strategies, educated guessing frameworks, and cognitive load management for the 15-minute test window.
+                    </p>
+                </div>
+
+                <div class="reveal delay-5 card-hover module-card bg-white rounded-2xl p-8 border border-navy-100 shadow-sm">
+                    <div class="module-number w-14 h-14 rounded-xl bg-navy-100 flex items-center justify-center mb-6">
+                        <span class="text-navy-500 font-bold text-xl font-mono">06</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-navy-700 mb-3">Assessment Simulation</h3>
+                    <p class="text-navy-600 leading-relaxed">
+                        Full-length mock assessments with category breakdown analysis. Review mode with detailed explanations. Final preparation for test day.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About/Founder Section -->
+    <section id="about" class="py-24 lg:py-32 bg-navy-50/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <div class="bg-white rounded-2xl p-8 lg:p-10 shadow-lg border border-navy-100">
+                        <div class="w-24 h-24 bg-gradient-to-br from-navy-700 to-navy-800 rounded-2xl flex items-center justify-center mb-6">
+                            <span class="text-3xl font-bold text-gold-400 font-display">N</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-navy-700 mb-2">Nicholas</h3>
+                        <p class="text-gold-500 font-semibold mb-6">Founder & Lead Instructor</p>
+                        <p class="text-navy-600 leading-relaxed mb-6">
+                            Built Acumen Logic after experiencing firsthand how unprepared most candidates are for the specific cognitive demands of finance aptitude tests. Developed this methodology through analysis of assessment patterns across Big 4 and investment banking recruitment.
+                        </p>
+                        <div class="flex items-center gap-3 text-sm text-navy-500">
+                            <i data-lucide="mail" class="w-4 h-4"></i>
+                            <a href="mailto:enquiries@acumenlogic.co.uk" class="hover:text-gold-500 transition-colors">enquiries@acumenlogic.co.uk</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal delay-1 space-y-8">
+                    <div>
+                        <h2 class="font-display text-3xl lg:text-4xl font-bold text-navy-700 mb-4">
+                            Become a Founding Member
+                        </h2>
+                        <p class="text-lg text-navy-600 leading-relaxed">
+                            Join an exclusive cohort of early adopters and help shape the future of finance aptitude training. In exchange for your feedback and testimonials, receive:
+                        </p>
+                    </div>
+
+                    <div class="space-y-5">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-gold-100 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="percent" class="w-5 h-5 text-gold-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-navy-700 mb-1">Founding Member Pricing</h4>
+                                <p class="text-navy-600">Secure lifetime access at a significantly discounted rate</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-gold-100 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="message-circle" class="w-5 h-5 text-gold-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-navy-700 mb-1">Direct Support</h4>
+                                <p class="text-navy-600">Priority email access to Nicholas for methodology questions</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-gold-100 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="infinity" class="w-5 h-5 text-gold-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-navy-700 mb-1">Lifetime Updates</h4>
+                                <p class="text-navy-600">Access to all future modules and platform enhancements at no extra cost</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-gold-100 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="pencil" class="w-5 h-5 text-gold-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-navy-700 mb-1">Shape the Programme</h4>
+                                <p class="text-navy-600">Your feedback directly influences content development</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 text-sm text-gold-500 font-semibold pt-2">
+                        <i data-lucide="users" class="w-5 h-5"></i>
+                        <span>Only 13 founding member spots remaining</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="py-24 lg:py-32 bg-white">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-navy-700 mb-6">
+                    How Acumen Logic compares with practice-only prep
+                </h2>
+                <p class="text-lg text-navy-600">
+                    A fair comparison: both approaches can increase exposure to questions. The key difference is how clearly they diagnose weaknesses and build repeatable performance under time pressure.
+                </p>
+            </div>
+
+            <div class="reveal bg-white rounded-2xl shadow-xl border border-navy-100 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-navy-50 border-b border-navy-100">
+                            <tr>
+                                <th class="px-6 py-5 text-left text-sm font-bold text-navy-700">What matters for your score</th>
+                                <th class="px-6 py-5 text-center text-sm font-bold text-gold-500 w-1/3">Acumen Logic</th>
+                                <th class="px-6 py-5 text-center text-sm font-bold text-navy-500 w-1/3">Typical practice-only prep</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-navy-50">
+                            <tr class="hover:bg-navy-50/50 transition-colors">
+                                <td class="px-6 py-5 text-sm text-navy-700">Baseline diagnostic with category scoring and priority order</td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="minus" class="w-6 h-6 text-amber-400 mx-auto"></i></td>
+                            </tr>
+                            <tr class="hover:bg-navy-50/50 transition-colors">
+                                <td class="px-6 py-5 text-sm text-navy-700">Timed practice under assessment conditions</td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                            </tr>
+                            <tr class="hover:bg-navy-50/50 transition-colors">
+                                <td class="px-6 py-5 text-sm text-navy-700">Decision frameworks for Numerical, Data, and Logical question types</td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="minus" class="w-6 h-6 text-amber-400 mx-auto"></i></td>
+                            </tr>
+                            <tr class="hover:bg-navy-50/50 transition-colors">
+                                <td class="px-6 py-5 text-sm text-navy-700">Structured error review (why it went wrong and what to change next)</td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="minus" class="w-6 h-6 text-amber-400 mx-auto"></i></td>
+                            </tr>
+                            <tr class="hover:bg-navy-50/50 transition-colors">
+                                <td class="px-6 py-5 text-sm text-navy-700">Personalised study plan based on weakest categories</td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="minus" class="w-6 h-6 text-amber-400 mx-auto"></i></td>
+                            </tr>
+                            <tr class="hover:bg-navy-50/50 transition-colors">
+                                <td class="px-6 py-5 text-sm text-navy-700">Finance-style multi-table integration methods and pressure protocols</td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="minus" class="w-6 h-6 text-amber-400 mx-auto"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="px-6 py-4 border-t border-navy-100 bg-navy-50/60">
+                    <p class="text-xs text-navy-500">Typical practice-only prep varies by provider; this reflects the most common format candidates use.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Guarantee -->
+    <section class="py-24 lg:py-32 bg-gradient-to-br from-gold-50 via-white to-gold-50/50 border-y border-gold-100">
+        <div class="max-w-4xl mx-auto px-4 text-center reveal">
+            <div class="w-24 h-24 rounded-2xl bg-gradient-to-br from-gold-100 to-gold-200 flex items-center justify-center mx-auto mb-8 shadow-lg">
+                <i data-lucide="shield-check" class="w-12 h-12 text-gold-600"></i>
+            </div>
+            <h2 class="font-display text-3xl lg:text-4xl font-bold text-navy-700 mb-4">
+                The 30-Day Score Improvement Guarantee
+            </h2>
+            <p class="text-lg text-navy-600 leading-relaxed mb-10 max-w-2xl mx-auto">
+                Our 30-day Score Improvement Guarantee applies to Acumen Logic assessments only: your baseline is your free diagnostic score and your comparison is your paid-course mock assessment score. If your overall score (percentage or points) does not increase, and both attempts are valid completed attempts made within 30 days of purchase, email enquiries@acumenlogic.co.uk with your scores and order details for a full refund to your original payment method.
+            </p>
+            <div class="flex flex-wrap justify-center gap-8 text-sm text-navy-500">
+                <span class="flex items-center gap-2">
+                    <i data-lucide="check-circle" class="w-5 h-5 text-gold-500"></i>
+                    No risk enrolment
+                </span>
+                <span class="flex items-center gap-2">
+                    <i data-lucide="check-circle" class="w-5 h-5 text-gold-500"></i>
+                    Instant access
+                </span>
+                <span class="flex items-center gap-2">
+                    <i data-lucide="check-circle" class="w-5 h-5 text-gold-500"></i>
+                    Lifetime updates
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-24 lg:py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-navy-700 mb-6">
+                    Simple, transparent pricing
+                </h2>
+                <p class="text-lg text-navy-600">
+                    One-time investment. No subscriptions. Full access until you land your role.
+                </p>
+            </div>
+
+            <div class="max-w-lg mx-auto">
+                <div class="reveal relative">
+                    <!-- Badge -->
+                    <div class="absolute -top-5 left-1/2 -translate-x-1/2 z-10">
+                        <div class="px-5 py-2 bg-navy-700 text-white text-xs font-bold uppercase tracking-wider rounded-full shadow-lg">
+                            Founding Member Pricing
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-3xl p-10 shadow-2xl border-2 border-navy-100 relative overflow-hidden">
+                        <!-- Decorative element -->
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-gold-100 to-transparent rounded-bl-full opacity-50"></div>
+                        
+                        <div class="text-center mb-10 relative">
+                            <div class="flex items-baseline justify-center gap-3 mb-3">
+                                <span class="text-6xl font-bold text-navy-700">£199</span>
+                                <span class="text-2xl text-navy-400 line-through">£299</span>
+                            </div>
+                            <p class="text-navy-600 font-medium">One-time payment • Lifetime access</p>
+                            <div class="mt-6 inline-flex items-center gap-2 px-5 py-2.5 bg-red-50 rounded-full border border-red-100">
+                                <span class="relative flex h-2.5 w-2.5">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
+                                </span>
+                                <span class="text-sm font-bold text-red-700">Only 13 spots remaining</span>
+                            </div>
+                        </div>
+
+                        <ul class="space-y-4 mb-10">
+                            <li class="flex items-start gap-4">
+                                <div class="w-6 h-6 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-gold-500"></i>
+                                </div>
+                                <span class="text-navy-700">All 6 comprehensive modules</span>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <div class="w-6 h-6 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-gold-500"></i>
+                                </div>
+                                <span class="text-navy-700">15-minute diagnostic assessment</span>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <div class="w-6 h-6 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-gold-500"></i>
+                                </div>
+                                <span class="text-navy-700">Detailed category breakdowns</span>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <div class="w-6 h-6 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-gold-500"></i>
+                                </div>
+                                <span class="text-navy-700">Direct email support</span>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <div class="w-6 h-6 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-gold-500"></i>
+                                </div>
+                                <span class="text-navy-700">Lifetime updates</span>
+                            </li>
+                        </ul>
+
+                        <a href="masterclass.html" class="group block w-full py-5 rounded-xl bg-navy-700 hover:bg-navy-800 text-white font-bold text-center text-lg transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+                            <span class="flex items-center justify-center gap-2">
+                                Enrol Now
+                                <i data-lucide="arrow-right" class="w-5 h-5 transition-transform group-hover:translate-x-1"></i>
+                            </span>
+                        </a>
+                        
+                        <p class="text-center text-sm text-navy-400 mt-6">
+                            Secure checkout via ThriveCart • 30-day Score Improvement Guarantee
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-24 lg:py-32 cta-gradient relative overflow-hidden">
+        <!-- Animated geometric shapes -->
+        <div class="absolute inset-0 overflow-hidden">
+            <!-- Large triangle top left -->
+            <div class="absolute -top-20 -left-20 w-80 h-80 opacity-[0.03]">
+                <svg viewBox="0 0 100 100" class="w-full h-full fill-white">
+                    <polygon points="50,0 100,100 0,100"/>
+                </svg>
+            </div>
+            <!-- Medium triangle bottom right -->
+            <div class="absolute -bottom-10 -right-10 w-64 h-64 opacity-[0.04]">
+                <svg viewBox="0 0 100 100" class="w-full h-full fill-gold-400">
+                    <polygon points="50,0 100,100 0,100"/>
+                </svg>
+            </div>
+            <!-- Small triangles scattered -->
+            <div class="absolute top-1/4 right-1/4 w-20 h-20 opacity-[0.06]">
+                <svg viewBox="0 0 100 100" class="w-full h-full fill-gold-400">
+                    <polygon points="50,0 100,100 0,100"/>
+                </svg>
+            </div>
+            <div class="absolute bottom-1/3 left-1/5 w-16 h-16 opacity-[0.05]">
+                <svg viewBox="0 0 100 100" class="w-full h-full fill-white">
+                    <polygon points="50,0 100,100 0,100"/>
+                </svg>
+            </div>
+            <!-- Gold accent lines -->
+            <div class="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold-400/10 to-transparent"></div>
+            <div class="absolute top-0 left-1/2 w-px h-full bg-gradient-to-b from-transparent via-gold-400/10 to-transparent"></div>
+        </div>
+        
+        <div class="max-w-4xl mx-auto px-4 text-center relative reveal">
+            <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                Stop guessing.<br>
+                <span class="text-gold-400">Start preparing with precision.</span>
+            </h2>
+            <p class="text-xl text-navy-200 mb-12 max-w-2xl mx-auto">
+                Join 37 founding members. Take the free diagnostic to see exactly where you stand.
+            </p>
+            
+            <a href="diagnostic.html" class="cta-border-glow group inline-flex items-center justify-center gap-3 bg-white text-navy-700 px-12 py-5 rounded-xl font-bold text-lg hover:bg-gold-50 transition-all shadow-2xl hover:shadow-white/20 hover:-translate-y-1">
+                Take Free Diagnostic
+                <i data-lucide="arrow-right" class="w-5 h-5 transition-transform group-hover:translate-x-1"></i>
+            </a>
+            
+            <div class="mt-14 flex flex-wrap justify-center gap-10 text-sm text-navy-300">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="check-circle" class="w-5 h-5 text-gold-400"></i>
+                    15-minute assessment
+                </div>
+                <div class="flex items-center gap-2">
+                    <i data-lucide="check-circle" class="w-5 h-5 text-gold-400"></i>
+                    Instant results
+                </div>
+                <div class="flex items-center gap-2">
+                    <i data-lucide="check-circle" class="w-5 h-5 text-gold-400"></i>
+                    No credit card required
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-navy-950 text-navy-300 py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-16">
+                <div class="col-span-2">
+                    <div class="flex items-center gap-3 mb-6">
+                        <img src="assets/images/logo.png" width="36" height="36" alt="Acumen Logic">
+                        <span class="font-display text-xl font-bold text-white">Acumen Logic</span>
+                    </div>
+                    <p class="leading-relaxed max-w-sm">
+                        Precision training for finance aptitude assessments. Built by Nicholas for candidates targeting Big 4, investment banking, and consulting roles.
+                    </p>
+                    <p class="mt-4 text-sm"><a href="mailto:enquiries@acumenlogic.co.uk" class="inline-flex items-center gap-2 hover:text-gold-400 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i><span>enquiries@acumenlogic.co.uk</span></a></p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-5">Programme</h4>
+                    <ul class="space-y-3">
+                        <li><a href="diagnostic.html" class="hover:text-gold-400 transition-colors">Free Diagnostic</a></li>
+                        <li><a href="masterclass.html" class="hover:text-gold-400 transition-colors">Training Programme</a></li>
+                        <li><a href="blog/index.html" class="hover:text-gold-400 transition-colors">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-5">Legal</h4>
+                    <ul class="space-y-3">
+                        <li><a href="pages/privacy.html" class="hover:text-gold-400 transition-colors">Privacy Policy</a></li>
+                        <li><a href="pages/terms.html" class="hover:text-gold-400 transition-colors">Terms of Service</a></li>
+                        <li><a href="pages/cookies.html" class="hover:text-gold-400 transition-colors">Cookies</a></li>
+                        <li><a href="pages/disclaimer.html" class="hover:text-gold-400 transition-colors">Disclaimer</a></li>
+                        <li><a href="pages/refund.html" class="hover:text-gold-400 transition-colors">Refund Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-navy-800 pt-10 flex flex-col items-center gap-4">
+                <p class="text-sm text-navy-500">&copy; <span data-year></span> Acumen Logic. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialise Lucide icons
+        lucide.createIcons();
+        
+        // Scroll reveal animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -80px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+        });
+
+        // Interactive preview question - selection only, no answer reveal
+        function selectOption(element) {
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

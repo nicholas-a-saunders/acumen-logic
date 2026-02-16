@@ -1,0 +1,30 @@
+[
+  {
+    "id": "mljqdu8ldkgqwc",
+    "submitted_at": "2026-02-12T17:26:52.245Z",
+    "user_name": "Jane Smith",
+    "user_email": "jane@example.com",
+    "score_correct": 17,
+    "score_total": 20,
+    "score_percentage": 85,
+    "score_wrong": 2,
+    "score_skipped": 1,
+    "section_breakdown": {
+      "Numerical": {
+        "correct": 7,
+        "total": 8
+      },
+      "Verbal": {
+        "correct": 5,
+        "total": 6
+      },
+      "Logical": {
+        "correct": 5,
+        "total": 6
+      }
+    },
+    "answers": null,
+    "time_taken_seconds": 1680,
+    "performance_tier": "Excellent"
+  }
+]

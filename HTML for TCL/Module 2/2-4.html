@@ -1,0 +1,525 @@
+<!--
+  ACUMEN LOGIC — Lesson 2.4: Averages, Growth & Compound Change
+  For ThriveCart Learn Custom HTML Block
+  Pure CSS · Zero JavaScript · Fully responsive
+
+  TYPE: Core worked-example lesson
+  Covers simple vs weighted averages, "average of averages" fallacy,
+  sequential percentage changes, and CAGR. Follows Module 2 template.
+-->
+
+<style>
+  /* ═══ BRAND TOKENS ═══ */
+  .al-lesson {
+    --al-navy: #1B2A4A;
+    --al-navy-light: #2A3D66;
+    --al-navy-muted: #3D5280;
+    --al-gold: #C8A951;
+    --al-gold-light: #D4BC72;
+    --al-gold-pale: #F5EFD9;
+    --al-cream: #FAFAF6;
+    --al-white: #FFFFFF;
+    --al-text: #2C2C2C;
+    --al-text-light: #6B6B6B;
+    --al-border: #E8E4DA;
+    --al-success: #2D8F5E;
+    --al-danger: #C0392B;
+    --al-radius: 10px;
+    --al-radius-sm: 6px;
+    --al-shadow: 0 2px 12px rgba(27, 42, 74, 0.08);
+    --al-shadow-lg: 0 8px 32px rgba(27, 42, 74, 0.12);
+  }
+
+  /* ═══ RESET & BASE ═══ */
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+  .al-lesson {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .al-lesson h1, .al-lesson h2, .al-lesson h3 { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; color: var(--al-navy); line-height: 1.25; }
+
+  /* ═══ HERO ═══ */
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .al-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200, 169, 81, 0.08) 0%, transparent 70%); pointer-events: none; }
+  .al-hero-eyebrow { font-family: 'Source Sans 3', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem, 4vw, 2.2rem); margin-bottom: 0.75rem; }
+  .al-hero-subtitle { color: rgba(255, 255, 255, 0.9) !important; font-size: 1rem; max-width: 36rem; line-height: 1.5; }
+  .al-hero-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 1rem 0; }
+
+  /* ═══ SECTIONS ═══ */
+  .al-section { margin-bottom: 2rem; }
+  .al-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-section-number { width: 2rem; height: 2rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.95rem; flex-shrink: 0; }
+  .al-section h2 { font-size: clamp(1.15rem, 3vw, 1.4rem); }
+
+  /* ═══ CARDS ═══ */
+  .al-card { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-card p { margin-bottom: 0.75rem; }
+  .al-card p:last-child { margin-bottom: 0; }
+
+  /* ═══ CALLOUTS ═══ */
+  .al-callout { border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; font-size: 0.92rem; }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-warn { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-callout-danger { background: #FDF2F0; border-left: 4px solid var(--al-danger); }
+  .al-callout-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .al-callout-tip .al-callout-label { color: var(--al-success); }
+  .al-callout-warn .al-callout-label { color: #D4823A; }
+  .al-callout-danger .al-callout-label { color: var(--al-danger); }
+
+  /* ═══ WORKED EXAMPLES ═══ */
+  .al-example { border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-example-header { background: var(--al-navy); padding: 1.25rem 1.5rem; display: flex; flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  .al-example-label { color: var(--al-gold) !important; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .al-example-q { color: var(--al-white) !important; font-size: 1.15rem; font-weight: 600; line-height: 1.4; margin-top: 0.25rem; }
+  .al-example-body { background: var(--al-white); border: 1px solid var(--al-border); border-top: none; border-radius: 0 0 var(--al-radius) var(--al-radius); padding: 1.5rem; font-size: 0.92rem; }
+  .al-example-body p { margin-bottom: 0.6rem; }
+  .al-example-body p:last-child { margin-bottom: 0; }
+
+  /* ═══ STEP LINES ═══ */
+  .al-step-line { display: flex; align-items: baseline; gap: 0.65rem; margin-bottom: 0.45rem; }
+  .al-step-num { width: 1.4rem; height: 1.4rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.7rem; flex-shrink: 0; }
+  .al-step-calc { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-size: 0.95rem; color: var(--al-navy); }
+  .al-step-result { font-weight: 700; color: var(--al-success); }
+
+  /* ═══ WRONG vs RIGHT ═══ */
+  .al-vs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin-bottom: 1.25rem; }
+  .al-vs-box { border-radius: var(--al-radius); padding: 1rem; }
+  .al-vs-wrong { background: #FDF2F0; border: 2px solid var(--al-danger); }
+  .al-vs-right { background: #EDF7F0; border: 2px solid var(--al-success); }
+  .al-vs-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .al-vs-wrong .al-vs-label { color: var(--al-danger); }
+  .al-vs-right .al-vs-label { color: var(--al-success); }
+  .al-vs-calc { font-size: 0.88rem; margin-bottom: 0.25rem; }
+  .al-vs-answer { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 1.15rem; }
+  .al-vs-wrong .al-vs-answer { color: var(--al-danger); }
+  .al-vs-right .al-vs-answer { color: var(--al-success); }
+  .al-vs-explain { font-size: 0.8rem; color: var(--al-text-light); margin-top: 0.3rem; }
+
+  /* ═══ FORMULA / RULE CARDS ═══ */
+  .al-formula { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.15rem 1.5rem; margin-bottom: 1.25rem; text-align: center; }
+  .al-formula-label { color: var(--al-gold) !important; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .al-formula-text { color: var(--al-white) !important; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: clamp(1rem, 2.5vw, 1.25rem); line-height: 1.4; }
+  .al-formula-note { color: rgba(255, 255, 255, 0.75) !important; font-size: 0.78rem; margin-top: 0.35rem; }
+
+  /* ═══ REVEAL (details/summary) ═══ */
+  .al-reveal { margin-top: 1rem; border: 2px solid var(--al-border); border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; }
+  .al-reveal[open] { border-color: var(--al-success); }
+  .al-reveal-btn { display: block; padding: 0.85rem 1.25rem; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--al-navy); background: var(--al-cream); cursor: pointer; list-style: none; user-select: none; -webkit-user-select: none; }
+  .al-reveal-btn::-webkit-details-marker { display: none; }
+  .al-reveal-btn::marker { display: none; content: ''; }
+  .al-reveal-btn:hover { background: var(--al-gold-pale); }
+  .al-reveal[open] .al-reveal-btn { background: #EDF7F0; color: var(--al-success); border-bottom: 1px solid var(--al-border); }
+  .al-reveal-content { padding: 1.25rem; font-size: 0.92rem; }
+  .al-reveal-content p { margin-bottom: 0.6rem; }
+  .al-reveal-content p:last-child { margin-bottom: 0; }
+
+  /* ═══ PRACTICE QUESTION ═══ */
+  .al-practice { background: var(--al-cream); border: 2px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 0.5rem; }
+  .al-practice-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-gold); margin-bottom: 0.35rem; }
+  .al-practice-q { font-size: 0.95rem; font-weight: 600; color: var(--al-navy); line-height: 1.5; }
+
+  /* ═══ KEY TAKEAWAYS ═══ */
+  .al-takeaways { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.5rem 1.75rem; margin-bottom: 1.25rem; }
+  .al-takeaways h3 { color: var(--al-gold) !important; font-size: 1.1rem; margin-bottom: 1rem; }
+  .al-takeaways-list { list-style: none; padding: 0; }
+  .al-takeaways-list li { color: rgba(255, 255, 255, 0.95) !important; font-size: 0.92rem; padding: 0.45rem 0 0.45rem 1.75rem; position: relative; line-height: 1.5; }
+  .al-takeaways-list li::before { content: '✓'; position: absolute; left: 0; color: var(--al-gold); font-weight: 700; font-size: 1rem; }
+  .al-takeaways strong { color: var(--al-gold) !important; }
+
+  /* ═══ NEXT LESSON ═══ */
+  .al-next { background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .al-next-arrow { width: 2.5rem; height: 2.5rem; background: var(--al-navy); color: var(--al-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .al-next-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-text-light); margin-bottom: 0.15rem; }
+  .al-next-title { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; color: var(--al-navy); font-size: 1rem; }
+  .al-next-desc { font-size: 0.85rem; color: var(--al-text-light); margin-top: 0.15rem; }
+
+  /* ═══ UTILITY ═══ */
+  .al-lesson strong { color: var(--al-navy); }
+  .al-divider { border: none; height: 1px; background: var(--al-border); margin: 2rem 0; }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .al-card, .al-example-body, .al-reveal-content { padding: 1.15rem; }
+    .al-vs { grid-template-columns: 1fr; }
+    .al-takeaways { padding: 1.25rem; }
+    .al-next { flex-direction: column; text-align: center; }
+    .al-formula { padding: 1rem; }
+    .al-example-header { padding: 1.1rem 1.25rem; }
+    .al-example-q { font-size: 1.05rem; }
+  }
+</style>
+
+<div class="al-lesson">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 2 · Lesson 2.4</div>
+    <h1>Averages, Growth &amp; Compound Change</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">Weighted averages, CAGR, and sequential percentage changes — the calculations that separate top scores from average ones.</p>
+  </div>
+
+  <!-- ═══ SECTION 1: SIMPLE vs WEIGHTED AVERAGES ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">1</div>
+      <h2>Simple vs Weighted Averages</h2>
+    </div>
+    <div class="al-card">
+      <p>A <strong>simple average</strong> (mean) treats every value equally: add them up and divide by the count. A <strong>weighted average</strong> gives each value a different importance based on its weight — the number of items, revenue, or population it represents.</p>
+      <p>Finance tests almost always require weighted averages. The simple average is nearly always the trap answer.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Weighted Average Formula</div>
+      <div class="al-formula-text">Weighted Average = Sum of (Value × Weight) ÷ Sum of Weights</div>
+      <div class="al-formula-note">Each value is multiplied by its weight before averaging.</div>
+    </div>
+
+    <!-- Example 1 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 1</span>
+        <span class="al-example-q">A company has 3 offices. London: 200 staff, average salary £52,000. Manchester: 80 staff, average salary £38,000. Edinburgh: 40 staff, average salary £41,000. What is the company-wide average salary?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">London total: 200 × £52,000 = £10,400,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Manchester total: 80 × £38,000 = £3,040,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Edinburgh total: 40 × £41,000 = £1,640,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Grand total: £10,400,000 + £3,040,000 + £1,640,000 = £15,080,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Total staff: 200 + 80 + 40 = 320</span></div>
+        <div class="al-step-line"><span class="al-step-num">6</span><span class="al-step-calc">Weighted average: £15,080,000 ÷ 320 = <span class="al-step-result">£47,125</span></span></div>
+      </div>
+    </div>
+
+    <div class="al-vs">
+      <div class="al-vs-box al-vs-wrong">
+        <div class="al-vs-label">Simple Average (Trap)</div>
+        <div class="al-vs-calc">(£52,000 + £38,000 + £41,000) ÷ 3</div>
+        <div class="al-vs-answer">£43,667</div>
+        <div class="al-vs-explain">Treats each office equally — ignoring that London has 200 staff vs Edinburgh's 40. This will always be a wrong option.</div>
+      </div>
+      <div class="al-vs-box al-vs-right">
+        <div class="al-vs-label">Weighted Average (Correct)</div>
+        <div class="al-vs-calc">Total salary bill ÷ total staff</div>
+        <div class="al-vs-answer">£47,125</div>
+        <div class="al-vs-explain">London's 200 staff pull the average up significantly. The weighted average is always closer to the largest group's value.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 2: THE "AVERAGE OF AVERAGES" FALLACY ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">2</div>
+      <h2>The "Average of Averages" Fallacy</h2>
+    </div>
+    <div class="al-card">
+      <p>This is the single most common numerical reasoning trap. When you're given averages for different groups, you <strong>cannot</strong> simply average those averages — unless every group has the exact same size. In finance tests, the groups are almost never equal.</p>
+    </div>
+
+    <div class="al-callout al-callout-danger">
+      <div class="al-callout-label">Critical Rule</div>
+      <p>If a question gives you averages for groups of different sizes and asks for the overall average, you <strong>must</strong> use weighted averaging. Averaging the averages will always give you a wrong answer — and it will always be one of the multiple-choice options.</p>
+    </div>
+
+    <!-- Example 2 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 2</span>
+        <span class="al-example-q">A fund invests in two sectors. Technology: 60% of the fund, returned 14%. Healthcare: 40% of the fund, returned 8%. What was the fund's overall return?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Technology contribution: 60% × 14% = 8.4%</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Healthcare contribution: 40% × 8% = 3.2%</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Overall return: 8.4% + 3.2% = <span class="al-step-result">11.6%</span></span></div>
+        <p style="margin-top:0.5rem; color:var(--al-text-light); font-size:0.85rem;">Trap answer: (14% + 8%) ÷ 2 = 11%. This ignores that Tech is a larger allocation.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 3: SEQUENTIAL PERCENTAGE CHANGES ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">3</div>
+      <h2>Sequential Percentage Changes</h2>
+    </div>
+    <div class="al-card">
+      <p>When a value changes by a percentage and then changes by another percentage, you <strong>cannot</strong> simply add the percentages. Each change applies to a different base. This is the foundation of compound growth — and a major trap source.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Sequential Change Method</div>
+      <div class="al-formula-text">Multiply by successive multipliers: × 1.10 × 0.95 × 1.08 ...</div>
+      <div class="al-formula-note">+10% → × 1.10 · −5% → × 0.95 · +8% → × 1.08. Chain them together.</div>
+    </div>
+
+    <!-- Example 3 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 3</span>
+        <span class="al-example-q">A share price starts at £200. It rises 15% in Year 1, falls 10% in Year 2, then rises 20% in Year 3. What is the price after Year 3?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Year 1: £200 × 1.15 = £230</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Year 2: £230 × 0.90 = £207</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Year 3: £207 × 1.20 = <span class="al-step-result">£248.40</span></span></div>
+        <p style="margin-top:0.5rem; color:var(--al-text-light); font-size:0.85rem;">Trap: +15% − 10% + 20% = +25%, so £200 × 1.25 = £250. Wrong — because each % applies to a different base.</p>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-danger">
+      <div class="al-callout-label">The "Up Then Down" Trap</div>
+      <p>A value rises by 20% then falls by 20%. Most candidates think it returns to the original. It doesn't. £100 × 1.20 = £120 × 0.80 = <strong>£96</strong>. A 20% rise followed by a 20% fall always results in a <strong>net loss of 4%</strong>. The bigger the percentage, the bigger the asymmetry.</p>
+    </div>
+
+    <!-- Example 4 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 4</span>
+        <span class="al-example-q">A company's revenue was £4.8 million. It grew 12% in Q1, fell 5% in Q2, grew 8% in Q3, and fell 3% in Q4. What was revenue at year-end?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Combined multiplier: 1.12 × 0.95 × 1.08 × 0.97</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Step by step: 1.12 × 0.95 = 1.064</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">1.064 × 1.08 = 1.14912</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">1.14912 × 0.97 = 1.114646</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">£4,800,000 × 1.114646 = <span class="al-step-result">£5,350,303</span></span></div>
+        <p style="margin-top:0.5rem; color:var(--al-text-light); font-size:0.85rem;">Net change: +11.46%, not +12% (the sum of 12 − 5 + 8 − 3 = 12%). The difference matters at this scale.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 4: CAGR — COMPOUND ANNUAL GROWTH RATE ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">4</div>
+      <h2>CAGR — Compound Annual Growth Rate</h2>
+    </div>
+    <div class="al-card">
+      <p>CAGR tells you the single steady growth rate that would take a starting value to an ending value over a given time period. It smooths out the volatility of sequential changes into one clean number — essential for comparing investments or revenue growth.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">CAGR Formula</div>
+      <div class="al-formula-text">CAGR = (End Value ÷ Start Value)^(1/n) − 1</div>
+      <div class="al-formula-note">Where n = number of years. The result is a decimal — multiply by 100 for a percentage.</div>
+    </div>
+
+    <!-- Example 5 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 5</span>
+        <span class="al-example-q">A portfolio was worth £120,000 three years ago and is now worth £155,520. What is the CAGR?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Ratio: £155,520 ÷ £120,000 = 1.296</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Apply formula: 1.296^(1/3) = 1.296^0.3333</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Calculate: 1.296^0.3333 = 1.09</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">CAGR = 1.09 − 1 = 0.09 = <span class="al-step-result">9% per year</span></span></div>
+        <p style="margin-top:0.5rem; color:var(--al-text-light); font-size:0.85rem;">Verification: £120,000 × 1.09 × 1.09 × 1.09 = £120,000 × 1.295029 ≈ £155,403 (rounding accounts for the small difference).</p>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-warn">
+      <div class="al-callout-label">Test Tip — CAGR Without a Calculator</div>
+      <p>Many tests don't expect you to calculate nth roots by hand. Instead, they give you the answer options and expect you to <strong>work backwards</strong>: try each growth rate and see which one produces the correct end value. If the options are 7%, 8%, 9%, 10% — try 9% first (middle option) and adjust.</p>
+    </div>
+
+    <!-- Example 6 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 6 — Working Backwards</span>
+        <span class="al-example-q">Revenue grew from £2 million to £2.662 million over 3 years. Options: (A) 8% (B) 10% (C) 12% (D) 15%. What is the CAGR?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Try option B (10%): £2m × 1.10³ = £2m × 1.331 = £2,662,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">That matches exactly → <span class="al-step-result">Answer: B (10%)</span></span></div>
+        <p style="margin-top:0.5rem; color:var(--al-text-light); font-size:0.85rem;">In a real test, start with the middle options. If the result is too high, try a lower rate. If too low, try higher. You'll rarely need more than 2 attempts.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 5: COMPOUND GROWTH APPLICATIONS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">5</div>
+      <h2>Compound Growth Applications</h2>
+    </div>
+    <div class="al-card">
+      <p>Compound growth appears in many finance contexts: interest calculations, population growth, depreciation, and inflation. The key insight is that <strong>compound growth is exponential, not linear</strong> — the difference between simple and compound growth widens dramatically over time.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Compound Growth Formula</div>
+      <div class="al-formula-text">Final Value = Start Value × (1 + rate)^n</div>
+      <div class="al-formula-note">For depreciation, use (1 − rate)^n instead.</div>
+    </div>
+
+    <!-- Example 7 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 7 — Depreciation</span>
+        <span class="al-example-q">A company buys IT equipment for £180,000. It depreciates at 25% per year. What is the book value after 3 years?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Multiplier for 25% depreciation: 1 − 0.25 = 0.75</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">After 3 years: £180,000 × 0.75³ = £180,000 × 0.421875</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">= <span class="al-step-result">£75,937.50</span></span></div>
+        <p style="margin-top:0.5rem; color:var(--al-text-light); font-size:0.85rem;">Trap answer: £180,000 − (3 × 25% × £180,000) = £180,000 − £135,000 = £45,000. This uses simple depreciation (straight-line), not compound. The compound value is always higher because each year's depreciation applies to a smaller base.</p>
+      </div>
+    </div>
+
+    <!-- Example 8 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 8 — Inflation</span>
+        <span class="al-example-q">Inflation averages 3.5% per year. A basket of goods costs £850 today. What will it cost in 4 years, to the nearest pound?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Multiplier: 1.035</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">After 4 years: £850 × 1.035⁴ = £850 × 1.14752</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">= £975.39 → <span class="al-step-result">£975</span></span></div>
+        <p style="margin-top:0.5rem; color:var(--al-text-light); font-size:0.85rem;">Simple inflation trap: £850 + (4 × 3.5% × £850) = £850 + £119 = £969. The compound answer is £6 higher — enough to pick the wrong option.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 6: PRACTICE QUESTIONS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">6</div>
+      <h2>Practice Questions</h2>
+    </div>
+    <p style="margin-bottom:1rem; font-size:0.92rem;">Work through each question before revealing the answer. Target: 90 seconds per question.</p>
+
+    <!-- Practice Q1 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 1</div>
+      <div class="al-practice-q">A retailer has two stores. Store A: 150 transactions per day, average value £34. Store B: 250 transactions per day, average value £28. What is the company-wide average transaction value?</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Store A total: 150 × £34 = £5,100</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Store B total: 250 × £28 = £7,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Combined: £12,100 ÷ 400 = <span class="al-step-result">£30.25</span></span></div>
+        <p>Trap: (£34 + £28) ÷ 2 = £31. The weighted average is pulled toward Store B because it has more transactions.</p>
+      </div>
+    </details>
+
+    <!-- Practice Q2 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 2</div>
+      <div class="al-practice-q">A property is valued at £320,000. It rises 8% in Year 1, rises 5% in Year 2, and falls 12% in Year 3. What is the value after Year 3, to the nearest thousand?</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Multiplier chain: 1.08 × 1.05 × 0.88 = 0.99792</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">£320,000 × 0.99792 = <span class="al-step-result">£319,334 ≈ £319,000</span></span></div>
+        <p>Trap: +8% + 5% − 12% = +1%, giving £323,200. The actual result is a slight loss, not a gain. The 12% fall on the inflated base wipes out the earlier gains.</p>
+      </div>
+    </details>
+
+    <!-- Practice Q3 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 3</div>
+      <div class="al-practice-q">An investment grew from £50,000 to £66,550 over 3 years. What is the CAGR? Options: (A) 8% (B) 10% (C) 11% (D) 12%</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Try 10%: £50,000 × 1.10³ = £50,000 × 1.331 = £66,550</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Exact match → <span class="al-step-result">Answer: B (10%)</span></span></div>
+      </div>
+    </details>
+
+    <!-- Practice Q4 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 4</div>
+      <div class="al-practice-q">A vehicle fleet worth £2.4 million depreciates at 18% per year (compound). What is the fleet value after 2 years?</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Multiplier: 1 − 0.18 = 0.82</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">After 2 years: £2,400,000 × 0.82² = £2,400,000 × 0.6724</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">= <span class="al-step-result">£1,613,760</span></span></div>
+        <p>Trap: straight-line depreciation gives £2,400,000 − (2 × 18% × £2,400,000) = £2,400,000 − £864,000 = £1,536,000 — significantly lower than the compound answer.</p>
+      </div>
+    </details>
+
+    <!-- Practice Q5 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 5</div>
+      <div class="al-practice-q">Three departments contribute to a company's customer satisfaction score. Retail (500 customers): 82%. Corporate (200 customers): 91%. Private Banking (50 customers): 96%. What is the company-wide satisfaction score?</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Retail: 500 × 82 = 41,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Corporate: 200 × 91 = 18,200</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Private Banking: 50 × 96 = 4,800</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Total: 64,000 ÷ 750 = <span class="al-step-result">85.3%</span></span></div>
+        <p>Trap: (82 + 91 + 96) ÷ 3 = 89.7%. The weighted result is much lower because Retail (the lowest score) has the most customers.</p>
+      </div>
+    </details>
+
+    <!-- Practice Q6 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 6</div>
+      <div class="al-practice-q">A house was worth £280,000 five years ago and is now worth £365,162. What is the approximate annual growth rate? Options: (A) 4.5% (B) 5.0% (C) 5.5% (D) 6.0%</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Try 5.5%: £280,000 × 1.055⁵</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">1.055⁵ = 1.30696 → £280,000 × 1.30696 = £365,949 — very close</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Try 5.0%: 1.05⁵ = 1.27628 → £280,000 × 1.27628 = £357,359 — too low</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">5.5% gives the closest match → <span class="al-step-result">Answer: C (5.5%)</span></span></div>
+      </div>
+    </details>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ KEY TAKEAWAYS ═══ -->
+  <div class="al-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul class="al-takeaways-list">
+      <li><strong>Never average averages</strong> — always use weighted averaging when groups have different sizes. The simple average is designed to be a trap option.</li>
+      <li><strong>Sequential % changes multiply, they don't add</strong> — convert each change to a multiplier and chain them together.</li>
+      <li>A <strong>rise of X% then a fall of X%</strong> does NOT return to the original — it always produces a net loss. The bigger the %, the bigger the loss.</li>
+      <li><strong>CAGR</strong> smooths volatile growth into one rate. In tests, work backwards from the answer options rather than calculating nth roots.</li>
+      <li><strong>Compound vs simple</strong> — compound depreciation always leaves a higher value; compound growth always gives a higher result than simple. The difference widens with time.</li>
+    </ul>
+  </div>
+
+  <!-- ═══ NEXT LESSON ═══ -->
+  <div class="al-next">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Lesson</div>
+      <div class="al-next-title">2.5 — Speed Arithmetic &amp; Estimation</div>
+      <div class="al-next-desc">Percentage shortcuts, estimation strategies for multiple choice, and calculator discipline that saves you precious seconds.</div>
+    </div>
+  </div>
+
+</div>

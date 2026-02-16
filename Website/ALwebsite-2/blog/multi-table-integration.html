@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en-GB" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Table Integration: The Critical Skill Gap | Acumen Logic</title>
+    <meta name="description" content="Why 73% of candidates struggle with cross-referencing data across multiple tables. Building the mental models for seamless integration under pressure.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            50: '#f0f3f7',
+                            100: '#dae1eb',
+                            200: '#b8c5d4',
+                            300: '#8da3ba',
+                            400: '#5d7a99',
+                            500: '#3d5a7a',
+                            600: '#2d4561',
+                            700: '#1b263b',
+                            800: '#151e2f',
+                            900: '#0f1624',
+                            950: '#0a0f18',
+                        },
+                        gold: {
+                            50: '#faf6ef',
+                            100: '#f3ebdb',
+                            200: '#e6d4b5',
+                            300: '#d6ba8a',
+                            400: '#c9a961',
+                            500: '#b8935e',
+                            600: '#a17a4a',
+                            700: '#86633d',
+                            800: '#6e5035',
+                            900: '#5a422d',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html { scroll-behavior: smooth; }
+
+        .article-content p {
+            margin-bottom: 1.25rem;
+            line-height: 1.8;
+            color: #475569;
+        }
+        .article-content h2 {
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #1b263b;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .article-content h3 {
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1b263b;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+        }
+        .article-content strong { color: #b8935e; }
+        .article-content ul {
+            margin-bottom: 1.25rem;
+            padding-left: 1.25rem;
+            color: #475569;
+        }
+        .article-content li { margin-bottom: 0.5rem; }
+        .article-content li::marker { color: #c9a961; }
+
+        .section-card {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 0.9rem;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .header-pattern {
+            background-color: #0f1624;
+            background-image:
+                radial-gradient(circle at 1px 1px, rgba(233, 239, 248, 0.09) 0.85px, transparent 1px),
+                linear-gradient(165deg, #0c1526 0%, #0b1424 54%, #0a1221 100%);
+            background-size: 28px 28px, 100% 100%;
+        }
+
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+        .article-content ul.icon-list {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+        .icon-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+            margin-bottom: 0.8rem;
+            color: #334155;
+        }
+        .article-content ul.icon-list li {
+            margin-bottom: 0.8rem;
+        }
+        .icon-list li i {
+            width: 1rem;
+            height: 1rem;
+            color: #c9a961;
+            flex-shrink: 0;
+            margin-top: 0.25rem;
+        }
+
+        .mid-cta {
+            margin: 2rem 0;
+            padding: 1.75rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(201, 169, 97, 0.35);
+            background:
+                radial-gradient(circle at top right, rgba(201, 169, 97, 0.22) 0%, rgba(201, 169, 97, 0) 48%),
+                linear-gradient(160deg, #f6efe2 0%, #fffaf0 35%, #ffffff 100%);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+        .data-table th {
+            text-align: left;
+            padding: 0.5rem 0.75rem;
+            color: #475569;
+            border-bottom: 1px solid #dae1eb;
+        }
+        .data-table td {
+            padding: 0.5rem 0.75rem;
+            color: #1b263b;
+            border-bottom: 1px solid #eef2f6;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+
+        .navbar-scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 20px rgba(27, 38, 59, 0.08);
+        }
+
+        ::selection {
+            background: rgba(201, 169, 97, 0.3);
+            color: #1b263b;
+        }
+
+        a:focus-visible, button:focus-visible {
+            outline: 2px solid #c9a961;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body class="font-sans text-navy-700 bg-white antialiased">
+
+    <nav id="navbar" class="fixed w-full bg-white/95 backdrop-blur-md border-b border-navy-100/50 z-50 transition-all duration-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="../index.html" class="flex items-center gap-3 group">
+                    <div class="relative">
+                        <img src="../assets/images/logo.png" width="42" height="42" alt="Acumen Logic" class="relative z-10 transition-transform duration-300 group-hover:scale-105">
+                    </div>
+                    <div>
+                        <span class="font-display text-xl font-bold text-navy-700 tracking-tight">Acumen Logic</span>
+                        <span class="hidden sm:block text-xs text-gold-400 font-medium tracking-wide">Precision Training</span>
+                    </div>
+                </a>
+
+                <div class="hidden md:flex items-center gap-10">
+                    <a href="../index.html" class="text-sm font-medium text-navy-600 hover:text-gold-400 transition-colors duration-300">Home</a>
+                    <a href="../diagnostic.html" class="text-sm font-medium text-navy-600 hover:text-gold-400 transition-colors duration-300">Diagnostic</a>
+                    <a href="../masterclass.html" class="text-sm font-medium text-navy-600 hover:text-gold-400 transition-colors duration-300">Product</a>
+                    <a href="index.html" class="text-sm font-medium text-gold-500">Blog</a>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <a href="../diagnostic.html" class="hidden sm:inline-flex bg-navy-700 hover:bg-navy-800 text-white px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-300 shadow-lg shadow-navy-700/20 hover:shadow-xl hover:shadow-navy-700/25 hover:-translate-y-0.5">
+                        Start Free Diagnostic
+                    </a>
+                    <button class="md:hidden text-navy-700" data-mobile-menu-button aria-expanded="false" aria-controls="mobileMenu">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-navy-100">
+            <div class="px-4 py-6 space-y-4">
+                <a href="../index.html" class="block text-navy-600 hover:text-gold-500">Home</a>
+                <a href="../diagnostic.html" class="block text-navy-600 hover:text-gold-500">Diagnostic</a>
+                <a href="../masterclass.html" class="block text-navy-600 hover:text-gold-500">Product</a>
+                <a href="index.html" class="block text-gold-500 font-medium">Blog</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="pt-28 pb-16 lg:pt-36 lg:pb-20 header-pattern">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <a href="index.html" class="text-sm text-navy-300 hover:text-gold-300 transition-colors">← Back to Insights</a>
+            <div class="flex items-center gap-3 mt-6 mb-4">
+                <span class="px-3 py-1 rounded-full text-xs bg-white/10 text-gold-200 border border-white/20">Goldman Sachs</span>
+                <span class="text-sm text-navy-300">6 min read</span>
+                <span class="text-sm text-navy-300">Research Team</span>
+            </div>
+            <h1 class="font-display text-4xl sm:text-5xl font-bold text-white leading-tight mb-6">Multi-Table Integration: The Critical Skill Gap</h1>
+            <p class="text-lg text-navy-200">Why 73% of candidates struggle with cross-referencing data across multiple tables. Building the mental models for seamless integration under pressure.</p>
+        </div>
+    </section>
+
+    <article class="py-12 bg-white">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="article-content">
+                <p>The single highest-correlation predictor of assessment failure is not mathematics ability, vocabulary, or even speed. It is performance on multi-table integration questions—those requiring the candidate to synthesise data across three or more separate tables to arrive at a single answer.</p>
+
+                <p>Our analysis of 1,200+ assessment attempts reveals a stark pattern: candidates who struggle with multi-table questions score an average of 34% on those items, while scoring 71% on single-table questions of equivalent mathematical difficulty. The mathematics is not the problem. The integration is.</p>
+
+                <h2>Why Multi-Table Questions Destroy Working Memory</h2>
+
+                <p>Working memory—the cognitive system that holds and manipulates information over short periods—has strict capacity limits. Most adults can hold approximately four independent chunks of information simultaneously. A multi-table question violates this limit by design.</p>
+
+                <p>Consider a typical Goldman Sachs or Big 4 assessment item:</p>
+
+                <div class="my-8 space-y-6">
+                    <div class="bg-navy-50 rounded-lg p-6 border border-navy-100">
+                        <p class="text-sm text-navy-500 font-semibold uppercase tracking-wide mb-3">Table A: Quarterly Revenue (£000s)</p>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Quarter</th>
+                                    <th>UK</th>
+                                    <th>Europe</th>
+                                    <th>Asia</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Q1</td><td>420</td><td>380</td><td>290</td></tr>
+                                <tr><td>Q2</td><td>450</td><td>410</td><td>340</td></tr>
+                                <tr><td>Q3</td><td>480</td><td>395</td><td>385</td></tr>
+                                <tr><td>Q4</td><td>510</td><td>425</td><td>420</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="bg-navy-50 rounded-lg p-6 border border-navy-100">
+                        <p class="text-sm text-navy-500 font-semibold uppercase tracking-wide mb-3">Table B: Operating Costs (% of Revenue)</p>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Region</th>
+                                    <th>Q1</th>
+                                    <th>Q2</th>
+                                    <th>Q3</th>
+                                    <th>Q4</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>UK</td><td>68%</td><td>66%</td><td>64%</td><td>65%</td></tr>
+                                <tr><td>Europe</td><td>72%</td><td>71%</td><td>73%</td><td>70%</td></tr>
+                                <tr><td>Asia</td><td>75%</td><td>74%</td><td>72%</td><td>71%</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="bg-navy-50 rounded-lg p-6 border border-navy-100">
+                        <p class="text-sm text-navy-500 font-semibold uppercase tracking-wide mb-3">Table C: Growth Targets</p>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Region</th>
+                                    <th>Target</th>
+                                    <th>Actual</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>UK</td><td>18%</td><td>?</td></tr>
+                                <tr><td>Europe</td><td>12%</td><td>?</td></tr>
+                                <tr><td>Asia</td><td>45%</td><td>?</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <p><strong>Question:</strong> Which region exceeded its annual growth target by the largest absolute margin?</p>
+
+                <p>To answer this, the candidate must: (1) calculate Q1-Q4 revenue change for each region from Table A, (2) determine percentage growth, (3) compare against targets in Table C, (4) calculate absolute margin of excess, and (5) identify the largest. Five discrete operations. Fourteen separate data points. Working memory capacity: four chunks.</p>
+
+                <h2>The Integration Failure Pattern</h2>
+
+                <p>Candidates fail multi-table questions through three predictable patterns:</p>
+
+                <div class="section-card">
+                    <ul class="icon-list">
+                        <li><i data-lucide="alert-circle"></i><span><strong>Retrieval loop:</strong> revisiting tables repeatedly and losing time.</span></li>
+                        <li><i data-lucide="alert-circle"></i><span><strong>Premature calculation:</strong> solving the wrong quantity before interpreting the ask.</span></li>
+                        <li><i data-lucide="alert-circle"></i><span><strong>Cross-reference collapse:</strong> mixing metrics across tables and regions.</span></li>
+                    </ul>
+                </div>
+
+                <h3>Pattern 1: The Retrieval Loop</h3>
+
+                <p>The candidate begins calculating UK growth. They remember Q1 UK revenue (420) and Q4 UK revenue (510). They calculate the difference (90) and percentage (21.4%). They compare to target (18%) and note the excess (3.4%). They move to Europe—and forget UK figures. When Europe calculations are complete, they return to verify UK, then forget Europe. The loop continues until time expires or confidence collapses.</p>
+
+                <h3>Pattern 2: The Premature Calculation</h3>
+
+                <p>The candidate calculates operating profit for Q3 UK using costs from Table B. They then realise the question asks about growth, not profit. They have spent 45 seconds on irrelevant mathematics. Panic ensues. They rush the actual calculation. Error probability: high.</p>
+
+                <h3>Pattern 3: The Cross-Reference Collapse</h3>
+
+                <p>The candidate confuses which table contains which metric. They apply UK revenue figures to Europe cost percentages. They use Q2 data when Q4 is required. The calculation proceeds perfectly using wrong inputs. The result is confident, precise, and entirely incorrect.</p>
+
+                <div class="mid-cta">
+                    <h3 class="font-display text-2xl font-bold text-navy-700 mb-3">Build this skill before test day</h3>
+                    <p class="text-navy-700 mb-6">Multi-table integration is trainable when you use a repeatable extraction and sequencing method.</p>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <a href="../masterclass.html" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-navy-700 text-white font-semibold rounded hover:bg-navy-800 transition-colors">
+                            Explore the Programme
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                        <a href="../diagnostic.html" class="inline-flex items-center justify-center gap-2 px-6 py-3 border border-navy-300 text-navy-700 font-semibold rounded hover:bg-white transition-colors">
+                            Take Free Diagnostic
+                        </a>
+                    </div>
+                </div>
+
+                <h2>The Mental Model Solution</h2>
+
+                <p>High performers do not have larger working memories. They have <strong>compression algorithms</strong>—mental models that reduce fourteen data points to four manageable chunks.</p>
+
+                <p>The Acumen Logic methodology teaches three specific models:</p>
+
+                <h3>Model 1: The Extraction Layer</h3>
+
+                <p>Before any calculation, extract required data to a single working surface (mental or physical). For the example above:</p>
+
+                <div class="section-card">
+                    <ul class="icon-list">
+                        <li><i data-lucide="check-circle-2"></i><span>UK: 420 to 510 (target: 18%).</span></li>
+                        <li><i data-lucide="check-circle-2"></i><span>Europe: 380 to 425 (target: 12%).</span></li>
+                        <li><i data-lucide="check-circle-2"></i><span>Asia: 290 to 420 (target: 45%).</span></li>
+                    </ul>
+                </div>
+
+                <p>Tables A and B are now irrelevant. The problem has been compressed to three data points. Working memory preserved.</p>
+
+                <div class="mt-12 p-8 bg-gold-50 rounded-xl border border-gold-100">
+                    <h3 class="font-display text-2xl font-bold text-navy-700 mb-4">Build Your Integration Skill</h3>
+                    <p class="text-navy-600 mb-6">The Acumen Logic diagnostic identifies whether multi-table integration is your primary bottleneck and routes you to the right module sequence.</p>
+                    <a href="../diagnostic.html" class="inline-flex items-center gap-2 px-6 py-3 bg-navy-700 text-white font-semibold rounded hover:bg-navy-800 transition-colors">
+                        Take the Free Diagnostic
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <section class="py-10 bg-navy-50/60 border-t border-navy-100">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-gold-100 flex items-center justify-center text-gold-600 font-bold">AL</div>
+                <div>
+                    <p class="font-semibold text-navy-700">Acumen Logic Research Team</p>
+                    <p class="text-sm text-navy-500">Assessment analysis & methodology</p>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <button type="button" data-share="linkedin" aria-label="Share on LinkedIn" class="w-10 h-10 rounded-full bg-white border border-navy-100 flex items-center justify-center text-navy-500 hover:text-gold-500 hover:border-gold-300 transition-all">
+                    <i data-lucide="linkedin" class="w-5 h-5"></i>
+                </button>
+                <button type="button" data-share="x" aria-label="Share on X" class="w-10 h-10 rounded-full bg-white border border-navy-100 flex items-center justify-center text-navy-500 hover:text-gold-500 hover:border-gold-300 transition-all">
+                    <i data-lucide="twitter" class="w-5 h-5"></i>
+                </button>
+                <button type="button" data-share="copy" aria-label="Copy article link" class="w-10 h-10 rounded-full bg-white border border-navy-100 flex items-center justify-center text-navy-500 hover:text-gold-500 hover:border-gold-300 transition-all">
+                    <i data-lucide="link" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="font-display text-2xl font-bold text-navy-700 mb-8">Related Analysis</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <a href="60-second-rule.html" class="bg-white rounded-xl p-6 border border-navy-100 shadow-sm hover:shadow-md transition-all">
+                    <span class="text-xs text-gold-500 font-semibold uppercase tracking-wide">Methodology</span>
+                    <h3 class="font-display text-lg font-bold text-navy-700 mt-2">The 60-Second Rule: Speed Without Sacrificing Accuracy</h3>
+                    <p class="text-sm text-navy-500 mt-2">Time management strategies for high-pressure assessment environments.</p>
+                </a>
+                <a href="deloitte-immersive.html" class="bg-white rounded-xl p-6 border border-navy-100 shadow-sm hover:shadow-md transition-all">
+                    <span class="text-xs text-gold-500 font-semibold uppercase tracking-wide">Deloitte</span>
+                    <h3 class="font-display text-lg font-bold text-navy-700 mt-2">Deloitte Immersive Assessment: What They Are Really Testing</h3>
+                    <p class="text-sm text-navy-500 mt-2">The cognitive traps hidden in Deloitte's immersive assessment.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-navy-950 text-navy-300 py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-16">
+                <div class="col-span-2">
+                    <div class="flex items-center gap-3 mb-6">
+                        <img src="../assets/images/logo.png" width="36" height="36" alt="Acumen Logic">
+                        <span class="font-display text-xl font-bold text-white">Acumen Logic</span>
+                    </div>
+                    <p class="leading-relaxed max-w-sm">Precision training for finance aptitude assessments. Built for candidates targeting Big 4, investment banking, and consulting roles.</p>
+                    <p class="mt-4 text-sm"><a href="mailto:enquiries@acumenlogic.co.uk" class="inline-flex items-center gap-2 hover:text-gold-400 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i><span>enquiries@acumenlogic.co.uk</span></a></p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-5">Programme</h4>
+                    <ul class="space-y-3">
+                        <li><a href="../diagnostic.html" class="hover:text-gold-400 transition-colors">Free Diagnostic</a></li>
+                        <li><a href="../masterclass.html" class="hover:text-gold-400 transition-colors">Training Programme</a></li>
+                        <li><a href="index.html" class="hover:text-gold-400 transition-colors">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-5">Legal</h4>
+                    <ul class="space-y-3">
+                        <li><a href="../pages/privacy.html" class="hover:text-gold-400 transition-colors">Privacy Policy</a></li>
+                        <li><a href="../pages/terms.html" class="hover:text-gold-400 transition-colors">Terms of Service</a></li>
+                        <li><a href="../pages/cookies.html" class="hover:text-gold-400 transition-colors">Cookies</a></li>
+                        <li><a href="../pages/disclaimer.html" class="hover:text-gold-400 transition-colors">Disclaimer</a></li>
+                        <li><a href="../pages/refund.html" class="hover:text-gold-400 transition-colors">Refund Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-navy-800 pt-10 flex flex-col items-center gap-4">
+                <p class="text-sm text-navy-500">&copy; <span data-year></span> Acumen Logic. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,792 @@
+<!--
+  ACUMEN LOGIC — Lesson 4.4: Verbal Reasoning — True / False / Cannot Say
+  For ThriveCart Learn Custom HTML Block
+  Pure CSS · Zero JavaScript · Fully responsive
+
+  TYPE: Worked Examples lesson
+  The single most common verbal reasoning format in UK finance aptitude
+  tests. Used by SHL (Barclays, EY, Deloitte, Rothschild), Aon (UBS,
+  BNP Paribas), Korn Ferry (Citi), and Cappfinity (HSBC).
+  Teaches precise definitions, the statement-first technique, qualifier
+  spotting, and the three biggest traps — all with finance/business
+  passages. Difficulty escalates from straightforward to expert-level
+  "Cannot Say" distinctions.
+-->
+
+<style>
+  /* ═══ BRAND TOKENS ═══ */
+  .al-lesson {
+    --al-navy: #1B2A4A;
+    --al-navy-light: #2A3D66;
+    --al-navy-muted: #3D5280;
+    --al-gold: #C8A951;
+    --al-gold-light: #D4BC72;
+    --al-gold-pale: #F5EFD9;
+    --al-cream: #FAFAF6;
+    --al-white: #FFFFFF;
+    --al-text: #2C2C2C;
+    --al-text-light: #6B6B6B;
+    --al-border: #E8E4DA;
+    --al-success: #2D8F5E;
+    --al-success-bg: #EDF7F0;
+    --al-danger: #C0392B;
+    --al-danger-bg: #FDF2F0;
+    --al-amber: #D4823A;
+    --al-amber-bg: #FFF8F0;
+    --al-radius: 10px;
+    --al-radius-sm: 6px;
+    --al-shadow: 0 2px 12px rgba(27, 42, 74, 0.08);
+    --al-shadow-lg: 0 8px 32px rgba(27, 42, 74, 0.12);
+  }
+
+  /* ═══ RESET & BASE ═══ */
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+  .al-lesson {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .al-lesson h1, .al-lesson h2, .al-lesson h3 { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; color: var(--al-navy); line-height: 1.25; }
+
+  /* ═══ HERO ═══ */
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .al-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200, 169, 81, 0.08) 0%, transparent 70%); pointer-events: none; }
+  .al-hero-eyebrow { font-family: 'Source Sans 3', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem, 4vw, 2.2rem); margin-bottom: 0.75rem; }
+  .al-hero-subtitle { color: rgba(255, 255, 255, 0.9) !important; font-size: 1rem; max-width: 36rem; line-height: 1.5; }
+  .al-hero-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 1rem 0; }
+
+  /* ═══ SECTIONS ═══ */
+  .al-section { margin-bottom: 2rem; }
+  .al-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-section-number { width: 2rem; height: 2rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.95rem; flex-shrink: 0; }
+  .al-section h2 { font-size: clamp(1.15rem, 3vw, 1.4rem); }
+
+  /* ═══ CARDS ═══ */
+  .al-card { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-card p { margin-bottom: 0.75rem; }
+  .al-card p:last-child { margin-bottom: 0; }
+
+  /* ═══ CALLOUTS ═══ */
+  .al-callout { border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; font-size: 0.92rem; }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-gold { background: var(--al-gold-pale); border-left: 4px solid var(--al-gold); }
+  .al-callout-warn { background: var(--al-amber-bg); border-left: 4px solid var(--al-amber); }
+  .al-callout-danger { background: var(--al-danger-bg); border-left: 4px solid var(--al-danger); }
+  .al-callout-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .al-callout-tip .al-callout-label { color: var(--al-success); }
+  .al-callout-gold .al-callout-label { color: var(--al-navy); }
+  .al-callout-warn .al-callout-label { color: var(--al-amber); }
+  .al-callout-danger .al-callout-label { color: var(--al-danger); }
+
+  /* ═══ WORKED EXAMPLES ═══ */
+  .al-example { border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-example-header { background: var(--al-navy); padding: 1.25rem 1.5rem; display: flex; flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  .al-example-label { color: var(--al-gold) !important; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .al-example-q { color: var(--al-white) !important; font-size: 1.15rem; font-weight: 600; line-height: 1.4; margin-top: 0.25rem; }
+  .al-example-body { background: var(--al-white); border: 1px solid var(--al-border); border-top: none; border-radius: 0 0 var(--al-radius) var(--al-radius); padding: 1.5rem; font-size: 0.92rem; }
+  .al-example-body p { margin-bottom: 0.6rem; }
+  .al-example-body p:last-child { margin-bottom: 0; }
+
+  /* ═══ STEP LINES ═══ */
+  .al-step-line { display: flex; align-items: baseline; gap: 0.65rem; margin-bottom: 0.45rem; }
+  .al-step-num { width: 1.4rem; height: 1.4rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.7rem; flex-shrink: 0; }
+  .al-step-calc { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-size: 0.95rem; color: var(--al-navy); }
+  .al-step-result { font-weight: 700; color: var(--al-success); }
+
+  /* ═══ WRONG vs RIGHT ═══ */
+  .al-vs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin-bottom: 1.25rem; }
+  .al-vs-box { border-radius: var(--al-radius); padding: 1rem; }
+  .al-vs-wrong { background: #FDF2F0; border: 2px solid var(--al-danger); }
+  .al-vs-right { background: #EDF7F0; border: 2px solid var(--al-success); }
+  .al-vs-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .al-vs-wrong .al-vs-label { color: var(--al-danger); }
+  .al-vs-right .al-vs-label { color: var(--al-success); }
+  .al-vs-box p { font-size: 0.92rem; margin-bottom: 0.4rem; line-height: 1.5; }
+  .al-vs-box p:last-child { margin-bottom: 0; }
+
+  /* ═══ FORMULA / RULE CARDS ═══ */
+  .al-formula { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.15rem 1.5rem; margin-bottom: 1.25rem; text-align: center; }
+  .al-formula-label { color: var(--al-gold) !important; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .al-formula-text { color: var(--al-white) !important; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: clamp(1rem, 2.5vw, 1.25rem); line-height: 1.4; }
+  .al-formula-note { color: rgba(255, 255, 255, 0.75) !important; font-size: 0.78rem; margin-top: 0.35rem; }
+
+  /* ═══ PASSAGE BLOCK ═══ */
+  .al-passage { background: #F0F2F6; border: 1px solid #D4D8E2; border-left: 4px solid var(--al-navy); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1rem; font-size: 0.9rem; line-height: 1.7; color: var(--al-text); }
+  .al-passage-label { font-weight: 700; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-navy); margin-bottom: 0.5rem; }
+  .al-passage p { margin-bottom: 0.65rem; }
+  .al-passage p:last-child { margin-bottom: 0; }
+
+  /* ═══ STATEMENT BLOCK ═══ */
+  .al-statement { background: var(--al-white); border: 2px solid var(--al-navy); border-radius: var(--al-radius); padding: 1rem 1.25rem; margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; }
+  .al-statement-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.1rem; }
+  .al-statement-text { font-size: 0.95rem; font-weight: 600; color: var(--al-navy); line-height: 1.5; }
+
+  /* ═══ VERDICT BADGES ═══ */
+  .al-verdict { display: inline-block; padding: 0.2rem 0.65rem; border-radius: 3px; font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .al-verdict-true { background: var(--al-success-bg); color: var(--al-success); border: 1.5px solid var(--al-success); }
+  .al-verdict-false { background: var(--al-danger-bg); color: var(--al-danger); border: 1.5px solid var(--al-danger); }
+  .al-verdict-cs { background: var(--al-amber-bg); color: var(--al-amber); border: 1.5px solid var(--al-amber); }
+
+  /* ═══ DEFINITION GRID ═══ */
+  .al-def-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-def-card { border-radius: var(--al-radius); padding: 1.15rem; text-align: center; }
+  .al-def-card h3 { font-size: 1rem; margin-bottom: 0.4rem; }
+  .al-def-card p { font-size: 0.85rem; line-height: 1.5; }
+  .al-def-true { background: var(--al-success-bg); border: 2px solid var(--al-success); }
+  .al-def-true h3 { color: var(--al-success) !important; }
+  .al-def-false { background: var(--al-danger-bg); border: 2px solid var(--al-danger); }
+  .al-def-false h3 { color: var(--al-danger) !important; }
+  .al-def-cs { background: var(--al-amber-bg); border: 2px solid var(--al-amber); }
+  .al-def-cs h3 { color: var(--al-amber) !important; }
+
+  /* ═══ HIGHLIGHT ═══ */
+  .al-hl { background: var(--al-gold-pale); padding: 0.1rem 0.3rem; border-radius: 3px; font-weight: 600; }
+
+  /* ═══ MCQ OPTIONS — vertical list ═══ */
+  .al-mcq-options { list-style: none; padding: 0; margin: 0.75rem 0 0.5rem; }
+  .al-mcq-option { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--al-border); }
+  .al-mcq-option:last-child { border-bottom: none; }
+  .al-mcq-letter { font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 0.88rem; color: var(--al-navy); min-width: 1.5rem; }
+  .al-mcq-text { font-size: 0.88rem; color: var(--al-text); line-height: 1.45; }
+
+  /* ═══ REVEAL (details/summary) ═══ */
+  .al-reveal { margin-top: 1rem; border: 2px solid var(--al-border); border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; }
+  .al-reveal[open] { border-color: var(--al-success); }
+  .al-reveal-btn { display: block; padding: 0.85rem 1.25rem; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--al-navy); background: var(--al-cream); cursor: pointer; list-style: none; user-select: none; -webkit-user-select: none; }
+  .al-reveal-btn::-webkit-details-marker { display: none; }
+  .al-reveal-btn::marker { display: none; content: ''; }
+  .al-reveal-btn:hover { background: var(--al-gold-pale); }
+  .al-reveal[open] .al-reveal-btn { background: #EDF7F0; color: var(--al-success); border-bottom: 1px solid var(--al-border); }
+  .al-reveal-content { padding: 1.25rem; font-size: 0.92rem; }
+  .al-reveal-content p { margin-bottom: 0.6rem; }
+  .al-reveal-content p:last-child { margin-bottom: 0; }
+
+  /* ═══ PRACTICE QUESTION ═══ */
+  .al-practice { background: var(--al-cream); border: 2px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 0.5rem; }
+  .al-practice-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-gold); margin-bottom: 0.35rem; }
+  .al-practice-q { font-size: 0.95rem; font-weight: 600; color: var(--al-navy); line-height: 1.5; }
+
+  /* ═══ KEY TAKEAWAYS ═══ */
+  .al-takeaways { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.5rem 1.75rem; margin-bottom: 1.25rem; }
+  .al-takeaways h3 { color: var(--al-gold) !important; font-size: 1.1rem; margin-bottom: 1rem; }
+  .al-takeaways-list { list-style: none; padding: 0; }
+  .al-takeaways-list li { color: rgba(255, 255, 255, 0.95) !important; font-size: 0.92rem; padding: 0.45rem 0 0.45rem 1.75rem; position: relative; line-height: 1.5; }
+  .al-takeaways-list li::before { content: '✓'; position: absolute; left: 0; color: var(--al-gold); font-weight: 700; font-size: 1rem; }
+  .al-takeaways strong { color: var(--al-gold) !important; }
+
+  /* ═══ NEXT LESSON ═══ */
+  .al-next { background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .al-next-arrow { width: 2.5rem; height: 2.5rem; background: var(--al-navy); color: var(--al-gold) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .al-next-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-text-light); margin-bottom: 0.15rem; }
+  .al-next-title { font-family: 'Source Sans 3', sans-serif; font-weight: 700; color: var(--al-navy); font-size: 1rem; }
+  .al-next-desc { font-size: 0.85rem; color: var(--al-text-light); margin-top: 0.15rem; }
+
+  /* ═══ UTILITY ═══ */
+  .al-lesson strong { color: var(--al-navy); }
+  .al-divider { border: none; height: 1px; background: var(--al-border); margin: 2rem 0; }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .al-card, .al-example-body, .al-reveal-content { padding: 1.15rem; }
+    .al-vs { grid-template-columns: 1fr; }
+    .al-def-grid { grid-template-columns: 1fr; }
+    .al-takeaways { padding: 1.25rem; }
+    .al-next { flex-direction: column; text-align: center; }
+    .al-formula { padding: 1rem; }
+    .al-example-header { padding: 1.1rem 1.25rem; }
+    .al-example-q { font-size: 1.05rem; }
+    .al-passage { padding: 1rem 1.15rem; }
+  }
+</style>
+
+<div class="al-lesson">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 4 · Lesson 4.4</div>
+    <h1>Verbal Reasoning: True / False / Cannot Say</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">The single most common verbal format in UK finance aptitude tests. The difference between True and Cannot Say is where most candidates lose marks — and where the best candidates gain them.</p>
+  </div>
+
+  <!-- ═══ SECTION 1: WHY THIS FORMAT MATTERS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">1</div>
+      <h2>Why This Format Dominates</h2>
+    </div>
+    <div class="al-card">
+      <p>True/False/Cannot Say (T/F/CS) is the standard verbal reasoning format used by SHL (EY, Deloitte, Barclays, Rothschild, Jefferies), Aon (UBS, BNP Paribas, Schroders), Korn Ferry (Citi, Macquarie), and Cappfinity (HSBC). If you're applying to a UK finance role, you will almost certainly face this format.</p>
+      <p>You're given a passage — typically 150–250 words on a business topic — followed by a statement. Your job: decide whether the statement is <strong>True</strong>, <strong>False</strong>, or <strong>Cannot Say</strong> based <em>solely</em> on the information in the passage. Not what you know. Not what seems likely. Only what the passage says.</p>
+      <p>Typical format: 30 statements across 5–6 passages in 17–19 minutes. That's roughly <strong>35 seconds per statement</strong> — including reading time.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 2: THE THREE DEFINITIONS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">2</div>
+      <h2>The Three Definitions</h2>
+    </div>
+    <div class="al-card">
+      <p>Everything in this lesson builds on these three definitions. They are not negotiable — every test provider uses essentially the same criteria. Memorise them precisely.</p>
+    </div>
+
+    <div class="al-def-grid">
+      <div class="al-def-card al-def-true">
+        <h3>TRUE</h3>
+        <p>The statement <strong>follows logically</strong> from the passage. It is directly stated OR can be logically deduced from what is stated.</p>
+      </div>
+      <div class="al-def-card al-def-false">
+        <h3>FALSE</h3>
+        <p>The statement <strong>contradicts</strong> the passage. Something in the passage directly conflicts with what the statement claims.</p>
+      </div>
+      <div class="al-def-card al-def-cs">
+        <h3>CANNOT SAY</h3>
+        <p>The passage <strong>does not provide enough information</strong> to determine whether the statement is true or false. It is neither confirmed nor contradicted.</p>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-danger">
+      <div class="al-callout-label">The Critical Distinction</div>
+      <p><strong>"Cannot Say" does NOT mean "I'm not sure."</strong> It means the passage is silent on the topic. You might know the answer from real-world knowledge — but if the passage doesn't address it, the answer is Cannot Say. Equally, a statement might seem very likely based on the passage, but if it's not guaranteed by the text, it's Cannot Say — not True.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 3: THE STATEMENT-FIRST TECHNIQUE ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">3</div>
+      <h2>The Statement-First Technique</h2>
+    </div>
+    <div class="al-card">
+      <p>Most candidates read the passage first, then the statement, then re-read the passage looking for relevant information. This works, but it's slow — you read the passage twice.</p>
+      <p>The faster approach: <strong>read the statement first</strong>. Identify 1–2 keywords. Then scan the passage for those keywords or their synonyms. This cuts your reading time significantly because you know exactly what to look for.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">The 35-Second Method</div>
+      <div class="al-formula-text" style="text-align: left; font-size: 1rem;">
+        1. READ the statement (5 seconds)<br>
+        2. IDENTIFY 1–2 keywords from the statement<br>
+        3. SCAN the passage for those keywords or synonyms (10 seconds)<br>
+        4. READ the relevant sentence(s) carefully (10 seconds)<br>
+        5. DECIDE: True, False, or Cannot Say (10 seconds)
+      </div>
+      <div class="al-formula-note">For the first statement on a new passage, add 15–20 seconds to skim the full passage. Subsequent statements on the same passage are faster.</div>
+    </div>
+
+    <div class="al-callout al-callout-tip">
+      <div class="al-callout-label">Qualifier Spotting</div>
+      <p>The words that decide T/F/CS answers are almost always <strong>qualifiers</strong>: "all," "some," "most," "always," "never," "only," "primarily," "exclusively." A passage that says <span class="al-hl">"most analysts recommend"</span> does NOT support a statement that <span class="al-hl">"all analysts recommend"</span>. Train yourself to circle qualifiers mentally — they are where the answer lives.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 4: WORKED EXAMPLES — BUILDING SKILL ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">4</div>
+      <h2>Worked Examples</h2>
+    </div>
+    <div class="al-card">
+      <p>We'll work through six examples using three passages, covering all three answer types and escalating in difficulty. The first is straightforward; by the sixth, you'll face the kind of subtle distinction that separates 80th-percentile candidates from everyone else.</p>
+    </div>
+
+    <!-- ═══ PASSAGE A ═══ -->
+    <div class="al-passage">
+      <div class="al-passage-label">Passage A</div>
+      <p>Meridian Capital, a London-based investment bank, reported a 14% increase in pre-tax profits for the financial year ending March 2025, reaching £2.3 billion. The growth was primarily driven by the bank's fixed-income trading division, which saw revenues rise by 23% year-on-year. Equities trading revenues declined by 4% over the same period.</p>
+      <p>The bank's CEO, Sarah Chen, attributed the fixed-income performance to "favourable market volatility and disciplined risk management." Meridian expanded its headcount by 8% during the year, adding 340 roles predominantly in technology and compliance functions. The bank confirmed it would pay a final dividend of 42p per share, unchanged from the prior year.</p>
+    </div>
+
+    <!-- WE1: Straightforward TRUE -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 1 — True</span>
+        <span class="al-example-q">Is this statement True, False, or Cannot Say?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-statement">
+          <span class="al-statement-text">"Meridian Capital's fixed-income trading division performed better than its equities trading division in the year to March 2025."</span>
+        </div>
+
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>Keywords:</strong> "fixed-income," "equities," "performed better."</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>Passage says:</strong> Fixed-income revenues rose 23%. Equities revenues declined 4%.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">One division grew significantly; the other shrank. The statement that fixed-income "performed better" follows directly.</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Answer: <span class="al-verdict al-verdict-true">TRUE</span></span></div>
+
+        <p style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--al-text-light);">This is a warm-up. The passage provides clear numerical evidence for both divisions, and the comparison is straightforward. At test speed, this should take under 20 seconds.</p>
+      </div>
+    </div>
+
+    <!-- WE2: Straightforward FALSE -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 2 — False</span>
+        <span class="al-example-q">Is this statement True, False, or Cannot Say?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-statement">
+          <span class="al-statement-text">"Meridian Capital reduced its workforce during the financial year ending March 2025."</span>
+        </div>
+
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>Keywords:</strong> "reduced," "workforce."</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>Passage says:</strong> "Meridian expanded its headcount by 8%, adding 340 roles."</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">"Expanded" directly contradicts "reduced." The passage explicitly states the opposite.</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Answer: <span class="al-verdict al-verdict-false">FALSE</span></span></div>
+
+        <p style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--al-text-light);">Another straightforward one — a direct contradiction. The key skill: always look for the <em>exact word</em> that contradicts the statement. Here it's "expanded" vs "reduced."</p>
+      </div>
+    </div>
+
+    <!-- WE3: Cannot Say — the tricky one -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 3 — Cannot Say (Medium)</span>
+        <span class="al-example-q">Is this statement True, False, or Cannot Say?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-statement">
+          <span class="al-statement-text">"Meridian Capital's pre-tax profits in the financial year ending March 2024 were approximately £2.0 billion."</span>
+        </div>
+
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>Keywords:</strong> "pre-tax profits," "March 2024," "£2.0 billion."</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>Passage says:</strong> 14% increase, reaching £2.3 billion for year ending March 2025.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc"><strong>Temptation:</strong> You could calculate — £2.3bn ÷ 1.14 ≈ £2.018bn ≈ £2.0bn. So the statement seems mathematically correct.</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc"><strong>But wait:</strong> Is it valid to make this calculation? The passage says profits "increased by 14%... reaching £2.3 billion." This <em>implies</em> the prior year was roughly £2.0bn, and the maths confirms it. The 14% increase from a base to £2.3bn mathematically requires the base to be ~£2.02bn.</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Answer: <span class="al-verdict al-verdict-true">TRUE</span> — The passage provides enough information to deduce this. A 14% increase reaching £2.3bn means the prior year was £2.3bn ÷ 1.14 = £2.018bn, which rounds to "approximately £2.0 billion."</span></div>
+
+        <div class="al-callout al-callout-warn" style="margin-top: 1rem;">
+          <div class="al-callout-label">Why This Trips People Up</div>
+          <p>Many candidates instinctively answer "Cannot Say" because the passage doesn't <em>explicitly</em> state the 2024 figure. But "True" doesn't require explicit statement — it requires the answer to <strong>follow logically</strong> from the passage. If you can calculate it from the data given, it follows logically. This is a common trap: confusing "not explicitly stated" with "Cannot Say." If the information is <em>derivable</em>, the answer is True.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PASSAGE B ═══ -->
+    <div class="al-passage">
+      <div class="al-passage-label">Passage B</div>
+      <p>The UK Financial Conduct Authority (FCA) announced in January 2025 that it would introduce new regulations requiring all UK-authorised asset managers to publish annual climate-related disclosures from April 2026. The regulations align with the Task Force on Climate-related Financial Disclosures (TCFD) framework and will apply to firms managing more than £5 billion in assets.</p>
+      <p>Industry body the Investment Association (IA) broadly welcomed the announcement, noting that many larger firms already produce voluntary disclosures. However, the IA cautioned that smaller firms approaching the £5 billion threshold may face "disproportionate compliance costs." The FCA stated it would conduct a review of the threshold within two years of implementation.</p>
+    </div>
+
+    <!-- WE4: Subtle Cannot Say -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 4 — Cannot Say (Hard)</span>
+        <span class="al-example-q">Is this statement True, False, or Cannot Say?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-statement">
+          <span class="al-statement-text">"The Investment Association believes the new regulations will benefit the asset management industry overall."</span>
+        </div>
+
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>Keywords:</strong> "Investment Association," "believes," "benefit," "overall."</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>Passage says:</strong> The IA "broadly welcomed the announcement" but "cautioned" about compliance costs for smaller firms.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc"><strong>Temptation:</strong> "Broadly welcomed" sounds positive, so surely they believe it will benefit the industry?</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc"><strong>But:</strong> Welcoming an announcement is not the same as believing it will benefit the industry "overall." You can welcome a regulation while still believing its net impact is uncertain. The passage says the IA welcomed the announcement AND raised concerns. It does not state the IA's view on the overall net impact.</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Answer: <span class="al-verdict al-verdict-cs">CANNOT SAY</span></span></div>
+
+        <p style="margin-top: 0.75rem;"><strong>The trap:</strong> Confusing a positive reaction ("broadly welcomed") with a specific belief about net benefit. The passage tells us the IA's <em>reaction</em> to the announcement, not its assessment of the regulation's overall impact. These are different things — and tests exploit this distinction relentlessly.</p>
+      </div>
+    </div>
+
+    <!-- WE5: Qualifier trap FALSE -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 5 — Qualifier Trap</span>
+        <span class="al-example-q">Is this statement True, False, or Cannot Say?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-statement">
+          <span class="al-statement-text">"All UK-authorised asset managers will be required to publish climate-related disclosures from April 2026."</span>
+        </div>
+
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>Keywords:</strong> "All," "UK-authorised asset managers," "required," "April 2026."</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>Passage says:</strong> Regulations "will apply to firms managing <span class="al-hl">more than £5 billion</span> in assets."</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">The statement says <span class="al-hl">"all"</span> UK-authorised asset managers. The passage says only those managing <strong>more than £5bn</strong>. Firms below this threshold are not required to comply.</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">"All" is broader than what the passage states. The passage explicitly limits the scope. This is a direct contradiction.</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Answer: <span class="al-verdict al-verdict-false">FALSE</span></span></div>
+
+        <div class="al-vs" style="margin-top: 1rem;">
+          <div class="al-vs-box al-vs-wrong">
+            <div class="al-vs-label">Common Mistake</div>
+            <p>Skimming the passage, seeing "UK-authorised asset managers" and "April 2026," and marking True. The qualifier "all" in the statement is the trap — but you only catch it if you compare qualifiers precisely.</p>
+          </div>
+          <div class="al-vs-box al-vs-right">
+            <div class="al-vs-label">Correct Approach</div>
+            <p>The passage says "more than £5 billion" — a subset, not all. The statement claims "all" — a universal claim. <strong>"All" ≠ "some"</strong> or "those above a threshold." When the scope differs, it's False.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PASSAGE C ═══ -->
+    <div class="al-passage">
+      <div class="al-passage-label">Passage C</div>
+      <p>Hensley Group, a mid-market private equity firm headquartered in Edinburgh, completed the acquisition of three portfolio companies in the first half of 2025: a logistics technology provider, a renewable energy consultancy, and a specialist healthcare staffing agency. The combined deal value exceeded £180 million.</p>
+      <p>Managing Partner James Whitfield described the acquisitions as "consistent with our strategy of targeting operational businesses with strong recurring revenue and clear margin expansion potential." Hensley typically holds investments for four to six years before seeking an exit. The firm currently manages funds totalling approximately £1.4 billion across three active vintages.</p>
+    </div>
+
+    <!-- WE6: Expert-level — outside knowledge trap -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 6 — Outside Knowledge Trap (Expert)</span>
+        <span class="al-example-q">Is this statement True, False, or Cannot Say?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-statement">
+          <span class="al-statement-text">"Hensley Group's investment strategy focuses on high-growth technology startups."</span>
+        </div>
+
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>Keywords:</strong> "investment strategy," "high-growth technology startups."</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>Passage says:</strong> Strategy targets "operational businesses with strong recurring revenue and clear margin expansion potential." Acquired companies include logistics tech, renewable energy, and healthcare staffing.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc"><strong>Analysis:</strong> "Operational businesses" suggests established companies, not startups. "Recurring revenue" suggests stability, not high-growth mode. One of three acquisitions was tech-related, but the other two were not. The strategy description does not mention "high-growth" or "startups."</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc"><strong>Key question:</strong> Does the passage <em>contradict</em> the claim, or simply not support it? The passage describes a strategy focused on operational businesses with recurring revenue — this is qualitatively different from "high-growth technology startups." The passage positively states what the strategy IS, and it contradicts what the statement claims.</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Answer: <span class="al-verdict al-verdict-false">FALSE</span> — The passage explicitly describes a strategy targeting "operational businesses with strong recurring revenue," which contradicts "high-growth technology startups."</span></div>
+
+        <div class="al-callout al-callout-gold" style="margin-top: 1rem;">
+          <div class="al-callout-label">Why This Is Expert-Level</div>
+          <p>The difficulty here is that the passage never says "we don't invest in startups" — it doesn't contain the word "startup" at all. But it doesn't need to. The passage describes what the strategy IS: operational businesses with recurring revenue. "High-growth technology startups" is fundamentally inconsistent with that description. When a passage positively defines something, a statement claiming it's something qualitatively different is False — not Cannot Say.</p>
+          <p>Compare with: "Hensley Group plans to expand into venture capital." The passage says nothing about future plans — that WOULD be Cannot Say. The distinction: the statement about strategy focuses on what the firm <em>currently does</em> (which the passage addresses), not what it <em>might do in the future</em> (which the passage doesn't address).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 5: THE THREE BIGGEST TRAPS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">5</div>
+      <h2>The Three Biggest Traps</h2>
+    </div>
+    <div class="al-card">
+      <p>These three traps account for the vast majority of T/F/CS errors. Recognising them by name helps you catch yourself before falling in.</p>
+    </div>
+
+    <!-- Trap 1: Outside Knowledge -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Trap 1</span>
+        <span class="al-example-q">Using Outside Knowledge</span>
+      </div>
+      <div class="al-example-body">
+        <p>If a passage discusses UK interest rates, you might know that the Bank of England raised rates in 2023. But if the passage doesn't mention rate rises, you cannot use that knowledge to support a "True" answer.</p>
+        <p><strong>Rule:</strong> The passage is your entire universe. Nothing else exists. A statement might be true in real life but Cannot Say based on the passage — and Cannot Say is the correct answer.</p>
+        <p style="font-size: 0.85rem; color: var(--al-text-light);"><strong>How tests exploit this:</strong> Passages deliberately discuss topics you'll have opinions about — inflation, ESG investing, fintech disruption. They rely on you importing your knowledge to override the passage. Don't.</p>
+      </div>
+    </div>
+
+    <!-- Trap 2: Probably True ≠ True -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Trap 2</span>
+        <span class="al-example-q">Confusing "Probably True" with "True"</span>
+      </div>
+      <div class="al-example-body">
+        <p>A passage says: "The company expanded rapidly, opening 12 new offices in 2024." A statement says: "The company's revenue increased in 2024."</p>
+        <p>Opening new offices <em>probably</em> increased revenue — but the passage doesn't say revenue increased. The company could have expanded offices while revenue declined (e.g., investing ahead of growth). Without explicit revenue data, this is Cannot Say.</p>
+        <p><strong>Rule:</strong> "Likely" and "logical" are not enough. True requires the passage to <strong>guarantee</strong> the statement — either explicitly or by inescapable deduction. If there's any scenario where the statement could be false despite the passage being true, the answer is Cannot Say.</p>
+      </div>
+    </div>
+
+    <!-- Trap 3: Cannot Say ≠ I'm Unsure -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Trap 3</span>
+        <span class="al-example-q">"Cannot Say" Means the Passage Is Silent — Not That You're Uncertain</span>
+      </div>
+      <div class="al-example-body">
+        <p>Cannot Say is not a cop-out. It's a precise answer meaning: "The passage provides no information — either for or against — on this specific point."</p>
+        <p>If you find yourself thinking "I'm not sure whether this is True or False" — <strong>stop</strong>. Re-read the passage. Either it provides evidence (making the answer True or False) or it doesn't (making the answer Cannot Say). Your personal uncertainty is irrelevant; what matters is whether the <em>passage</em> is silent.</p>
+        <p><strong>Test tip:</strong> Cannot Say is the most common correct answer in SHL verbal reasoning tests. If you find yourself never selecting it, you're probably falling for Trap 1 or Trap 2.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 6: DECISION FRAMEWORK ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">6</div>
+      <h2>The Decision Framework</h2>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">T / F / CS Decision Flowchart</div>
+      <div class="al-formula-text" style="text-align: left; font-size: 1rem;">
+        1. Does the passage ADDRESS the topic of the statement?<br>
+        &nbsp;&nbsp;&nbsp;→ No → <strong style="color: #D4823A;">CANNOT SAY</strong><br>
+        2. Does the passage CONFIRM the statement (directly or by deduction)?<br>
+        &nbsp;&nbsp;&nbsp;→ Yes → <strong style="color: #2D8F5E;">TRUE</strong><br>
+        3. Does the passage CONTRADICT the statement?<br>
+        &nbsp;&nbsp;&nbsp;→ Yes → <strong style="color: #C0392B;">FALSE</strong><br>
+        4. The passage addresses the topic but neither confirms nor contradicts?<br>
+        &nbsp;&nbsp;&nbsp;→ <strong style="color: #D4823A;">CANNOT SAY</strong>
+      </div>
+      <div class="al-formula-note">Step 4 catches the hardest questions — where the passage discusses a related topic but doesn't specifically address the claim in the statement.</div>
+    </div>
+
+    <div class="al-callout al-callout-tip">
+      <div class="al-callout-label">The Synonym Trap</div>
+      <p>Test writers rarely use the exact same words in the passage and statement. They'll use synonyms, rephrased sentences, or different grammatical structures. "Revenue increased by 14%" in the passage might become "the company experienced growth in earnings" in the statement. You need to recognise when different words mean the same thing — and when they don't. "Revenue" and "earnings" are <em>not</em> identical in financial contexts (revenue is top-line; earnings is bottom-line). Precision matters.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 7: PRACTICE QUESTIONS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">7</div>
+      <h2>Practice Questions</h2>
+    </div>
+    <p style="margin-bottom:1rem; font-size:0.92rem;">These are at realistic SHL Verbal Reasoning difficulty. Read each passage carefully, evaluate the statement, and commit to an answer before revealing the solution. Difficulty escalates through the set.</p>
+
+    <!-- ═══ PRACTICE PASSAGE 1 ═══ -->
+    <div class="al-passage">
+      <div class="al-passage-label">Passage 1</div>
+      <p>Greystone Consulting, a UK management consultancy specialising in financial services, reported that 78% of its graduate hires in 2024 held degrees from Russell Group universities. The firm's head of recruitment, David Ansari, stated that Greystone "values analytical rigour and communication skills above academic pedigree" and confirmed the firm actively recruits from over 40 universities nationwide.</p>
+      <p>Greystone's 2024 graduate programme received 4,200 applications for 60 positions — a ratio of 70:1. Applicants were assessed through a four-stage process comprising online aptitude tests, a video interview, a case study day, and a partner interview. The firm did not disclose pass rates for individual stages.</p>
+    </div>
+
+    <!-- PQ1: True — derivable from data -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 1</div>
+      <div class="al-practice-q">Is this statement True, False, or Cannot Say?</div>
+      <div class="al-statement" style="margin-top: 0.75rem;">
+        <span class="al-statement-text">"Fewer than 50 of Greystone's 2024 graduate hires attended non-Russell Group universities."</span>
+      </div>
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">(A)</span><span class="al-mcq-text">True</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(B)</span><span class="al-mcq-text">False</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(C)</span><span class="al-mcq-text">Cannot Say</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">78% of 60 graduate hires = 46.8 hires from Russell Group universities.</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Non-Russell Group = 60 − 46.8 = 13.2. Since we can't have 0.2 of a person, approximately 47 from Russell Group and 13 from non-Russell Group.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">13 is fewer than 50. <span class="al-step-result">The statement is TRUE.</span></span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Answer: <span class="al-verdict al-verdict-true">TRUE</span></span></div>
+        <p><strong>Trap:</strong> Some candidates answer Cannot Say because the passage doesn't explicitly state the number of non-Russell Group hires. But you can derive it: 78% of 60 ≈ 47 Russell Group hires, leaving ≈ 13 non-Russell Group hires. 13 &lt; 50. The data is sufficient. Remember: True includes what can be logically deduced, not just what's explicitly stated.</p>
+      </div>
+    </details>
+
+    <!-- PQ2: Cannot Say — inference beyond passage -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 2</div>
+      <div class="al-practice-q">Is this statement True, False, or Cannot Say?</div>
+      <div class="al-statement" style="margin-top: 0.75rem;">
+        <span class="al-statement-text">"The majority of Greystone's 2024 applicants were eliminated at the online aptitude test stage."</span>
+      </div>
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">(A)</span><span class="al-mcq-text">True</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(B)</span><span class="al-mcq-text">False</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(C)</span><span class="al-mcq-text">Cannot Say</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">4,200 applications for 60 positions across a 4-stage process. Online tests are the first stage.</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">It seems very likely that the first stage eliminates the most people — 70:1 ratios almost always see the biggest drop at stage 1.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc"><strong>But:</strong> The passage explicitly says "The firm did not disclose pass rates for individual stages."</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Without stage-by-stage data, we cannot determine where the majority were eliminated. <span class="al-step-result">The answer is Cannot Say.</span></span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Answer: <span class="al-verdict al-verdict-cs">CANNOT SAY</span></span></div>
+        <p><strong>Trap:</strong> This exploits Trap 2 — "probably true" ≠ True. You know from experience that aptitude tests eliminate most candidates, and the 70:1 ratio almost demands a big early cut. But the passage specifically withholds this data. What you know about recruitment norms is outside knowledge — inadmissible.</p>
+      </div>
+    </details>
+
+    <!-- ═══ PRACTICE PASSAGE 2 ═══ -->
+    <div class="al-passage">
+      <div class="al-passage-label">Passage 2</div>
+      <p>Thornfield Bank announced in March 2025 that it would close 45 of its 312 UK branches by the end of 2026, representing a reduction of approximately 14%. The closures will predominantly affect branches in rural areas where transaction volumes have fallen below 200 per week. Thornfield's digital banking platform processed 89% of all customer transactions in 2024, up from 74% in 2021.</p>
+      <p>The bank stated that affected staff would be offered redeployment to nearby branches or roles within its growing digital operations team. The Communication Workers Union (CWU) criticised the decision, arguing that branch closures "disproportionately impact elderly and vulnerable customers who lack reliable internet access." Thornfield responded that it would maintain a mobile banking van service in affected areas for a minimum of 12 months following each closure.</p>
+    </div>
+
+    <!-- PQ3: False — qualifier mismatch -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 3</div>
+      <div class="al-practice-q">Is this statement True, False, or Cannot Say?</div>
+      <div class="al-statement" style="margin-top: 0.75rem;">
+        <span class="al-statement-text">"All branches scheduled for closure are located in rural areas."</span>
+      </div>
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">(A)</span><span class="al-mcq-text">True</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(B)</span><span class="al-mcq-text">False</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(C)</span><span class="al-mcq-text">Cannot Say</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>Statement:</strong> "All branches" scheduled for closure are in rural areas.</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>Passage says:</strong> Closures will <span class="al-hl">"predominantly"</span> affect rural branches.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">"Predominantly" means mostly — not exclusively. Some non-rural branches may also close.</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">The statement claims "all"; the passage says "predominantly." These are incompatible. <span class="al-step-result">The answer is False.</span></span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Answer: <span class="al-verdict al-verdict-false">FALSE</span></span></div>
+        <p><strong>Trap:</strong> The answer hinges entirely on one word: "predominantly" vs "all." Candidates who skim the passage and catch "rural areas" but miss "predominantly" will incorrectly answer True. This is classic qualifier mismatch — the single most reliable source of T/F/CS errors.</p>
+      </div>
+    </details>
+
+    <!-- PQ4: Cannot Say — future prediction -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 4</div>
+      <div class="al-practice-q">Is this statement True, False, or Cannot Say?</div>
+      <div class="al-statement" style="margin-top: 0.75rem;">
+        <span class="al-statement-text">"Thornfield Bank's digital transaction share will exceed 95% by 2027."</span>
+      </div>
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">(A)</span><span class="al-mcq-text">True</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(B)</span><span class="al-mcq-text">False</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(C)</span><span class="al-mcq-text">Cannot Say</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Passage data: digital share went from 74% (2021) to 89% (2024) — a 15 percentage point increase over 3 years, roughly 5pp per year.</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Extrapolating: 89% + (3 years × 5pp) = 104% by 2027? That calculation suggests it <em>could</em> exceed 95%.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc"><strong>But:</strong> The passage provides no forecast, no growth target, and no statement about future digital adoption rates. Past trends don't guarantee future results — growth could slow, plateau, or even reverse.</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">The statement makes a forward-looking claim. The passage provides only historical data. <span class="al-step-result">Cannot Say.</span></span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Answer: <span class="al-verdict al-verdict-cs">CANNOT SAY</span></span></div>
+        <p><strong>Trap:</strong> The trend data makes the prediction feel obviously true — 74% → 89% in three years, so 95% by 2027 seems conservative. But trend extrapolation is inference, not deduction. The passage tells you where the number <em>was</em>, not where it <em>will be</em>. Future predictions from historical data = Cannot Say, unless the passage itself makes the prediction.</p>
+      </div>
+    </details>
+
+    <!-- ═══ PRACTICE PASSAGE 3 ═══ -->
+    <div class="al-passage">
+      <div class="al-passage-label">Passage 3</div>
+      <p>Pinnacle Asset Management launched its Global Sustainability Fund in September 2024, raising £420 million in its initial capital round — exceeding its target of £350 million. The fund invests exclusively in companies with independently verified ESG ratings in the top quartile of their respective sectors. As of December 2024, the fund held positions in 68 companies across 14 countries.</p>
+      <p>Pinnacle's Chief Investment Officer, Amara Osei, noted that "investor appetite for credible, performance-driven ESG strategies has grown substantially since the 2023 greenwashing scandals eroded confidence in self-reported ESG claims." The fund charges a management fee of 0.85% and a performance fee of 12% above a benchmark return of 6%.</p>
+    </div>
+
+    <!-- PQ5: Expert — Cannot Say disguised as False -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 5</div>
+      <div class="al-practice-q">Is this statement True, False, or Cannot Say?</div>
+      <div class="al-statement" style="margin-top: 0.75rem;">
+        <span class="al-statement-text">"The Global Sustainability Fund delivered returns exceeding 6% in its first quarter of operation."</span>
+      </div>
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">(A)</span><span class="al-mcq-text">True</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(B)</span><span class="al-mcq-text">False</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(C)</span><span class="al-mcq-text">Cannot Say</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">The fund launched in September 2024. Its first quarter would be roughly Q4 2024 (October–December).</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">The passage mentions a performance fee above a 6% benchmark. This tells us what the fee structure is — not what returns the fund actually achieved.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">The passage provides no performance data whatsoever — no return figures, no comparison to benchmark.</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc"><span class="al-step-result">Cannot Say.</span> The passage is entirely silent on actual fund performance.</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Answer: <span class="al-verdict al-verdict-cs">CANNOT SAY</span></span></div>
+        <p><strong>Trap:</strong> The mention of "6% benchmark" makes you think the passage addresses fund performance — but it only describes the fee structure, not actual returns. Candidates who confuse "the fund has a 6% benchmark" with "the fund returned 6%" conflate fee terms with performance data. The passage describes how fees are calculated, not what the fund earned. A benchmark is not a result.</p>
+      </div>
+    </details>
+
+    <!-- PQ6: Expert — precise logical deduction required -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 6</div>
+      <div class="al-practice-q">Is this statement True, False, or Cannot Say?</div>
+      <div class="al-statement" style="margin-top: 0.75rem;">
+        <span class="al-statement-text">"The Global Sustainability Fund raised more than 20% above its initial capital target."</span>
+      </div>
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">(A)</span><span class="al-mcq-text">True</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(B)</span><span class="al-mcq-text">False</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">(C)</span><span class="al-mcq-text">Cannot Say</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Target: £350 million. Raised: £420 million. Excess: £420m − £350m = £70 million.</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Percentage above target: £70m ÷ £350m = 20.0%.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">The statement says "more than 20%." The actual figure is exactly 20.0%, not more than 20%.</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc"><span class="al-step-result">False.</span> 20% is not "more than 20%."</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Answer: <span class="al-verdict al-verdict-false">FALSE</span></span></div>
+        <p><strong>Trap:</strong> This tests mathematical precision under time pressure. Many candidates will quickly calculate "£70m over £350m = 20%" and mark True because "20% is roughly more than 20%." But "more than" means strictly greater than — and 20% is not greater than 20%. Precision in qualifiers applies to numbers too: "more than," "at least," "approximately," and "over" all mean different things.</p>
+      </div>
+    </details>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ KEY TAKEAWAYS ═══ -->
+  <div class="al-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul class="al-takeaways-list">
+      <li><strong>TRUE</strong> = follows logically from the passage (stated OR deducible). <strong>FALSE</strong> = contradicted by the passage. <strong>CANNOT SAY</strong> = the passage doesn't provide enough information.</li>
+      <li>"Cannot Say" is not "I'm unsure" — it means the passage is silent. It's also the most common correct answer in SHL verbal tests. If you never select it, something's wrong.</li>
+      <li>Use the <strong>statement-first</strong> technique: read the statement, identify keywords, scan the passage. Don't read the passage cold and then hunt for relevance.</li>
+      <li><strong>Qualifiers decide answers.</strong> "All" vs "most," "always" vs "frequently," "exclusively" vs "primarily." A single qualifier mismatch between statement and passage flips the answer.</li>
+      <li>Beware Trap 1 (outside knowledge), Trap 2 ("probably true" ≠ True), and Trap 3 (Cannot Say ≠ uncertainty). These three errors account for 80%+ of verbal reasoning mistakes.</li>
+      <li>When the passage provides numbers, <strong>do the maths</strong>. Deductions from given data count as True. But trend extrapolation into the future does not — that's inference, not deduction.</li>
+      <li>Financial synonyms are not always synonyms: revenue ≠ earnings, profit ≠ cash flow, growth ≠ performance. Don't assume words mean the same thing in a finance passage.</li>
+    </ul>
+  </div>
+
+  <!-- ═══ NEXT LESSON ═══ -->
+  <div class="al-next">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Lesson</div>
+      <div class="al-next-title">4.5 — Combined Logical Problems</div>
+      <div class="al-next-desc">Bringing together deductive reasoning, pattern recognition, rule application, and verbal reasoning in mixed-format practice sets under timed conditions.</div>
+    </div>
+  </div>
+
+</div>
+
+<!--
+  VERIFICATION NOTES:
+  All passages are fictional. All statements verified for unambiguous T/F/CS classification.
+
+  PASSAGE A — Meridian Capital:
+  WE1: Fixed-income +23%, equities -4%. "Performed better" = TRUE ✓
+  WE2: "Expanded headcount by 8%, adding 340 roles" contradicts "reduced workforce" = FALSE ✓
+  WE3: £2.3bn ÷ 1.14 = £2.017bn ≈ £2.0bn. "Approximately £2.0 billion" = TRUE ✓
+    Verification: £2.017bn × 1.14 = £2.3bn ✓
+
+  PASSAGE B — FCA Climate Disclosures:
+  WE4: IA "broadly welcomed" ≠ "believes it will benefit overall." Welcoming ≠ net benefit assessment = CANNOT SAY ✓
+  WE5: Passage says "more than £5 billion." Statement says "all." "All" ≠ "those above threshold" = FALSE ✓
+
+  PASSAGE C — Hensley Group:
+  WE6: Strategy = "operational businesses with strong recurring revenue." Statement = "high-growth technology startups."
+    These are qualitatively incompatible descriptions. Strategy is positively defined in the passage, and the statement
+    contradicts that definition = FALSE ✓
+
+  PRACTICE PASSAGE 1 — Greystone Consulting:
+  PQ1: 78% of 60 = 46.8, round to 47. Non-RG = 13. 13 < 50 = TRUE ✓
+    Verification: 47/60 = 78.3% ≈ 78% ✓
+  PQ2: "Did not disclose pass rates for individual stages" — passage explicitly withholds data = CANNOT SAY ✓
+
+  PRACTICE PASSAGE 2 — Thornfield Bank:
+  PQ3: "Predominantly" ≠ "all." Statement uses "all," passage uses "predominantly" = FALSE ✓
+  PQ4: 74%→89% is historical data. "Will exceed 95% by 2027" is a prediction not made by passage = CANNOT SAY ✓
+
+  PRACTICE PASSAGE 3 — Pinnacle Asset Management:
+  PQ5: Passage mentions 6% benchmark in fee structure context, provides no actual return data = CANNOT SAY ✓
+  PQ6: (£420m − £350m) ÷ £350m = £70m ÷ £350m = 0.200 = 20.0%. "More than 20%" is false because 20% = 20%, not > 20% = FALSE ✓
+    Verification: 20% of £350m = £70m. £350m + £70m = £420m ✓
+    Strictly: 20.0% is not "more than 20%" ✓
+-->

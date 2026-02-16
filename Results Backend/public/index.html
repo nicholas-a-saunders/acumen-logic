@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acumen Logic — Assessment Results Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #1B2A4A;
+      --navy-light: #2A3D66;
+      --navy-muted: #3D5280;
+      --gold: #C8A951;
+      --gold-light: #D4BC72;
+      --gold-pale: #F5EFD9;
+      --cream: #FAFAF6;
+      --white: #FFFFFF;
+      --text: #2C2C2C;
+      --text-light: #6B6B6B;
+      --border: #E8E4DA;
+      --success: #2D8F5E;
+      --danger: #C0392B;
+      --warn: #D4823A;
+      --radius: 10px;
+      --shadow: 0 2px 12px rgba(27,42,74,0.08);
+      --shadow-lg: 0 8px 32px rgba(27,42,74,0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; }
+
+    /* ─── Header ─── */
+    .header { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .header h1 { color: var(--white); font-size: 1.3rem; font-weight: 700; }
+    .header-brand { color: var(--gold); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
+    .header-stats { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .header-stat { text-align: center; }
+    .header-stat-num { color: var(--white); font-size: 1.5rem; font-weight: 700; }
+    .header-stat-lbl { color: rgba(255,255,255,0.6); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* ─── Layout ─── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
+
+    /* ─── Tabs ─── */
+    .tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .tab { padding: 0.6rem 1.25rem; border-radius: var(--radius); border: 2px solid var(--border); background: var(--white); font-family: inherit; font-size: 0.85rem; font-weight: 600; color: var(--text-light); cursor: pointer; transition: all 0.2s ease; }
+    .tab:hover { border-color: var(--navy-muted); color: var(--navy); }
+    .tab.active { border-color: var(--navy); background: var(--navy); color: var(--white); }
+    .tab .tab-count { display: inline-block; background: rgba(255,255,255,0.2); padding: 0.1rem 0.5rem; border-radius: 20px; font-size: 0.72rem; margin-left: 0.35rem; }
+    .tab.active .tab-count { background: rgba(200,169,81,0.3); color: var(--gold); }
+
+    /* ─── Controls ─── */
+    .controls { display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; align-items: center; }
+    .search-box { flex: 1; min-width: 200px; padding: 0.6rem 1rem; border: 2px solid var(--border); border-radius: var(--radius); font-family: inherit; font-size: 0.88rem; outline: none; transition: border-color 0.2s; }
+    .search-box:focus { border-color: var(--gold); }
+    .btn { padding: 0.6rem 1.25rem; border-radius: var(--radius); border: 2px solid var(--navy); background: var(--navy); color: var(--white); font-family: inherit; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+    .btn:hover { background: var(--navy-light); }
+    .btn-outline { background: var(--white); color: var(--navy); }
+    .btn-outline:hover { background: var(--gold-pale); }
+
+    /* ─── Table ─── */
+    .table-wrap { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow-x: auto; margin-bottom: 2rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    thead th { background: var(--navy); color: var(--white); font-weight: 700; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.75rem 1rem; text-align: left; white-space: nowrap; position: sticky; top: 0; cursor: pointer; user-select: none; }
+    thead th:hover { background: var(--navy-light); }
+    thead th .sort-arrow { margin-left: 0.35rem; opacity: 0.4; }
+    thead th.sorted .sort-arrow { opacity: 1; color: var(--gold); }
+    tbody td { padding: 0.65rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tbody tr:hover { background: var(--gold-pale); }
+    tbody tr:last-child td { border-bottom: none; }
+
+    /* ─── Badges ─── */
+    .badge { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 20px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; }
+    .badge-excellent { background: #EDF7F0; color: var(--success); }
+    .badge-good { background: #EEF0F7; color: var(--navy); }
+    .badge-needs-work { background: #FFF8F0; color: var(--warn); }
+    .badge-weak { background: #FDF2F0; color: var(--danger); }
+
+    .score-bar { display: flex; align-items: center; gap: 0.5rem; }
+    .score-fill { height: 6px; border-radius: 3px; min-width: 4px; transition: width 0.3s; }
+    .score-fill-excellent { background: var(--success); }
+    .score-fill-good { background: var(--navy); }
+    .score-fill-needs-work { background: var(--warn); }
+    .score-fill-weak { background: var(--danger); }
+
+    .breakdown { font-size: 0.78rem; color: var(--text-light); }
+    .breakdown span { display: inline-block; margin-right: 0.75rem; white-space: nowrap; }
+    .breakdown strong { color: var(--navy); }
+
+    /* ─── Empty state ─── */
+    .empty { text-align: center; padding: 3rem 1.5rem; color: var(--text-light); }
+    .empty-icon { font-size: 2.5rem; margin-bottom: 0.75rem; opacity: 0.3; }
+    .empty h3 { color: var(--navy); margin-bottom: 0.35rem; }
+
+    /* ─── Loading ─── */
+    .loading { text-align: center; padding: 3rem; color: var(--text-light); }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 768px) {
+      .header { padding: 1.25rem; }
+      .container { padding: 1rem; }
+      .tabs { gap: 0.35rem; }
+      .tab { padding: 0.5rem 0.85rem; font-size: 0.78rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div>
+      <div class="header-brand">Acumen Logic</div>
+      <h1>Assessment Results Dashboard</h1>
+    </div>
+    <div class="header-stats" id="headerStats">
+      <div class="header-stat">
+        <div class="header-stat-num" id="statTotal">—</div>
+        <div class="header-stat-lbl">Total Submissions</div>
+      </div>
+      <div class="header-stat">
+        <div class="header-stat-num" id="statAvg">—</div>
+        <div class="header-stat-lbl">Average Score</div>
+      </div>
+      <div class="header-stat">
+        <div class="header-stat-num" id="statStudents">—</div>
+        <div class="header-stat-lbl">Unique Students</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-type="all">All <span class="tab-count" id="countAll">0</span></button>
+      <button class="tab" data-type="diagnostic">Diagnostic <span class="tab-count" id="countDiagnostic">0</span></button>
+      <button class="tab" data-type="practice-2-6">Practice 2.6 <span class="tab-count" id="countPractice26">0</span></button>
+      <button class="tab" data-type="practice-3-7">Practice 3.7 <span class="tab-count" id="countPractice37">0</span></button>
+      <button class="tab" data-type="practice-4-6">Practice 4.6 <span class="tab-count" id="countPractice46">0</span></button>
+      <button class="tab" data-type="mock-1">Mock 1 <span class="tab-count" id="countMock1">0</span></button>
+      <button class="tab" data-type="mock-2">Mock 2 <span class="tab-count" id="countMock2">0</span></button>
+    </div>
+
+    <div class="controls">
+      <input type="text" class="search-box" id="searchBox" placeholder="Search by name or email...">
+      <button class="btn btn-outline" id="exportBtn">Export CSV</button>
+      <button class="btn btn-outline" id="refreshBtn">Refresh</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th data-sort="submitted_at" class="sorted">Date <span class="sort-arrow">▼</span></th>
+            <th data-sort="assessment_type">Assessment <span class="sort-arrow">▼</span></th>
+            <th data-sort="user_name">Name <span class="sort-arrow">▼</span></th>
+            <th data-sort="user_email">Email <span class="sort-arrow">▼</span></th>
+            <th data-sort="score_percentage">Score <span class="sort-arrow">▼</span></th>
+            <th data-sort="score_correct">Correct <span class="sort-arrow">▼</span></th>
+            <th>Wrong</th>
+            <th>Skipped</th>
+            <th data-sort="time_taken_seconds">Time <span class="sort-arrow">▼</span></th>
+            <th>Tier</th>
+            <th>Breakdown</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <tr><td colspan="11" class="loading">Loading results...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+<script>
+(function() {
+  // ─── State ────────────────────────────────────────────────────────────────
+  var allResults = [];
+  var currentType = 'all';
+  var sortField = 'submitted_at';
+  var sortDir = -1; // -1 = descending (newest first)
+  var searchQuery = '';
+
+  var ASSESSMENT_LABELS = {
+    'diagnostic': 'Diagnostic',
+    'practice-2-6': 'Practice 2.6',
+    'practice-3-7': 'Practice 3.7',
+    'practice-4-6': 'Practice 4.6',
+    'mock-1': 'Mock 1',
+    'mock-2': 'Mock 2'
+  };
+
+  // ─── Fetch ────────────────────────────────────────────────────────────────
+  function fetchResults() {
+    fetch('/api/results')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        allResults = [];
+        for (var type in data) {
+          if (data[type].results) {
+            data[type].results.forEach(function(r) {
+              r.assessment_type = type;
+              allResults.push(r);
+            });
+          }
+        }
+        updateUI();
+      })
+      .catch(function(err) {
+        console.error('Fetch error:', err);
+        document.getElementById('tableBody').innerHTML = '<tr><td colspan="11" class="empty"><div class="empty-icon">⚠</div><h3>Connection Error</h3><p>Could not reach the server. Is it running?</p></td></tr>';
+      });
+  }
+
+  // ─── Filter & Sort ────────────────────────────────────────────────────────
+  function getFiltered() {
+    var filtered = allResults;
+
+    if (currentType !== 'all') {
+      filtered = filtered.filter(function(r) { return r.assessment_type === currentType; });
+    }
+
+    if (searchQuery) {
+      var q = searchQuery.toLowerCase();
+      filtered = filtered.filter(function(r) {
+        return (r.user_name && r.user_name.toLowerCase().indexOf(q) !== -1) ||
+               (r.user_email && r.user_email.toLowerCase().indexOf(q) !== -1);
+      });
+    }
+
+    filtered.sort(function(a, b) {
+      var va = a[sortField], vb = b[sortField];
+      if (va === null || va === undefined) va = '';
+      if (vb === null || vb === undefined) vb = '';
+      if (typeof va === 'string') va = va.toLowerCase();
+      if (typeof vb === 'string') vb = vb.toLowerCase();
+      if (va < vb) return -1 * sortDir;
+      if (va > vb) return 1 * sortDir;
+      return 0;
+    });
+
+    return filtered;
+  }
+
+  // ─── Render ───────────────────────────────────────────────────────────────
+  function updateUI() {
+    // Tab counts
+    var counts = { all: allResults.length };
+    for (var t in ASSESSMENT_LABELS) counts[t] = 0;
+    allResults.forEach(function(r) { if (counts[r.assessment_type] !== undefined) counts[r.assessment_type]++; });
+
+    document.getElementById('countAll').textContent = counts.all;
+    document.getElementById('countDiagnostic').textContent = counts['diagnostic'] || 0;
+    document.getElementById('countPractice26').textContent = counts['practice-2-6'] || 0;
+    document.getElementById('countPractice37').textContent = counts['practice-3-7'] || 0;
+    document.getElementById('countPractice46').textContent = counts['practice-4-6'] || 0;
+    document.getElementById('countMock1').textContent = counts['mock-1'] || 0;
+    document.getElementById('countMock2').textContent = counts['mock-2'] || 0;
+
+    // Header stats
+    document.getElementById('statTotal').textContent = allResults.length;
+    if (allResults.length > 0) {
+      var avgPct = Math.round(allResults.reduce(function(s, r) { return s + (r.score_percentage || 0); }, 0) / allResults.length);
+      document.getElementById('statAvg').textContent = avgPct + '%';
+    } else {
+      document.getElementById('statAvg').textContent = '—';
+    }
+    var emails = {};
+    allResults.forEach(function(r) { if (r.user_email && r.user_email !== 'not-provided') emails[r.user_email] = true; });
+    document.getElementById('statStudents').textContent = Object.keys(emails).length || '—';
+
+    // Table
+    var filtered = getFiltered();
+    var tbody = document.getElementById('tableBody');
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="11" class="empty"><div class="empty-icon">📋</div><h3>No Results Yet</h3><p>Assessment results will appear here as students complete tests.</p></td></tr>';
+      return;
+    }
+
+    var html = '';
+    filtered.forEach(function(r) {
+      var tier = getTier(r.score_percentage);
+      var time = r.time_taken_seconds ? formatTime(r.time_taken_seconds) : '—';
+      var date = r.submitted_at ? formatDate(r.submitted_at) : '—';
+      var breakdown = formatBreakdown(r.section_breakdown);
+
+      html += '<tr>'
+        + '<td>' + date + '</td>'
+        + '<td>' + (ASSESSMENT_LABELS[r.assessment_type] || r.assessment_type) + '</td>'
+        + '<td><strong>' + esc(r.user_name) + '</strong></td>'
+        + '<td>' + esc(r.user_email) + '</td>'
+        + '<td><div class="score-bar"><div class="score-fill score-fill-' + tier.cls + '" style="width:' + r.score_percentage + 'px;max-width:80px;"></div><strong>' + r.score_percentage + '%</strong></div></td>'
+        + '<td>' + r.score_correct + '/' + r.score_total + '</td>'
+        + '<td>' + (r.score_wrong || 0) + '</td>'
+        + '<td>' + (r.score_skipped || 0) + '</td>'
+        + '<td>' + time + '</td>'
+        + '<td><span class="badge badge-' + tier.cls + '">' + tier.label + '</span></td>'
+        + '<td class="breakdown">' + breakdown + '</td>'
+        + '</tr>';
+    });
+
+    tbody.innerHTML = html;
+  }
+
+  function getTier(pct) {
+    if (pct >= 85) return { cls: 'excellent', label: 'Excellent' };
+    if (pct >= 65) return { cls: 'good', label: 'Good' };
+    if (pct >= 45) return { cls: 'needs-work', label: 'Needs Work' };
+    return { cls: 'weak', label: 'Weak' };
+  }
+
+  function formatDate(iso) {
+    try {
+      var d = new Date(iso);
+      return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+        + ' ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    } catch(e) { return iso; }
+  }
+
+  function formatTime(secs) {
+    if (!secs) return '—';
+    var m = Math.floor(secs / 60);
+    var s = secs % 60;
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  function formatBreakdown(bd) {
+    if (!bd) return '—';
+    var parts = [];
+    for (var k in bd) {
+      if (bd[k] && bd[k].correct !== undefined && bd[k].total !== undefined) {
+        parts.push('<span><strong>' + esc(k) + ':</strong> ' + bd[k].correct + '/' + bd[k].total + '</span>');
+      }
+    }
+    return parts.length > 0 ? parts.join('') : '—';
+  }
+
+  function esc(str) {
+    if (!str) return '';
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  // ─── Events ───────────────────────────────────────────────────────────────
+
+  // Tabs
+  document.getElementById('tabs').addEventListener('click', function(e) {
+    var tab = e.target.closest('.tab');
+    if (!tab) return;
+    document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+    tab.classList.add('active');
+    currentType = tab.getAttribute('data-type');
+    updateUI();
+  });
+
+  // Search
+  document.getElementById('searchBox').addEventListener('input', function(e) {
+    searchQuery = e.target.value;
+    updateUI();
+  });
+
+  // Sort
+  document.querySelectorAll('thead th[data-sort]').forEach(function(th) {
+    th.addEventListener('click', function() {
+      var field = th.getAttribute('data-sort');
+      if (sortField === field) {
+        sortDir *= -1;
+      } else {
+        sortField = field;
+        sortDir = -1;
+      }
+      document.querySelectorAll('thead th').forEach(function(t) { t.classList.remove('sorted'); });
+      th.classList.add('sorted');
+      th.querySelector('.sort-arrow').textContent = sortDir === -1 ? '▼' : '▲';
+      updateUI();
+    });
+  });
+
+  // Export
+  document.getElementById('exportBtn').addEventListener('click', function() {
+    var type = currentType === 'all' ? 'mock-1' : currentType; // default to mock-1 if all
+    if (currentType !== 'all') {
+      window.open('/api/export/' + type, '_blank');
+    } else {
+      // Export all types
+      for (var t in ASSESSMENT_LABELS) {
+        window.open('/api/export/' + t, '_blank');
+      }
+    }
+  });
+
+  // Refresh
+  document.getElementById('refreshBtn').addEventListener('click', fetchResults);
+
+  // ─── Init ─────────────────────────────────────────────────────────────────
+  fetchResults();
+  // Auto-refresh every 30 seconds
+  setInterval(fetchResults, 30000);
+
+})();
+</script>
+
+</body>
+</html>

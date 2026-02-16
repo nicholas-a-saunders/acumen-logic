@@ -1,0 +1,183 @@
+<!--
+  ACUMEN LOGIC — Lesson 5.2: Provider-Specific Tips
+  For ThriveCart Learn Custom HTML Block
+  Pure CSS · Zero JavaScript · Fully responsive
+
+  TYPE: Strategy lesson
+  SHL, Aon, Korn Ferry, Cappfinity, Arctic Shores — interface quirks,
+  timing, format differences, and employer-specific guidance.
+-->
+
+<style>
+  .al-lesson { --al-navy: #1B2A4A; --al-navy-light: #2A3D66; --al-navy-muted: #3D5280; --al-gold: #C8A951; --al-gold-light: #D4BC72; --al-gold-pale: #F5EFD9; --al-cream: #FAFAF6; --al-white: #FFFFFF; --al-text: #2C2C2C; --al-text-light: #6B6B6B; --al-border: #E8E4DA; --al-success: #2D8F5E; --al-danger: #C0392B; --al-radius: 10px; --al-radius-sm: 6px; --al-shadow: 0 2px 12px rgba(27,42,74,0.08); }
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+  .al-lesson { font-family: 'Source Sans 3','Segoe UI',system-ui,sans-serif; color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .al-lesson h1, .al-lesson h2, .al-lesson h3 { font-family: 'Source Sans 3','Segoe UI',system-ui,sans-serif; font-weight: 700; color: var(--al-navy); line-height: 1.25; }
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .al-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200,169,81,0.08) 0%, transparent 70%); pointer-events: none; }
+  .al-hero-eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem,4vw,2.2rem); margin-bottom: 0.75rem; }
+  .al-hero-subtitle { color: rgba(255,255,255,0.9) !important; font-size: 1rem; max-width: 36rem; line-height: 1.5; }
+  .al-hero-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 1rem 0; }
+  .al-section { margin-bottom: 2rem; }
+  .al-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-section-number { width: 2rem; height: 2rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.95rem; flex-shrink: 0; }
+  .al-section h2 { font-size: clamp(1.15rem, 3vw, 1.4rem); }
+  .al-card { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-card p { margin-bottom: 0.75rem; }
+  .al-card p:last-child { margin-bottom: 0; }
+  .al-callout { border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; font-size: 0.92rem; }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-warn { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-callout-danger { background: #FDF2F0; border-left: 4px solid var(--al-danger); }
+  .al-callout-gold { background: var(--al-gold-pale); border-left: 4px solid var(--al-gold); }
+  .al-callout-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .al-callout-tip .al-callout-label { color: var(--al-success); }
+  .al-callout-warn .al-callout-label { color: #D4823A; }
+  .al-callout-danger .al-callout-label { color: var(--al-danger); }
+  .al-callout-gold .al-callout-label { color: var(--al-navy); }
+  .al-provider { background: var(--al-white); border: 2px solid var(--al-navy); border-radius: var(--al-radius); margin-bottom: 1.5rem; overflow: hidden; box-shadow: var(--al-shadow); }
+  .al-provider-header { background: var(--al-navy); padding: 1rem 1.5rem; }
+  .al-provider-name { color: var(--al-gold) !important; font-weight: 700; font-size: 1.1rem; }
+  .al-provider-sub { color: rgba(255,255,255,0.8) !important; font-size: 0.82rem; margin-top: 0.2rem; }
+  .al-provider-body { padding: 1.25rem 1.5rem; font-size: 0.92rem; }
+  .al-provider-body p { margin-bottom: 0.65rem; }
+  .al-provider-body p:last-child { margin-bottom: 0; }
+  .al-takeaways { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.5rem 1.75rem; margin-bottom: 1.25rem; }
+  .al-takeaways h3 { color: var(--al-gold) !important; font-size: 1.1rem; margin-bottom: 1rem; }
+  .al-takeaways-list { list-style: none; padding: 0; }
+  .al-takeaways-list li { color: rgba(255,255,255,0.95) !important; font-size: 0.92rem; padding: 0.45rem 0 0.45rem 1.75rem; position: relative; line-height: 1.5; }
+  .al-takeaways-list li::before { content: '✓'; position: absolute; left: 0; color: var(--al-gold); font-weight: 700; font-size: 1rem; }
+  .al-takeaways strong { color: var(--al-gold) !important; }
+  .al-next { background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .al-next-arrow { width: 2.5rem; height: 2.5rem; background: var(--al-navy); color: var(--al-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .al-next-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-text-light); margin-bottom: 0.15rem; }
+  .al-next-title { font-weight: 700; color: var(--al-navy); font-size: 1rem; }
+  .al-next-desc { font-size: 0.85rem; color: var(--al-text-light); margin-top: 0.15rem; }
+  .al-lesson strong { color: var(--al-navy); }
+  .al-divider { border: none; height: 1px; background: var(--al-border); margin: 2rem 0; }
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .al-card, .al-provider-body { padding: 1.15rem; }
+    .al-takeaways { padding: 1.25rem; }
+    .al-next { flex-direction: column; text-align: center; }
+  }
+</style>
+
+<div class="al-lesson">
+
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 5 · Lesson 5.2</div>
+    <h1>Provider-Specific Tips</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">Every test provider has quirks. Knowing them in advance turns surprises into advantages — from SHL's layout to Arctic Shores' gamified traps.</p>
+  </div>
+
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">1</div>
+      <h2>Why Provider Knowledge Matters</h2>
+    </div>
+    <div class="al-card">
+      <p>Knowing the content is only half the battle. Each provider's test has a different <strong>interface, timing structure, and question style</strong>. Candidates who've practised on the right platform perform 15–20% better than those using generic prep materials.</p>
+      <p>This lesson covers the five major providers used by UK finance employers. Find your target employer in Lesson 1.2's lookup table, then focus on the relevant provider section below.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SHL ═══ -->
+  <div class="al-provider">
+    <div class="al-provider-header">
+      <div class="al-provider-name">SHL (CEB/Gartner)</div>
+      <div class="al-provider-sub">Used by: Barclays, Deloitte, EY, Goldman Sachs, HSBC, JP Morgan, KPMG, PwC, Rothschild</div>
+    </div>
+    <div class="al-provider-body">
+      <p><strong>Numerical:</strong> 18 questions, 25 minutes. Data presented as tables, charts, or combined. Questions appear one at a time. You CAN go back to previous questions — use this for the 3-pass method.</p>
+      <p><strong>Verbal:</strong> 30 questions, 19 minutes. Passage + statement format. You cannot go back. Commit to your answer and move on. The statement-first technique from Lesson 4.4 is essential.</p>
+      <p><strong>Interface tip:</strong> SHL's on-screen calculator is basic. It doesn't support brackets or memory. For multi-step calculations, write intermediate results on scratch paper rather than trying to chain them in the calculator.</p>
+      <p><strong>Key quirk:</strong> SHL tests use a norm comparison — your raw score is compared to a norm group (e.g., "graduate professionals"). Scoring 70% correct might put you at the 85th percentile or the 50th, depending on the norm group. Focus on accuracy, not speed.</p>
+    </div>
+  </div>
+
+  <!-- ═══ AON ═══ -->
+  <div class="al-provider">
+    <div class="al-provider-header">
+      <div class="al-provider-name">Aon (formerly cut-e)</div>
+      <div class="al-provider-sub">Used by: UBS, BNP Paribas, Credit Suisse (legacy), Standard Chartered, Aviva</div>
+    </div>
+    <div class="al-provider-body">
+      <p><strong>Format:</strong> Adaptive — questions get harder when you answer correctly, easier when you answer wrong. Your score reflects the difficulty level you sustain, not just the number correct.</p>
+      <p><strong>Key difference:</strong> You cannot skip or go back. Each question must be answered before the next appears. This makes the 3-pass method impossible — you need a different strategy.</p>
+      <p><strong>Strategy:</strong> Don't spend more than 60 seconds per question. If you're stuck, make an educated guess and preserve your momentum. Getting stuck on a hard question and running out of time is worse than guessing one question wrong.</p>
+      <p><strong>Interface tip:</strong> The Aon interface is minimalist. The timer is small and in the corner — glance at it every 3–4 questions to stay on pace.</p>
+    </div>
+  </div>
+
+  <!-- ═══ KORN FERRY ═══ -->
+  <div class="al-provider">
+    <div class="al-provider-header">
+      <div class="al-provider-name">Korn Ferry (formerly Hay Group / TalentQ)</div>
+      <div class="al-provider-sub">Used by: Citi, Lloyds, Schroders, Zurich, AXA</div>
+    </div>
+    <div class="al-provider-body">
+      <p><strong>Numerical:</strong> 24 questions, 25 minutes. Similar to SHL but with slightly more questions in the same time — faster pace required.</p>
+      <p><strong>Verbal:</strong> Uses "select all that apply" format rather than T/F/CS. You may need to select 2–3 correct statements from a list of 5–6. Partial credit may apply.</p>
+      <p><strong>Key quirk:</strong> Korn Ferry often uses "drag and drop" answers in their newer formats. Practice clicking/dragging on their interface before the real test — technical familiarity reduces anxiety.</p>
+      <p><strong>Strategy:</strong> Their practice test portal is free. Use it. The interface is different enough from SHL that you'll lose 10–15 seconds per question on unfamiliar navigation if you haven't practised.</p>
+    </div>
+  </div>
+
+  <!-- ═══ CAPPFINITY ═══ -->
+  <div class="al-provider">
+    <div class="al-provider-header">
+      <div class="al-provider-name">Cappfinity (Strengths-Based)</div>
+      <div class="al-provider-sub">Used by: HSBC, Barclays, Unilever, Civil Service</div>
+    </div>
+    <div class="al-provider-body">
+      <p><strong>Format:</strong> Primarily strengths-based and SJT assessments rather than pure aptitude. Questions ask about your natural reactions, preferences, and behaviours.</p>
+      <p><strong>Key difference:</strong> There are no "right" answers in the traditional sense. The test measures whether your natural strengths align with the role's requirements.</p>
+      <p><strong>Strategy:</strong> Answer quickly and honestly. Cappfinity measures response time — hesitation suggests you're calculating rather than responding naturally. First-instinct answers score best.</p>
+      <p><strong>Warning:</strong> Do NOT try to game strengths-based assessments. They have consistency checks built in — answering contradictory questions differently raises a red flag.</p>
+    </div>
+  </div>
+
+  <!-- ═══ ARCTIC SHORES ═══ -->
+  <div class="al-provider">
+    <div class="al-provider-header">
+      <div class="al-provider-name">Arctic Shores (Gamified)</div>
+      <div class="al-provider-sub">Used by: Citi, Siemens, Unilever, JP Morgan (some divisions)</div>
+    </div>
+    <div class="al-provider-body">
+      <p><strong>Format:</strong> Gamified tasks instead of traditional MCQs. Tasks measure cognitive traits (e.g., risk tolerance, processing speed, working memory) through game-like scenarios.</p>
+      <p><strong>Key insight:</strong> There's no way to "prepare" for the specific games — they change regularly. What you CAN prepare is your <strong>mindset</strong>: be decisive, avoid excessive caution, and don't try to reverse-engineer what the game measures.</p>
+      <p><strong>Speed matters:</strong> Unlike traditional tests, Arctic Shores measures HOW you make decisions, not just WHAT you decide. Fast, consistent decision-making scores better than slow, agonised choices.</p>
+      <p><strong>Strategy:</strong> Treat it like a real-time simulation. Engage naturally. The games are designed to be impossible to fake.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ KEY TAKEAWAYS ═══ -->
+  <div class="al-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul class="al-takeaways-list">
+      <li><strong>SHL:</strong> You can navigate back — use the 3-pass method. Calculator is basic; use scratch paper for multi-step work.</li>
+      <li><strong>Aon:</strong> Adaptive and no going back. Don't stall — guess and preserve momentum over agonising on one question.</li>
+      <li><strong>Korn Ferry:</strong> Faster pace and "select all" verbal format. Practise on their free portal for interface familiarity.</li>
+      <li><strong>Cappfinity:</strong> Strengths-based — answer quickly and honestly. Don't try to game it.</li>
+      <li><strong>Arctic Shores:</strong> Gamified — decisiveness and consistency matter more than "correctness." Be natural.</li>
+    </ul>
+  </div>
+
+  <div class="al-next">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Lesson</div>
+      <div class="al-next-title">5.3 — Situational Judgement Tests</div>
+      <div class="al-next-desc">SJT formats, competency mapping, elimination strategies, and the finance-sector values that guide correct answers.</div>
+    </div>
+  </div>
+
+</div>

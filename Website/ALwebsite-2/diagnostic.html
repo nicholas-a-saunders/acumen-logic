@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en-GB" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Diagnostic Assessment | Acumen Logic</title>
+    <meta name="description" content="20 questions, 15 minutes. Identify your specific weaknesses in Numerical Reasoning, Data Interpretation, and Logical Reasoning before your Big 4 or investment banking assessment.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            50: '#f0f3f7',
+                            100: '#dae1eb',
+                            200: '#b8c5d4',
+                            300: '#8da3ba',
+                            400: '#5d7a99',
+                            500: '#3d5a7a',
+                            600: '#2d4561',
+                            700: '#1b263b',
+                            800: '#151e2f',
+                            900: '#0f1624',
+                            950: '#0a0f18',
+                        },
+                        gold: {
+                            50: '#faf6ef',
+                            100: '#f3ebdb',
+                            200: '#e6d4b5',
+                            300: '#d6ba8a',
+                            400: '#c9a961',
+                            500: '#b8935e',
+                            600: '#a17a4a',
+                            700: '#86633d',
+                            800: '#6e5035',
+                            900: '#5a422d',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html { scroll-behavior: smooth; }
+        .text-balance { text-wrap: balance; }
+
+                .delay-1 { transition-delay: 100ms; }
+        .delay-2 { transition-delay: 200ms; }
+        .delay-3 { transition-delay: 300ms; }
+
+        .navbar-scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 20px rgba(27, 38, 59, 0.08);
+        }
+
+        ::selection {
+            background: rgba(201, 169, 97, 0.3);
+            color: #1b263b;
+        }
+
+        a:focus-visible, button:focus-visible {
+            outline: 2px solid #c9a961;
+            outline-offset: 2px;
+        }
+
+        .timer-warning {
+            animation: pulse-red 1s infinite;
+        }
+        @keyframes pulse-red {
+            0%, 100% { color: #dc2626; }
+            50% { color: #f87171; }
+        }
+
+        .assessment-pattern {
+            background-color: #0f1624;
+            background-image:
+                radial-gradient(circle at 1px 1px, rgba(233, 239, 248, 0.09) 0.85px, transparent 1px),
+                linear-gradient(165deg, #0c1526 0%, #0b1424 54%, #0a1221 100%);
+            background-size: 28px 28px, 100% 100%;
+        }
+    </style>
+</head>
+<body class="font-sans text-navy-700 bg-white antialiased">
+
+    <nav id="navbar" class="fixed w-full bg-white/95 backdrop-blur-md border-b border-navy-100/50 z-50 transition-all duration-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <div class="relative">
+                        <img src="assets/images/logo.png" width="42" height="42" alt="Acumen Logic" class="relative z-10 transition-transform duration-300 group-hover:scale-105">
+                    </div>
+                    <div>
+                        <span class="font-display text-xl font-bold text-navy-700 tracking-tight">Acumen Logic</span>
+                        <span class="hidden sm:block text-xs text-gold-400 font-medium tracking-wide">Precision Training</span>
+                    </div>
+                </a>
+
+                <div class="hidden md:flex items-center gap-10">
+                    <a href="index.html" class="text-sm font-medium text-navy-600 hover:text-gold-400 transition-colors duration-300">Home</a>
+                    <a href="diagnostic.html" class="text-sm font-medium text-gold-500">Diagnostic</a>
+                    <a href="masterclass.html" class="text-sm font-medium text-navy-600 hover:text-gold-400 transition-colors duration-300">Product</a>
+                    <a href="blog/index.html" class="text-sm font-medium text-navy-600 hover:text-gold-400 transition-colors duration-300">Blog</a>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <a href="#landing" class="hidden sm:inline-flex bg-navy-700 hover:bg-navy-800 text-white px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-300 shadow-lg shadow-navy-700/20 hover:shadow-xl hover:shadow-navy-700/25 hover:-translate-y-0.5">
+                        Start Diagnostic
+                    </a>
+                    <button class="md:hidden text-navy-700" data-mobile-menu-button aria-expanded="false" aria-controls="mobileMenu">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+                <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-navy-100">
+            <div class="px-4 py-6 space-y-4">
+                <a href="index.html" class="block text-navy-600 hover:text-gold-500">Home</a>
+                <a href="diagnostic.html" class="block text-gold-500 font-medium">Diagnostic</a>
+                <a href="masterclass.html" class="block text-navy-600 hover:text-gold-500">Product</a>
+                <a href="blog/index.html" class="block text-navy-600 hover:text-gold-500">Blog</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="landing" class="pt-28 pb-20 lg:pt-36 lg:pb-28 bg-navy-50/60">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 reveal">
+                <span class="text-gold-400 font-semibold tracking-widest uppercase text-sm">Free Assessment</span>
+                <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-navy-700 mt-4 mb-6">The Finance Aptitude Diagnostic</h1>
+                <p class="text-lg text-navy-600 max-w-2xl mx-auto">20 questions. 15 minutes. Numerical Reasoning, Data Interpretation, and Logical Reasoning. Discover which category is your bottleneck.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 mb-12">
+                <div class="reveal bg-white rounded-2xl p-6 text-center border border-navy-100 shadow-sm">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-gold-100 flex items-center justify-center">
+                        <i data-lucide="timer" class="w-6 h-6 text-gold-500"></i>
+                    </div>
+                    <h3 class="font-semibold text-navy-700 mb-1">15 Minutes</h3>
+                    <p class="text-sm text-navy-500">Timed conditions mirror real assessment pressure</p>
+                </div>
+                <div class="reveal delay-1 bg-white rounded-2xl p-6 text-center border border-navy-100 shadow-sm">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-gold-100 flex items-center justify-center">
+                        <i data-lucide="bar-chart-2" class="w-6 h-6 text-gold-500"></i>
+                    </div>
+                    <h3 class="font-semibold text-navy-700 mb-1">7/7/6 Scoring</h3>
+                    <p class="text-sm text-navy-500">Per category breakdown, not just overall score</p>
+                </div>
+                <div class="reveal delay-2 bg-white rounded-2xl p-6 text-center border border-navy-100 shadow-sm">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-gold-100 flex items-center justify-center">
+                        <i data-lucide="mail" class="w-6 h-6 text-gold-500"></i>
+                    </div>
+                    <h3 class="font-semibold text-navy-700 mb-1">Instant Results</h3>
+                    <p class="text-sm text-navy-500">Email summary plus next-step recommendations</p>
+                </div>
+            </div>
+
+            <div class="reveal delay-2 bg-white rounded-2xl p-8 border border-navy-100 shadow-lg max-w-2xl mx-auto">
+                <h2 class="font-display text-2xl font-bold text-navy-700 mb-6 text-center">Begin Your Assessment</h2>
+                <form id="startForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-navy-600 mb-1">Full Name <span class="text-gold-500">*</span></label>
+                        <input type="text" id="userName" required class="w-full px-4 py-3 rounded-lg bg-white border border-navy-200 text-navy-700 focus:border-gold-400 focus:outline-none transition-colors" placeholder="Enter your full name">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-navy-600 mb-1">Email Address <span class="text-gold-500">*</span></label>
+                        <input type="email" id="userEmail" required class="w-full px-4 py-3 rounded-lg bg-white border border-navy-200 text-navy-700 focus:border-gold-400 focus:outline-none transition-colors" placeholder="your@email.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-navy-600 mb-1">Target Firm (Optional)</label>
+                        <select id="targetFirm" class="w-full px-4 py-3 rounded-lg bg-white border border-navy-200 text-navy-700 focus:border-gold-400 focus:outline-none transition-colors">
+                            <option value="">Select firm...</option>
+                            <option value="kpmg">KPMG</option>
+                            <option value="deloitte">Deloitte</option>
+                            <option value="pwc">PwC</option>
+                            <option value="ey">EY</option>
+                            <option value="goldman">Goldman Sachs</option>
+                            <option value="barclays">Barclays</option>
+                            <option value="jpmorgan">JP Morgan</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="space-y-3 pt-2">
+                        <div class="flex items-start gap-3">
+                            <input type="checkbox" id="termsConsent" class="mt-1 w-4 h-4 rounded border-navy-200 bg-white text-gold-400 focus:ring-gold-400">
+                            <label for="termsConsent" class="text-sm text-navy-600">
+                                I agree to the
+                                <a href="pages/terms.html" class="text-gold-600 hover:text-gold-500 underline">Terms &amp; Conditions</a>
+                                and
+                                <a href="pages/privacy.html" class="text-gold-600 hover:text-gold-500 underline">Privacy Policy</a>.
+                                <span class="text-gold-500">*</span>
+                            </label>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <input type="checkbox" id="roadmapOptIn" class="mt-1 w-4 h-4 rounded border-navy-200 bg-white text-gold-400 focus:ring-gold-400">
+                            <label for="roadmapOptIn" class="text-sm text-navy-500">
+                                I would like to receive an improvement roadmap, including category-specific lessons and unique insights.
+                            </label>
+                        </div>
+                    </div>
+                    <p id="consentError" class="hidden text-sm text-rose-600" role="alert">Please accept the Terms &amp; Conditions and Privacy Policy to start the diagnostic.</p>
+                    <button type="submit" class="w-full py-4 bg-navy-700 text-gold-400 font-bold text-lg rounded hover:bg-navy-800 transition-colors">
+                        Start Diagnostic
+                    </button>
+                </form>
+                <p class="text-xs text-navy-400 text-center mt-4">Required consent is for terms and privacy. Roadmap emails are optional.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="assessment" class="hidden pt-16 lg:pt-20 pb-12 assessment-pattern relative overflow-hidden">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="sticky top-24 z-40 bg-white/95 backdrop-blur rounded-xl p-4 mb-6 border border-navy-100 shadow-sm">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-4">
+                        <span class="text-sm text-navy-500">Question <span id="currentQ" class="text-navy-700 font-bold">1</span>/20</span>
+                        <div class="w-32 h-2 bg-navy-100 rounded-full overflow-hidden">
+                            <div id="progressBar" class="h-full bg-gold-400 transition-all duration-300" style="width: 5%"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-end gap-2">
+                        <div class="flex items-center gap-2 font-mono text-xl font-bold text-navy-700" id="timer">15:00</div>
+                        <div class="w-28 h-1.5 bg-navy-100 rounded-full overflow-hidden">
+                            <div id="timerBar" class="h-full bg-navy-700 transition-all duration-300" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex gap-2 text-xs">
+                    <span id="cat-nr" class="px-2 py-1 rounded bg-gold-400/20 text-gold-400 border border-gold-400/40">NR</span>
+                    <span id="cat-di" class="px-2 py-1 rounded bg-navy-100 text-navy-300 border border-navy-200">DI</span>
+                    <span id="cat-lr" class="px-2 py-1 rounded bg-navy-100 text-navy-300 border border-navy-200">LR</span>
+                </div>
+            </div>
+
+            <p id="assessmentNotice" class="hidden text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 mb-4" role="status"></p>
+
+            <div id="questionContainer" class="bg-white rounded-2xl px-8 pt-10 pb-8 border border-navy-100 shadow-sm"></div>
+
+            <div class="flex justify-between mt-6">
+                <button id="prevBtn" class="px-6 py-3 border border-navy-200 text-navy-700 bg-white/95 rounded hover:bg-gold-50 hover:border-gold-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    Previous
+                </button>
+                <button id="nextBtn" class="px-6 py-3 bg-gold-400 text-navy-900 font-semibold rounded hover:bg-gold-300 transition-colors shadow-lg shadow-gold-500/25">
+                    Next Question
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="results" class="hidden pt-28 pb-20 bg-navy-50/60">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="w-20 h-20 mx-auto rounded-full bg-emerald-50 flex items-center justify-center mb-6">
+                <i data-lucide="check-circle" class="w-10 h-10 text-emerald-600"></i>
+            </div>
+            <h1 class="font-display text-4xl font-bold text-navy-700 mb-4">Assessment Complete</h1>
+            <p class="text-navy-600 mb-8">Your category breakdown has been calculated. Check your email for detailed analysis.</p>
+            <p id="submissionNotice" class="hidden text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 mb-6">We couldn’t send your results right now. They’ll retry automatically.</p>
+
+            <div class="bg-white rounded-2xl p-8 border border-navy-100 shadow-lg mb-8">
+                <h2 class="font-display text-2xl font-bold text-navy-700 mb-6">Your Results</h2>
+
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="p-4 bg-gold-50 rounded-lg border border-gold-100">
+                        <p class="text-xs text-navy-400 uppercase tracking-wide mb-1">Overall Score</p>
+                        <p class="text-3xl font-bold text-navy-700 font-display" id="overallScore">-/20</p>
+                    </div>
+                    <div class="p-4 bg-gold-50 rounded-lg border border-gold-100">
+                        <p class="text-xs text-navy-400 uppercase tracking-wide mb-1">Percentage</p>
+                        <p class="text-3xl font-bold text-navy-700 font-display" id="overallPct">-%</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-4 mb-6">
+                    <div class="p-4 bg-navy-50 rounded-lg border border-navy-100">
+                        <p class="text-xs text-navy-400 uppercase tracking-wide mb-1">Numerical</p>
+                        <p class="text-3xl font-bold text-navy-700 font-display" id="nrScore">-/7</p>
+                        <p class="text-xs text-navy-500 mt-1" id="nrLabel">Calculating...</p>
+                    </div>
+                    <div class="p-4 bg-navy-50 rounded-lg border border-navy-100">
+                        <p class="text-xs text-navy-400 uppercase tracking-wide mb-1">Data</p>
+                        <p class="text-3xl font-bold text-navy-700 font-display" id="diScore">-/7</p>
+                        <p class="text-xs text-navy-500 mt-1" id="diLabel">Calculating...</p>
+                    </div>
+                    <div class="p-4 bg-navy-50 rounded-lg border border-navy-100">
+                        <p class="text-xs text-navy-400 uppercase tracking-wide mb-1">Logical</p>
+                        <p class="text-3xl font-bold text-navy-700 font-display" id="lrScore">-/6</p>
+                        <p class="text-xs text-navy-500 mt-1" id="lrLabel">Calculating...</p>
+                    </div>
+                </div>
+
+                <div class="p-6 bg-gold-50 rounded-lg border border-gold-100 text-left">
+                    <h3 class="font-semibold text-navy-700 mb-2">Your Focus Area:</h3>
+                    <p class="text-navy-600 text-sm mb-4" id="focusArea">Identifying your weakest category...</p>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <a href="masterclass.html" class="inline-flex items-center justify-center px-6 py-3 bg-navy-700 text-white font-semibold rounded hover:bg-navy-800 transition-colors">
+                            Explore the Programme
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mt-6 p-4 bg-navy-50 rounded-lg border border-navy-100 text-left">
+                    <p class="text-sm text-navy-600"><strong class="text-navy-700">Time used:</strong> <span id="timeUsed">--:--</span></p>
+                    <p id="unansweredInfo" class="hidden mt-2 text-sm text-amber-700"></p>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <button onclick="diagnostic.reviewAnswers()" class="px-6 py-3 border border-navy-200 text-navy-600 rounded hover:bg-navy-50 transition-colors">
+                    Review Answers
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="review" class="hidden pt-28 pb-12 bg-white">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="font-display text-2xl font-bold text-navy-700">Review Mode</h2>
+                <button onclick="diagnostic.closeReview()" class="px-4 py-2 text-navy-500 hover:text-navy-700 transition-colors">
+                    Close Review
+                </button>
+            </div>
+            <div id="reviewContainer" class="space-y-6"></div>
+        </div>
+    </section>
+
+    <footer class="bg-navy-950 text-navy-300 py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-16">
+                <div class="col-span-2">
+                    <div class="flex items-center gap-3 mb-6">
+                        <img src="assets/images/logo.png" width="36" height="36" alt="Acumen Logic">
+                        <span class="font-display text-xl font-bold text-white">Acumen Logic</span>
+                    </div>
+                    <p class="leading-relaxed max-w-sm">
+                        Precision training for finance aptitude assessments. Built for candidates targeting Big 4, investment banking, and consulting roles.
+                    </p>
+                    <p class="mt-4 text-sm"><a href="mailto:enquiries@acumenlogic.co.uk" class="inline-flex items-center gap-2 hover:text-gold-400 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i><span>enquiries@acumenlogic.co.uk</span></a></p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-5">Programme</h4>
+                    <ul class="space-y-3">
+                        <li><a href="diagnostic.html" class="hover:text-gold-400 transition-colors">Free Diagnostic</a></li>
+                        <li><a href="masterclass.html" class="hover:text-gold-400 transition-colors">Training Programme</a></li>
+                        <li><a href="blog/index.html" class="hover:text-gold-400 transition-colors">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-5">Legal</h4>
+                    <ul class="space-y-3">
+                        <li><a href="pages/privacy.html" class="hover:text-gold-400 transition-colors">Privacy Policy</a></li>
+                        <li><a href="pages/terms.html" class="hover:text-gold-400 transition-colors">Terms of Service</a></li>
+                        <li><a href="pages/cookies.html" class="hover:text-gold-400 transition-colors">Cookies</a></li>
+                        <li><a href="pages/disclaimer.html" class="hover:text-gold-400 transition-colors">Disclaimer</a></li>
+                        <li><a href="pages/refund.html" class="hover:text-gold-400 transition-colors">Refund Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-navy-800 pt-10 flex flex-col items-center gap-4">
+                <p class="text-sm text-navy-500">&copy; <span data-year></span> Acumen Logic. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="assets/js/questions.js?v=20260206k"></script>
+    <script src="assets/js/diagnostic.js?v=20260206j"></script>
+    <script src="assets/js/main.js?v=20260206e"></script>
+</body>
+</html>

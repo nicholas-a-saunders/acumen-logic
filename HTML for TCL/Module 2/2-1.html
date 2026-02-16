@@ -1,0 +1,805 @@
+<!--
+  ACUMEN LOGIC — Lesson 2.1: Percentages Mastery
+  For ThriveCart Learn Custom HTML Block
+  Pure CSS · Zero JavaScript · Fully responsive
+  
+  TYPE: Core worked-example lesson (heavy)
+  This is the first real teaching lesson of Module 2 — the most
+  important module. Heavy on examples, breakdowns, and trap identification.
+-->
+
+<style>
+  /* ═══ BRAND TOKENS ═══ */
+  .al-lesson {
+    --al-navy: #1B2A4A;
+    --al-navy-light: #2A3D66;
+    --al-navy-muted: #3D5280;
+    --al-gold: #C8A951;
+    --al-gold-light: #D4BC72;
+    --al-gold-pale: #F5EFD9;
+    --al-cream: #FAFAF6;
+    --al-white: #FFFFFF;
+    --al-text: #2C2C2C;
+    --al-text-light: #6B6B6B;
+    --al-border: #E8E4DA;
+    --al-success: #2D8F5E;
+    --al-danger: #C0392B;
+    --al-radius: 10px;
+    --al-radius-sm: 6px;
+    --al-shadow: 0 2px 12px rgba(27, 42, 74, 0.08);
+    --al-shadow-lg: 0 8px 32px rgba(27, 42, 74, 0.12);
+  }
+
+  /* ═══ RESET & BASE ═══ */
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+  
+  .al-lesson {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  .al-lesson h1, .al-lesson h2, .al-lesson h3 { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; color: var(--al-navy); line-height: 1.25; }
+
+  /* ═══ HERO ═══ */
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .al-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200, 169, 81, 0.08) 0%, transparent 70%); pointer-events: none; }
+  .al-hero-eyebrow { font-family: 'Source Sans 3', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem, 4vw, 2.2rem); margin-bottom: 0.75rem; }
+  .al-hero-subtitle { color: rgba(255, 255, 255, 0.9) !important; font-size: 1rem; max-width: 36rem; line-height: 1.5; }
+  .al-hero-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 1rem 0; }
+
+  /* ═══ SECTIONS ═══ */
+  .al-section { margin-bottom: 2rem; }
+  .al-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-section-number { width: 2rem; height: 2rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.95rem; flex-shrink: 0; }
+  .al-section h2 { font-size: clamp(1.15rem, 3vw, 1.4rem); }
+
+  /* ═══ CARDS ═══ */
+  .al-card { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-card p { margin-bottom: 0.75rem; }
+  .al-card p:last-child { margin-bottom: 0; }
+
+  /* ═══ CALLOUTS ═══ */
+  .al-callout { border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; font-size: 0.92rem; }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-warn { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-callout-danger { background: #FDF2F0; border-left: 4px solid var(--al-danger); }
+  .al-callout-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .al-callout-tip .al-callout-label { color: var(--al-success); }
+  .al-callout-warn .al-callout-label { color: #D4823A; }
+  .al-callout-danger .al-callout-label { color: var(--al-danger); }
+
+  /* ═══ WORKED EXAMPLES ═══ */
+  .al-example { border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-example-header { 
+    background: var(--al-navy); 
+    padding: 1.25rem 1.5rem; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: flex-start; 
+    gap: 0.75rem;
+  }
+  .al-example-label { color: var(--al-gold) !important; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .al-example-q { 
+    color: var(--al-white) !important; 
+    font-size: 1.15rem; 
+    font-weight: 600; 
+    line-height: 1.4;
+    margin-top: 0.25rem;
+  }
+  .al-example-body { background: var(--al-white); border: 1px solid var(--al-border); border-top: none; border-radius: 0 0 var(--al-radius) var(--al-radius); padding: 1.5rem; font-size: 0.92rem; }
+  .al-example-body p { margin-bottom: 0.6rem; }
+  .al-example-body p:last-child { margin-bottom: 0; }
+
+  /* ═══ STEP LINES ═══ */
+  .al-step-line { display: flex; align-items: baseline; gap: 0.65rem; margin-bottom: 0.45rem; }
+  .al-step-num { width: 1.4rem; height: 1.4rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.7rem; flex-shrink: 0; }
+  .al-step-calc { 
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.95rem; 
+    color: var(--al-navy); 
+  }
+  .al-step-result { font-weight: 700; color: var(--al-success); }
+
+  /* ═══ WRONG vs RIGHT ═══ */
+  .al-vs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin-bottom: 1.25rem; }
+  .al-vs-box { border-radius: var(--al-radius); padding: 1rem; }
+  .al-vs-wrong { background: #FDF2F0; border: 2px solid var(--al-danger); }
+  .al-vs-right { background: #EDF7F0; border: 2px solid var(--al-success); }
+  .al-vs-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .al-vs-wrong .al-vs-label { color: var(--al-danger); }
+  .al-vs-right .al-vs-label { color: var(--al-success); }
+  .al-vs-calc { font-size: 0.88rem; margin-bottom: 0.25rem; }
+  .al-vs-answer { 
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    font-weight: 700; 
+    font-size: 1.15rem; 
+  }
+  .al-vs-wrong .al-vs-answer { color: var(--al-danger); }
+  .al-vs-right .al-vs-answer { color: var(--al-success); }
+  .al-vs-explain { font-size: 0.8rem; color: var(--al-text-light); margin-top: 0.3rem; }
+  .al-wrong-x { color: var(--al-danger); font-weight: 700; }
+
+  /* ═══ FORMULA / RULE CARDS ═══ */
+  .al-formula {
+    background: var(--al-navy);
+    border-radius: var(--al-radius);
+    padding: 1.15rem 1.5rem;
+    margin-bottom: 1.25rem;
+    text-align: center;
+  }
+  .al-formula-label {
+    color: var(--al-gold) !important;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+  }
+  .al-formula-text {
+    color: var(--al-white) !important;
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    line-height: 1.4;
+  }
+  .al-formula-note {
+    color: rgba(255, 255, 255, 0.75) !important;
+    font-size: 0.78rem;
+    margin-top: 0.35rem;
+  }
+
+  /* ═══ MULTIPLIER GRID ═══ */
+  .al-multiplier-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.75rem;
+    margin: 0.75rem 0 1.25rem;
+  }
+  .al-multiplier-item {
+    background: var(--al-white);
+    border: 1px solid var(--al-border);
+    border-radius: var(--al-radius-sm);
+    padding: 0.75rem;
+    text-align: center;
+    box-shadow: var(--al-shadow);
+  }
+  .al-multiplier-pct {
+    font-weight: 700;
+    color: var(--al-navy);
+    font-size: 0.9rem;
+    margin-bottom: 0.15rem;
+  }
+  .al-multiplier-val {
+    color: var(--al-text-light);
+    font-size: 0.85rem;
+  }
+
+  /* ═══ REVEAL (details/summary) ═══ */
+  .al-reveal { margin-top: 1rem; border: 2px solid var(--al-border); border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; }
+  .al-reveal[open] { border-color: var(--al-success); }
+  .al-reveal-btn { display: block; padding: 0.85rem 1.25rem; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--al-navy); background: var(--al-cream); cursor: pointer; list-style: none; user-select: none; -webkit-user-select: none; }
+  .al-reveal-btn::-webkit-details-marker { display: none; }
+  .al-reveal-btn::marker { display: none; content: ''; }
+  .al-reveal-btn:hover { background: var(--al-gold-pale); }
+  .al-reveal[open] .al-reveal-btn { background: #EDF7F0; color: var(--al-success); border-bottom: 1px solid var(--al-border); }
+  .al-reveal-content { padding: 1.25rem; font-size: 0.92rem; }
+  .al-reveal-content p { margin-bottom: 0.6rem; }
+  .al-reveal-content p:last-child { margin-bottom: 0; }
+
+  /* ═══ PRACTICE QUESTION ═══ */
+  .al-practice {
+    background: var(--al-cream);
+    border: 2px solid var(--al-border);
+    border-radius: var(--al-radius);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .al-practice-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--al-gold);
+    margin-bottom: 0.35rem;
+  }
+  .al-practice-q {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--al-navy);
+    line-height: 1.5;
+  }
+
+  /* ═══ KEY TAKEAWAYS ═══ */
+  .al-takeaways { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.5rem 1.75rem; margin-bottom: 1.25rem; }
+  .al-takeaways h3 { color: var(--al-gold) !important; font-size: 1.1rem; margin-bottom: 1rem; }
+  .al-takeaways-list { list-style: none; padding: 0; }
+  .al-takeaways-list li { color: rgba(255, 255, 255, 0.95) !important; font-size: 0.92rem; padding: 0.45rem 0 0.45rem 1.75rem; position: relative; line-height: 1.5; }
+  .al-takeaways-list li::before { content: '✓'; position: absolute; left: 0; color: var(--al-gold); font-weight: 700; font-size: 1rem; }
+
+  /* ═══ NEXT LESSON ═══ */
+  .al-next { background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .al-next-arrow { width: 2.5rem; height: 2.5rem; background: var(--al-navy); color: var(--al-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .al-next-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-text-light); margin-bottom: 0.15rem; }
+  .al-next-title { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; color: var(--al-navy); font-size: 1rem; }
+  .al-next-desc { font-size: 0.85rem; color: var(--al-text-light); margin-top: 0.15rem; }
+
+  /* ═══ UTILITY ═══ */
+  .al-lesson strong { color: var(--al-navy); }
+  .al-divider { border: none; height: 1px; background: var(--al-border); margin: 2rem 0; }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .al-card, .al-example-body, .al-reveal-content { padding: 1.15rem; }
+    .al-vs { grid-template-columns: 1fr; }
+    .al-multiplier-grid { grid-template-columns: repeat(2, 1fr); }
+    .al-takeaways { padding: 1.25rem; }
+    .al-next { flex-direction: column; text-align: center; }
+    .al-formula { padding: 1rem; }
+    .al-example-header { padding: 1.1rem 1.25rem; }
+    .al-example-q { font-size: 1.05rem; }
+  }
+</style>
+
+<div class="al-lesson">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 2 · Lesson 2.1</div>
+    <h1>Percentages Mastery</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">The most frequently tested topic in UK finance aptitude tests. Every SHL, Aon, and Korn Ferry numerical test includes percentage questions — usually multiple.</p>
+  </div>
+
+  <!-- ═══ SECTION 1: WHY PERCENTAGES DOMINATE ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">1</div>
+      <h2>Why Percentages Dominate Finance Tests</h2>
+    </div>
+    <div class="al-card">
+      <p>Percentages appear in virtually every numerical reasoning test used by UK finance employers. They're not just "a topic" — they're the foundation that most other questions are built on. Data interpretation questions about revenue growth, profit margins, market share, and cost analysis all require percentage fluency.</p>
+      <p>The issue isn't that percentages are hard. Most candidates know what 15% means. The issue is <strong>speed and trap avoidance under pressure</strong>. SHL gives you roughly 60–90 seconds per question. In that window, you need to identify which type of percentage calculation is being asked, execute it cleanly, and avoid the deliberate wrong answers designed to catch common errors.</p>
+      <p>This lesson covers four percentage skills in order of increasing difficulty. Each one builds on the last.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 2: FINDING A PERCENTAGE OF AN AMOUNT ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">2</div>
+      <h2>Finding a Percentage of an Amount</h2>
+    </div>
+    <div class="al-card">
+      <p>This is the most basic percentage operation, but the method you choose determines your speed. There are three approaches — use whichever is fastest for the numbers in front of you.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Core Method</div>
+      <div class="al-formula-text">X% of Y = Y × (X ÷ 100)</div>
+      <div class="al-formula-note">Convert the percentage to a decimal, then multiply.</div>
+    </div>
+
+    <!-- Example 1 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 1</span>
+        <span class="al-example-q">What is 35% of £840,000?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Convert: 35% = 0.35</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Multiply: £840,000 × 0.35 = <span class="al-step-result">£294,000</span></span></div>
+      </div>
+    </div>
+
+    <!-- Example 2: Standard method -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 2</span>
+        <span class="al-example-q">What is 17.5% of £6,400?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Convert: 17.5% = 0.175</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Multiply: £6,400 × 0.175 = <span class="al-step-result">£1,120</span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 3: PERCENTAGE INCREASE & DECREASE ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">3</div>
+      <h2>Percentage Increase &amp; Decrease</h2>
+    </div>
+    <div class="al-card">
+      <p>When a value increases by a percentage, most candidates calculate the percentage amount and then add it. This works, but it's slower and more error-prone than the <strong>multiplier method</strong>.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">The Multiplier Method</div>
+      <div class="al-formula-text">Increase of X% → multiply by (1 + X/100)<br>Decrease of X% → multiply by (1 − X/100)</div>
+      <div class="al-formula-note">One step instead of two. Faster and less error-prone.</div>
+    </div>
+
+    <h3 style="font-size:1.05rem; margin-bottom:0.75rem;">Key Multipliers to Memorise</h3>
+    <div class="al-multiplier-grid">
+      <div class="al-multiplier-item">
+        <div class="al-multiplier-pct">+5%</div>
+        <div class="al-multiplier-val">×1.05</div>
+      </div>
+      <div class="al-multiplier-item">
+        <div class="al-multiplier-pct">+10%</div>
+        <div class="al-multiplier-val">×1.10</div>
+      </div>
+      <div class="al-multiplier-item">
+        <div class="al-multiplier-pct">+12%</div>
+        <div class="al-multiplier-val">×1.12</div>
+      </div>
+      <div class="al-multiplier-item">
+        <div class="al-multiplier-pct">+15%</div>
+        <div class="al-multiplier-val">×1.15</div>
+      </div>
+      <div class="al-multiplier-item">
+        <div class="al-multiplier-pct">+20%</div>
+        <div class="al-multiplier-val">×1.20</div>
+      </div>
+      <div class="al-multiplier-item">
+        <div class="al-multiplier-pct">+25%</div>
+        <div class="al-multiplier-val">×1.25</div>
+      </div>
+      <div class="al-multiplier-item">
+        <div class="al-multiplier-pct">−5%</div>
+        <div class="al-multiplier-val">×0.95</div>
+      </div>
+      <div class="al-multiplier-item">
+        <div class="al-multiplier-pct">−10%</div>
+        <div class="al-multiplier-val">×0.90</div>
+      </div>
+      <div class="al-multiplier-item">
+        <div class="al-multiplier-pct">−15%</div>
+        <div class="al-multiplier-val">×0.85</div>
+      </div>
+      <div class="al-multiplier-item">
+        <div class="al-multiplier-pct">−20%</div>
+        <div class="al-multiplier-val">×0.80</div>
+      </div>
+      <div class="al-multiplier-item">
+        <div class="al-multiplier-pct">−25%</div>
+        <div class="al-multiplier-val">×0.75</div>
+      </div>
+    </div>
+
+    <!-- Example 3 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 3</span>
+        <span class="al-example-q">A department's budget of £240,000 is increased by 12%. What is the new budget?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Multiplier for +12% = 1.12</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">£240,000 × 1.12 = <span class="al-step-result">£268,800</span></span></div>
+      </div>
+    </div>
+
+    <!-- Wrong vs Right: two-step vs multiplier -->
+    <div class="al-vs">
+      <div class="al-vs-box al-vs-wrong">
+        <div class="al-vs-label">Slow Method</div>
+        <div class="al-vs-calc">12% of £240,000 = £28,800</div>
+        <div class="al-vs-calc">£240,000 + £28,800 = £268,800</div>
+        <div class="al-vs-answer">£268,800</div>
+        <div class="al-vs-explain">Correct answer, but two separate calculations. More chances to make an arithmetic error under pressure.</div>
+      </div>
+      <div class="al-vs-box al-vs-right">
+        <div class="al-vs-label">Fast Method</div>
+        <div class="al-vs-calc">£240,000 × 1.12</div>
+        <div class="al-vs-answer">£268,800</div>
+        <div class="al-vs-explain">Same answer, one calculation. This is the method you should default to in every timed test.</div>
+      </div>
+    </div>
+
+    <!-- Example 4: Decrease -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 4</span>
+        <span class="al-example-q">A company's workforce of 1,800 is reduced by 15%. How many employees remain?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Multiplier for −15% = 0.85</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">1,800 × 0.85 = <span class="al-step-result">1,530 employees</span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 4: PERCENTAGE CHANGE ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">4</div>
+      <h2>Calculating Percentage Change</h2>
+    </div>
+    <div class="al-card">
+      <p>This is the inverse problem: you're given the old value and the new value, and you need to find the percentage change. This appears in almost every data interpretation question about growth, decline, or comparison.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Percentage Change Formula</div>
+      <div class="al-formula-text">% Change = (New − Old) ÷ Old × 100</div>
+      <div class="al-formula-note">Always divide by the OLD (original) value. This is where the trap lives.</div>
+    </div>
+
+    <!-- Example 5 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 5</span>
+        <span class="al-example-q">Revenue rose from £550,000 to £680,000. What is the percentage increase?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Difference = £680,000 − £550,000 = £130,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Divide by OLD: £130,000 ÷ £550,000 = 0.2364</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Convert: 0.2364 × 100 = <span class="al-step-result">23.6%</span></span></div>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-danger">
+      <div class="al-callout-label">The #1 Percentage Trap</div>
+      <p>Dividing by the <strong>new</strong> value instead of the <strong>old</strong> value is the single most common percentage error in aptitude tests. In the example above, dividing £130,000 by £680,000 gives 19.1% — and that will be one of the answer options. Test designers include it deliberately. <strong>Always divide by the starting figure.</strong></p>
+    </div>
+
+    <!-- Wrong vs Right -->
+    <div class="al-vs">
+      <div class="al-vs-box al-vs-wrong">
+        <div class="al-vs-label">Wrong — Dividing by New</div>
+        <div class="al-vs-calc">£130,000 ÷ £680,000 × 100</div>
+        <div class="al-vs-answer">19.1% <span class="al-wrong-x">✗</span></div>
+        <div class="al-vs-explain">This is the trap answer. It divides by the new value, not the original.</div>
+      </div>
+      <div class="al-vs-box al-vs-right">
+        <div class="al-vs-label">Right — Dividing by Old</div>
+        <div class="al-vs-calc">£130,000 ÷ £550,000 × 100</div>
+        <div class="al-vs-answer">23.6%</div>
+        <div class="al-vs-explain">Correct. Always divide by the starting (old) value.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 5: REVERSE PERCENTAGES ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">5</div>
+      <h2>Reverse Percentages</h2>
+    </div>
+    <div class="al-card">
+      <p>A reverse percentage question gives you the <strong>result</strong> of a percentage change and asks you to find the <strong>original value</strong>. These are the questions that eliminate the most candidates in timed tests, because the obvious approach is wrong.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Reverse Percentage Formula</div>
+      <div class="al-formula-text">If value after X% increase = V, then original = V ÷ (1 + X/100)<br>If value after X% decrease = V, then original = V ÷ (1 − X/100)</div>
+      <div class="al-formula-note">Divide by the multiplier, don't subtract/add the percentage.</div>
+    </div>
+
+    <!-- Example 6 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 6</span>
+        <span class="al-example-q">A department's budget was reduced by 12% to £352,000. What was the original budget?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">After a 12% decrease, the multiplier is 0.88</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">£352,000 = original × 0.88</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Original = £352,000 ÷ 0.88 = <span class="al-step-result">£400,000</span></span></div>
+      </div>
+    </div>
+
+    <!-- The critical wrong vs right -->
+    <div class="al-vs">
+      <div class="al-vs-box al-vs-wrong">
+        <div class="al-vs-label">Wrong — Adding 12% Back</div>
+        <div class="al-vs-calc">12% of £352,000 = £42,240</div>
+        <div class="al-vs-calc">£352,000 + £42,240</div>
+        <div class="al-vs-answer">£394,240 <span class="al-wrong-x">✗</span></div>
+        <div class="al-vs-explain">This adds 12% of the reduced amount, not 12% of the original. The base has changed — you can't just reverse the arithmetic.</div>
+      </div>
+      <div class="al-vs-box al-vs-right">
+        <div class="al-vs-label">Right — Dividing by Multiplier</div>
+        <div class="al-vs-calc">£352,000 ÷ 0.88</div>
+        <div class="al-vs-answer">£400,000</div>
+        <div class="al-vs-explain">Correct. Dividing by the decrease multiplier recovers the original value.</div>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-danger">
+      <div class="al-callout-label">Why This Trap Works</div>
+      <p>12% of £400,000 = £48,000. But 12% of £352,000 = £42,240. They're different amounts because 12% of a smaller number is a smaller number. Adding 12% of the reduced value back does <strong>not</strong> undo a 12% reduction. You must divide by the multiplier.</p>
+    </div>
+
+    <!-- Example 7 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 7</span>
+        <span class="al-example-q">After a 20% price increase, a product costs £54. What was the original price?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Multiplier for +20% = 1.20</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Original = £54 ÷ 1.20 = <span class="al-step-result">£45</span></span></div>
+        <p style="margin-top:0.5rem;">Check: £45 × 1.20 = £54 ✓</p>
+      </div>
+    </div>
+
+    <!-- Example 8: VAT context -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 8 — Finance Context</span>
+        <span class="al-example-q">A product's price including 20% VAT is £186. What is the price before VAT?</span>
+      </div>
+      <div class="al-example-body">
+        <p>VAT is a percentage increase on the pre-VAT price. This is a reverse percentage.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Price including 20% VAT → multiplier = 1.20</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Pre-VAT price = £186 ÷ 1.20 = <span class="al-step-result">£155</span></span></div>
+        <p style="margin-top:0.5rem;">Common wrong answer: £186 − 20% of £186 = £186 − £37.20 = £148.80 <span class="al-wrong-x" style="color: var(--al-danger); font-weight: 700;">✗</span></p>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-tip">
+      <div class="al-callout-label">How to Spot Reverse Percentage Questions</div>
+      <p>Look for language like: "after an increase of X%", "following a reduction of X%", "including X% tax", "a price that has been marked up by X%". Whenever the question gives you the <strong>result</strong> and asks for the <strong>original</strong>, you need to divide by the multiplier — not add or subtract the percentage.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 6: SUCCESSIVE PERCENTAGE CHANGES ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">6</div>
+      <h2>Successive Percentage Changes</h2>
+    </div>
+    <div class="al-card">
+      <p>When a value changes by multiple percentages in sequence — for example, rising 15% one year then falling 8% the next — you <strong>cannot</strong> simply add or subtract the percentages. Each change applies to a different base.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Successive Changes Formula</div>
+      <div class="al-formula-text">Final = Original × Multiplier₁ × Multiplier₂ × …</div>
+      <div class="al-formula-note">Chain the multipliers. Never add or subtract percentages.</div>
+    </div>
+
+    <!-- Example 9 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 9</span>
+        <span class="al-example-q">Revenue was £2.4m in Q1. It rose 15% in Q2, then fell 8% in Q3. What was Q3 revenue?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Q2 = £2.4m × 1.15 = £2.76m</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Q3 = £2.76m × 0.92 = <span class="al-step-result">£2,539,200</span></span></div>
+        <p style="margin-top:0.5rem;">Or in one step: £2.4m × 1.15 × 0.92 = £2.4m × 1.058 = £2,539,200</p>
+      </div>
+    </div>
+
+    <!-- Wrong vs Right -->
+    <div class="al-vs">
+      <div class="al-vs-box al-vs-wrong">
+        <div class="al-vs-label">Wrong — Adding Percentages</div>
+        <div class="al-vs-calc">+15% then −8% = +7%?</div>
+        <div class="al-vs-calc">£2.4m × 1.07 = £2,568,000</div>
+        <div class="al-vs-answer">£2,568,000 <span class="al-wrong-x">✗</span></div>
+        <div class="al-vs-explain">Adding percentages ignores that the 8% decrease applies to the higher Q2 value, not the original Q1 value.</div>
+      </div>
+      <div class="al-vs-box al-vs-right">
+        <div class="al-vs-label">Right — Chaining Multipliers</div>
+        <div class="al-vs-calc">£2.4m × 1.15 × 0.92</div>
+        <div class="al-vs-answer">£2,539,200</div>
+        <div class="al-vs-explain">Each multiplier applies to the result of the previous one, not the original.</div>
+      </div>
+    </div>
+
+    <!-- Example 10 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 10</span>
+        <span class="al-example-q">Share prices rose 20% on Monday, fell 10% on Tuesday, and rose 5% on Wednesday. What is the net change?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Combined multiplier = 1.20 × 0.90 × 1.05</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">= 1.08 × 1.05 = 1.134</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Net change = 1.134 − 1 = 0.134 = <span class="al-step-result">+13.4%</span></span></div>
+        <p style="margin-top:0.5rem;">The trap answer (adding: 20 − 10 + 5 = 15%) will be on the answer sheet.</p>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-warn">
+      <div class="al-callout-label">Quick Check</div>
+      <p>If you see a question with <strong>multiple percentage changes in sequence</strong>, the answer is almost never the result of simple addition/subtraction of the percentages. If your calculation gives the "obvious" answer, you've probably fallen into the trap.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 7: FINANCE APPLICATIONS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">7</div>
+      <h2>Finance Applications</h2>
+    </div>
+    <div class="al-card">
+      <p>In real aptitude tests, percentages rarely appear as naked calculations. They're wrapped in finance contexts — profit margins, tax calculations, discount pricing, year-on-year growth. The maths is the same, but you need to know which formula to apply.</p>
+    </div>
+
+    <!-- Example 11: Profit Margin -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 11 — Profit Margin</span>
+        <span class="al-example-q">A product costs £80 to produce and sells for £140. Overheads are 15% of revenue. What is the profit margin?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Revenue = £140</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Overhead = 15% of £140 = £21</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Total cost = £80 + £21 = £101</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Profit = £140 − £101 = £39</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Profit margin = £39 ÷ £140 × 100 = <span class="al-step-result">27.9%</span></span></div>
+        <p style="margin-top:0.5rem; color:var(--al-text-light); font-size:0.85rem;">Common trap: calculating margin on cost (£39 ÷ £101 = 38.6%) instead of revenue. Profit margin is always profit ÷ revenue.</p>
+      </div>
+    </div>
+
+    <!-- Example 12: Compound Growth -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 12 — Compound Interest</span>
+        <span class="al-example-q">An investment of £15,000 grows at 4.5% compound interest annually. What is the value after 3 years?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Multiplier = 1.045</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">After 3 years: £15,000 × 1.045 × 1.045 × 1.045</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">= £15,000 × 1.045³ = £15,000 × 1.14117 = <span class="al-step-result">£17,117</span></span></div>
+        <p style="margin-top:0.5rem; color:var(--al-text-light); font-size:0.85rem;">Simple interest trap: £15,000 × 4.5% × 3 = £2,025 → £17,025. Compound gives £17,117 — the difference is small but it's always an answer option.</p>
+      </div>
+    </div>
+
+    <!-- Example 13: Discount stacking -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 13 — Stacked Discounts</span>
+        <span class="al-example-q">A supplier offers 20% trade discount plus an additional 5% for early payment. What is the final price on a £4,000 order?</span>
+      </div>
+      <div class="al-example-body">
+        <p>This is successive percentage changes — multiply, don't add.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">After 20% discount: £4,000 × 0.80 = £3,200</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">After additional 5%: £3,200 × 0.95 = <span class="al-step-result">£3,040</span></span></div>
+        <p style="margin-top:0.5rem; color:var(--al-text-light); font-size:0.85rem;">Trap answer: 25% off = £3,000. The actual discount is 24% (1 − 0.80 × 0.95 = 0.76 = 24% off), not 25%.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 8: PRACTICE QUESTIONS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">8</div>
+      <h2>Practice Questions</h2>
+    </div>
+    <p style="margin-bottom:1rem; font-size:0.92rem;">Work through each question before revealing the answer. These cover all four percentage skills from this lesson.</p>
+
+    <!-- Practice Q1 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 1</div>
+      <div class="al-practice-q">A company's annual revenue is £2.8 million. The marketing budget is 8.5% of revenue. How much is the marketing budget?</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">£2,800,000 × 0.085 = <span class="al-step-result">£238,000</span></span></div>
+      </div>
+    </details>
+
+    <!-- Practice Q2 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 2</div>
+      <div class="al-practice-q">Operating costs fell from £1.25 million to £1.08 million. What was the percentage decrease?</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Difference = £1.25m − £1.08m = £0.17m</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">% change = £0.17m ÷ £1.25m × 100 = <span class="al-step-result">13.6% decrease</span></span></div>
+        <p>Divide by the <strong>old</strong> value (£1.25m), not the new value. £0.17m ÷ £1.08m = 15.7% is the trap.</p>
+      </div>
+    </details>
+
+    <!-- Practice Q3 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 3</div>
+      <div class="al-practice-q">After a 15% salary increase, an employee earns £46,000. What was their previous salary?</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Multiplier for +15% = 1.15</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Original = £46,000 ÷ 1.15 = <span class="al-step-result">£40,000</span></span></div>
+        <p>Trap: £46,000 − 15% of £46,000 = £46,000 − £6,900 = £39,100 <span class="al-wrong-x" style="color: var(--al-danger); font-weight: 700;">✗</span></p>
+      </div>
+    </details>
+
+    <!-- Practice Q4 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 4</div>
+      <div class="al-practice-q">A portfolio gained 12% in Year 1, lost 5% in Year 2, and gained 8% in Year 3. Starting value: £50,000. What is the final value?</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Combined multiplier = 1.12 × 0.95 × 1.08</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">= 1.064 × 1.08 = 1.14912</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">£50,000 × 1.14912 = <span class="al-step-result">£57,456</span></span></div>
+        <p>Trap: adding percentages (12 − 5 + 8 = 15%) gives £57,500. Close — but wrong.</p>
+      </div>
+    </details>
+
+    <!-- Practice Q5 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 5</div>
+      <div class="al-practice-q">A consultancy charges £180 per hour. They apply a 10% volume discount for contracts over 100 hours, plus a further 5% discount for annual retainer clients. What is the effective hourly rate for a retainer client on a 120-hour contract?</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">After 10% volume discount: £180 × 0.90 = £162</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">After 5% retainer discount: £162 × 0.95 = <span class="al-step-result">£153.90</span></span></div>
+        <p>Combined discount = 1 − (0.90 × 0.95) = 1 − 0.855 = 14.5%, not 15%. Trap: £180 × 0.85 = £153.00 <span class="al-wrong-x" style="color: var(--al-danger); font-weight: 700;">✗</span></p>
+      </div>
+    </details>
+
+    <!-- Practice Q6 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 6</div>
+      <div class="al-practice-q">A product's price including 20% VAT is £276. The company then applies a 25% trade discount to the pre-VAT price. What does the customer pay (excluding VAT)?</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p>Two steps: reverse percentage to find pre-VAT, then apply discount.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Pre-VAT price = £276 ÷ 1.20 = £230</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">After 25% trade discount: £230 × 0.75 = <span class="al-step-result">£172.50</span></span></div>
+        <p>This combines reverse percentages with successive changes — a common pattern in harder questions.</p>
+      </div>
+    </details>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ KEY TAKEAWAYS ═══ -->
+  <div class="al-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul class="al-takeaways-list">
+      <li>Use the multiplier method for increases and decreases — one step, not two. Memorise common multipliers (×1.08, ×0.85, etc.).</li>
+      <li>Percentage change: always divide by the OLD value. Dividing by the new value is the most common trap in SHL tests.</li>
+      <li>Reverse percentages: divide by the multiplier, don't add/subtract the percentage from the result. Look for "after", "including", and "following" as trigger words.</li>
+      <li>Successive changes: chain multipliers. Never add or subtract percentages applied to different base values.</li>
+      <li>Build awkward percentages from easy pieces: 10%, 5%, 1%, 25%, 50% are your building blocks.</li>
+      <li>Profit margin is always calculated on revenue, not on cost. This appears in almost every finance-context percentage question.</li>
+    </ul>
+  </div>
+
+  <!-- ═══ NEXT LESSON ═══ -->
+  <div class="al-next">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Lesson</div>
+      <div class="al-next-title">2.2 — Ratios &amp; Proportions</div>
+      <div class="al-next-desc">Simplifying ratios, dividing quantities, scaling, and the finance ratios that appear in real test questions.</div>
+    </div>
+  </div>
+
+</div>

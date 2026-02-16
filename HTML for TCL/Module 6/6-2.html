@@ -1,0 +1,444 @@
+<!--
+  ACUMEN LOGIC — Module 6.2: Full Mock Assessment 1 — Numerical Focus
+  For ThriveCart Learn Custom HTML Block
+  Interactive MCQ with JS scoring
+
+  TYPE: Assessment (18 questions, 25 minutes target)
+  SHL-format numerical + data interpretation covering all Modules 2-3 skills.
+-->
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+  .al-lesson { --al-navy: #1B2A4A; --al-navy-light: #2A3D66; --al-navy-muted: #3D5280; --al-gold: #C8A951; --al-gold-light: #D4BC72; --al-gold-pale: #F5EFD9; --al-cream: #FAFAF6; --al-white: #FFFFFF; --al-text: #2C2C2C; --al-text-light: #6B6B6B; --al-border: #E8E4DA; --al-success: #2D8F5E; --al-danger: #C0392B; --al-radius: 10px; --al-radius-sm: 6px; --al-shadow: 0 2px 12px rgba(27,42,74,0.08); --al-shadow-lg: 0 8px 32px rgba(27,42,74,0.12); }
+  .al-lesson { font-family: 'Source Sans 3','Segoe UI',system-ui,sans-serif; color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .al-lesson h1, .al-lesson h2, .al-lesson h3 { font-family: 'Source Sans 3','Segoe UI',system-ui,sans-serif; font-weight: 700; color: var(--al-navy); line-height: 1.25; }
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .al-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200,169,81,0.08) 0%, transparent 70%); pointer-events: none; }
+  .al-hero-eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem,4vw,2.2rem); margin-bottom: 0.75rem; }
+  .al-hero-subtitle { color: rgba(255,255,255,0.9) !important; font-size: 1rem; max-width: 36rem; line-height: 1.5; }
+  .al-hero-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 1rem 0; }
+  .al-quiz { margin-bottom: 2rem; }
+  .al-q-block { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--al-shadow); transition: border-color 0.3s ease; }
+  .al-q-block.al-q-answered { border-color: var(--al-gold); }
+  .al-q-block.al-q-correct { border-color: var(--al-success); }
+  .al-q-block.al-q-incorrect { border-color: var(--al-danger); }
+  .al-q-header { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem; }
+  .al-q-num { min-width: 2rem; height: 2rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
+  .al-q-topic { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-gold); margin-bottom: 0.25rem; }
+  .al-q-text { font-size: 1rem; font-weight: 600; color: var(--al-navy); line-height: 1.5; }
+  .al-q-context { font-size: 0.88rem; color: var(--al-text-light); margin-top: 0.35rem; line-height: 1.6; }
+  .al-options { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem; }
+  .al-opt { display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1.15rem; border: 2px solid var(--al-border); border-radius: var(--al-radius-sm); cursor: pointer; transition: all 0.2s ease; user-select: none; background: var(--al-white); }
+  .al-opt:hover { border-color: var(--al-navy-muted); background: var(--al-cream); }
+  .al-opt-radio { width: 1.25rem; height: 1.25rem; border: 2px solid var(--al-border); border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+  .al-opt-radio::after { content: ''; width: 0.55rem; height: 0.55rem; border-radius: 50%; background: transparent; transition: background 0.2s ease; }
+  .al-opt.al-opt-selected { border-color: var(--al-navy); background: #F0F2F7; }
+  .al-opt.al-opt-selected .al-opt-radio { border-color: var(--al-navy); }
+  .al-opt.al-opt-selected .al-opt-radio::after { background: var(--al-navy); }
+  .al-opt.al-opt-correct-answer { border-color: var(--al-success); background: #EDF7F0; }
+  .al-opt.al-opt-correct-answer .al-opt-radio { border-color: var(--al-success); }
+  .al-opt.al-opt-correct-answer .al-opt-radio::after { background: var(--al-success); }
+  .al-opt.al-opt-wrong-pick { border-color: var(--al-danger); background: #FDF2F0; }
+  .al-opt.al-opt-wrong-pick .al-opt-radio { border-color: var(--al-danger); }
+  .al-opt.al-opt-wrong-pick .al-opt-radio::after { background: var(--al-danger); }
+  .al-opt-label { font-weight: 700; color: var(--al-navy); min-width: 1.5rem; font-size: 0.92rem; }
+  .al-opt-text { font-size: 0.92rem; color: var(--al-text); }
+  .al-q-block.al-q-submitted .al-opt { cursor: default; pointer-events: none; }
+  .al-q-explanation { display: none; margin-top: 1rem; padding: 1rem 1.25rem; border-radius: var(--al-radius-sm); font-size: 0.88rem; line-height: 1.55; }
+  .al-q-explanation.al-exp-correct { background: #EDF7F0; border-left: 4px solid var(--al-success); }
+  .al-q-explanation.al-exp-wrong { background: #FDF2F0; border-left: 4px solid var(--al-danger); }
+  .al-q-explanation.al-exp-skipped { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-q-explanation.al-exp-visible { display: block; }
+  .al-exp-label { font-weight: 700; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .al-exp-correct .al-exp-label { color: var(--al-success); }
+  .al-exp-wrong .al-exp-label { color: var(--al-danger); }
+  .al-exp-skipped .al-exp-label { color: #D4823A; }
+  .al-result-panel { display: none; border-radius: var(--al-radius); padding: 2rem; margin-bottom: 2rem; text-align: center; box-shadow: var(--al-shadow-lg); }
+  .al-result-panel.al-result-visible { display: block; }
+  .al-result-panel.al-result-excellent { background: linear-gradient(135deg, #1a3a2a 0%, #2D8F5E 100%); }
+  .al-result-panel.al-result-good { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 100%); }
+  .al-result-panel.al-result-needs-work { background: linear-gradient(135deg, #3a2a1a 0%, #D4823A 100%); }
+  .al-result-panel.al-result-weak { background: linear-gradient(135deg, #3a1a1a 0%, var(--al-danger) 100%); }
+  .al-result-score { font-weight: 700; font-size: clamp(2.5rem,6vw,3.5rem); color: var(--al-white) !important; margin-bottom: 0.25rem; }
+  .al-result-pct { font-size: 1.15rem; font-weight: 600; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-result-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.5rem; }
+  .al-result-msg { color: rgba(255,255,255,0.9) !important; font-size: 0.95rem; line-height: 1.5; max-width: 32rem; margin: 0 auto; }
+  .al-result-breakdown { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1.25rem; flex-wrap: wrap; }
+  .al-result-stat { text-align: center; }
+  .al-result-stat-num { font-weight: 700; font-size: 1.5rem; color: var(--al-white) !important; }
+  .al-result-stat-lbl { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.7) !important; }
+  .al-submit-area { text-align: center; margin: 2rem 0; }
+  .al-submit-btn { display: inline-block; padding: 1.1rem 3rem; font-family: 'Source Sans 3',sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--al-white) !important; background: linear-gradient(135deg, var(--al-gold) 0%, var(--al-gold-light) 100%); border: 2px solid var(--al-gold); border-radius: var(--al-radius); cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 16px rgba(200,169,81,0.4); letter-spacing: 0.03em; text-transform: uppercase; position: relative; overflow: hidden; }
+  .al-submit-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: left 0.5s ease; }
+  .al-submit-btn:hover { background: linear-gradient(135deg, var(--al-gold-light) 0%, #E0C878 100%); transform: translateY(-2px); }
+  .al-submit-btn:hover::before { left: 100%; }
+  .al-submit-btn.al-btn-hidden { display: none; }
+  .al-progress-text { font-size: 0.85rem; color: var(--al-text-light); margin-bottom: 0.75rem; }
+  .al-progress-bar { height: 6px; background: var(--al-border); border-radius: 3px; overflow: hidden; max-width: 20rem; margin: 0 auto 1rem; }
+  .al-progress-fill { height: 100%; background: var(--al-gold); border-radius: 3px; transition: width 0.4s ease; }
+  .al-callout { border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; font-size: 0.92rem; }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; color: var(--al-success); }
+  .al-next { background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .al-next-arrow { width: 2.5rem; height: 2.5rem; background: var(--al-navy); color: var(--al-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .al-next-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-text-light); margin-bottom: 0.15rem; }
+  .al-next-title { font-weight: 700; color: var(--al-navy); font-size: 1rem; }
+  .al-next-desc { font-size: 0.85rem; color: var(--al-text-light); margin-top: 0.15rem; }
+  .al-lesson strong { color: var(--al-navy); }
+  .al-id-form { background: var(--al-white); border: 2px solid var(--al-gold); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; }
+  .al-id-form-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--al-navy); margin-bottom: 0.75rem; }
+  .al-id-fields { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .al-id-input { flex: 1; min-width: 180px; padding: 0.6rem 1rem; border: 2px solid var(--al-border); border-radius: var(--al-radius-sm); font-family: 'Source Sans 3',sans-serif; font-size: 0.88rem; outline: none; transition: border-color 0.2s; }
+  .al-id-input:focus { border-color: var(--al-gold); }
+  .al-id-input::placeholder { color: #B0B0B0; }
+  .al-timer { font-size: 0.85rem; color: var(--al-text-light); text-align: center; margin-bottom: 0.5rem; }
+  .al-timer strong { color: var(--al-navy); font-variant-numeric: tabular-nums; }
+  @media (max-width: 600px) { .al-hero { padding: 1.75rem 1.25rem 1.5rem; } .al-q-block { padding: 1.15rem; } .al-opt { padding: 0.75rem 1rem; } .al-result-panel { padding: 1.5rem 1rem; } .al-next { flex-direction: column; text-align: center; } .al-submit-btn { padding: 1rem 2rem; font-size: 1rem; width: 100%; max-width: 300px; } .al-id-fields { flex-direction: column; } }
+</style>
+
+<div class="al-lesson" id="alQuizTop">
+  <div class="al-result-panel" id="alResultPanel">
+    <div class="al-result-label">Mock Assessment 1 — Your Score</div>
+    <div class="al-result-score" id="alResultScore">—</div>
+    <div class="al-result-pct" id="alResultPct">—</div>
+    <div class="al-result-msg" id="alResultMsg">—</div>
+    <div class="al-result-breakdown">
+      <div class="al-result-stat"><div class="al-result-stat-num" id="alStatCorrect">—</div><div class="al-result-stat-lbl">Correct</div></div>
+      <div class="al-result-stat"><div class="al-result-stat-num" id="alStatWrong">—</div><div class="al-result-stat-lbl">Wrong</div></div>
+      <div class="al-result-stat"><div class="al-result-stat-num" id="alStatSkipped">—</div><div class="al-result-stat-lbl">Skipped</div></div>
+    </div>
+  </div>
+
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 6 · Lesson 6.2</div>
+    <h1>Full Mock Assessment 1: Numerical Focus</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">18 questions covering percentages, ratios, data interpretation, averages, and growth. Target: 25 minutes. Treat this as a real test.</p>
+  </div>
+
+  <div class="al-callout al-callout-tip">
+    <div class="al-callout-label">Exam Conditions</div>
+    <p>Set a timer for 25 minutes. Use a calculator. No notes from previous lessons. Answer all questions, then submit. Review your results in Lesson 6.3.</p>
+  </div>
+
+  <div class="al-id-form">
+    <div class="al-id-form-label">Your Details (for your results record)</div>
+    <div class="al-id-fields">
+      <input type="text" class="al-id-input" id="alUserName" placeholder="Full name" autocomplete="name">
+      <input type="email" class="al-id-input" id="alUserEmail" placeholder="Email address" autocomplete="email">
+    </div>
+  </div>
+
+  <div class="al-timer" id="alTimer">Time elapsed: <strong id="alTimerDisplay">0:00</strong></div>
+
+  <div class="al-submit-area" id="alProgressArea">
+    <div class="al-progress-text"><span id="alAnsweredCount">0</span> of 18 answered</div>
+    <div class="al-progress-bar"><div class="al-progress-fill" id="alProgressFill" style="width:0%;"></div></div>
+  </div>
+
+  <div class="al-quiz" id="alQuiz">
+
+    <div class="al-q-block" data-q="1" data-answer="2">
+      <div class="al-q-header"><div class="al-q-num">1</div><div><div class="al-q-topic">Percentage Change</div><div class="al-q-text">A company's quarterly revenue fell from £8.4 million to £7.14 million. What was the percentage decrease?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">12%</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">14%</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">15%</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">17.6%</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>(£8.4m − £7.14m) ÷ £8.4m = £1.26m ÷ £8.4m = <strong>15%</strong>. Option D (17.6%) is the trap — dividing by the new value instead of the original.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="2" data-answer="1">
+      <div class="al-q-header"><div class="al-q-num">2</div><div><div class="al-q-topic">Reverse Percentage</div><div class="al-q-text">After a 12% price increase, a subscription costs £134.40. What was the original price?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£118.27</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£120.00</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£122.40</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£150.53</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>£134.40 ÷ 1.12 = <strong>£120.00</strong>. Option A is £134.40 × 0.88 — subtracting 12% from the new price (wrong method). Option D is £134.40 × 1.12 — going in the wrong direction.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="3" data-answer="0">
+      <div class="al-q-header"><div class="al-q-num">3</div><div><div class="al-q-topic">Ratio</div><div class="al-q-text">A fund allocates assets in the ratio 7 : 4 : 1 between equities, bonds, and cash. If the fund is worth £3.6 million, how much is in bonds?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£1,200,000</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£1,050,000</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£300,000</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£2,100,000</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>Total parts = 7 + 4 + 1 = 12. Bonds = 4/12 × £3.6m = <strong>£1,200,000</strong>. Option D (£2.1m) is equities (7 parts). Option C (£300k) is cash.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="4" data-answer="3">
+      <div class="al-q-header"><div class="al-q-num">4</div><div><div class="al-q-topic">Weighted Average</div><div class="al-q-text">A bank has two loan portfolios. Portfolio A: £50m at 4.2% interest. Portfolio B: £30m at 6.8% interest. What is the weighted average interest rate across both portfolios?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">5.10%</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">5.25%</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">5.50%</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">5.18%</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>(50 × 4.2 + 30 × 6.8) ÷ (50 + 30) = (210 + 204) ÷ 80 = 414 ÷ 80 = <strong>5.175% ≈ 5.18%</strong>. Option C (5.50%) is the simple average — the classic trap.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="5" data-answer="1">
+      <div class="al-q-header"><div class="al-q-num">5</div><div><div class="al-q-topic">Compound Change</div><div class="al-q-text">A share price rises 15% in Year 1, falls 8% in Year 2, and rises 10% in Year 3. What is the overall percentage change?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">+15.6%</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">+16.4%</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">+17.0%</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">+17.3%</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>1.15 × 0.92 × 1.10 = 1.1638. Overall change = <strong>+16.38% ≈ +16.4%</strong>. Adding the percentages (15 − 8 + 10 = 17%) gives C — the trap answer.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="6" data-answer="2">
+      <div class="al-q-header"><div class="al-q-num">6</div><div><div class="al-q-topic">Fractions</div><div class="al-q-text">A project budget of £840,000 is allocated: ⅓ to development, ¼ to marketing, ⅛ to legal. How much remains unallocated?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£210,000</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£235,000</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£245,000</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£280,000</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>LCD = 24. ⅓ = 8/24, ¼ = 6/24, ⅛ = 3/24. Sum = 17/24. Remainder = 7/24. £840,000 × 7/24 = £840,000 ÷ 24 × 7 = £35,000 × 7 = <strong>£245,000</strong>.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="7" data-answer="0">
+      <div class="al-q-header"><div class="al-q-num">7</div><div><div class="al-q-topic">Currency Conversion</div><div class="al-q-text">A UK company receives €234,000 from a European client. The exchange rate is £1 = €1.17. What is the GBP equivalent?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£200,000</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£213,600</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£273,780</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£190,000</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>€234,000 ÷ 1.17 = <strong>£200,000</strong>. Option C (£273,780) is €234,000 × 1.17 — multiplying instead of dividing (wrong direction). Sanity check: £ should be less than €.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="8" data-answer="2">
+      <div class="al-q-header"><div class="al-q-num">8</div><div><div class="al-q-topic">Data Interpretation</div><div class="al-q-context">A retail company's quarterly sales (£ millions): Q1: 12.4, Q2: 14.8, Q3: 13.2, Q4: 16.6</div><div class="al-q-text">What percentage of total annual sales occurred in Q4?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">25.0%</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">28.4%</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">29.1%</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">31.2%</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>Total = 12.4 + 14.8 + 13.2 + 16.6 = 57.0. Q4 as % = 16.6 ÷ 57.0 × 100 = <strong>29.12% ≈ 29.1%</strong>.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="9" data-answer="1">
+      <div class="al-q-header"><div class="al-q-num">9</div><div><div class="al-q-topic">Profit Margin</div><div class="al-q-text">Revenue: £2.4m. Cost of goods: £1.56m. Operating expenses: £420,000. What is the operating profit margin?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">15.0%</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">17.5%</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">21.2%</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">35.0%</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>Operating profit = Revenue − COGS − OpEx = £2.4m − £1.56m − £0.42m = £0.42m. Margin = £0.42m ÷ £2.4m × 100 = <strong>17.5%</strong>. Option D (35%) is the gross margin (£2.4m − £1.56m = £0.84m → 35%).</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="10" data-answer="3">
+      <div class="al-q-header"><div class="al-q-num">10</div><div><div class="al-q-topic">CAGR</div><div class="al-q-text">An investment grew from £25,000 to £33,275.31 over 4 years. What is the CAGR? (Work backwards from the options.)</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">6%</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">7%</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">7.5%</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">7.4%</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>Try 7%: £25,000 × 1.07⁴ = £25,000 × 1.3108 = £32,770 — too low. Try 7.5%: £25,000 × 1.075⁴ = £25,000 × 1.3355 = £33,388 — too high. Answer is between 7% and 7.5%. Try 7.4%: 1.074⁴ ≈ 1.331 → £25,000 × 1.331 = <strong>£33,275. Answer: D (7.4%)</strong>.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="11" data-answer="0">
+      <div class="al-q-header"><div class="al-q-num">11</div><div><div class="al-q-topic">Depreciation</div><div class="al-q-text">Equipment worth £96,000 depreciates at 20% per year (compound). What is the book value after 3 years?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£49,152</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£38,400</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£57,600</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£46,080</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>£96,000 × 0.80³ = £96,000 × 0.512 = <strong>£49,152</strong>. Option B (£38,400) is straight-line (£96k − 3 × 20% × £96k = £96k − £57.6k = £38.4k). Compound always leaves a higher value.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="12" data-answer="2">
+      <div class="al-q-header"><div class="al-q-num">12</div><div><div class="al-q-topic">Multi-Step</div><div class="al-q-text">Company A's revenue is £5.2m with a 22% operating margin. Company B's revenue is £3.8m with a 28% operating margin. What is the combined operating profit?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£2,150,000</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£2,180,000</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£2,208,000</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£2,250,000</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>A profit = £5.2m × 0.22 = £1,144,000. B profit = £3.8m × 0.28 = £1,064,000. Combined = <strong>£2,208,000</strong>. Trap: averaging the margins (25%) × total revenue (£9m) = £2.25m (option D) — the "average of averages" fallacy.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="13" data-answer="1">
+      <div class="al-q-header"><div class="al-q-num">13</div><div><div class="al-q-topic">Percentage Of</div><div class="al-q-text">A department employs 240 staff. 65% are full-time. Of the full-time staff, 40% have management responsibilities. How many full-time managers are there?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">56</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">62</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">96</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">156</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>Full-time = 240 × 0.65 = 156. Managers = 156 × 0.40 = <strong>62.4 → 62</strong>. Option C (96) is 240 × 0.40 — applying 40% to total staff, not just full-time. Option D (156) is just the full-time count.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="14" data-answer="0">
+      <div class="al-q-header"><div class="al-q-num">14</div><div><div class="al-q-topic">Index Numbers</div><div class="al-q-text">An index starts at 100 in 2020. It reaches 118 in 2022 and 127 in 2024. What was the percentage increase from 2022 to 2024?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">7.6%</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">9.0%</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">27.0%</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">7.1%</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>(127 − 118) ÷ 118 × 100 = 9 ÷ 118 = <strong>7.63% ≈ 7.6%</strong>. Option B (9%) confuses the index point change (9 points) with the percentage change. Option C (27%) uses the base year 100 instead of 2022's value.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="15" data-answer="3">
+      <div class="al-q-header"><div class="al-q-num">15</div><div><div class="al-q-topic">Ratio Change</div><div class="al-q-text">In 2023, a company's debt-to-equity ratio was 3:5. In 2024, debt increased by 20% while equity remained unchanged. What is the new ratio in simplest form?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">4 : 5</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">3 : 4</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">7 : 10</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">18 : 25</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>Original debt : equity = 3 : 5. Debt increases 20%: 3 × 1.2 = 3.6. New ratio = 3.6 : 5. Multiply by 5 to clear decimals: 18 : 25. <strong>Answer: 18 : 25</strong>.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="16" data-answer="1">
+      <div class="al-q-header"><div class="al-q-num">16</div><div><div class="al-q-topic">Break-Even</div><div class="al-q-text">Fixed costs: £180,000. Variable cost per unit: £12. Selling price per unit: £30. How many units must be sold to break even?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">6,000</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">10,000</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">15,000</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">9,000</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>Contribution per unit = £30 − £12 = £18. Break-even = £180,000 ÷ £18 = <strong>10,000 units</strong>. Option A (6,000) divides by £30 (full selling price, ignoring variable costs).</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="17" data-answer="2">
+      <div class="al-q-header"><div class="al-q-num">17</div><div><div class="al-q-topic">Weighted Average</div><div class="al-q-context">Customer satisfaction scores: Branch A (400 customers): 78%. Branch B (250 customers): 85%. Branch C (150 customers): 92%.</div><div class="al-q-text">What is the company-wide weighted average satisfaction score?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">83.1%</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">84.0%</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">82.6%</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">85.0%</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>(400×78 + 250×85 + 150×92) ÷ (400+250+150) = (31,200 + 21,250 + 13,800) ÷ 800 = 66,250 ÷ 800 = <strong>82.8125 ≈ 82.6%</strong>. Option D (85%) is the simple average ((78+85+92)÷3) — the trap.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="18" data-answer="0">
+      <div class="al-q-header"><div class="al-q-num">18</div><div><div class="al-q-topic">Multi-Source</div><div class="al-q-context">Total employees: 1,200. Technology department: 18% of total. Average salary across company: £42,000. Technology average salary: £56,000.</div><div class="al-q-text">What is the total annual salary cost for the Technology department?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£12,096,000</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£9,072,000</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£50,400,000</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£10,080,000</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>Tech staff = 1,200 × 0.18 = 216. Total salary = 216 × £56,000 = <strong>£12,096,000</strong>. Option B uses the company average salary (216 × £42,000). Option C uses total employees × tech salary (1,200 × £42,000).</p></div>
+    </div>
+
+  </div>
+
+  <div class="al-submit-area">
+    <div class="al-progress-text"><span id="alAnsweredCount2">0</span> of 18 answered</div>
+    <button class="al-submit-btn" id="alSubmitBtn" onclick="alSubmitQuiz()">Submit Mock Assessment</button>
+  </div>
+
+  <div class="al-next" id="alNextLesson" style="display:none;">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Lesson</div>
+      <div class="al-next-title">6.3 — Mock 1 Debrief &amp; Analysis</div>
+      <div class="al-next-desc">Analyse your performance, categorise errors, and build a targeted revision plan before Mock 2.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var submitted = false, answers = {}, totalQs = 18;
+  var startTime = Date.now();
+  var timerInterval = setInterval(function() {
+    var elapsed = Math.floor((Date.now() - startTime) / 1000);
+    var m = Math.floor(elapsed / 60), s = elapsed % 60;
+    var d = document.getElementById('alTimerDisplay');
+    if (d) d.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+  }, 1000);
+
+  // ── RESULTS SERVER URL ──
+  // IMPORTANT: Change this to your deployed server URL
+  var AL_RESULTS_URL = 'https://YOUR-SERVER-URL.com/api/results';
+
+  document.querySelectorAll('.al-q-block').forEach(function(block) {
+    block.querySelectorAll('.al-opt').forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        if (submitted) return;
+        var qNum = block.getAttribute('data-q');
+        block.querySelectorAll('.al-opt').forEach(function(o) { o.classList.remove('al-opt-selected'); });
+        opt.classList.add('al-opt-selected');
+        block.classList.add('al-q-answered');
+        answers[qNum] = parseInt(opt.getAttribute('data-opt'));
+        var count = Object.keys(answers).length;
+        var e1 = document.getElementById('alAnsweredCount'), e2 = document.getElementById('alAnsweredCount2'), fill = document.getElementById('alProgressFill');
+        if (e1) e1.textContent = count; if (e2) e2.textContent = count;
+        if (fill) fill.style.width = (count / totalQs * 100) + '%';
+      });
+    });
+  });
+  window.alSubmitQuiz = function() {
+    if (submitted) return; submitted = true;
+    clearInterval(timerInterval);
+    var timeTaken = Math.floor((Date.now() - startTime) / 1000);
+    var correct = 0, wrong = 0, skipped = 0;
+    document.querySelectorAll('.al-q-block').forEach(function(block) {
+      var qNum = block.getAttribute('data-q'), correctIdx = parseInt(block.getAttribute('data-answer')), userAnswer = answers[qNum], explanation = block.querySelector('.al-q-explanation');
+      block.classList.add('al-q-submitted');
+      var correctOpt = block.querySelector('[data-opt="' + correctIdx + '"]');
+      if (correctOpt) correctOpt.classList.add('al-opt-correct-answer');
+      if (userAnswer === undefined) { skipped++; block.classList.add('al-q-incorrect'); explanation.classList.add('al-exp-skipped','al-exp-visible'); explanation.querySelector('.al-exp-label').textContent = 'SKIPPED'; }
+      else if (userAnswer === correctIdx) { correct++; block.classList.add('al-q-correct'); explanation.classList.add('al-exp-correct','al-exp-visible'); explanation.querySelector('.al-exp-label').textContent = 'CORRECT'; }
+      else { wrong++; block.classList.add('al-q-incorrect'); var wo = block.querySelector('[data-opt="'+userAnswer+'"]'); if(wo) wo.classList.add('al-opt-wrong-pick'); explanation.classList.add('al-exp-wrong','al-exp-visible'); explanation.querySelector('.al-exp-label').textContent = 'INCORRECT'; }
+    });
+    var pct = Math.round(correct / totalQs * 100), panel = document.getElementById('alResultPanel');
+    document.getElementById('alResultScore').textContent = correct + ' / ' + totalQs;
+    document.getElementById('alResultPct').textContent = pct + '%';
+    document.getElementById('alStatCorrect').textContent = correct;
+    document.getElementById('alStatWrong').textContent = wrong;
+    document.getElementById('alStatSkipped').textContent = skipped;
+    var msg = document.getElementById('alResultMsg');
+    var tier = '';
+    if (pct >= 85) { panel.classList.add('al-result-excellent'); tier = 'Excellent'; msg.textContent = 'Outstanding performance. You are assessment-ready. Review any errors, then proceed to the debrief.'; }
+    else if (pct >= 65) { panel.classList.add('al-result-good'); tier = 'Good'; msg.textContent = 'Solid result. Review the explanations for each missed question and identify your error patterns before Mock 2.'; }
+    else if (pct >= 45) { panel.classList.add('al-result-needs-work'); tier = 'Needs Work'; msg.textContent = 'You have the foundations but need targeted revision. Use the debrief lesson to categorise your errors.'; }
+    else { panel.classList.add('al-result-weak'); tier = 'Weak'; msg.textContent = 'Significant revision needed. Revisit Modules 2-3 before attempting Mock 2.'; }
+    panel.classList.add('al-result-visible');
+    document.getElementById('alSubmitBtn').classList.add('al-btn-hidden');
+    document.getElementById('alNextLesson').style.display = 'flex';
+    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // ── Send results to server ──
+    try {
+      var nameEl = document.getElementById('alUserName');
+      var emailEl = document.getElementById('alUserEmail');
+      fetch(AL_RESULTS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          assessment_type: 'mock-1',
+          user_name: nameEl ? nameEl.value.trim() : '',
+          user_email: emailEl ? emailEl.value.trim() : '',
+          score_correct: correct,
+          score_total: totalQs,
+          score_percentage: pct,
+          score_wrong: wrong,
+          score_skipped: skipped,
+          time_taken_seconds: timeTaken,
+          performance_tier: tier,
+          answers: answers
+        })
+      }).catch(function(e) { console.warn('Results sync:', e); });
+    } catch(e) { console.warn('Results sync:', e); }
+  };
+})();
+</script>

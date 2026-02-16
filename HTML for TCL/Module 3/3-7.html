@@ -1,0 +1,711 @@
+<!--
+  ACUMEN LOGIC — Module 3.7: Data Interpretation Practice Test
+  For ThriveCart Learn Custom HTML Block
+  Interactive MCQ with scoring · CSS + JS for quiz functionality
+
+  CALCULATION VERIFICATION (all answers triple-checked):
+  Q1:  H1=(45.0+48.0)=93.0, H2=(48.4+55.0)=103.4, diff=10.4 → C ✓
+  Q2:  Ratios — RB:1.50, CF:0.69, AM:1.62, Ins:2.00, PW:0.49 → D (Insurance) ✓
+  Q3:  (38%−16%)×£120m = 22%×120 = £26.4m → A ✓
+  Q4:  Declines — AM Q1→Q2: −12.9%, RB Q2→Q3: −11.5%, Ins Q2→Q3: −6.5% → B (AM) ✓
+  Q5:  Rev/FTE — RB:71.4, CF:125.0, AM:148.9, Ins:82.8, PW:270.0 → D (PW) ✓
+  Q6:  CF OP: 40.0−12.8−11.6=15.6, margin=15.6/40.0=39.0% → C ✓
+  Q7:  (126−94)/94×100 = 34.0% → C ✓
+  Q8:  Σ(comp×FTE)/ΣFTE = 133816.8/2000 = £66.9k → B ✓
+  Q9:  Margins — RB:27.5%, CF:39.0%, AM:44.4%, Ins:34.2%, PW:42.0% → B (AM highest) ✓
+  Q10: OP/FTE — RB:19.6, CF:48.8, AM:66.1, Ins:28.3, PW:113.5 → D (PW) ✓
+  Q11: 7.52×(126/94) = 947.52/94 = £10.08 → C ✓
+  Q12: Total OP=69.48, Total Rev=196.4, margin=69.48/196.4=35.4% → C ✓
+-->
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+  .al-lesson {
+    --al-navy: #1B2A4A; --al-navy-light: #2A3D66; --al-navy-muted: #3D5280;
+    --al-gold: #C8A951; --al-gold-light: #D4BC72; --al-gold-pale: #F5EFD9;
+    --al-cream: #FAFAF6; --al-white: #FFFFFF; --al-text: #2C2C2C; --al-text-light: #6B6B6B;
+    --al-border: #E8E4DA; --al-success: #2D8F5E; --al-danger: #C0392B;
+    --al-radius: 10px; --al-radius-sm: 6px;
+    --al-shadow: 0 2px 12px rgba(27,42,74,0.08);
+    --al-shadow-lg: 0 8px 32px rgba(27,42,74,0.12);
+    --al-chart-a: #1B2A4A; --al-chart-b: #3D7ABF; --al-chart-c: #C8A951; --al-chart-d: #6B9F78;
+  }
+  .al-lesson { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif !important; color: var(--al-text) !important; line-height: 1.65 !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important; -webkit-font-smoothing: antialiased; }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box !important; margin: 0; padding: 0; }
+  .al-lesson h1, .al-lesson h2, .al-lesson h3 { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif !important; font-weight: 700 !important; color: var(--al-navy) !important; line-height: 1.25 !important; }
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%) !important; border-radius: var(--al-radius) !important; padding: 2.5rem 2rem 2rem !important; margin-bottom: 2rem !important; position: relative !important; overflow: hidden !important; }
+  .al-hero::before { content: '' !important; position: absolute !important; top: -40% !important; right: -20% !important; width: 60% !important; height: 180% !important; background: radial-gradient(ellipse, rgba(200,169,81,0.08) 0%, transparent 70%) !important; pointer-events: none !important; }
+  .al-hero-eyebrow { font-family: 'Source Sans 3', sans-serif !important; font-size: 0.75rem !important; font-weight: 700 !important; letter-spacing: 0.15em !important; text-transform: uppercase !important; color: var(--al-gold) !important; margin-bottom: 0.75rem !important; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem, 4vw, 2.2rem) !important; margin-bottom: 0.75rem !important; }
+  .al-hero-subtitle { color: rgba(255,255,255,0.9) !important; font-size: 1rem !important; max-width: 36rem !important; line-height: 1.5 !important; }
+  .al-hero-rule { width: 3rem !important; height: 3px !important; background: var(--al-gold) !important; border: none !important; border-radius: 2px !important; margin: 1rem 0 !important; }
+  .al-q-block { background: var(--al-white) !important; border: 1px solid var(--al-border) !important; border-radius: var(--al-radius) !important; padding: 1.5rem !important; margin-bottom: 1.5rem !important; box-shadow: var(--al-shadow) !important; transition: border-color 0.3s ease !important; }
+  .al-q-block.al-q-answered { border-color: var(--al-gold) !important; }
+  .al-q-block.al-q-correct { border-color: var(--al-success) !important; }
+  .al-q-block.al-q-incorrect { border-color: var(--al-danger) !important; }
+  .al-q-header { display: flex !important; align-items: flex-start !important; gap: 0.75rem !important; margin-bottom: 1rem !important; }
+  .al-q-num { min-width: 2rem !important; height: 2rem !important; background: var(--al-navy) !important; color: var(--al-white) !important; border-radius: 50% !important; display: flex !important; align-items: center !important; justify-content: center !important; font-family: 'Source Sans 3', sans-serif !important; font-weight: 700 !important; font-size: 0.85rem !important; flex-shrink: 0 !important; }
+  .al-q-topic { font-size: 0.68rem !important; font-weight: 700 !important; letter-spacing: 0.1em !important; text-transform: uppercase !important; color: var(--al-gold) !important; margin-bottom: 0.25rem !important; }
+  .al-q-text { font-size: 1rem !important; font-weight: 600 !important; color: var(--al-navy) !important; line-height: 1.5 !important; }
+  .al-q-context { font-size: 0.88rem !important; color: var(--al-text-light) !important; margin-top: 0.35rem !important; font-style: italic !important; }
+  .al-options { display: flex !important; flex-direction: column !important; gap: 0.5rem !important; margin-top: 0.75rem !important; }
+  .al-opt { display: flex !important; align-items: center !important; gap: 0.75rem !important; padding: 0.85rem 1.15rem !important; border: 2px solid var(--al-border) !important; border-radius: var(--al-radius-sm) !important; cursor: pointer !important; transition: all 0.2s ease !important; user-select: none !important; background: var(--al-white) !important; }
+  .al-opt:hover { border-color: var(--al-navy-muted) !important; background: var(--al-cream) !important; }
+  .al-opt-radio { width: 1.25rem !important; height: 1.25rem !important; border: 2px solid var(--al-border) !important; border-radius: 50% !important; flex-shrink: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important; transition: all 0.2s ease !important; }
+  .al-opt-radio::after { content: '' !important; width: 0.55rem !important; height: 0.55rem !important; border-radius: 50% !important; background: transparent !important; transition: background 0.2s ease !important; }
+  .al-opt.al-opt-selected { border-color: var(--al-navy) !important; background: #F0F2F7 !important; }
+  .al-opt.al-opt-selected .al-opt-radio { border-color: var(--al-navy) !important; }
+  .al-opt.al-opt-selected .al-opt-radio::after { background: var(--al-navy) !important; }
+  .al-opt.al-opt-correct-answer { border-color: var(--al-success) !important; background: #EDF7F0 !important; }
+  .al-opt.al-opt-correct-answer .al-opt-radio { border-color: var(--al-success) !important; }
+  .al-opt.al-opt-correct-answer .al-opt-radio::after { background: var(--al-success) !important; }
+  .al-opt.al-opt-wrong-pick { border-color: var(--al-danger) !important; background: #FDF2F0 !important; }
+  .al-opt.al-opt-wrong-pick .al-opt-radio { border-color: var(--al-danger) !important; }
+  .al-opt.al-opt-wrong-pick .al-opt-radio::after { background: var(--al-danger) !important; }
+  .al-opt-label { font-family: 'Source Sans 3', sans-serif !important; font-weight: 700 !important; color: var(--al-navy) !important; min-width: 1.5rem !important; font-size: 0.92rem !important; }
+  .al-opt-text { font-size: 0.92rem !important; color: var(--al-text) !important; }
+  .al-q-block.al-q-submitted .al-opt { cursor: default !important; pointer-events: none !important; }
+  .al-q-explanation { display: none !important; margin-top: 1rem !important; padding: 1rem 1.25rem !important; border-radius: var(--al-radius-sm) !important; font-size: 0.88rem !important; line-height: 1.55 !important; }
+  .al-q-explanation.al-exp-correct { background: #EDF7F0 !important; border-left: 4px solid var(--al-success) !important; }
+  .al-q-explanation.al-exp-wrong { background: #FDF2F0 !important; border-left: 4px solid var(--al-danger) !important; }
+  .al-q-explanation.al-exp-skipped { background: #FFF8F0 !important; border-left: 4px solid #D4823A !important; }
+  .al-q-explanation.al-exp-visible { display: block !important; }
+  .al-exp-label { font-weight: 700 !important; font-size: 0.75rem !important; letter-spacing: 0.08em !important; text-transform: uppercase !important; margin-bottom: 0.3rem !important; }
+  .al-exp-correct .al-exp-label { color: var(--al-success) !important; }
+  .al-exp-wrong .al-exp-label { color: var(--al-danger) !important; }
+  .al-exp-skipped .al-exp-label { color: #D4823A !important; }
+  .al-result-panel { display: none !important; border-radius: var(--al-radius) !important; padding: 2rem !important; margin-bottom: 2rem !important; text-align: center !important; box-shadow: var(--al-shadow-lg) !important; }
+  .al-result-panel.al-result-visible { display: block !important; }
+  .al-result-panel.al-result-excellent { background: linear-gradient(135deg, #1a3a2a 0%, #2D8F5E 100%) !important; }
+  .al-result-panel.al-result-good { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 100%) !important; }
+  .al-result-panel.al-result-needs-work { background: linear-gradient(135deg, #3a2a1a 0%, #D4823A 100%) !important; }
+  .al-result-panel.al-result-weak { background: linear-gradient(135deg, #3a1a1a 0%, var(--al-danger) 100%) !important; }
+  .al-result-score { font-family: 'Source Sans 3', sans-serif !important; font-weight: 700 !important; font-size: clamp(2.5rem, 6vw, 3.5rem) !important; color: var(--al-white) !important; margin-bottom: 0.25rem !important; }
+  .al-result-pct { font-size: 1.15rem !important; font-weight: 600 !important; color: var(--al-gold) !important; margin-bottom: 0.75rem !important; }
+  .al-result-label { font-size: 0.75rem !important; font-weight: 700 !important; letter-spacing: 0.12em !important; text-transform: uppercase !important; color: var(--al-gold) !important; margin-bottom: 0.5rem !important; }
+  .al-result-msg { color: rgba(255,255,255,0.9) !important; font-size: 0.95rem !important; line-height: 1.5 !important; max-width: 32rem !important; margin: 0 auto !important; }
+  .al-result-breakdown { display: flex !important; justify-content: center !important; gap: 1.5rem !important; margin-top: 1.25rem !important; flex-wrap: wrap !important; }
+  .al-result-stat { text-align: center !important; }
+  .al-result-stat-num { font-family: 'Source Sans 3', sans-serif !important; font-weight: 700 !important; font-size: 1.5rem !important; color: var(--al-white) !important; }
+  .al-result-stat-lbl { font-size: 0.7rem !important; font-weight: 600 !important; letter-spacing: 0.08em !important; text-transform: uppercase !important; color: rgba(255,255,255,0.7) !important; }
+  .al-submit-area { text-align: center !important; margin: 2rem 0 !important; }
+  .al-submit-btn { display: inline-block !important; padding: 1.1rem 3rem !important; font-family: 'Source Sans 3', sans-serif !important; font-size: 1.1rem !important; font-weight: 700 !important; color: var(--al-white) !important; background: linear-gradient(135deg, var(--al-gold) 0%, var(--al-gold-light) 100%) !important; border: 2px solid var(--al-gold) !important; border-radius: var(--al-radius) !important; cursor: pointer !important; transition: all 0.3s ease !important; box-shadow: 0 4px 16px rgba(200,169,81,0.4), 0 2px 8px rgba(27,42,74,0.15) !important; letter-spacing: 0.03em !important; text-transform: uppercase !important; position: relative !important; overflow: hidden !important; }
+  .al-submit-btn::before { content: '' !important; position: absolute !important; top: 0 !important; left: -100% !important; width: 100% !important; height: 100% !important; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent) !important; transition: left 0.5s ease !important; }
+  .al-submit-btn:hover { background: linear-gradient(135deg, var(--al-gold-light) 0%, #E0C878 100%) !important; box-shadow: 0 6px 24px rgba(200,169,81,0.5), 0 4px 12px rgba(27,42,74,0.2) !important; transform: translateY(-2px) !important; }
+  .al-submit-btn:hover::before { left: 100% !important; }
+  .al-submit-btn:active { transform: translateY(0) !important; }
+  .al-submit-btn.al-btn-hidden { display: none !important; }
+  .al-progress-text { font-size: 0.85rem !important; color: var(--al-text-light) !important; margin-bottom: 0.75rem !important; }
+  .al-progress-bar { height: 6px !important; background: var(--al-border) !important; border-radius: 3px !important; overflow: hidden !important; max-width: 20rem !important; margin: 0 auto 1rem !important; }
+  .al-progress-fill { height: 100% !important; background: var(--al-gold) !important; border-radius: 3px !important; transition: width 0.4s ease !important; }
+  .al-q-divider { display: flex !important; align-items: center !important; gap: 0.75rem !important; margin: 2rem 0 1.5rem !important; }
+  .al-q-divider-line { flex: 1 !important; height: 1px !important; background: var(--al-border) !important; }
+  .al-q-divider-text { font-size: 0.72rem !important; font-weight: 700 !important; letter-spacing: 0.12em !important; text-transform: uppercase !important; color: var(--al-text-light) !important; white-space: nowrap !important; }
+  .al-callout { border-radius: var(--al-radius) !important; padding: 1.25rem 1.5rem !important; margin-bottom: 1.25rem !important; font-size: 0.92rem !important; }
+  .al-callout-tip { background: #F0F7F3 !important; border-left: 4px solid var(--al-success) !important; }
+  .al-callout-label { font-weight: 700 !important; font-size: 0.78rem !important; letter-spacing: 0.08em !important; text-transform: uppercase !important; margin-bottom: 0.4rem !important; }
+  .al-callout-tip .al-callout-label { color: var(--al-success) !important; }
+  .al-next { background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%) !important; border: 1px solid var(--al-border) !important; border-radius: var(--al-radius) !important; padding: 1.25rem 1.5rem !important; display: flex !important; align-items: center !important; gap: 1rem !important; }
+  .al-next-arrow { width: 2.5rem !important; height: 2.5rem !important; background: var(--al-navy) !important; color: var(--al-gold) !important; border-radius: 50% !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 1.1rem !important; flex-shrink: 0 !important; }
+  .al-next-label { font-size: 0.72rem !important; font-weight: 700 !important; letter-spacing: 0.1em !important; text-transform: uppercase !important; color: var(--al-text-light) !important; margin-bottom: 0.15rem !important; }
+  .al-next-title { font-family: 'Source Sans 3', sans-serif !important; font-weight: 700 !important; color: var(--al-navy) !important; font-size: 1rem !important; }
+  .al-next-desc { font-size: 0.85rem !important; color: var(--al-text-light) !important; margin-top: 0.15rem !important; }
+  .al-divider { border: none !important; height: 1px !important; background: var(--al-border) !important; margin: 2rem 0 !important; }
+  .al-lesson strong { color: var(--al-navy) !important; }
+  .al-data-table { width: 100% !important; border-collapse: collapse !important; font-size: 0.85rem !important; margin: 0.75rem 0 !important; }
+  .al-data-table th { background: var(--al-navy) !important; color: var(--al-white) !important; padding: 0.5rem 0.75rem !important; text-align: center !important; font-weight: 600 !important; font-size: 0.8rem !important; border: 1px solid var(--al-navy) !important; }
+  .al-data-table th:first-child { text-align: left !important; }
+  .al-data-table td { padding: 0.45rem 0.75rem !important; text-align: center !important; border: 1px solid var(--al-border) !important; font-size: 0.85rem !important; }
+  .al-data-table td:first-child { text-align: left !important; font-weight: 600 !important; color: var(--al-navy) !important; }
+  .al-data-table tr:nth-child(even) { background: var(--al-cream) !important; }
+  .al-data-table tr:nth-child(odd) { background: var(--al-white) !important; }
+  .al-source-label { font-size: 0.72rem !important; font-weight: 700 !important; letter-spacing: 0.08em !important; text-transform: uppercase !important; color: var(--al-text-light) !important; margin-bottom: 0.35rem !important; margin-top: 0.5rem !important; }
+  .al-chart-container { margin: 0.75rem 0 !important; }
+  .al-grouped-chart { display: flex !important; align-items: flex-end !important; position: relative !important; padding-left: 50px !important; padding-bottom: 30px !important; height: 280px !important; }
+  .al-chart-y-axis { position: absolute !important; left: 0 !important; top: 0 !important; bottom: 30px !important; width: 50px !important; display: flex !important; flex-direction: column-reverse !important; justify-content: space-between !important; }
+  .al-chart-y-label { font-size: 0.7rem !important; color: var(--al-text-light) !important; text-align: right !important; padding-right: 6px !important; line-height: 1 !important; }
+  .al-chart-grid { position: absolute !important; left: 50px !important; right: 0 !important; top: 0 !important; bottom: 30px !important; }
+  .al-chart-gridline { position: absolute !important; left: 0 !important; right: 0 !important; height: 1px !important; background: #E8E4DA !important; }
+  .al-chart-bars { display: flex !important; justify-content: space-around !important; align-items: flex-end !important; height: 240px !important; position: relative !important; z-index: 2 !important; flex: 1 !important; }
+  .al-bar-group { display: flex !important; gap: 3px !important; align-items: flex-end !important; position: relative !important; }
+  .al-bar { width: 28px !important; border-radius: 3px 3px 0 0 !important; position: relative !important; transition: opacity 0.2s !important; }
+  .al-bar:hover { opacity: 0.85 !important; }
+  .al-bar-val { position: absolute !important; top: -18px !important; left: 50% !important; transform: translateX(-50%) !important; font-size: 0.65rem !important; font-weight: 600 !important; color: var(--al-text) !important; white-space: nowrap !important; }
+  .al-bar-group-label { position: absolute !important; bottom: -24px !important; left: 50% !important; transform: translateX(-50%) !important; font-size: 0.72rem !important; font-weight: 600 !important; color: var(--al-text) !important; white-space: nowrap !important; }
+  .al-chart-legend { display: flex !important; gap: 1rem !important; justify-content: center !important; margin-top: 0.35rem !important; flex-wrap: wrap !important; }
+  .al-legend-item { display: flex !important; align-items: center !important; gap: 0.3rem !important; font-size: 0.72rem !important; color: var(--al-text-light) !important; }
+  .al-legend-swatch { width: 12px !important; height: 12px !important; border-radius: 2px !important; flex-shrink: 0 !important; }
+  .al-pie-container { display: flex !important; align-items: center !important; gap: 1.5rem !important; margin: 0.75rem 0 !important; flex-wrap: wrap !important; justify-content: center !important; }
+  .al-pie { width: 180px !important; height: 180px !important; border-radius: 50% !important; flex-shrink: 0 !important; }
+  .al-pie-legend { display: flex !important; flex-direction: column !important; gap: 0.35rem !important; }
+  .al-pie-legend-item { display: flex !important; align-items: center !important; gap: 0.4rem !important; font-size: 0.8rem !important; }
+  .al-pie-swatch { width: 14px !important; height: 14px !important; border-radius: 3px !important; flex-shrink: 0 !important; }
+  .al-pie-pct { font-weight: 700 !important; color: var(--al-navy) !important; min-width: 2.5rem !important; }
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem !important; }
+    .al-q-block { padding: 1.15rem !important; }
+    .al-opt { padding: 0.75rem 1rem !important; }
+    .al-result-panel { padding: 1.5rem 1rem !important; }
+    .al-next { flex-direction: column !important; text-align: center !important; }
+    .al-submit-btn { padding: 1rem 2rem !important; font-size: 1rem !important; width: 100% !important; max-width: 300px !important; }
+    .al-bar { width: 18px !important; }
+    .al-grouped-chart { height: 240px !important; }
+    .al-chart-bars { height: 200px !important; }
+    .al-pie-container { flex-direction: column !important; }
+    .al-data-table { font-size: 0.78rem !important; }
+    .al-data-table th, .al-data-table td { padding: 0.35rem 0.5rem !important; }
+    .al-id-fields { flex-direction: column !important; }
+  }
+  .al-id-form { background: var(--al-white); border: 2px solid var(--al-gold); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; }
+  .al-id-form-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--al-navy); margin-bottom: 0.75rem; }
+  .al-id-fields { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .al-id-input { flex: 1; min-width: 180px; padding: 0.6rem 1rem; border: 2px solid var(--al-border); border-radius: var(--al-radius-sm); font-family: 'Source Sans 3',sans-serif; font-size: 0.88rem; outline: none; transition: border-color 0.2s; }
+  .al-id-input:focus { border-color: var(--al-gold); }
+  .al-id-input::placeholder { color: #B0B0B0; }
+  .al-timer { font-size: 0.85rem; color: var(--al-text-light); text-align: center; margin-bottom: 0.5rem; }
+  .al-timer strong { color: var(--al-navy); font-variant-numeric: tabular-nums; }
+</style>
+
+<div class="al-lesson" id="alQuizTop">
+
+  <div class="al-result-panel" id="alResultPanel">
+    <div class="al-result-label">Your Score</div>
+    <div class="al-result-score" id="alResultScore">—</div>
+    <div class="al-result-pct" id="alResultPct">—</div>
+    <div class="al-result-msg" id="alResultMsg">—</div>
+    <div class="al-result-breakdown">
+      <div class="al-result-stat"><div class="al-result-stat-num" id="alStatCorrect">—</div><div class="al-result-stat-lbl">Correct</div></div>
+      <div class="al-result-stat"><div class="al-result-stat-num" id="alStatWrong">—</div><div class="al-result-stat-lbl">Wrong</div></div>
+      <div class="al-result-stat"><div class="al-result-stat-num" id="alStatSkipped">—</div><div class="al-result-stat-lbl">Skipped</div></div>
+    </div>
+  </div>
+
+  <div class="al-hero" id="alHero">
+    <div class="al-hero-eyebrow">Module 3 · Lesson 3.7</div>
+    <h1>Data Interpretation Practice Test</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">12 exam-style questions based on Hartwell Group plc — a UK financial services conglomerate. Difficulty escalates through three tiers: Foundation, Intermediate, and Expert. Tables, bar charts, and pie charts — read every data source carefully. Recommended time: 20 minutes.</p>
+  </div>
+
+  <div class="al-callout al-callout-tip">
+    <div class="al-callout-label">Before You Start</div>
+    <p>Use a calculator where needed. Each question references one or more data sources — read them carefully before answering. You can change any answer before submitting. Unanswered questions count as skipped.</p>
+  </div>
+
+  <div class="al-id-form">
+    <div class="al-id-form-label">Your Details (for your results record)</div>
+    <div class="al-id-fields">
+      <input type="text" class="al-id-input" id="alUserName" placeholder="Full name" autocomplete="name">
+      <input type="email" class="al-id-input" id="alUserEmail" placeholder="Email address" autocomplete="email">
+    </div>
+  </div>
+
+  <div class="al-timer" id="alTimer">Time elapsed: <strong id="alTimerDisplay">0:00</strong></div>
+
+  <div class="al-submit-area" id="alProgressArea">
+    <div class="al-progress-text"><span id="alAnsweredCount">0</span> of 12 answered</div>
+    <div class="al-progress-bar"><div class="al-progress-fill" id="alProgressFill" style="width: 0%;"></div></div>
+  </div>
+
+  <div class="al-quiz" id="alQuiz">
+
+    <!-- ══════════════════════════════════════ -->
+    <div class="al-q-divider"><span class="al-q-divider-line"></span><span class="al-q-divider-text">Foundation — Lessons 3.1–3.2</span><span class="al-q-divider-line"></span></div>
+
+    <!-- Q1 · FOUNDATION — Half-year comparison across 5 divisions -->
+    <div class="al-q-block" data-q="1" data-answer="2">
+      <div class="al-q-header">
+        <div class="al-q-num">1</div>
+        <div><div class="al-q-topic">Table Reading</div><div class="al-q-text">By how much did Hartwell Group's total revenue in H2 (Q3 + Q4) exceed its H1 (Q1 + Q2) revenue?</div></div>
+      </div>
+      <div class="al-source-label">Table A — Hartwell Group: Quarterly Revenue by Division (£m)</div>
+      <table class="al-data-table">
+        <tr><th>Division</th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th></tr>
+        <tr><td>Retail Banking</td><td>14.4</td><td>15.6</td><td>13.8</td><td>16.2</td></tr>
+        <tr><td>Corporate Finance</td><td>8.6</td><td>9.4</td><td>10.2</td><td>11.8</td></tr>
+        <tr><td>Asset Management</td><td>6.2</td><td>5.4</td><td>7.4</td><td>7.8</td></tr>
+        <tr><td>Insurance</td><td>11.0</td><td>12.4</td><td>11.6</td><td>13.0</td></tr>
+        <tr><td>Private Wealth</td><td>4.8</td><td>5.2</td><td>5.4</td><td>6.2</td></tr>
+      </table>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£6.6m</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£10.0m</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£10.4m</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£3.0m</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>H1:</strong> Q1 total (14.4+8.6+6.2+11.0+4.8 = £45.0m) + Q2 total (15.6+9.4+5.4+12.4+5.2 = £48.0m) = <strong>£93.0m</strong>. <strong>H2:</strong> Q3 total (13.8+10.2+7.4+11.6+5.4 = £48.4m) + Q4 total (16.2+11.8+7.8+13.0+6.2 = £55.0m) = <strong>£103.4m</strong>. Difference: £103.4m − £93.0m = <strong>£10.4m</strong>. Option A (£6.6m) compares Q4 to Q3 — a single quarter-on-quarter change, not half-year totals. Option B (£10.0m) compares Q4 to Q1 (end vs start quarter), which ignores Q2 and Q3 entirely. Option D (£3.0m) compares Q2 to Q1 only. <em>Revisit: Lesson 3.1</em></p></div>
+    </div>
+
+    <!-- Q2 · FOUNDATION — Bar chart ratio comparison -->
+    <div class="al-q-block" data-q="2" data-answer="3">
+      <div class="al-q-header">
+        <div class="al-q-num">2</div>
+        <div><div class="al-q-topic">Bar Chart</div><div class="al-q-text">Which division had the highest ratio of Online to Branch client acquisitions in Q4?</div></div>
+      </div>
+      <div class="al-source-label">Chart 1 — Hartwell Group: Q4 New Client Accounts by Division &amp; Channel</div>
+      <div class="al-chart-container">
+        <div class="al-grouped-chart">
+          <div class="al-chart-y-axis">
+            <div class="al-chart-y-label">0</div>
+            <div class="al-chart-y-label">1,000</div>
+            <div class="al-chart-y-label">2,000</div>
+            <div class="al-chart-y-label">3,000</div>
+            <div class="al-chart-y-label">4,000</div>
+            <div class="al-chart-y-label">5,000</div>
+          </div>
+          <div class="al-chart-grid">
+            <div class="al-chart-gridline" style="bottom: 0%;"></div>
+            <div class="al-chart-gridline" style="bottom: 20%;"></div>
+            <div class="al-chart-gridline" style="bottom: 40%;"></div>
+            <div class="al-chart-gridline" style="bottom: 60%;"></div>
+            <div class="al-chart-gridline" style="bottom: 80%;"></div>
+            <div class="al-chart-gridline" style="bottom: 100%;"></div>
+          </div>
+          <div class="al-chart-bars">
+            <div class="al-bar-group">
+              <div class="al-bar" style="height:202px; background:var(--al-chart-a);"><span class="al-bar-val">4,200</span></div>
+              <div class="al-bar" style="height:134px; background:var(--al-chart-c);"><span class="al-bar-val">2,800</span></div>
+              <span class="al-bar-group-label">Retail</span>
+            </div>
+            <div class="al-bar-group">
+              <div class="al-bar" style="height:53px; background:var(--al-chart-a);"><span class="al-bar-val">1,100</span></div>
+              <div class="al-bar" style="height:77px; background:var(--al-chart-c);"><span class="al-bar-val">1,600</span></div>
+              <span class="al-bar-group-label">Corp Fin</span>
+            </div>
+            <div class="al-bar-group">
+              <div class="al-bar" style="height:40px; background:var(--al-chart-a);"><span class="al-bar-val">840</span></div>
+              <div class="al-bar" style="height:25px; background:var(--al-chart-c);"><span class="al-bar-val">520</span></div>
+              <span class="al-bar-group-label">Asset Mgt</span>
+            </div>
+            <div class="al-bar-group">
+              <div class="al-bar" style="height:173px; background:var(--al-chart-a);"><span class="al-bar-val">3,600</span></div>
+              <div class="al-bar" style="height:86px; background:var(--al-chart-c);"><span class="al-bar-val">1,800</span></div>
+              <span class="al-bar-group-label">Insurance</span>
+            </div>
+            <div class="al-bar-group">
+              <div class="al-bar" style="height:17px; background:var(--al-chart-a);"><span class="al-bar-val">360</span></div>
+              <div class="al-bar" style="height:36px; background:var(--al-chart-c);"><span class="al-bar-val">740</span></div>
+              <span class="al-bar-group-label">Priv Wealth</span>
+            </div>
+          </div>
+        </div>
+        <div class="al-chart-legend">
+          <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-a) !important;"></div>Online</div>
+          <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-c) !important;"></div>Branch</div>
+        </div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">Retail Banking (ratio 1.50)</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">Asset Management (ratio 1.62)</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">Corporate Finance (ratio 0.69)</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">Insurance (ratio 2.00)</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>You must calculate the Online ÷ Branch ratio for each division: <strong>Retail:</strong> 4,200 ÷ 2,800 = 1.50. <strong>Corp Finance:</strong> 1,100 ÷ 1,600 = 0.69. <strong>Asset Mgt:</strong> 840 ÷ 520 = 1.62. <strong>Insurance:</strong> 3,600 ÷ 1,800 = <strong>2.00</strong>. <strong>Priv Wealth:</strong> 360 ÷ 740 = 0.49. Trap: Retail Banking has the most Online accounts in absolute terms (4,200), but its ratio is only 1.50. Insurance acquired exactly twice as many Online as Branch clients — the highest ratio. The question asks about the <em>ratio</em>, not absolute volume. <em>Revisit: Lesson 3.2</em></p></div>
+    </div>
+
+    <!-- Q3 · FOUNDATION — Pie chart spend difference -->
+    <div class="al-q-block" data-q="3" data-answer="0">
+      <div class="al-q-header">
+        <div class="al-q-num">3</div>
+        <div><div class="al-q-topic">Pie Chart</div><div class="al-q-text">Total annual operating expenditure was £120m. How much more did Hartwell spend on Personnel than on Premises &amp; Facilities?</div></div>
+      </div>
+      <div class="al-source-label">Chart 2 — Hartwell Group: Annual Operating Expenditure by Category</div>
+      <div class="al-pie-container">
+        <div class="al-pie" style="background: conic-gradient(var(--al-chart-a) 0deg 136.8deg, var(--al-chart-b) 136.8deg 216deg, var(--al-chart-c) 216deg 273.6deg, var(--al-chart-d) 273.6deg 316.8deg, #9B8EC4 316.8deg 345.6deg, #D4823A 345.6deg 360deg) !important;"></div>
+        <div class="al-pie-legend">
+          <div class="al-pie-legend-item"><div class="al-pie-swatch" style="background:var(--al-chart-a) !important;"></div><div class="al-pie-pct">38%</div><div>Personnel</div></div>
+          <div class="al-pie-legend-item"><div class="al-pie-swatch" style="background:var(--al-chart-b) !important;"></div><div class="al-pie-pct">22%</div><div>Technology</div></div>
+          <div class="al-pie-legend-item"><div class="al-pie-swatch" style="background:var(--al-chart-c) !important;"></div><div class="al-pie-pct">16%</div><div>Premises &amp; Facilities</div></div>
+          <div class="al-pie-legend-item"><div class="al-pie-swatch" style="background:var(--al-chart-d) !important;"></div><div class="al-pie-pct">12%</div><div>Regulatory &amp; Compliance</div></div>
+          <div class="al-pie-legend-item"><div class="al-pie-swatch" style="background:#9B8EC4 !important;"></div><div class="al-pie-pct">8%</div><div>Marketing</div></div>
+          <div class="al-pie-legend-item"><div class="al-pie-swatch" style="background:#D4823A !important;"></div><div class="al-pie-pct">4%</div><div>Other</div></div>
+        </div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£26.4m</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£22.0m</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£45.6m</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£19.2m</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>Personnel: 38% × £120m = £45.6m. Premises &amp; Facilities: 16% × £120m = £19.2m. Difference: £45.6m − £19.2m = <strong>£26.4m</strong>. Equivalently: (38% − 16%) × £120m = 22% × £120m = £26.4m. Option B (£22.0m) takes the percentage-point difference (22) and treats it as millions — forgetting to multiply by the total. Option C (£45.6m) gives the Personnel spend itself, not the <em>difference</em>. Option D (£19.2m) gives the Premises spend — subtracted the wrong way. <em>Revisit: Lesson 3.2</em></p></div>
+    </div>
+
+    <!-- Q4 · FOUNDATION — Largest percentage decline across all divisions -->
+    <div class="al-q-block" data-q="4" data-answer="1">
+      <div class="al-q-header">
+        <div class="al-q-num">4</div>
+        <div><div class="al-q-topic">Percentage Change</div><div class="al-q-text">Which division experienced the largest quarter-on-quarter percentage decline at any point during the year?</div></div>
+      </div>
+      <div class="al-source-label">Table A — Hartwell Group: Quarterly Revenue by Division (£m)</div>
+      <table class="al-data-table">
+        <tr><th>Division</th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th></tr>
+        <tr><td>Retail Banking</td><td>14.4</td><td>15.6</td><td>13.8</td><td>16.2</td></tr>
+        <tr><td>Corporate Finance</td><td>8.6</td><td>9.4</td><td>10.2</td><td>11.8</td></tr>
+        <tr><td>Asset Management</td><td>6.2</td><td>5.4</td><td>7.4</td><td>7.8</td></tr>
+        <tr><td>Insurance</td><td>11.0</td><td>12.4</td><td>11.6</td><td>13.0</td></tr>
+        <tr><td>Private Wealth</td><td>4.8</td><td>5.2</td><td>5.4</td><td>6.2</td></tr>
+      </table>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">Retail Banking (−11.5%)</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">Asset Management (−12.9%)</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">Insurance (−6.5%)</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">Corporate Finance (no decline)</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>You must check all quarter-on-quarter transitions across every division for declines. Three divisions declined at some point: <strong>AM Q1→Q2:</strong> (5.4 − 6.2) ÷ 6.2 = <strong>−12.9%</strong>. <strong>RB Q2→Q3:</strong> (13.8 − 15.6) ÷ 15.6 = −11.5%. <strong>Ins Q2→Q3:</strong> (11.6 − 12.4) ÷ 12.4 = −6.5%. Corporate Finance and Private Wealth grew in every quarter. Trap: Retail Banking had the largest <em>absolute</em> decline (−£1.8m vs AM's −£0.8m), but Asset Management's smaller revenue base makes its percentage drop larger. Option D is wrong because CF never declined — selecting it means you didn't verify the data. <em>Revisit: Lesson 3.4</em></p></div>
+    </div>
+
+    <!-- ══════════════════════════════════════ -->
+    <div class="al-q-divider"><span class="al-q-divider-line"></span><span class="al-q-divider-text">Intermediate — Lessons 3.3–3.5</span><span class="al-q-divider-line"></span></div>
+
+    <!-- Q5 · INTERMEDIATE — Cross-source revenue per FTE -->
+    <div class="al-q-block" data-q="5" data-answer="3">
+      <div class="al-q-header">
+        <div class="al-q-num">5</div>
+        <div><div class="al-q-topic">Multi-Source Efficiency</div><div class="al-q-text">Which division generated the highest annual revenue per FTE employee?</div></div>
+      </div>
+      <div class="al-source-label">Tables A + B — Annual Revenue &amp; Workforce Data</div>
+      <table class="al-data-table">
+        <tr><th>Division</th><th>Annual Revenue (£m)</th><th>FTE Headcount</th></tr>
+        <tr><td>Retail Banking</td><td>60.0</td><td>840</td></tr>
+        <tr><td>Corporate Finance</td><td>40.0</td><td>320</td></tr>
+        <tr><td>Asset Management</td><td>26.8</td><td>180</td></tr>
+        <tr><td>Insurance</td><td>48.0</td><td>580</td></tr>
+        <tr><td>Private Wealth</td><td>21.6</td><td>80</td></tr>
+      </table>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">Retail Banking (£71.4k per FTE)</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">Asset Management (£148.9k per FTE)</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">Corporate Finance (£125.0k per FTE)</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">Private Wealth (£270.0k per FTE)</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>Calculate all five ratios: <strong>RB:</strong> £60.0m ÷ 840 = £71.4k. <strong>CF:</strong> £40.0m ÷ 320 = £125.0k. <strong>AM:</strong> £26.8m ÷ 180 = £148.9k. <strong>Ins:</strong> £48.0m ÷ 580 = £82.8k. <strong>PW:</strong> £21.6m ÷ 80 = <strong>£270.0k</strong>. Private Wealth has the lowest absolute revenue but the fewest staff — making each employee far more productive on a per-head basis. Trap: Option A picks Retail Banking because it has the highest total revenue (£60.0m), but its 840-strong workforce dilutes the per-FTE figure to just £71.4k. The question asks about efficiency, not scale. <em>Revisit: Lesson 3.3</em></p></div>
+    </div>
+
+    <!-- Q6 · INTERMEDIATE — Multi-step P&L margin -->
+    <div class="al-q-block" data-q="6" data-answer="2">
+      <div class="al-q-header">
+        <div class="al-q-num">6</div>
+        <div><div class="al-q-topic">Profit &amp; Loss</div><div class="al-q-text">What was Corporate Finance's operating profit margin?</div></div>
+      </div>
+      <div class="al-source-label">Table D — Hartwell Group: Divisional Cost Structure</div>
+      <table class="al-data-table">
+        <tr><th>Division</th><th>Annual Revenue (£m)</th><th>Cost of Revenue (% of Rev)</th><th>Fixed Operating Costs (£m)</th></tr>
+        <tr><td>Retail Banking</td><td>60.0</td><td>45%</td><td>16.5</td></tr>
+        <tr><td>Corporate Finance</td><td>40.0</td><td>32%</td><td>11.6</td></tr>
+        <tr><td>Asset Management</td><td>26.8</td><td>25%</td><td>8.2</td></tr>
+        <tr><td>Insurance</td><td>48.0</td><td>40%</td><td>12.4</td></tr>
+        <tr><td>Private Wealth</td><td>21.6</td><td>20%</td><td>8.2</td></tr>
+      </table>
+      <div class="al-q-context">Operating Profit = Revenue − Cost of Revenue − Fixed Operating Costs. Margin = Operating Profit ÷ Revenue × 100</div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">68.0%</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">71.0%</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">39.0%</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">32.0%</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>Step 1 — Cost of Revenue:</strong> £40.0m × 32% = £12.8m. <strong>Step 2 — Gross Profit:</strong> £40.0m − £12.8m = £27.2m. <strong>Step 3 — Operating Profit:</strong> £27.2m − £11.6m = £15.6m. <strong>Step 4 — Margin:</strong> £15.6m ÷ £40.0m × 100 = <strong>39.0%</strong>. Option A (68.0%) is the gross profit margin — stopped at Step 2 and never subtracted fixed costs. Option B (71.0%) subtracted only fixed costs from revenue (£40.0 − £11.6 = £28.4m, then £28.4 ÷ £40.0 = 71.0%), ignoring Cost of Revenue entirely. Option D (32.0%) just restates the Cost of Revenue percentage — a misread of the question. <em>Revisit: Lesson 3.5</em></p></div>
+    </div>
+
+    <!-- Q7 · INTERMEDIATE — Index percentage change between non-base years -->
+    <div class="al-q-block" data-q="7" data-answer="2">
+      <div class="al-q-header">
+        <div class="al-q-num">7</div>
+        <div><div class="al-q-topic">Index Numbers</div><div class="al-q-text">What was the percentage change in Hartwell's share price from 2023 to 2025?</div></div>
+      </div>
+      <div class="al-source-label">Table C — Hartwell Share Price Index (Base Year 2022 = 100)</div>
+      <table class="al-data-table">
+        <tr><th>Year</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th></tr>
+        <tr><td>Share Price Index</td><td>88</td><td>100</td><td>94</td><td>108</td><td>126</td></tr>
+      </table>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">32.0%</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">25.4%</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">34.0%</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">43.2%</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>(126 − 94) ÷ 94 × 100 = 32 ÷ 94 = <strong>34.0%</strong>. You must divide by the <em>starting year's index value</em> (94), not the base year (100). Option A (32.0%) treats the 32 index-point change as 32% — index points are NOT percentages when comparing non-base years. This is also what you'd get dividing by the base year: 32 ÷ 100 = 32%. Option B (25.4%) divides by the <em>ending</em> year: 32 ÷ 126 = 25.4% — a reverse-percentage error. Option D (43.2%) uses the wrong starting year: (126 − 88) ÷ 88 = 43.2% measures 2021→2025, not 2023→2025. <em>Revisit: Lesson 3.6</em></p></div>
+    </div>
+
+    <!-- Q8 · INTERMEDIATE — Weighted average total compensation -->
+    <div class="al-q-block" data-q="8" data-answer="1">
+      <div class="al-q-header">
+        <div class="al-q-num">8</div>
+        <div><div class="al-q-topic">Weighted Average</div><div class="al-q-text">What is the group-wide weighted average total compensation (salary + bonus) per employee?</div></div>
+      </div>
+      <div class="al-source-label">Table B — Hartwell Group: Divisional Workforce Data</div>
+      <table class="al-data-table">
+        <tr><th>Division</th><th>FTE Headcount</th><th>Avg Salary (£k)</th><th>Performance Bonus (% of salary)</th></tr>
+        <tr><td>Retail Banking</td><td>840</td><td>44</td><td>8%</td></tr>
+        <tr><td>Corporate Finance</td><td>320</td><td>76</td><td>20%</td></tr>
+        <tr><td>Asset Management</td><td>180</td><td>94</td><td>30%</td></tr>
+        <tr><td>Insurance</td><td>580</td><td>48</td><td>10%</td></tr>
+        <tr><td>Private Wealth</td><td>80</td><td>112</td><td>35%</td></tr>
+      </table>
+      <div class="al-q-context">Total Compensation = Salary × (1 + Bonus%). Weighted Average = Σ(Comp × Headcount) ÷ Σ Headcount</div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£57.5k</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£66.9k</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£74.8k</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£93.0k</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>First, compute total compensation per employee for each division: <strong>RB:</strong> £44k × 1.08 = £47.52k. <strong>CF:</strong> £76k × 1.20 = £91.20k. <strong>AM:</strong> £94k × 1.30 = £122.20k. <strong>Ins:</strong> £48k × 1.10 = £52.80k. <strong>PW:</strong> £112k × 1.35 = £151.20k. Then weight by headcount: (840 × 47.52) + (320 × 91.20) + (180 × 122.20) + (580 × 52.80) + (80 × 151.20) = £133,816.8k. Total FTE = 2,000. Weighted average: £133,816.8k ÷ 2,000 = <strong>£66.9k</strong>. Option A (£57.5k) computes the weighted average salary but ignores bonuses entirely (£115,000k ÷ 2,000). Option C (£74.8k) takes the simple average of the five salary figures: (44+76+94+48+112) ÷ 5 — ignoring both headcount weights and bonuses. Option D (£93.0k) takes the simple average of the five total compensation figures — failing to weight by headcount. <em>Revisit: Lesson 3.6</em></p></div>
+    </div>
+
+    <!-- ══════════════════════════════════════ -->
+    <div class="al-q-divider"><span class="al-q-divider-line"></span><span class="al-q-divider-text">Expert — Combined Skills (Lessons 3.1–3.6)</span><span class="al-q-divider-line"></span></div>
+
+    <!-- Q9 · EXPERT — Compare all 5 operating margins -->
+    <div class="al-q-block" data-q="9" data-answer="1">
+      <div class="al-q-header">
+        <div class="al-q-num">9</div>
+        <div><div class="al-q-topic">Multi-Step Comparison</div><div class="al-q-text">Which division achieved the highest operating profit margin?</div></div>
+      </div>
+      <div class="al-source-label">Table D — Hartwell Group: Divisional Cost Structure</div>
+      <table class="al-data-table">
+        <tr><th>Division</th><th>Annual Revenue (£m)</th><th>Cost of Revenue (% of Rev)</th><th>Fixed Operating Costs (£m)</th></tr>
+        <tr><td>Retail Banking</td><td>60.0</td><td>45%</td><td>16.5</td></tr>
+        <tr><td>Corporate Finance</td><td>40.0</td><td>32%</td><td>11.6</td></tr>
+        <tr><td>Asset Management</td><td>26.8</td><td>25%</td><td>8.2</td></tr>
+        <tr><td>Insurance</td><td>48.0</td><td>40%</td><td>12.4</td></tr>
+        <tr><td>Private Wealth</td><td>21.6</td><td>20%</td><td>8.2</td></tr>
+      </table>
+      <div class="al-q-context">Operating Profit Margin = (Revenue − Cost of Revenue − Fixed Costs) ÷ Revenue × 100</div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">Retail Banking (27.5%)</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">Asset Management (44.4%)</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">Private Wealth (42.0%)</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">Corporate Finance (39.0%)</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>You must compute all five margins: <strong>RB:</strong> 60.0 − 27.0 − 16.5 = £16.5m OP → 27.5%. <strong>CF:</strong> 40.0 − 12.8 − 11.6 = £15.6m OP → 39.0%. <strong>AM:</strong> 26.8 − 6.7 − 8.2 = £11.9m OP → <strong>44.4%</strong>. <strong>Ins:</strong> 48.0 − 19.2 − 12.4 = £16.4m OP → 34.2%. <strong>PW:</strong> 21.6 − 4.32 − 8.2 = £9.08m OP → 42.0%. Asset Management has the highest margin despite having the second-lowest absolute operating profit. Critical trap: Retail Banking produces the most absolute profit (£16.5m) but its high cost base crushes its margin to just 27.5%. Private Wealth (42.0%) is close to AM (44.4%) — you must calculate precisely, not estimate. <em>Revisit: Lessons 3.4 + 3.5</em></p></div>
+    </div>
+
+    <!-- Q10 · EXPERT — Operating profit per FTE (3 sources) -->
+    <div class="al-q-block" data-q="10" data-answer="3">
+      <div class="al-q-header">
+        <div class="al-q-num">10</div>
+        <div><div class="al-q-topic">Multi-Source Synthesis</div><div class="al-q-text">Which division generated the highest operating profit per FTE employee?</div></div>
+      </div>
+      <div class="al-source-label">Tables B + D — Cost Structure &amp; Workforce Data Combined</div>
+      <table class="al-data-table">
+        <tr><th>Division</th><th>Annual Revenue (£m)</th><th>Cost of Revenue (%)</th><th>Fixed Costs (£m)</th><th>FTE Headcount</th></tr>
+        <tr><td>Retail Banking</td><td>60.0</td><td>45%</td><td>16.5</td><td>840</td></tr>
+        <tr><td>Corporate Finance</td><td>40.0</td><td>32%</td><td>11.6</td><td>320</td></tr>
+        <tr><td>Asset Management</td><td>26.8</td><td>25%</td><td>8.2</td><td>180</td></tr>
+        <tr><td>Insurance</td><td>48.0</td><td>40%</td><td>12.4</td><td>580</td></tr>
+        <tr><td>Private Wealth</td><td>21.6</td><td>20%</td><td>8.2</td><td>80</td></tr>
+      </table>
+      <div class="al-q-context">Operating Profit per FTE = Operating Profit ÷ FTE Headcount</div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">Asset Management (£66.1k per FTE)</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">Corporate Finance (£48.8k per FTE)</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">Retail Banking (£19.6k per FTE)</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">Private Wealth (£113.5k per FTE)</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>First calculate each division's OP (from Q9), then divide by FTE: <strong>RB:</strong> £16.5m ÷ 840 = £19.6k. <strong>CF:</strong> £15.6m ÷ 320 = £48.8k. <strong>AM:</strong> £11.9m ÷ 180 = £66.1k. <strong>Ins:</strong> £16.4m ÷ 580 = £28.3k. <strong>PW:</strong> £9.08m ÷ 80 = <strong>£113.5k</strong>. Private Wealth has the lowest absolute operating profit (£9.08m) but just 80 employees, giving it the highest profit per head by a wide margin. Trap: AM has the highest <em>margin</em> (from Q9), but PW's far smaller team makes it the most profitable per employee. Choosing A confuses margin efficiency with headcount efficiency. Choosing C assumes the division with the highest absolute OP is also the most efficient per person. <em>Revisit: Lessons 3.3 + 3.5 + 3.6</em></p></div>
+    </div>
+
+    <!-- Q11 · EXPERT — Index to real value between non-base years -->
+    <div class="al-q-block" data-q="11" data-answer="2">
+      <div class="al-q-header">
+        <div class="al-q-num">11</div>
+        <div><div class="al-q-topic">Index to Real Value</div><div class="al-q-text">Hartwell's share price was £7.52 at the end of 2023. Using the index, what was the share price at the end of 2025?</div></div>
+      </div>
+      <div class="al-source-label">Table C — Hartwell Share Price Index (Base Year 2022 = 100)</div>
+      <table class="al-data-table">
+        <tr><th>Year</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th></tr>
+        <tr><td>Share Price Index</td><td>88</td><td>100</td><td>94</td><td>108</td><td>126</td></tr>
+      </table>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£9.48</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£9.93</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£10.08</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£5.61</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>The index ratio from 2023 to 2025 is 126 ÷ 94. Share price: £7.52 × (126 ÷ 94) = £7.52 × 1.3404 = <strong>£10.08</strong>. Option A (£9.48) divides by the <em>base year</em> (100) instead of 2023's index: £7.52 × (126 ÷ 100) = £9.48 — the base year is irrelevant when you have a known price at a specific year. Option B (£9.93) treats the 32 index-point difference as 32%: £7.52 × 1.32 = £9.93 — but 32 index points from a base of 94 is 34.0%, not 32%. Option D (£5.61) inverts the ratio: £7.52 × (94 ÷ 126) — this gives the 2023 price if £7.52 were the 2025 price. This is the hardest index question type: converting a real value between two non-base years. <em>Revisit: Lesson 3.6</em></p></div>
+    </div>
+
+    <!-- Q12 · EXPERT — Group operating profit margin (all 5 divisions, 10+ steps) -->
+    <div class="al-q-block" data-q="12" data-answer="2">
+      <div class="al-q-header">
+        <div class="al-q-num">12</div>
+        <div><div class="al-q-topic">Group P&amp;L Synthesis</div><div class="al-q-text">What is Hartwell Group's overall operating profit margin across all five divisions?</div></div>
+      </div>
+      <div class="al-source-label">Table D — Hartwell Group: Full Divisional Cost Structure</div>
+      <table class="al-data-table">
+        <tr><th>Division</th><th>Annual Revenue (£m)</th><th>Cost of Revenue (% of Rev)</th><th>Fixed Operating Costs (£m)</th></tr>
+        <tr><td>Retail Banking</td><td>60.0</td><td>45%</td><td>16.5</td></tr>
+        <tr><td>Corporate Finance</td><td>40.0</td><td>32%</td><td>11.6</td></tr>
+        <tr><td>Asset Management</td><td>26.8</td><td>25%</td><td>8.2</td></tr>
+        <tr><td>Insurance</td><td>48.0</td><td>40%</td><td>12.4</td></tr>
+        <tr><td>Private Wealth</td><td>21.6</td><td>20%</td><td>8.2</td></tr>
+      </table>
+      <div class="al-q-context">Group Operating Profit Margin = Total Operating Profit ÷ Total Revenue × 100</div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">64.3%</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">37.4%</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">35.4%</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">44.4%</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>This requires 10+ individual calculations. <strong>Step 1 — Cost of Revenue:</strong> RB: £27.0m + CF: £12.8m + AM: £6.7m + Ins: £19.2m + PW: £4.32m = £70.02m. <strong>Step 2 — Gross Profit:</strong> £196.4m − £70.02m = £126.38m. <strong>Step 3 — Total Fixed Costs:</strong> £16.5 + £11.6 + £8.2 + £12.4 + £8.2 = £56.9m. <strong>Step 4 — Total OP:</strong> £126.38m − £56.9m = £69.48m. <strong>Step 5 — Group Margin:</strong> £69.48 ÷ £196.4 × 100 = <strong>35.4%</strong>. Option A (64.3%) is the group <em>gross</em> profit margin — forgot to subtract fixed operating costs. Option B (37.4%) averages the five individual division margins: (27.5 + 39.0 + 44.4 + 34.2 + 42.0) ÷ 5 — a simple average that ignores the fact that larger divisions contribute more to the group total. Option D (44.4%) is the highest individual margin (AM), not the group figure. A genuine five-step question combining P&amp;L construction with revenue-weighted aggregation. <em>Revisit: Lessons 3.3 + 3.5 + 3.6</em></p></div>
+    </div>
+
+  </div><!-- end .al-quiz -->
+
+  <!-- SUBMIT / RETAKE -->
+  <div class="al-submit-area" id="alSubmitArea">
+    <div class="al-progress-text"><span id="alAnsweredCount2">0</span> of 12 answered</div>
+    <button class="al-submit-btn" id="alSubmitBtn" onclick="alSubmitQuiz()">Submit Test</button>
+    <button class="al-submit-btn al-btn-hidden" id="alRetakeBtn" onclick="alRetakeQuiz()" style="margin-top: 1rem;">Retake Test</button>
+  </div>
+
+  <hr class="al-divider" id="alPostDivider" style="display:none;">
+
+  <div class="al-next" id="alNextModule" style="display:none;">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Module</div>
+      <div class="al-next-title">Module 4 — Logical Reasoning Systems</div>
+      <div class="al-next-desc">Deductive reasoning, pattern recognition, rule application, and verbal reasoning — the logical skills that complete your aptitude toolkit.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  var submitted = false;
+  var answers = {};
+  var totalQs = 12;
+  var startTime = Date.now();
+  var timerInterval = setInterval(function() {
+    var elapsed = Math.floor((Date.now() - startTime) / 1000);
+    var m = Math.floor(elapsed / 60), s = elapsed % 60;
+    var d = document.getElementById('alTimerDisplay');
+    if (d) d.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+  }, 1000);
+
+  // ── RESULTS SERVER URL ──
+  // IMPORTANT: Change this to your deployed server URL
+  var AL_RESULTS_URL = 'https://YOUR-SERVER-URL.com/api/results';
+
+  document.querySelectorAll('.al-q-block').forEach(function(block) {
+    block.querySelectorAll('.al-opt').forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        if (submitted) return;
+        var qNum = block.getAttribute('data-q');
+        block.querySelectorAll('.al-opt').forEach(function(o) { o.classList.remove('al-opt-selected'); });
+        opt.classList.add('al-opt-selected');
+        block.classList.add('al-q-answered');
+        answers[qNum] = parseInt(opt.getAttribute('data-opt'));
+        updateProgress();
+      });
+    });
+  });
+
+  function updateProgress() {
+    var count = Object.keys(answers).length;
+    var els1 = document.getElementById('alAnsweredCount');
+    var els2 = document.getElementById('alAnsweredCount2');
+    var fill = document.getElementById('alProgressFill');
+    if (els1) els1.textContent = count;
+    if (els2) els2.textContent = count;
+    if (fill) fill.style.width = (count / totalQs * 100) + '%';
+  }
+
+  window.alSubmitQuiz = function() {
+    if (submitted) return;
+    submitted = true;
+    clearInterval(timerInterval);
+    var timeTaken = Math.floor((Date.now() - startTime) / 1000);
+    var correct = 0, wrong = 0, skipped = 0;
+
+    document.querySelectorAll('.al-q-block').forEach(function(block) {
+      var qNum = block.getAttribute('data-q');
+      var correctIdx = parseInt(block.getAttribute('data-answer'));
+      var userAnswer = answers[qNum];
+      var explanation = block.querySelector('.al-q-explanation');
+      block.classList.add('al-q-submitted');
+      var correctOpt = block.querySelector('[data-opt="' + correctIdx + '"]');
+      if (correctOpt) correctOpt.classList.add('al-opt-correct-answer');
+      if (userAnswer === undefined) { skipped++; block.classList.add('al-q-incorrect'); explanation.classList.add('al-exp-skipped', 'al-exp-visible'); explanation.querySelector('.al-exp-label').textContent = 'SKIPPED'; }
+      else if (userAnswer === correctIdx) { correct++; block.classList.add('al-q-correct'); explanation.classList.add('al-exp-correct', 'al-exp-visible'); explanation.querySelector('.al-exp-label').textContent = 'CORRECT'; }
+      else { wrong++; block.classList.add('al-q-incorrect'); var wrongOpt = block.querySelector('[data-opt="' + userAnswer + '"]'); if (wrongOpt) wrongOpt.classList.add('al-opt-wrong-pick'); explanation.classList.add('al-exp-wrong', 'al-exp-visible'); explanation.querySelector('.al-exp-label').textContent = 'INCORRECT'; }
+    });
+
+    var pct = Math.round(correct / totalQs * 100);
+    var panel = document.getElementById('alResultPanel');
+    document.getElementById('alResultScore').textContent = correct + ' / ' + totalQs;
+    document.getElementById('alResultPct').textContent = pct + '%';
+    document.getElementById('alStatCorrect').textContent = correct;
+    document.getElementById('alStatWrong').textContent = wrong;
+    document.getElementById('alStatSkipped').textContent = skipped;
+
+    panel.classList.remove('al-result-excellent', 'al-result-good', 'al-result-needs-work', 'al-result-weak');
+    var msgEl = document.getElementById('alResultMsg');
+    var tier = '';
+    if (pct >= 83) { panel.classList.add('al-result-excellent'); tier = 'Excellent'; msgEl.textContent = 'Excellent. You handled multi-source data, P&L calculations, and index numbers under pressure — exactly what real SHL tests demand. Focus on maintaining this speed during full timed conditions.'; }
+    else if (pct >= 58) { panel.classList.add('al-result-good'); tier = 'Good'; msgEl.textContent = 'Solid foundation. You can handle standard and some challenging questions, but the Expert tier exposed gaps. Review the worked explanations carefully — each one flags the exact lesson to revisit before retaking.'; }
+    else if (pct >= 33) { panel.classList.add('al-result-needs-work'); tier = 'Needs Work'; msgEl.textContent = 'The difficulty curve caught you. Focus on the Intermediate tier mistakes first — these are the questions that separate pass from fail on real tests. Revisit the flagged lessons, work through every example, then retake.'; }
+    else { panel.classList.add('al-result-weak'); tier = 'Weak'; msgEl.textContent = 'Don\'t panic — this test was designed with increasing difficulty. Go back to Lessons 3.1 and 3.2 to rebuild your foundation, then work through 3.3–3.6 methodically before attempting this again.'; }
+
+    panel.classList.add('al-result-visible');
+    document.getElementById('alSubmitBtn').classList.add('al-btn-hidden');
+    document.getElementById('alRetakeBtn').classList.remove('al-btn-hidden');
+    document.getElementById('alPostDivider').style.display = 'block';
+    document.getElementById('alNextModule').style.display = 'flex';
+    var topEl = document.getElementById('alQuizTop');
+    if (topEl) topEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // ── Send results to server ──
+    try {
+      var nameEl = document.getElementById('alUserName');
+      var emailEl = document.getElementById('alUserEmail');
+      fetch(AL_RESULTS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          assessment_type: 'practice-3-7',
+          user_name: nameEl ? nameEl.value.trim() : '',
+          user_email: emailEl ? emailEl.value.trim() : '',
+          score_correct: correct,
+          score_total: totalQs,
+          score_percentage: pct,
+          score_wrong: wrong,
+          score_skipped: skipped,
+          time_taken_seconds: timeTaken,
+          performance_tier: tier,
+          answers: answers
+        })
+      }).catch(function(e) { console.warn('Results sync:', e); });
+    } catch(e) { console.warn('Results sync:', e); }
+  };
+
+  window.alRetakeQuiz = function() {
+    submitted = false;
+    answers = {};
+    startTime = Date.now();
+    timerInterval = setInterval(function() {
+      var elapsed = Math.floor((Date.now() - startTime) / 1000);
+      var m = Math.floor(elapsed / 60), s = elapsed % 60;
+      var d = document.getElementById('alTimerDisplay');
+      if (d) d.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+    }, 1000);
+    var panel = document.getElementById('alResultPanel');
+    panel.classList.remove('al-result-visible', 'al-result-excellent', 'al-result-good', 'al-result-needs-work', 'al-result-weak');
+    document.querySelectorAll('.al-q-block').forEach(function(block) {
+      block.classList.remove('al-q-submitted', 'al-q-correct', 'al-q-incorrect', 'al-q-answered');
+      block.querySelectorAll('.al-opt').forEach(function(opt) { opt.classList.remove('al-opt-selected', 'al-opt-correct-answer', 'al-opt-wrong-pick'); });
+      var explanation = block.querySelector('.al-q-explanation');
+      if (explanation) { explanation.classList.remove('al-exp-visible', 'al-exp-correct', 'al-exp-wrong', 'al-exp-skipped'); explanation.querySelector('.al-exp-label').textContent = ''; }
+    });
+    updateProgress();
+    document.getElementById('alRetakeBtn').classList.add('al-btn-hidden');
+    document.getElementById('alSubmitBtn').classList.remove('al-btn-hidden');
+    document.getElementById('alPostDivider').style.display = 'none';
+    document.getElementById('alNextModule').style.display = 'none';
+    var topEl = document.getElementById('alQuizTop');
+    if (topEl) topEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+})();
+</script>

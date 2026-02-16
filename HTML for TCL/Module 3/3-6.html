@@ -1,0 +1,682 @@
+<!--
+  ACUMEN LOGIC — Lesson 3.6: Weighted Averages & Index Numbers
+  For ThriveCart Learn Custom HTML Block
+  Pure CSS · Zero JavaScript · Fully responsive
+  
+  TYPE: Worked Examples lesson (advanced data interpretation)
+  Assumes Module 2 and Lessons 3.1–3.5 skills are known.
+  Focus: weighted averages vs simple averages, index number interpretation,
+  percentage changes between non-base years, real-value calculations from indices.
+  
+  3 worked examples + 1 index trap deep dive + 5 practice questions
+  
+  ALL CALCULATIONS VERIFIED — see block at end of file.
+-->
+
+<style>
+  /* ═══ BRAND TOKENS ═══ */
+  .al-lesson {
+    --al-navy: #1B2A4A;
+    --al-navy-light: #2A3D66;
+    --al-navy-muted: #3D5280;
+    --al-gold: #C8A951;
+    --al-gold-light: #D4BC72;
+    --al-gold-pale: #F5EFD9;
+    --al-cream: #FAFAF6;
+    --al-white: #FFFFFF;
+    --al-text: #2C2C2C;
+    --al-text-light: #6B6B6B;
+    --al-border: #E8E4DA;
+    --al-success: #2D8F5E;
+    --al-success-bg: #EDF7F0;
+    --al-danger: #C0392B;
+    --al-danger-bg: #FDF2F0;
+    --al-radius: 10px;
+    --al-radius-sm: 6px;
+    --al-shadow: 0 2px 12px rgba(27, 42, 74, 0.08);
+    --al-shadow-lg: 0 8px 32px rgba(27, 42, 74, 0.12);
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+  .al-lesson {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .al-lesson h1, .al-lesson h2, .al-lesson h3, .al-section-number, .al-example-label, .al-next-title {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; color: var(--al-navy); line-height: 1.25;
+  }
+
+  /* ═══ HERO ═══ */
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .al-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200, 169, 81, 0.08) 0%, transparent 70%); pointer-events: none; }
+  .al-hero-eyebrow { font-family: 'Source Sans 3', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem, 4vw, 2.2rem); margin-bottom: 0.75rem; }
+  .al-hero-subtitle { color: rgba(255, 255, 255, 0.9) !important; font-size: 1rem; max-width: 36rem; line-height: 1.5; }
+  .al-hero-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 1rem 0; }
+
+  /* ═══ SECTIONS ═══ */
+  .al-section { margin-bottom: 2rem; }
+  .al-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-section-number { width: 2rem; height: 2rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0; }
+  .al-section h2 { font-size: clamp(1.15rem, 3vw, 1.4rem); }
+
+  /* ═══ CARDS / CALLOUTS ═══ */
+  .al-card { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-card p { margin-bottom: 0.75rem; }
+  .al-card p:last-child { margin-bottom: 0; }
+  .al-callout { border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; font-size: 0.92rem; }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-warn { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-callout-danger { background: #FDF2F0; border-left: 4px solid var(--al-danger); }
+  .al-callout-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .al-callout-tip .al-callout-label { color: var(--al-success); }
+  .al-callout-warn .al-callout-label { color: #D4823A; }
+  .al-callout-danger .al-callout-label { color: var(--al-danger); }
+
+  /* ═══ WORKED EXAMPLES ═══ */
+  .al-example { border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-example-header { background: var(--al-navy); padding: 1.25rem 1.5rem; }
+  .al-example-label { color: var(--al-gold) !important; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; display: block; margin-bottom: 0.5rem; }
+  .al-example-q { color: var(--al-white) !important; font-size: 1.15rem; font-weight: 600; line-height: 1.4; display: block; }
+  .al-example-body { background: var(--al-white); border: 1px solid var(--al-border); border-top: none; border-radius: 0 0 var(--al-radius) var(--al-radius); padding: 1.5rem; font-size: 0.92rem; }
+  .al-example-body p { margin-bottom: 0.6rem; }
+  .al-example-body p:last-child { margin-bottom: 0; }
+
+  /* ═══ STEP LINES ═══ */
+  .al-step-line { display: flex; align-items: baseline; gap: 0.65rem; margin-bottom: 0.45rem; }
+  .al-step-num { width: 1.4rem; height: 1.4rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.7rem; flex-shrink: 0; }
+  .al-step-num.al-wrong-icon { background: var(--al-danger) !important; }
+  .al-step-num.al-right-icon { background: var(--al-success) !important; }
+  .al-step-calc { font-size: 0.95rem; color: var(--al-navy); }
+  .al-step-result { font-weight: 700; color: var(--al-success); }
+
+  /* ═══ FORMULA ═══ */
+  .al-formula { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.15rem 1.5rem; margin-bottom: 1.25rem; text-align: center; }
+  .al-formula-label { color: var(--al-gold) !important; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .al-formula-text { color: var(--al-white) !important; font-weight: 700; font-size: clamp(1rem, 2.5vw, 1.25rem); line-height: 1.4; }
+  .al-formula-note { color: rgba(255, 255, 255, 0.75) !important; font-size: 0.78rem; margin-top: 0.35rem; }
+
+  /* ═══ DATA TABLES ═══ */
+  .al-data-table { width: 100%; border-collapse: collapse; margin-bottom: 1.25rem; font-size: 0.88rem; box-shadow: var(--al-shadow); border-radius: var(--al-radius); overflow: hidden; }
+  .al-data-table thead th { background: var(--al-navy); color: var(--al-white) !important; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.75rem 0.85rem; text-align: center; }
+  .al-data-table thead th:first-child { text-align: left; }
+  .al-data-table tbody td { padding: 0.7rem 0.85rem; text-align: center; border-bottom: 1px solid var(--al-border); font-weight: 500; color: var(--al-navy); vertical-align: middle; }
+  .al-data-table tbody td:first-child { font-weight: 700; text-align: left; }
+  .al-data-table tbody tr:nth-child(even) { background: var(--al-cream); }
+  .al-data-table tbody tr:last-child td { border-bottom: none; }
+  .al-data-table .al-table-note { font-size: 0.75rem; color: var(--al-text-light); font-style: italic; font-weight: 400; padding: 0.55rem 0.85rem; background: var(--al-cream); text-align: left; border-top: 1px solid var(--al-border); }
+  .al-data-table .al-cell-highlight { background: var(--al-gold-pale) !important; font-weight: 700 !important; border: 2px solid var(--al-gold); }
+
+  /* ═══ WRONG / RIGHT COMPARISON ═══ */
+  .al-compare-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
+  .al-compare-box { border-radius: var(--al-radius); padding: 1.15rem 1.25rem; font-size: 0.88rem; }
+  .al-compare-wrong { background: var(--al-danger-bg); border: 2px solid var(--al-danger); }
+  .al-compare-right { background: var(--al-success-bg); border: 2px solid var(--al-success); }
+  .al-compare-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
+  .al-compare-wrong .al-compare-label { color: var(--al-danger); }
+  .al-compare-right .al-compare-label { color: var(--al-success); }
+
+  /* ═══ SOURCE TAGS ═══ */
+  .al-source-tag { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 3px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-right: 0.35rem; vertical-align: middle; }
+  .al-source-a { background: var(--al-chart-a, #1B2A4A); color: var(--al-white); }
+  .al-source-b { background: var(--al-chart-b, #C8A951); color: var(--al-navy); }
+
+  /* ═══ REVEAL ═══ */
+  .al-reveal { margin-top: 1rem; border: 2px solid var(--al-border); border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; }
+  .al-reveal[open] { border-color: var(--al-success); }
+  .al-reveal-btn { display: block; padding: 0.85rem 1.25rem; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--al-navy); background: var(--al-cream); cursor: pointer; list-style: none; user-select: none; -webkit-user-select: none; }
+  .al-reveal-btn::-webkit-details-marker { display: none; }
+  .al-reveal-btn::marker { display: none; content: ''; }
+  .al-reveal-btn:hover { background: var(--al-gold-pale); }
+  .al-reveal[open] .al-reveal-btn { background: #EDF7F0; color: var(--al-success); border-bottom: 1px solid var(--al-border); }
+  .al-reveal-content { padding: 1.25rem; font-size: 0.92rem; }
+  .al-reveal-content p { margin-bottom: 0.6rem; }
+  .al-reveal-content p:last-child { margin-bottom: 0; }
+
+  /* ═══ PRACTICE ═══ */
+  .al-practice { background: var(--al-cream); border: 2px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 0.5rem; }
+  .al-practice-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-gold); margin-bottom: 0.75rem; }
+  .al-practice-q { font-size: 0.95rem; font-weight: 600; color: var(--al-navy); line-height: 1.6; margin-bottom: 1rem; }
+  .al-practice-options { margin-top: 1rem; }
+  .al-practice-options p { margin-bottom: 0.4rem; font-size: 0.95rem; color: var(--al-navy); line-height: 1.6; }
+
+  /* ═══ PRACTICE EMBEDDED TABLE ═══ */
+  .al-practice .al-data-table { margin-top: 1rem; margin-bottom: 1rem; }
+
+  /* ═══ TAKEAWAYS ═══ */
+  .al-takeaways { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.5rem 1.75rem; margin-bottom: 1.25rem; }
+  .al-takeaways h3 { color: var(--al-gold) !important; font-size: 1.1rem; margin-bottom: 1rem; }
+  .al-takeaways-list { list-style: none; padding: 0; }
+  .al-takeaways-list li { color: rgba(255, 255, 255, 0.95) !important; font-size: 0.92rem; padding: 0.45rem 0 0.45rem 1.75rem; position: relative; line-height: 1.5; }
+  .al-takeaways-list li::before { content: '✓'; position: absolute; left: 0; color: var(--al-gold); font-weight: 700; }
+
+  /* ═══ NEXT LESSON ═══ */
+  .al-next { background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .al-next-arrow { width: 2.5rem; height: 2.5rem; background: var(--al-navy); color: var(--al-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .al-next-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-text-light); margin-bottom: 0.15rem; }
+  .al-next-title { font-weight: 700; color: var(--al-navy); font-size: 1rem; }
+  .al-next-desc { font-size: 0.85rem; color: var(--al-text-light); margin-top: 0.15rem; }
+
+  .al-lesson strong { color: var(--al-navy); }
+  .al-divider { border: none; height: 1px; background: var(--al-border); margin: 2rem 0; }
+
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .al-card, .al-example-body, .al-reveal-content { padding: 1.15rem; }
+    .al-takeaways { padding: 1.25rem; }
+    .al-next { flex-direction: column; text-align: center; }
+    .al-data-table { font-size: 0.78rem; }
+    .al-data-table thead th { padding: 0.6rem 0.5rem; font-size: 0.65rem; }
+    .al-data-table tbody td { padding: 0.55rem 0.5rem; }
+    .al-compare-wrap { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="al-lesson">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 3 · Lesson 3.6</div>
+    <h1>Weighted Averages &amp; Index Numbers</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">Two advanced topics that separate top-scoring candidates from the rest. Both appear when test designers want to catch people who grab the obvious average or the obvious percentage — and get it wrong.</p>
+  </div>
+
+  <!-- ═══ SECTION 1: WHY SIMPLE AVERAGES FAIL ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">1</div>
+      <h2>Why Simple Averages Give Wrong Answers</h2>
+    </div>
+    <div class="al-card">
+      <p>A simple average treats every value equally. That works when the values <strong>represent equal-sized groups</strong>. It fails — silently and dangerously — when the groups are different sizes.</p>
+      <p>Imagine two investment funds. Fund A returned 12% and manages £80m. Fund B returned 8% and manages £120m. What's the overall portfolio return?</p>
+      <p>If you take a simple average — (12% + 8%) ÷ 2 = 10% — you're treating both funds as if they manage the same amount of money. They don't. Fund B manages 50% more capital, so its lower return should <strong>drag the overall average down below 10%</strong>, not sit right in the middle.</p>
+      <p>This is where weighted averages come in. The weight is the thing that makes one value "count more" than another — in this case, the capital managed.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Weighted Average Formula</div>
+      <div class="al-formula-text">Weighted Average = Σ(Value × Weight) ÷ Σ(Weight)</div>
+      <div class="al-formula-note">Sum of (each value multiplied by its weight), divided by the sum of all weights.</div>
+    </div>
+
+    <div class="al-callout al-callout-warn">
+      <div class="al-callout-label">When to Suspect a Weighted Average</div>
+      <p>Any question that gives you individual averages or rates <strong>alongside different group sizes</strong> (headcount, capital, revenue, hours, population) is testing whether you'll weight correctly. If the question data includes both a rate/average and a size for each category, it's a weighted average question.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 2: WEIGHTED AVERAGES — WORKED EXAMPLES ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">2</div>
+      <h2>Weighted Averages — Portfolio Returns &amp; Office Salaries</h2>
+    </div>
+
+    <!-- Source A: Fund Data -->
+    <div class="al-card">
+      <p>Two common test scenarios: portfolio returns weighted by capital, and average salaries weighted by headcount. Both work identically — multiply each value by its weight, sum the products, divide by total weight.</p>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 1 — Portfolio Returns</span>
+        <span class="al-example-q">An investment portfolio contains three funds. What is the overall weighted average return?</span>
+      </div>
+      <div class="al-example-body">
+        <table class="al-data-table">
+          <thead>
+            <tr><th>Fund</th><th>Annual Return</th><th>Capital (£m)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>UK Equity Fund</td><td>12%</td><td>80</td></tr>
+            <tr><td>Global Bond Fund</td><td>5%</td><td>120</td></tr>
+            <tr><td>Property Fund</td><td>9%</td><td>50</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Step 1: Multiply each return by its capital weight.</strong></p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">UK Equity: 12% × £80m = 960</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Global Bond: 5% × £120m = 600</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Property: 9% × £50m = 450</span></div>
+        <p style="margin-top:0.5rem;"><strong>Step 2: Sum the products and divide by total capital.</strong></p>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Total weighted = 960 + 600 + 450 = 2,010</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Total capital = £80m + £120m + £50m = £250m</span></div>
+        <div class="al-step-line"><span class="al-step-num">6</span><span class="al-step-calc">Weighted average = 2,010 ÷ 250 = <span class="al-step-result">8.04%</span></span></div>
+        <p style="margin-top:0.5rem;">The simple average would be (12 + 5 + 9) ÷ 3 = 8.67%. The weighted answer (8.04%) is lower because the largest fund — Global Bond at £120m — has the lowest return, pulling the overall portfolio down.</p>
+      </div>
+    </div>
+
+    <div class="al-compare-wrap">
+      <div class="al-compare-box al-compare-wrong">
+        <div class="al-compare-label"><span style="font-size:1.1rem;">✗</span> Simple Average</div>
+        <p>(12 + 5 + 9) ÷ 3 = <strong>8.67%</strong></p>
+        <p style="font-size:0.82rem; color:var(--al-text-light);">Treats £80m, £120m, and £50m as if they're all the same size. They're not.</p>
+      </div>
+      <div class="al-compare-box al-compare-right">
+        <div class="al-compare-label"><span style="font-size:1.1rem;">✓</span> Weighted Average</div>
+        <p>(960 + 600 + 450) ÷ 250 = <strong>8.04%</strong></p>
+        <p style="font-size:0.82rem; color:var(--al-text-light);">The £120m bond fund's 5% return drags the portfolio below the simple midpoint.</p>
+      </div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 2 — Average Salary by Office</span>
+        <span class="al-example-q">A consultancy has three offices. What is the firm-wide weighted average salary?</span>
+      </div>
+      <div class="al-example-body">
+        <table class="al-data-table">
+          <thead>
+            <tr><th>Office</th><th>Avg Salary</th><th>Headcount</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>London</td><td>£68,000</td><td>240</td></tr>
+            <tr><td>Manchester</td><td>£52,000</td><td>180</td></tr>
+            <tr><td>Edinburgh</td><td>£48,000</td><td>80</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Step 1: Multiply each salary by headcount (= total salary bill per office).</strong></p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">London: £68,000 × 240 = £16,320,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Manchester: £52,000 × 180 = £9,360,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Edinburgh: £48,000 × 80 = £3,840,000</span></div>
+        <p style="margin-top:0.5rem;"><strong>Step 2: Sum total salaries and divide by total headcount.</strong></p>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Total salary bill = £16,320,000 + £9,360,000 + £3,840,000 = £29,520,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Total headcount = 240 + 180 + 80 = 500</span></div>
+        <div class="al-step-line"><span class="al-step-num">6</span><span class="al-step-calc">Weighted average = £29,520,000 ÷ 500 = <span class="al-step-result">£59,040</span></span></div>
+        <p style="margin-top:0.5rem;">The simple average would be (£68,000 + £52,000 + £48,000) ÷ 3 = £56,000. The weighted answer (£59,040) is <strong>higher</strong> because London — the highest-paid office — has the most staff, pulling the average up.</p>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-tip">
+      <div class="al-callout-label">Quick Sanity Check</div>
+      <p>The weighted average must always fall <strong>between the smallest and largest individual values</strong>, and it will lean towards the group with the larger weight. If your answer falls outside the range of individual values, you've made an error.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 3: INDEX NUMBERS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">3</div>
+      <h2>Index Numbers — Reading Relative Change</h2>
+    </div>
+
+    <div class="al-card">
+      <p>An index expresses values relative to a base year. The base year is always set to 100. Every other value tells you how far that year has moved from the base — without revealing the actual underlying numbers.</p>
+      <p><strong>Index 115</strong> = 15% higher than the base. <strong>Index 92</strong> = 8% lower than the base. <strong>Index 100</strong> = unchanged from the base.</p>
+      <p>Tests use indices because they strip away the actual values, forcing you to think in relative terms. The trap comes when you need to calculate the change between two <em>non-base</em> years.</p>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 3 — UK Commercial Property Index</span>
+        <span class="al-example-q">Using the index below, answer three questions about property price movements.</span>
+      </div>
+      <div class="al-example-body">
+        <table class="al-data-table">
+          <thead>
+            <tr><th>Year</th><th>2020</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Property Index</td><td>100</td><td>108</td><td>115</td><td>112</td><td>120</td></tr>
+          </tbody>
+        </table>
+
+        <p style="font-weight:600; color:var(--al-navy); margin:0.75rem 0 0.35rem;">Q1: What was the total percentage increase from 2020 to 2024?</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Base = 100, end = 120. Increase = 120 − 100 = 20. Percentage = 20 ÷ 100 × 100 = <span class="al-step-result">20%</span></span></div>
+        <p style="font-size:0.85rem; color:var(--al-text-light);">When the starting point is the base year, the maths is trivially easy — just read off the index value minus 100.</p>
+
+        <p style="font-weight:600; color:var(--al-navy); margin:0.75rem 0 0.35rem;">Q2: In which year did prices fall?</p>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">2021→2022: 108→115 (rose). 2022→2023: 115→112 (fell). 2023→2024: 112→120 (rose).</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Prices fell in <span class="al-step-result">2023</span> (index dropped from 115 to 112).</span></div>
+
+        <p style="font-weight:600; color:var(--al-navy); margin:0.75rem 0 0.35rem;">Q3: If a property was worth £450,000 in 2020, what was its approximate value in 2024?</p>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">2024 index = 120, base = 100. Multiplier = 120 ÷ 100 = 1.20</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">£450,000 × 1.20 = <span class="al-step-result">£540,000</span></span></div>
+        <p style="margin-top:0.5rem;">To convert an index to an actual value: take the index value, divide by the base (100), and multiply by the known base-year amount. This gives you the proportional value at the target year.</p>
+      </div>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Index to Real Value</div>
+      <div class="al-formula-text">Real Value = Base-Year Value × (Index ÷ 100)</div>
+      <div class="al-formula-note">Works for any year — just use that year's index number.</div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 4: THE INDEX TRAP — NON-BASE YEAR CHANGES ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">4</div>
+      <h2>The Index Trap — Percentage Change Between Non-Base Years</h2>
+    </div>
+
+    <div class="al-card">
+      <p>This is where most candidates go wrong. When a question asks for the percentage change between two years, <strong>neither of which is the base year</strong>, you cannot simply subtract the index values and call it a percentage.</p>
+      <p>The index below is the same data from Worked Example 3. Watch what happens when we calculate the change from 2022 to 2024.</p>
+    </div>
+
+    <!-- Repeat the index table for reference -->
+    <div class="al-card" style="padding:1rem 1.5rem;">
+      <table class="al-data-table" style="margin-bottom:0;">
+        <thead>
+          <tr><th>Year</th><th>2020</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Property Index</td><td>100</td><td>108</td><td>115</td><td>112</td><td>120</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="al-compare-wrap">
+      <div class="al-compare-box al-compare-wrong">
+        <div class="al-compare-label"><span style="font-size:1.1rem;">✗</span> Subtracting Index Values</div>
+        <p>"Change from 2022 to 2024 = 120 − 115 = <strong>5%</strong>"</p>
+        <p style="font-size:0.82rem; color:var(--al-text-light);">This treats the difference as a percentage. It's not — it's just a point difference. A 5-point change from 115 is not the same as a 5-point change from 100.</p>
+      </div>
+      <div class="al-compare-box al-compare-right">
+        <div class="al-compare-label"><span style="font-size:1.1rem;">✓</span> Dividing by Starting Value</div>
+        <p>(120 − 115) ÷ 115 × 100 = 5 ÷ 115 = <strong>4.35%</strong></p>
+        <p style="font-size:0.82rem; color:var(--al-text-light);">Divide by the STARTING year's index (115), not the base year (100). The base year is irrelevant here.</p>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-danger">
+      <div class="al-callout-label">The Rule</div>
+      <p>Percentage change between two index values uses the <strong>same formula as any other percentage change</strong>: (New − Old) ÷ Old × 100. The "Old" value is the index at the <strong>starting year</strong>, not the base year. When both options appear in multiple choice — 5% and 4.35% — choose 4.35%.</p>
+    </div>
+
+    <div class="al-card">
+      <p>Here's why the trap works so well: when the starting year <em>is</em> the base year, subtracting gives the correct answer (because dividing by 100 is the same as just reading the difference). Candidates learn this shortcut from the easy questions, then apply it to the hard question where the starting year isn't the base — and get caught.</p>
+      <p><strong>From 2023 (112) to 2024 (120):</strong></p>
+      <div class="al-step-line"><span class="al-step-num al-wrong-icon">✗</span><span class="al-step-calc">Wrong: 120 − 112 = "8%"</span></div>
+      <div class="al-step-line"><span class="al-step-num al-right-icon">✓</span><span class="al-step-calc">Correct: (120 − 112) ÷ 112 × 100 = 8 ÷ 112 × 100 = <span class="al-step-result">7.14%</span></span></div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 5: PRACTICE ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">5</div>
+      <h2>Practice — Weighted Averages &amp; Index Numbers</h2>
+    </div>
+
+    <div class="al-card">
+      <p>Five questions targeting the core traps from this lesson. Each question includes its own data — read the table carefully before calculating.</p>
+    </div>
+
+    <!-- ═══ PQ1: Basic weighted average ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 1 — Weighted Average Return</div>
+      <div class="al-practice-q">A pension fund holds three asset classes. What is the fund's overall weighted average return?</div>
+      <table class="al-data-table">
+        <thead>
+          <tr><th>Asset Class</th><th>Annual Return</th><th>Allocation (£m)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Equities</td><td>11%</td><td>150</td></tr>
+          <tr><td>Bonds</td><td>4%</td><td>200</td></tr>
+          <tr><td>Alternatives</td><td>14%</td><td>50</td></tr>
+        </tbody>
+      </table>
+      <div class="al-practice-options">
+        <p>(A) 7.88%</p>
+        <p>(B) 8.50%</p>
+        <p>(C) 9.67%</p>
+        <p>(D) 10.25%</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Equities: 11% × 150M = 16.5</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Bonds: 4% × 200M = 8.0</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Alternatives: 14% × 50M = 7.0</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Total weighted = 16.5 + 8.0 + 7.0 = 31.5</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Total allocation = 150 + 200 + 50 = 400</span></div>
+        <div class="al-step-line"><span class="al-step-num">6</span><span class="al-step-calc">31.50 ÷ 400 × 100 = <span class="al-step-result">7.88% → Answer: A</span></span></div>
+        <p style="margin-top:0.5rem;">Trap: Option C (9.67%) is the simple average of the three returns: (11 + 4 + 14) ÷ 3 = 9.67%. This ignores the £200m bond allocation that drags the portfolio return down well below the midpoint of the three rates. Option B (8.50%) might tempt candidates who weight by equal thirds instead of by capital.</p>
+      </div>
+    </details>
+
+    <!-- ═══ PQ2: Weighted average salary ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 2 — Weighted Average Salary</div>
+      <div class="al-practice-q">A technology firm has staff across three departments. What is the company's overall average salary?</div>
+      <table class="al-data-table">
+        <thead>
+          <tr><th>Department</th><th>Average Salary</th><th>Headcount</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Engineering</td><td>£72,000</td><td>120</td></tr>
+          <tr><td>Sales</td><td>£55,000</td><td>80</td></tr>
+          <tr><td>Operations</td><td>£42,000</td><td>200</td></tr>
+        </tbody>
+      </table>
+      <div class="al-practice-options">
+        <p>(A) £53,600</p>
+        <p>(B) £56,333</p>
+        <p>(C) £54,800</p>
+        <p>(D) £58,100</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Engineering: £72,000 × 120 = £8,640,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Sales: £55,000 × 80 = £4,400,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Operations: £42,000 × 200 = £8,400,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Total salary bill = £8,640,000 + £4,400,000 + £8,400,000 = £21,440,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Total headcount = 120 + 80 + 200 = 400</span></div>
+        <div class="al-step-line"><span class="al-step-num">6</span><span class="al-step-calc">£21,440,000 ÷ 400 = <span class="al-step-result">£53,600 → Answer: A</span></span></div>
+        <p style="margin-top:0.5rem;">Trap: Option B (£56,333) is the simple average of the three department salaries: (£72,000 + £55,000 + £42,000) ÷ 3 = £56,333. Operations has the most staff (200 out of 400) and the lowest salary, pulling the weighted average down to £53,600.</p>
+      </div>
+    </details>
+
+    <!-- ═══ PQ3: Index — real value calculation ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 3 — Index to Real Value</div>
+      <div class="al-practice-q">The table below shows a Consumer Electronics Price Index. If a standard laptop cost £850 in 2021, what would the same specification cost in 2025?</div>
+      <table class="al-data-table">
+        <thead>
+          <tr><th>Year</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Electronics Index</td><td>100</td><td>96</td><td>91</td><td>88</td><td>82</td></tr>
+        </tbody>
+      </table>
+      <div class="al-practice-options">
+        <p>(A) £697</p>
+        <p>(B) £718</p>
+        <p>(C) £748</p>
+        <p>(D) £782</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p>The base year (2021) = 100, and the laptop cost £850 in the base year. The 2025 index = 82.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Multiplier = 82 ÷ 100 = 0.82</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">£850 × 0.82 = <span class="al-step-result">£697 → Answer: A</span></span></div>
+        <p style="margin-top:0.5rem;">This index falls over time (electronics get cheaper). The 2025 value of 82 means prices are 18% lower than the base year. Trap: Option D (£782) is what you'd get using the wrong year — £850 × (92/100) uses a made-up index rather than 2025's value of 82. Option C (£748) comes from using the 2024 index of 88 instead of the 2025 value.</p>
+      </div>
+    </details>
+
+    <!-- ═══ PQ4: Index — non-base year % change ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 4 — Index Percentage Change (Non-Base Year)</div>
+      <div class="al-practice-q">Using the Regional Office Rental Index below, what was the percentage change in rental costs from 2022 to 2025?</div>
+      <table class="al-data-table">
+        <thead>
+          <tr><th>Year</th><th>2020</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Rental Index</td><td>100</td><td>105</td><td>112</td><td>118</td><td>124</td><td>130</td></tr>
+        </tbody>
+      </table>
+      <div class="al-practice-options">
+        <p>(A) 16.07%</p>
+        <p>(B) 18.00%</p>
+        <p>(C) 18.75%</p>
+        <p>(D) 30.00%</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p>2022 index = 112. 2025 index = 130. The starting value is 112 (not the base of 100).</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">(130 − 112) ÷ 112 × 100 = 18 ÷ 112 × 100 = <span class="al-step-result">16.07% → Answer: A</span></span></div>
+        <p style="margin-top:0.5rem;">Trap: Option B (18.00%) comes from subtracting the index values (130 − 112 = 18) and treating that as a percentage. Option D (30.00%) is the change from the base year (2020 to 2025), answering the wrong time period entirely.</p>
+      </div>
+    </details>
+
+    <!-- ═══ PQ5: Combined — weighted average + percentage change (hard) ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 5 — Combined Weighted Average + Comparison (Hard)</div>
+      <div class="al-practice-q">A retail group operates three store formats. Using the data below, by how many percentage points does the simple average profit margin exceed the weighted average profit margin?</div>
+      <table class="al-data-table">
+        <thead>
+          <tr><th>Format</th><th>Profit Margin</th><th>Revenue (£m)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Superstore</td><td>3.0%</td><td>400</td></tr>
+          <tr><td>Express</td><td>7.5%</td><td>200</td></tr>
+          <tr><td>Online</td><td>1.5%</td><td>200</td></tr>
+        </tbody>
+      </table>
+      <div class="al-practice-options">
+        <p>(A) 0.25 percentage points</p>
+        <p>(B) 0.50 percentage points</p>
+        <p>(C) 0.75 percentage points</p>
+        <p>(D) 1.00 percentage points</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p style="font-weight:600; color:var(--al-navy); margin:0 0 0.35rem;">Simple average:</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">(3.0 + 7.5 + 1.5) ÷ 3 = 12.0 ÷ 3 = 4.00%</span></div>
+
+        <p style="font-weight:600; color:var(--al-navy); margin:0.75rem 0 0.35rem;">Weighted average (weighted by revenue):</p>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Superstore: 3.0% × 400 = 12.0</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Express: 7.5% × 200 = 15.0</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Online: 1.5% × 200 = 3.0</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Total weighted = 12.0 + 15.0 + 3.0 = 30.0</span></div>
+        <div class="al-step-line"><span class="al-step-num">6</span><span class="al-step-calc">Total revenue = 400 + 200 + 200 = 800</span></div>
+        <div class="al-step-line"><span class="al-step-num">7</span><span class="al-step-calc">Weighted average = 30.0 ÷ 800 × 100 = 3.75%</span></div>
+
+        <p style="font-weight:600; color:var(--al-navy); margin:0.75rem 0 0.35rem;">Difference:</p>
+        <div class="al-step-line"><span class="al-step-num">8</span><span class="al-step-calc">4.00% − 3.75% = <span class="al-step-result">0.25 percentage points → Answer: A</span></span></div>
+
+        <p style="margin-top:0.5rem;">The weighted average is <strong>lower</strong> than the simple average because Superstore (the largest revenue contributor at £400m) has a below-average margin of just 3.0%, and Online (£200m) is even lower at 1.5%. Together they represent 75% of total revenue but have the two weakest margins. Express has the best margin (7.5%) but only generates £200m — its high profitability rate is partially diluted by Superstore's dominance. The simple average gives each format equal voice regardless of size; the weighted average reflects economic reality.</p>
+      </div>
+    </details>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ KEY TAKEAWAYS ═══ -->
+  <div class="al-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul class="al-takeaways-list">
+      <li>Use a weighted average whenever the question gives you individual rates or averages alongside different group sizes. The giveaway: each category has both a value (return, salary, margin) and a size (capital, headcount, revenue).</li>
+      <li>The weighted average always falls between the smallest and largest individual values, leaning towards the group with the largest weight. If your answer falls outside that range, you've made an error.</li>
+      <li>Index numbers express values relative to a base year (= 100). To convert an index to a real value: multiply the base-year amount by the index divided by 100.</li>
+      <li>Percentage change between non-base years uses the standard formula: (New − Old) ÷ Old × 100. Divide by the starting year's index, not the base year. The difference between index points and actual percentages is the single most common trap.</li>
+      <li>If two answer options in an index question are suspiciously close — like 18% and 16.1% — the smaller one is almost certainly correct, because the candidate who gets 18% forgot to divide by the starting index.</li>
+    </ul>
+  </div>
+
+  <!-- ═══ NEXT LESSON ═══ -->
+  <div class="al-next">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Lesson</div>
+      <div class="al-next-title">3.7 — Data Interpretation Practice Test</div>
+      <div class="al-next-desc">Full-length timed mock covering all Module 3 skills — tables, charts, multi-source, percentage change, profit &amp; loss, weighted averages, and index numbers. 12 questions, 18 minutes, exam conditions.</div>
+    </div>
+  </div>
+
+</div>
+
+<!--
+  CALCULATION VERIFICATION:
+
+  WE1 — Portfolio Returns:
+  UK Equity: 12 × 80 = 960 ✓
+  Global Bond: 5 × 120 = 600 ✓
+  Property: 9 × 50 = 450 ✓
+  Total weighted = 960 + 600 + 450 = 2,010 ✓
+  Total capital = 80 + 120 + 50 = 250 ✓
+  Weighted avg = 2,010 ÷ 250 = 8.04 ✓
+  Simple avg = (12 + 5 + 9) ÷ 3 = 8.667 ✓
+
+  WE2 — Average Salary:
+  London: 68,000 × 240 = 16,320,000 ✓
+  Manchester: 52,000 × 180 = 9,360,000 ✓
+  Edinburgh: 48,000 × 80 = 3,840,000 ✓
+  Total = 16,320,000 + 9,360,000 + 3,840,000 = 29,520,000 ✓
+  Total headcount = 240 + 180 + 80 = 500 ✓
+  Weighted avg = 29,520,000 ÷ 500 = 59,040 ✓
+  Simple avg = (68,000 + 52,000 + 48,000) ÷ 3 = 56,000 ✓
+
+  WE3 — Property Index:
+  Q1: 120 − 100 = 20%. Trivial from base. ✓
+  Q2: 2023 fell (115→112) ✓
+  Q3: £450,000 × (120/100) = £450,000 × 1.20 = £540,000 ✓
+
+  Index Trap:
+  2022→2024: (120 − 115) ÷ 115 × 100 = 5/115 × 100 = 4.3478 = 4.35% ✓
+  Wrong answer: 120 − 115 = 5 (points, not percent) ✓
+  2023→2024: (120 − 112) ÷ 112 × 100 = 8/112 × 100 = 7.1429 = 7.14% ✓
+  Wrong answer: 120 − 112 = 8 (points, not percent) ✓
+
+  PQ1 — Pension Fund:
+  Equities: 11 × 150 = 1,650 ✓
+  Bonds: 4 × 200 = 800 ✓
+  Alternatives: 14 × 50 = 700 ✓
+  Total weighted = 1,650 + 800 + 700 = 3,150 ✓
+  Total allocation = 150 + 200 + 50 = 400 ✓
+  Weighted avg = 3,150 ÷ 400 = 7.875% ≈ 7.88% ✓
+  Simple avg = (11 + 4 + 14) ÷ 3 = 9.667% ✓
+
+  PQ2 — Tech Firm Salary:
+  Engineering: 72,000 × 120 = 8,640,000 ✓
+  Sales: 55,000 × 80 = 4,400,000 ✓
+  Operations: 42,000 × 200 = 8,400,000 ✓
+  Total = 8,640,000 + 4,400,000 + 8,400,000 = 21,440,000 ✓
+  Total headcount = 120 + 80 + 200 = 400 ✓
+  Weighted avg = 21,440,000 ÷ 400 = 53,600 ✓
+  Simple avg = (72,000 + 55,000 + 42,000) ÷ 3 = 56,333.33 ✓
+
+  PQ3 — Electronics Index:
+  £850 × (82/100) = £850 × 0.82 = £697 ✓
+  Trap D: £850 × 0.92 = £782 (wrong index value) ✓
+  Trap C: £850 × 0.88 = £748 (using 2024 index not 2025) ✓
+
+  PQ4 — Rental Index:
+  (130 − 112) ÷ 112 × 100 = 18/112 × 100 = 16.0714% ✓
+  Wrong: 130 − 112 = 18% ✓
+  Wrong: (130 − 100)/100 = 30% ✓
+
+  PQ5 — Retail Group:
+  Simple: (3.0 + 7.5 + 1.5) ÷ 3 = 12.0/3 = 4.00% ✓
+  Superstore: 3.0 × 400 = 1,200 ✓
+  Express: 7.5 × 200 = 1,500 ✓
+  Online: 1.5 × 200 = 300 ✓
+  Total weighted = 1,200 + 1,500 + 300 = 3,000 ✓
+  Total revenue = 400 + 200 + 200 = 800 ✓
+  Weighted avg = 3,000/800 = 3.75% ✓
+  Difference = 4.00 − 3.75 = 0.25pp ✓
+-->

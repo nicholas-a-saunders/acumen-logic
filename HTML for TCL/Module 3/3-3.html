@@ -1,0 +1,790 @@
+<!--
+  ACUMEN LOGIC — Lesson 3.3: Multi-Source Data Integration
+  For ThriveCart Learn Custom HTML Block
+  Pure CSS · Zero JavaScript · Fully responsive
+  
+  TYPE: Teaching lesson (the hardest numerical skill)
+  5-step method + 2 worked examples + 4 practice questions
+  Multiple data sources: tables, bar chart, pie chart, text notes
+  
+  ALL CALCULATIONS VERIFIED — see block at end of file.
+-->
+
+<style>
+  /* ═══ BRAND TOKENS ═══ */
+  .al-lesson {
+    --al-navy: #1B2A4A;
+    --al-navy-light: #2A3D66;
+    --al-navy-muted: #3D5280;
+    --al-gold: #C8A951;
+    --al-gold-light: #D4BC72;
+    --al-gold-pale: #F5EFD9;
+    --al-cream: #FAFAF6;
+    --al-white: #FFFFFF;
+    --al-text: #2C2C2C;
+    --al-text-light: #6B6B6B;
+    --al-border: #E8E4DA;
+    --al-success: #2D8F5E;
+    --al-success-bg: #EDF7F0;
+    --al-danger: #C0392B;
+    --al-danger-bg: #FDF2F0;
+    --al-radius: 10px;
+    --al-radius-sm: 6px;
+    --al-shadow: 0 2px 12px rgba(27, 42, 74, 0.08);
+    --al-shadow-lg: 0 8px 32px rgba(27, 42, 74, 0.12);
+    --al-chart-a: #1B2A4A;
+    --al-chart-b: #C8A951;
+    --al-chart-c: #5B8DEF;
+    --al-chart-d: #3D5280;
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400 ;500;600;700&display=swap');
+
+  .al-lesson {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .al-lesson h1, .al-lesson h2, .al-lesson h3, .al-section-number, .al-example-label, .al-next-title {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; color: var(--al-navy); line-height: 1.25;
+  }
+
+  /* ═══ HERO ═══ */
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .al-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200, 169, 81, 0.08) 0%, transparent 70%); pointer-events: none; }
+  .al-hero-eyebrow { font-family: 'Source Sans 3', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem, 4vw, 2.2rem); margin-bottom: 0.75rem; }
+  .al-hero-subtitle { color: rgba(255, 255, 255, 0.9) !important; font-size: 1rem; max-width: 36rem; line-height: 1.5; }
+  .al-hero-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 1rem 0; }
+
+  /* ═══ SECTIONS ═══ */
+  .al-section { margin-bottom: 2rem; }
+  .al-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-section-number { width: 2rem; height: 2rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0; }
+  .al-section h2 { font-size: clamp(1.15rem, 3vw, 1.4rem); }
+
+  /* ═══ CARDS / CALLOUTS ═══ */
+  .al-card { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-card p { margin-bottom: 0.75rem; }
+  .al-card p:last-child { margin-bottom: 0; }
+  .al-callout { border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; font-size: 0.92rem; }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-warn { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-callout-danger { background: #FDF2F0; border-left: 4px solid var(--al-danger); }
+  .al-callout-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .al-callout-tip .al-callout-label { color: var(--al-success); }
+  .al-callout-warn .al-callout-label { color: #D4823A; }
+  .al-callout-danger .al-callout-label { color: var(--al-danger); }
+
+  /* ═══ WORKED EXAMPLES ═══ */
+  .al-example { border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-example-header { background: var(--al-navy); padding: 1.25rem 1.5rem; }
+  .al-example-label { color: var(--al-gold) !important; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; display: block; margin-bottom: 0.5rem; }
+  .al-example-q { color: var(--al-white) !important; font-size: 1.15rem; font-weight: 600; line-height: 1.4; display: block; }
+  .al-example-body { background: var(--al-white); border: 1px solid var(--al-border); border-top: none; border-radius: 0 0 var(--al-radius) var(--al-radius); padding: 1.5rem; font-size: 0.92rem; }
+  .al-example-body p { margin-bottom: 0.6rem; }
+  .al-example-body p:last-child { margin-bottom: 0; }
+
+  /* ═══ STEP LINES ═══ */
+  .al-step-line { display: flex; align-items: baseline; gap: 0.65rem; margin-bottom: 0.45rem; }
+  .al-step-num { width: 1.4rem; height: 1.4rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.7rem; flex-shrink: 0; }
+  .al-step-num.al-wrong-icon { background: var(--al-danger) !important; }
+  .al-step-num.al-right-icon { background: var(--al-success) !important; }
+  .al-step-calc { font-size: 0.95rem; color: var(--al-navy); }
+  .al-step-result { font-weight: 700; color: var(--al-success); }
+
+  /* ═══ FORMULA ═══ */
+  .al-formula { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.15rem 1.5rem; margin-bottom: 1.25rem; text-align: center; }
+  .al-formula-label { color: var(--al-gold) !important; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .al-formula-text { color: var(--al-white) !important; font-weight: 700; font-size: clamp(1rem, 2.5vw, 1.25rem); line-height: 1.4; }
+  .al-formula-note { color: rgba(255, 255, 255, 0.75) !important; font-size: 0.78rem; margin-top: 0.35rem; }
+
+  /* ═══ DATA TABLES ═══ */
+  .al-data-table { width: 100%; border-collapse: collapse; margin-bottom: 1.25rem; font-size: 0.88rem; box-shadow: var(--al-shadow); border-radius: var(--al-radius); overflow: hidden; }
+  .al-data-table thead th { background: var(--al-navy); color: var(--al-white) !important; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.75rem 0.85rem; text-align: center; }
+  .al-data-table thead th:first-child { text-align: left; }
+  .al-data-table tbody td { padding: 0.7rem 0.85rem; text-align: center; border-bottom: 1px solid var(--al-border); font-weight: 500; color: var(--al-navy); vertical-align: middle; }
+  .al-data-table tbody td:first-child { font-weight: 700; text-align: left; }
+  .al-data-table tbody tr:nth-child(even) { background: var(--al-cream); }
+  .al-data-table tbody tr:last-child td { border-bottom: none; }
+  .al-data-table .al-table-note { font-size: 0.75rem; color: var(--al-text-light); font-style: italic; font-weight: 400; padding: 0.55rem 0.85rem; background: var(--al-cream); text-align: left; border-top: 1px solid var(--al-border); }
+  .al-data-table .al-cell-highlight { background: var(--al-gold-pale) !important; font-weight: 700 !important; border: 2px solid var(--al-gold); }
+
+  /* ═══ CHART COMPONENTS ═══ */
+  .al-chart-container { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem 1.5rem 1rem; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-chart-label { font-size: 0.78rem; font-weight: 700; color: var(--al-text-light); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1.25rem; }
+  .al-chart-legend { display: flex; gap: 1.25rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+  .al-legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; font-weight: 600; color: var(--al-navy); }
+  .al-legend-swatch { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+
+  /* Bar chart */
+  .al-grouped-bar { display: flex; align-items: flex-end; position: relative; height: 220px; padding-left: 45px; padding-bottom: 30px; }
+  .al-grouped-bar .al-y-axis { position: absolute; left: 0; bottom: 32px; width: 45px; height: 190px; }
+  .al-grouped-bar .al-y-tick { font-size: 0.65rem; color: var(--al-text-light); text-align: right; padding-right: 8px; font-weight: 500; position: absolute; right: 0; line-height: 1; transform: translateY(50%); }
+  .al-grouped-bar .al-y-tick:nth-child(1) { bottom: 0; }      /* 0 */
+  .al-grouped-bar .al-y-tick:nth-child(2) { bottom: 38px; }   /* 2,000 */
+  .al-grouped-bar .al-y-tick:nth-child(3) { bottom: 76px; }   /* 4,000 */
+  .al-grouped-bar .al-y-tick:nth-child(4) { bottom: 114px; }  /* 6,000 */
+  .al-grouped-bar .al-y-tick:nth-child(5) { bottom: 152px; }  /* 8,000 */
+  .al-grouped-bar .al-y-tick:nth-child(6) { bottom: 190px; }  /* 10,000 */
+
+  /* Small bar chart variant (5 ticks: 0-4,000) */
+  .al-grouped-bar-sm .al-y-axis { height: 160px; }
+  .al-grouped-bar-sm .al-y-tick:nth-child(1) { bottom: 0; }      /* 0 */
+  .al-grouped-bar-sm .al-y-tick:nth-child(2) { bottom: 40px; }   /* 1,000 */
+  .al-grouped-bar-sm .al-y-tick:nth-child(3) { bottom: 80px; }   /* 2,000 */
+  .al-grouped-bar-sm .al-y-tick:nth-child(4) { bottom: 120px; }  /* 3,000 */
+  .al-grouped-bar-sm .al-y-tick:nth-child(5) { bottom: 160px; }  /* 4,000 */
+  .al-grouped-bar .al-y-tick::after { content: ''; position: absolute; right: 0; top: 50%; width: 4px; height: 1px; background: var(--al-navy); }
+  .al-grouped-bar .al-plot-area { flex: 1; height: 100%; display: flex; align-items: flex-end; border-left: 2px solid var(--al-navy); border-bottom: 2px solid var(--al-navy); position: relative; padding: 0 8px; }
+  .al-grouped-bar .al-grid { position: absolute; left: 0; right: 0; border-top: 1px dashed #E8E4DA; pointer-events: none; }
+  .al-bar-group { flex: 1; display: flex; align-items: flex-end; justify-content: center; position: relative; }
+  .al-bar-group-label { position: absolute; bottom: -24px; left: 50%; transform: translateX(-50%); font-size: 0.72rem; font-weight: 600; color: var(--al-navy); white-space: nowrap; }
+  .al-bar { width: 50px; border-radius: 3px 3px 0 0; position: relative; }
+  .al-bar-val { position: absolute; top: -16px; left: 50%; transform: translateX(-50%); font-size: 0.62rem; font-weight: 700; color: var(--al-text); white-space: nowrap; }
+
+  /* Pie chart */
+  .al-pie-wrap { display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; justify-content: center; }
+  .al-pie { width: 190px; height: 190px; border-radius: 50%; box-shadow: var(--al-shadow); }
+  .al-pie-labels { display: flex; flex-direction: column; gap: 0.5rem; }
+  .al-pie-label-row { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; font-weight: 500; color: var(--al-navy); }
+  .al-pie-label-pct { font-weight: 700; min-width: 2.5rem; text-align: right; }
+
+  /* ═══ 5-STEP METHOD VISUAL ═══ */
+  .al-method-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 1.25rem;
+  }
+  .al-method-step {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+  }
+  .al-method-num {
+    width: 48px;
+    min-height: 60px;
+    background: var(--al-navy);
+    color: var(--al-white);
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .al-method-step:first-child .al-method-num { border-radius: var(--al-radius) 0 0 0; }
+  .al-method-step:last-child .al-method-num { border-radius: 0 0 0 var(--al-radius); }
+  .al-method-num::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 8px;
+    right: 8px;
+    height: 1px;
+    background: rgba(255,255,255,0.15);
+  }
+  .al-method-step:last-child .al-method-num::after { display: none; }
+  .al-method-content {
+    flex: 1;
+    padding: 0.85rem 1.25rem;
+    border-right: 1px solid var(--al-border);
+    border-bottom: 1px solid var(--al-border);
+    background: var(--al-white);
+  }
+  .al-method-step:first-child .al-method-content { border-top: 1px solid var(--al-border); border-radius: 0 var(--al-radius) 0 0; }
+  .al-method-step:last-child .al-method-content { border-radius: 0 0 var(--al-radius) 0; }
+  .al-method-title {
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--al-navy);
+    margin-bottom: 0.2rem;
+  }
+  .al-method-desc {
+    font-size: 0.82rem;
+    color: var(--al-text-light);
+    line-height: 1.45;
+  }
+
+  /* ═══ SOURCE LABEL TAGS ═══ */
+  .al-source-tag {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-right: 0.35rem;
+    vertical-align: middle;
+  }
+  .al-source-a { background: var(--al-chart-a); color: var(--al-white); }
+  .al-source-b { background: var(--al-chart-b); color: var(--al-navy); }
+  .al-source-c { background: var(--al-chart-c); color: var(--al-white); }
+  .al-source-d { background: var(--al-chart-d); color: var(--al-white); }
+
+  /* ═══ REVEAL ═══ */
+  .al-reveal { margin-top: 1rem; border: 2px solid var(--al-border); border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; }
+  .al-reveal[open] { border-color: var(--al-success); }
+  .al-reveal-btn { display: block; padding: 0.85rem 1.25rem; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--al-navy); background: var(--al-cream); cursor: pointer; list-style: none; user-select: none; -webkit-user-select: none; }
+  .al-reveal-btn::-webkit-details-marker { display: none; }
+  .al-reveal-btn::marker { display: none; content: ''; }
+  .al-reveal-btn:hover { background: var(--al-gold-pale); }
+  .al-reveal[open] .al-reveal-btn { background: #EDF7F0; color: var(--al-success); border-bottom: 1px solid var(--al-border); }
+  .al-reveal-content { padding: 1.25rem; font-size: 0.92rem; }
+  .al-reveal-content p { margin-bottom: 0.6rem; }
+  .al-reveal-content p:last-child { margin-bottom: 0; }
+
+  /* ═══ PRACTICE ═══ */
+  .al-practice { background: var(--al-cream); border: 2px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 0.5rem; }
+  .al-practice-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-gold); margin-bottom: 0.75rem; }
+  .al-practice-q { font-size: 0.95rem; font-weight: 600; color: var(--al-navy); line-height: 1.6; margin-bottom: 1rem; }
+  .al-practice-options { margin-top: 1rem; }
+  .al-practice-options p { margin-bottom: 0.4rem; font-size: 0.95rem; color: var(--al-navy); line-height: 1.6; }
+
+  /* ═══ TAKEAWAYS ═══ */
+  .al-takeaways { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.5rem 1.75rem; margin-bottom: 1.25rem; }
+  .al-takeaways h3 { color: var(--al-gold) !important; font-size: 1.1rem; margin-bottom: 1rem; }
+  .al-takeaways-list { list-style: none; padding: 0; }
+  .al-takeaways-list li { color: rgba(255, 255, 255, 0.95) !important; font-size: 0.92rem; padding: 0.45rem 0 0.45rem 1.75rem; position: relative; line-height: 1.5; }
+  .al-takeaways-list li::before { content: '✓'; position: absolute; left: 0; color: var(--al-gold); font-weight: 700; }
+
+  /* ═══ NEXT LESSON ═══ */
+  .al-next { background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .al-next-arrow { width: 2.5rem; height: 2.5rem; background: var(--al-navy); color: var(--al-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .al-next-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-text-light); margin-bottom: 0.15rem; }
+  .al-next-title { font-weight: 700; color: var(--al-navy); font-size: 1rem; }
+  .al-next-desc { font-size: 0.85rem; color: var(--al-text-light); margin-top: 0.15rem; }
+
+  .al-lesson strong { color: var(--al-navy); }
+  .al-divider { border: none; height: 1px; background: var(--al-border); margin: 2rem 0; }
+
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .al-card, .al-example-body, .al-reveal-content { padding: 1.15rem; }
+    .al-takeaways { padding: 1.25rem; }
+    .al-next { flex-direction: column; text-align: center; }
+    .al-method-num { width: 36px; font-size: 0.95rem; }
+    .al-method-content { padding: 0.75rem 1rem; }
+    .al-bar { width: 35px; }
+    .al-pie { width: 160px; height: 160px; }
+    .al-grouped-bar { height: 180px; }
+    .al-data-table { font-size: 0.78rem; }
+    .al-data-table thead th { padding: 0.6rem 0.5rem; font-size: 0.65rem; }
+    .al-data-table tbody td { padding: 0.55rem 0.5rem; }
+  }
+</style>
+
+<div class="al-lesson">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 3 · Lesson 3.3</div>
+    <h1>Multi-Source Data Integration</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">The hardest numerical reasoning skill — and the one that separates top performers from everyone else. One question, multiple data sources, one answer.</p>
+  </div>
+
+  <!-- ═══ SECTION 1: WHAT THESE LOOK LIKE ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">1</div>
+      <h2>What Multi-Source Questions Look Like</h2>
+    </div>
+    <div class="al-card">
+      <p>In harder SHL and Aon tests, a single question may require you to: (a) read a value from Table 1, (b) read a percentage from a pie chart, (c) apply a growth rate from a text note, and (d) combine them all to calculate the answer. <strong>The maths is rarely hard — the challenge is organising the data extraction</strong>.</p>
+      <p>These questions are worth exactly the same marks as simple single-source questions, but they take longer and have more places to go wrong. That makes them the key time-pressure battleground. A systematic method is the only way to handle them consistently.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 2: THE 5-STEP METHOD ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">2</div>
+      <h2>The 5-Step Method</h2>
+    </div>
+
+    <div class="al-method-steps">
+      <div class="al-method-step">
+        <div class="al-method-num">1</div>
+        <div class="al-method-content">
+          <div class="al-method-title">Read the Question</div>
+          <div class="al-method-desc">What is it actually asking? Underline the key output: "total cost", "percentage growth", "difference between". Know your destination before you start navigating.</div>
+        </div>
+      </div>
+      <div class="al-method-step">
+        <div class="al-method-num">2</div>
+        <div class="al-method-content">
+          <div class="al-method-title">Identify Your Sources</div>
+          <div class="al-method-desc">Which tables, charts, or text notes contain the data you need? Tag each one mentally: "I need headcount from Source A and salary from Source B."</div>
+        </div>
+      </div>
+      <div class="al-method-step">
+        <div class="al-method-num">3</div>
+        <div class="al-method-content">
+          <div class="al-method-title">Extract from Source 1</div>
+          <div class="al-method-desc">Find the specific value. Write it down or type it into your calculator. Check units. Don't move to Source 2 until you've confirmed this number.</div>
+        </div>
+      </div>
+      <div class="al-method-step">
+        <div class="al-method-num">4</div>
+        <div class="al-method-content">
+          <div class="al-method-title">Extract from Source 2 (and 3...)</div>
+          <div class="al-method-desc">Repeat for each additional source. Write each value down separately. Double-check you're reading the right row, column, and time period for each source.</div>
+        </div>
+      </div>
+      <div class="al-method-step">
+        <div class="al-method-num">5</div>
+        <div class="al-method-content">
+          <div class="al-method-title">Combine and Calculate</div>
+          <div class="al-method-desc">Only now do you combine the extracted values. Apply the formula. Check: does the answer make sense? Is it in the right units?</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-warn">
+      <div class="al-callout-label">Why Write Values Down?</div>
+      <p>Under time pressure, your working memory is your weakest link. If you try to hold three extracted values in your head while switching between sources, you <strong>will</strong> misremember one. Write each value down the moment you extract it — even "obvious" ones. The 5 seconds of writing saves 30 seconds of re-extraction.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 3: WORKED EXAMPLE 1 (MEDIUM) ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">3</div>
+      <h2>Worked Example 1 — Two Tables (Medium)</h2>
+    </div>
+
+    <p style="font-size:0.78rem; font-weight:600; color:var(--al-text-light); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.75rem;"><span class="al-source-tag al-source-a">Source A</span> Employee Headcount by Department</p>
+
+    <table class="al-data-table">
+      <thead>
+        <tr><th>Department</th><th>Headcount</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Finance</td><td>62</td></tr>
+        <tr><td>Marketing</td><td>45</td></tr>
+        <tr><td>Operations</td><td>88</td></tr>
+        <tr><td>Technology</td><td>71</td></tr>
+        <tr><td>HR</td><td>24</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-size:0.78rem; font-weight:600; color:var(--al-text-light); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.75rem;"><span class="al-source-tag al-source-b">Source B</span> Average Annual Salary by Department (£ thousands)</p>
+
+    <table class="al-data-table">
+      <thead>
+        <tr><th>Department</th><th>Avg Salary (£k)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Finance</td><td>55</td></tr>
+        <tr><td>Marketing</td><td>42</td></tr>
+        <tr><td>Operations</td><td>38</td></tr>
+        <tr><td>Technology</td><td>62</td></tr>
+        <tr><td>HR</td><td>47</td></tr>
+      </tbody>
+    </table>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 1</span>
+        <span class="al-example-q">"What is the total annual salary cost for the Marketing department?"</span>
+      </div>
+      <div class="al-example-body">
+        <p style="font-weight:600; color:var(--al-navy); margin-bottom:0.5rem;">Step 1: What's being asked?</p>
+        <p>Total salary cost = headcount × average salary. I need both pieces of data.</p>
+        <p style="font-weight:600; color:var(--al-navy); margin:0.75rem 0 0.5rem;">Step 2: Which sources?</p>
+        <p><span class="al-source-tag al-source-a">Source A</span> has headcount. <span class="al-source-tag al-source-b">Source B</span> has average salary.</p>
+        <p style="font-weight:600; color:var(--al-navy); margin:0.75rem 0 0.5rem;">Step 3: Extract from Source A</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Marketing headcount = <strong>45</strong> ← write it down</span></div>
+        <p style="font-weight:600; color:var(--al-navy); margin:0.75rem 0 0.5rem;">Step 4: Extract from Source B</p>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Marketing avg salary = <strong>£42k</strong> ← write it down</span></div>
+        <p style="font-weight:600; color:var(--al-navy); margin:0.75rem 0 0.5rem;">Step 5: Combine and calculate</p>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Total cost: 45 × £42,000 = <span class="al-step-result">£1,890,000 = £1,890k</span></span></div>
+        <p style="margin-top:0.75rem; color:var(--al-text-light); font-size:0.85rem;">Trap: Using the wrong department's headcount or salary. Marketing headcount (45) × Technology salary (£62k) = £2,790k — which would likely appear as a wrong-answer option.</p>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-tip">
+      <div class="al-callout-label">Cross-Table Alignment</div>
+      <p>When two tables share a common variable (like "Department"), always verify you're reading the <strong>same row label</strong> in both tables. Under pressure, it's easy to read row 3 in Source A but row 4 in Source B if the tables are ordered differently.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 4: WORKED EXAMPLE 2 (HARD) ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">4</div>
+      <h2>Worked Example 2 — Three Sources (Hard)</h2>
+    </div>
+    <div class="al-card">
+      <p>This example requires data from a bar chart, a pie chart, <strong>and</strong> a text note. It's the kind of question that appears in the final third of an SHL test and that most candidates either skip or get wrong. The 5-step method makes it manageable.</p>
+    </div>
+
+    <!-- Source C: Bar chart — Quarterly Revenue -->
+    <div class="al-chart-container">
+      <div class="al-chart-label"><span class="al-source-tag al-source-c">Source C</span> Quarterly Revenue, FY2024 (£ thousands)</div>
+      <div class="al-grouped-bar">
+        <div class="al-y-axis">
+          <div class="al-y-tick">0</div>
+          <div class="al-y-tick">2,000</div>
+          <div class="al-y-tick">4,000</div>
+          <div class="al-y-tick">6,000</div>
+          <div class="al-y-tick">8,000</div>
+          <div class="al-y-tick">10,000</div>
+        </div>
+        <div class="al-plot-area">
+          <!-- Gridlines: plot height 190px, max 10000, so 2000=38px -->
+          <div class="al-grid" style="bottom:38px;"></div>
+          <div class="al-grid" style="bottom:76px;"></div>
+          <div class="al-grid" style="bottom:114px;"></div>
+          <div class="al-grid" style="bottom:152px;"></div>
+          <!-- Q1: 6,800 → 6800/10000×190=129.2px -->
+          <div class="al-bar-group">
+            <div class="al-bar" style="height:129.2px; background:var(--al-chart-a);"><span class="al-bar-val">6,800</span></div>
+            <span class="al-bar-group-label">Q1</span>
+          </div>
+          <!-- Q2: 7,200 → 136.8px -->
+          <div class="al-bar-group">
+            <div class="al-bar" style="height:136.8px; background:var(--al-chart-a);"><span class="al-bar-val">7,200</span></div>
+            <span class="al-bar-group-label">Q2</span>
+          </div>
+          <!-- Q3: 8,500 → 161.5px -->
+          <div class="al-bar-group">
+            <div class="al-bar" style="height:161.5px; background:var(--al-chart-a);"><span class="al-bar-val">8,500</span></div>
+            <span class="al-bar-group-label">Q3</span>
+          </div>
+          <!-- Q4: 7,900 → 150.1px -->
+          <div class="al-bar-group">
+            <div class="al-bar" style="height:150.1px; background:var(--al-chart-a);"><span class="al-bar-val">7,900</span></div>
+            <span class="al-bar-group-label">Q4</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Source D: Pie chart — Q3 Regional Breakdown -->
+    <div class="al-chart-container">
+      <div class="al-chart-label"><span class="al-source-tag al-source-d">Source D</span> Q3 Revenue by Region</div>
+      <!-- Europe 40%=144°, UK 32%=115.2°, Asia 18%=64.8°, RoW 10%=36° → sum=360° -->
+      <div class="al-pie-wrap">
+        <div class="al-pie" style="background: conic-gradient(
+          var(--al-chart-b) 0deg 144deg,
+          var(--al-chart-a) 144deg 259.2deg,
+          var(--al-chart-c) 259.2deg 324deg,
+          #B0B0B0 324deg 360deg
+        );"></div>
+        <div class="al-pie-labels">
+          <div class="al-pie-label-row"><div class="al-legend-swatch" style="background:var(--al-chart-b);"></div><span class="al-pie-label-pct">40%</span> Europe</div>
+          <div class="al-pie-label-row"><div class="al-legend-swatch" style="background:var(--al-chart-a);"></div><span class="al-pie-label-pct">32%</span> UK</div>
+          <div class="al-pie-label-row"><div class="al-legend-swatch" style="background:var(--al-chart-c);"></div><span class="al-pie-label-pct">18%</span> Asia</div>
+          <div class="al-pie-label-row"><div class="al-legend-swatch" style="background:#B0B0B0;"></div><span class="al-pie-label-pct">10%</span> Rest of World</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Source E: Text note -->
+    <div class="al-card" style="border-left:4px solid var(--al-chart-d); background:var(--al-cream);">
+      <p style="font-size:0.72rem; font-weight:700; color:var(--al-text-light); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.5rem;"><span class="al-source-tag al-source-d">Note</span> Additional Information</p>
+      <p style="font-size:0.95rem; color:var(--al-navy);">"Europe's Q3 revenue represented a <strong>12% increase</strong> compared to its Q2 revenue."</p>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 2</span>
+        <span class="al-example-q">"What was Europe's Q2 revenue?"</span>
+      </div>
+      <div class="al-example-body">
+        <p style="font-weight:600; color:var(--al-navy); margin-bottom:0.5rem;">Step 1: What's being asked?</p>
+        <p>Europe's revenue specifically in Q2. No source gives this directly — it must be calculated.</p>
+
+        <p style="font-weight:600; color:var(--al-navy); margin:0.75rem 0 0.5rem;">Step 2: Which sources? Plan the route.</p>
+        <p>I can get Europe Q3 revenue from <span class="al-source-tag al-source-c">Source C</span> (Q3 total) + <span class="al-source-tag al-source-d">Source D</span> (Europe %). Then I can reverse the 12% growth from the <span class="al-source-tag al-source-d">Note</span> to find Q2.</p>
+
+        <p style="font-weight:600; color:var(--al-navy); margin:0.75rem 0 0.5rem;">Step 3: Extract from Source C</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Q3 total revenue (from bar chart): <strong>£8,500k</strong></span></div>
+
+        <p style="font-weight:600; color:var(--al-navy); margin:0.75rem 0 0.5rem;">Step 4: Extract from Source D + Note</p>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Europe's share of Q3 (from pie chart): <strong>40%</strong></span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Growth rate Q2→Q3 (from text note): <strong>12%</strong></span></div>
+
+        <p style="font-weight:600; color:var(--al-navy); margin:0.75rem 0 0.5rem;">Step 5: Combine and calculate</p>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Europe Q3 revenue: 40% × £8,500k = £3,400k</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Europe Q3 = Europe Q2 × 1.12 (12% growth)</span></div>
+        <div class="al-step-line"><span class="al-step-num">6</span><span class="al-step-calc">Therefore: Europe Q2 = £3,400k ÷ 1.12 = <span class="al-step-result">£3,035.7k ≈ £3,036k</span></span></div>
+
+        <p style="margin-top:0.75rem; color:var(--al-text-light); font-size:0.85rem;"><strong>Traps:</strong> (1) Using Q2 total revenue (£7,200k) instead of Q3 when calculating Europe's share. (2) Subtracting 12% (£3,400 × 0.88 = £2,992k) instead of dividing by 1.12. Remember from Module 2: reverse percentage = divide by (1 + rate), not multiply by (1 − rate).</p>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-danger">
+      <div class="al-callout-label">The Most Common Multi-Source Mistake</div>
+      <p><strong>Using the wrong time period from the wrong source.</strong> The pie chart shows Q3 breakdown. The bar chart shows all quarters. The text note references Q2→Q3 growth. It's easy to accidentally apply the pie chart percentages to Q2's total instead of Q3's. Always tag each extracted value with its time period: "£8,500k (Q3)" not just "£8,500k".</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 5: PRACTICE ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">5</div>
+      <h2>Practice — Multi-Source Questions</h2>
+    </div>
+    <p style="margin-bottom:1rem; font-size:0.92rem;">The four data sources below form a connected dataset for a fictional firm. Each practice question requires data from two or more sources. Apply the 5-step method every time.</p>
+
+    <!-- PRACTICE DATA SOURCES -->
+    <p style="font-size:0.78rem; font-weight:600; color:var(--al-text-light); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.75rem;"><span class="al-source-tag al-source-a">Source A</span> FY2024 Revenue by Division (£ thousands)</p>
+    <table class="al-data-table">
+      <thead><tr><th>Division</th><th>Annual Revenue (£k)</th></tr></thead>
+      <tbody>
+        <tr><td>Retail</td><td>3,200</td></tr>
+        <tr><td>Corporate</td><td>5,400</td></tr>
+        <tr><td>Wealth</td><td>2,800</td></tr>
+        <tr><td>Insurance</td><td>1,600</td></tr>
+      </tbody>
+      <tr><td colspan="2" class="al-table-note">Total annual revenue: £13,000k</td></tr>
+    </table>
+
+    <p style="font-size:0.78rem; font-weight:600; color:var(--al-text-light); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.75rem;"><span class="al-source-tag al-source-b">Source B</span> Cost-to-Revenue Ratio by Division</p>
+    <table class="al-data-table">
+      <thead><tr><th>Division</th><th>Cost Ratio (%)</th></tr></thead>
+      <tbody>
+        <tr><td>Retail</td><td>72%</td></tr>
+        <tr><td>Corporate</td><td>58%</td></tr>
+        <tr><td>Wealth</td><td>65%</td></tr>
+        <tr><td>Insurance</td><td>81%</td></tr>
+      </tbody>
+      <tr><td colspan="2" class="al-table-note">Cost ratio = operating costs as a percentage of revenue.</td></tr>
+    </table>
+
+    <!-- Source C: Bar chart — Quarterly Revenue -->
+    <div class="al-chart-container">
+      <div class="al-chart-label"><span class="al-source-tag al-source-c">Source C</span> Quarterly Revenue, FY2024 (£ thousands)</div>
+      <div class="al-grouped-bar al-grouped-bar-sm" style="height:190px;">
+        <div class="al-y-axis">
+          <div class="al-y-tick">0</div>
+          <div class="al-y-tick">1,000</div>
+          <div class="al-y-tick">2,000</div>
+          <div class="al-y-tick">3,000</div>
+          <div class="al-y-tick">4,000</div>
+        </div>
+        <div class="al-plot-area">
+          <!-- Plot height ~160px, max 4000, 1k=0.04px → 2900×0.04=116px etc -->
+          <div class="al-grid" style="bottom:40px;"></div>
+          <div class="al-grid" style="bottom:80px;"></div>
+          <div class="al-grid" style="bottom:120px;"></div>
+          <!-- Q1:2900 → 2900/4000×160=116px -->
+          <div class="al-bar-group">
+            <div class="al-bar" style="height:116px; background:var(--al-chart-a);"><span class="al-bar-val">2,900</span></div>
+            <span class="al-bar-group-label">Q1</span>
+          </div>
+          <!-- Q2:3100 → 124px -->
+          <div class="al-bar-group">
+            <div class="al-bar" style="height:124px; background:var(--al-chart-a);"><span class="al-bar-val">3,100</span></div>
+            <span class="al-bar-group-label">Q2</span>
+          </div>
+          <!-- Q3:3600 → 144px -->
+          <div class="al-bar-group">
+            <div class="al-bar" style="height:144px; background:var(--al-chart-a);"><span class="al-bar-val">3,600</span></div>
+            <span class="al-bar-group-label">Q3</span>
+          </div>
+          <!-- Q4:3400 → 136px -->
+          <div class="al-bar-group">
+            <div class="al-bar" style="height:136px; background:var(--al-chart-a);"><span class="al-bar-val">3,400</span></div>
+            <span class="al-bar-group-label">Q4</span>
+          </div>
+        </div>
+      </div>
+      <p style="text-align:center; font-size:0.72rem; color:var(--al-text-light); margin-top:1.5rem;">Total: 2,900 + 3,100 + 3,600 + 3,400 = £13,000k</p>
+    </div>
+
+    <!-- Source D: Pie chart — Q3 Division Breakdown -->
+    <div class="al-chart-container">
+      <div class="al-chart-label"><span class="al-source-tag al-source-d">Source D</span> Q3 Revenue by Division</div>
+      <!-- Retail 28%=100.8°, Corporate 42%=151.2°, Wealth 18%=64.8°, Insurance 12%=43.2° → sum=360° -->
+      <div class="al-pie-wrap">
+        <div class="al-pie" style="background: conic-gradient(
+          var(--al-chart-a) 0deg 100.8deg,
+          var(--al-chart-b) 100.8deg 252deg,
+          var(--al-chart-c) 252deg 316.8deg,
+          #B0B0B0 316.8deg 360deg
+        );"></div>
+        <div class="al-pie-labels">
+          <div class="al-pie-label-row"><div class="al-legend-swatch" style="background:var(--al-chart-a);"></div><span class="al-pie-label-pct">28%</span> Retail</div>
+          <div class="al-pie-label-row"><div class="al-legend-swatch" style="background:var(--al-chart-b);"></div><span class="al-pie-label-pct">42%</span> Corporate</div>
+          <div class="al-pie-label-row"><div class="al-legend-swatch" style="background:var(--al-chart-c);"></div><span class="al-pie-label-pct">18%</span> Wealth</div>
+          <div class="al-pie-label-row"><div class="al-legend-swatch" style="background:#B0B0B0;"></div><span class="al-pie-label-pct">12%</span> Insurance</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PQ1: 2 sources -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 1 — Two Sources</div>
+      <div class="al-practice-q">What was Corporate's annual operating profit? (Use Sources A + B.)</div>
+      <div class="al-practice-options">
+        <p>(A) £1,890k</p>
+        <p>(B) £2,268k</p>
+        <p>(C) £3,132k</p>
+        <p>(D) £5,400k</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-source-tag al-source-a">A</span> Corporate revenue: £5,400k. <span class="al-source-tag al-source-b">B</span> Corporate cost ratio: 58%.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Profit = Revenue × (1 − cost ratio) = £5,400k × (1 − 0.58)</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">= £5,400k × 0.42 = <span class="al-step-result">£2,268k → Answer: B</span></span></div>
+        <p>Trap: Option C (£3,132k) = £5,400 × 0.58 — that's the <strong>cost</strong>, not the profit. Option D is revenue without subtracting costs at all.</p>
+      </div>
+    </details>
+
+    <!-- PQ2: 2 sources -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 2 — Two Sources</div>
+      <div class="al-practice-q">What was Wealth Management's revenue in Q3? (Use Sources C + D.)</div>
+      <div class="al-practice-options">
+        <p>(A) £504k</p>
+        <p>(B) £612k</p>
+        <p>(C) £648k</p>
+        <p>(D) £720k</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-source-tag al-source-c">C</span> Q3 total: £3,600k. <span class="al-source-tag al-source-d">D</span> Wealth's Q3 share: 18%.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Wealth Q3: 18% × £3,600k = <span class="al-step-result">£648k → Answer: C</span></span></div>
+        <p>Trap: Option A (£504k) = 18% × £2,800k — using the annual revenue from Source A instead of Q3 from Source C. The pie chart (Source D) applies to Q3, not the full year.</p>
+      </div>
+    </details>
+
+    <!-- PQ3: 3 sources -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 3 — Three Sources</div>
+      <div class="al-practice-q">What percentage of Corporate's annual revenue was earned in Q3? (Use Sources A + C + D.)</div>
+      <div class="al-practice-options">
+        <p>(A) 24.5%</p>
+        <p>(B) 28.0%</p>
+        <p>(C) 32.4%</p>
+        <p>(D) 42.0%</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p>Three sources needed: <span class="al-source-tag al-source-c">C</span> for Q3 total, <span class="al-source-tag al-source-d">D</span> for Corporate's Q3 share, <span class="al-source-tag al-source-a">A</span> for Corporate's annual total.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Corporate Q3 revenue: 42% × £3,600k = £1,512k (Sources C + D)</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Corporate annual revenue: £5,400k (Source A)</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Q3 as % of annual: £1,512k ÷ £5,400k × 100 = <span class="al-step-result">28.0% → Answer: B</span></span></div>
+        <p>Trap: Option D (42%) is Corporate's share of Q3 total revenue — not Corporate's Q3 as a percentage of its own annual revenue. These are very different questions.</p>
+      </div>
+    </details>
+
+    <!-- PQ4: 3 sources, hardest -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 4 — Three Sources (Hard)</div>
+      <div class="al-practice-q">Which division generated the highest operating profit in Q3? (Use Sources B + C + D.)</div>
+      <div class="al-practice-options">
+        <p>(A) Retail</p>
+        <p>(B) Corporate</p>
+        <p>(C) Wealth</p>
+        <p>(D) Insurance</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p>First get each division's Q3 revenue (<span class="al-source-tag al-source-c">C</span> + <span class="al-source-tag al-source-d">D</span>), then apply profit margins (<span class="al-source-tag al-source-b">B</span>).</p>
+        <p style="font-weight:600; color:var(--al-navy); margin:0.5rem 0 0.35rem;">Q3 revenues (from C + D): Q3 total = £3,600k</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Retail Q3: 28% × 3,600 = £1,008k</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Corporate Q3: 42% × 3,600 = £1,512k</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Wealth Q3: 18% × 3,600 = £648k</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Insurance Q3: 12% × 3,600 = £432k</span></div>
+        <p style="font-weight:600; color:var(--al-navy); margin:0.75rem 0 0.35rem;">Q3 profits (from B): Profit = Revenue × (1 − cost ratio)</p>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Retail: £1,008 × 0.28 = £282.2k</span></div>
+        <div class="al-step-line"><span class="al-step-num">6</span><span class="al-step-calc">Corporate: £1,512 × 0.42 = <strong>£635.0k</strong></span></div>
+        <div class="al-step-line"><span class="al-step-num">7</span><span class="al-step-calc">Wealth: £648 × 0.35 = £226.8k</span></div>
+        <div class="al-step-line"><span class="al-step-num">8</span><span class="al-step-calc">Insurance: £432 × 0.19 = £82.1k</span></div>
+        <p><span class="al-step-result">Answer: B — Corporate at £635.0k</span></p>
+        <p style="margin-top:0.5rem;">Trap: Corporate also has the highest Q3 revenue, so the answer seems obvious. But this isn't always the case — a smaller division with a higher profit margin could win. You must calculate all four to be certain. In a real test, estimate first: Corporate has both the highest revenue share (42%) and the highest profit margin among the big divisions (42%), so it's the clear winner — you could skip the other calculations to save time.</p>
+      </div>
+    </details>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ KEY TAKEAWAYS ═══ -->
+  <div class="al-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul class="al-takeaways-list">
+      <li>Use the 5-step method for every multi-source question: read the question, identify sources, extract from each, then combine. Don't skip steps under pressure.</li>
+      <li>Write down each extracted value the moment you find it — including its time period and units. Working memory fails under exam conditions.</li>
+      <li>The most common error is using data from the wrong time period — applying a pie chart's Q3 percentages to Q2's total, or reading the wrong quarter from a bar chart.</li>
+      <li>Tag your extracted values: "£8,500k (Q3, total)" not just "£8,500k". This prevents cross-contamination between sources.</li>
+      <li>For reverse percentages in multi-source questions (like finding Q2 from Q3 + growth rate), divide by (1 + rate). Never subtract the percentage.</li>
+      <li>On the hardest questions requiring 3+ sources, plan your route before extracting any data. Know which calculation chain leads to the answer.</li>
+    </ul>
+  </div>
+
+  <!-- ═══ NEXT LESSON ═══ -->
+  <div class="al-next">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Lesson</div>
+      <div class="al-next-title">3.4 — Percentage Change &amp; Growth Analysis</div>
+      <div class="al-next-desc">The most commonly asked calculation in data interpretation — the percentage change formula, different bases trap, compound growth, and year-on-year trend analysis.</div>
+    </div>
+  </div>
+
+</div>
+
+<!--
+  CALCULATION VERIFICATION:
+  
+  WE1: 45 × 42,000 = £1,890,000 = £1,890k ✓
+  Cross-dept trap: 45 × 62,000 = £2,790k (wrong dept salary)
+  
+  WE2: Q3 total = £8,500k ✓
+  Europe Q3: 40% × 8,500 = £3,400k ✓
+  Europe Q2: 3,400 ÷ 1.12 = £3,035.714... ≈ £3,036k ✓
+  Wrong method trap: 3,400 × 0.88 = £2,992k (incorrect reverse %)
+  
+  Practice Sources consistency:
+  Source A total: 3,200 + 5,400 + 2,800 + 1,600 = 13,000 ✓
+  Source C total: 2,900 + 3,100 + 3,600 + 3,400 = 13,000 ✓ (matches Source A)
+  Source D sum: 28% + 42% + 18% + 12% = 100% ✓
+  Pie degrees: 100.8 + 151.2 + 64.8 + 43.2 = 360° ✓
+  
+  Bar heights (practice chart): 190px height, max 4000, 1k = 160/4000 = 0.04px
+  2,900 × 0.04 = 116px ✓
+  3,100 × 0.04 = 124px ✓
+  3,600 × 0.04 = 144px ✓
+  3,400 × 0.04 = 136px ✓
+  
+  PQ1: 5,400 × (1-0.58) = 5,400 × 0.42 = 2,268 ✓
+  Trap C: 5,400 × 0.58 = 3,132 (cost not profit)
+  
+  PQ2: 18% × 3,600 = 648 ✓
+  Trap A: 18% × 2,800 = 504 (annual not Q3)
+  
+  PQ3: Corporate Q3 = 42% × 3,600 = 1,512
+  1,512 / 5,400 = 0.28 = 28.0% ✓
+  
+  PQ4:
+  Retail Q3: 0.28 × 3,600 = 1,008; profit: 1,008 × 0.28 = 282.24 ✓
+  Corporate Q3: 0.42 × 3,600 = 1,512; profit: 1,512 × 0.42 = 635.04 ✓
+  Wealth Q3: 0.18 × 3,600 = 648; profit: 648 × 0.35 = 226.80 ✓
+  Insurance Q3: 0.12 × 3,600 = 432; profit: 432 × 0.19 = 82.08 ✓
+  Highest: Corporate ✓
+-->

@@ -1,0 +1,1053 @@
+<!--
+  ACUMEN LOGIC — Lesson 4.2: Pattern Recognition
+  For ThriveCart Learn Custom HTML Block
+  Pure CSS · Zero JavaScript · Fully responsive
+
+  TYPE: Worked Examples lesson (hard difficulty)
+  Covers abstract/inductive reasoning: rotation, reflection, element
+  addition/subtraction, shading changes, and combination patterns.
+  Starts with one accessible warm-up then escalates rapidly to
+  multi-rule patterns at real SHL Inductive / Korn Ferry difficulty.
+  SVG-based shape sequences throughout.
+-->
+
+<style>
+  /* ═══ BRAND TOKENS ═══ */
+  .al-lesson {
+    --al-navy: #1B2A4A;
+    --al-navy-light: #2A3D66;
+    --al-navy-muted: #3D5280;
+    --al-gold: #C8A951;
+    --al-gold-light: #D4BC72;
+    --al-gold-pale: #F5EFD9;
+    --al-cream: #FAFAF6;
+    --al-white: #FFFFFF;
+    --al-text: #2C2C2C;
+    --al-text-light: #6B6B6B;
+    --al-border: #E8E4DA;
+    --al-success: #2D8F5E;
+    --al-success-bg: #EDF7F0;
+    --al-danger: #C0392B;
+    --al-danger-bg: #FDF2F0;
+    --al-radius: 10px;
+    --al-radius-sm: 6px;
+    --al-shadow: 0 2px 12px rgba(27, 42, 74, 0.08);
+    --al-shadow-lg: 0 8px 32px rgba(27, 42, 74, 0.12);
+  }
+
+  /* ═══ RESET & BASE ═══ */
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+  .al-lesson {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .al-lesson h1, .al-lesson h2, .al-lesson h3 { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; color: var(--al-navy); line-height: 1.25; }
+
+  /* ═══ HERO ═══ */
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .al-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200, 169, 81, 0.08) 0%, transparent 70%); pointer-events: none; }
+  .al-hero-eyebrow { font-family: 'Source Sans 3', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem, 4vw, 2.2rem); margin-bottom: 0.75rem; }
+  .al-hero-subtitle { color: rgba(255, 255, 255, 0.9) !important; font-size: 1rem; max-width: 36rem; line-height: 1.5; }
+  .al-hero-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 1rem 0; }
+
+  /* ═══ SECTIONS ═══ */
+  .al-section { margin-bottom: 2rem; }
+  .al-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-section-number { width: 2rem; height: 2rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.95rem; flex-shrink: 0; }
+  .al-section h2 { font-size: clamp(1.15rem, 3vw, 1.4rem); }
+
+  /* ═══ CARDS ═══ */
+  .al-card { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-card p { margin-bottom: 0.75rem; }
+  .al-card p:last-child { margin-bottom: 0; }
+
+  /* ═══ CALLOUTS ═══ */
+  .al-callout { border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; font-size: 0.92rem; }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-gold { background: var(--al-gold-pale); border-left: 4px solid var(--al-gold); }
+  .al-callout-warn { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-callout-danger { background: var(--al-danger-bg); border-left: 4px solid var(--al-danger); }
+  .al-callout-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .al-callout-tip .al-callout-label { color: var(--al-success); }
+  .al-callout-gold .al-callout-label { color: var(--al-navy); }
+  .al-callout-warn .al-callout-label { color: #D4823A; }
+  .al-callout-danger .al-callout-label { color: var(--al-danger); }
+
+  /* ═══ WORKED EXAMPLES ═══ */
+  .al-example { border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-example-header { background: var(--al-navy); padding: 1.25rem 1.5rem; display: flex; flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  .al-example-label { color: var(--al-gold) !important; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .al-example-q { color: var(--al-white) !important; font-size: 1.15rem; font-weight: 600; line-height: 1.4; margin-top: 0.25rem; }
+  .al-example-body { background: var(--al-white); border: 1px solid var(--al-border); border-top: none; border-radius: 0 0 var(--al-radius) var(--al-radius); padding: 1.5rem; font-size: 0.92rem; }
+  .al-example-body p { margin-bottom: 0.6rem; }
+  .al-example-body p:last-child { margin-bottom: 0; }
+
+  /* ═══ STEP LINES ═══ */
+  .al-step-line { display: flex; align-items: baseline; gap: 0.65rem; margin-bottom: 0.45rem; }
+  .al-step-num { width: 1.4rem; height: 1.4rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.7rem; flex-shrink: 0; }
+  .al-step-calc { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-size: 0.95rem; color: var(--al-navy); }
+  .al-step-result { font-weight: 700; color: var(--al-success); }
+
+  /* ═══ WRONG vs RIGHT ═══ */
+  .al-vs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin-bottom: 1.25rem; }
+  .al-vs-box { border-radius: var(--al-radius); padding: 1rem; }
+  .al-vs-wrong { background: #FDF2F0; border: 2px solid var(--al-danger); }
+  .al-vs-right { background: #EDF7F0; border: 2px solid var(--al-success); }
+  .al-vs-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .al-vs-wrong .al-vs-label { color: var(--al-danger); }
+  .al-vs-right .al-vs-label { color: var(--al-success); }
+  .al-vs-box p { font-size: 0.92rem; margin-bottom: 0.4rem; line-height: 1.5; }
+  .al-vs-box p:last-child { margin-bottom: 0; }
+
+  /* ═══ FORMULA / RULE CARDS ═══ */
+  .al-formula { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.15rem 1.5rem; margin-bottom: 1.25rem; text-align: center; }
+  .al-formula-label { color: var(--al-gold) !important; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .al-formula-text { color: var(--al-white) !important; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: clamp(1rem, 2.5vw, 1.25rem); line-height: 1.4; }
+  .al-formula-note { color: rgba(255, 255, 255, 0.75) !important; font-size: 0.78rem; margin-top: 0.35rem; }
+
+  /* ═══ PATTERN SEQUENCE DISPLAY ═══ */
+  .al-pattern-row { display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin: 1rem 0 1.25rem; }
+  .al-pattern-cell { width: 80px; height: 80px; background: var(--al-white); border: 2px solid var(--al-border); border-radius: var(--al-radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .al-pattern-cell svg { width: 56px; height: 56px; }
+  .al-pattern-cell.al-answer-cell { border: 2px dashed var(--al-gold); background: var(--al-gold-pale); position: relative; }
+  .al-pattern-cell.al-answer-cell::after { content: '?'; font-family: 'Source Sans 3', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--al-gold); }
+  .al-pattern-cell.al-answer-cell svg { display: none; }
+  .al-pattern-cell.al-correct-cell { border: 2px solid var(--al-success); background: var(--al-success-bg); }
+  .al-pattern-arrow { font-size: 1.1rem; color: var(--al-text-light); font-weight: 700; flex-shrink: 0; }
+  .al-pattern-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--al-text-light); text-align: center; margin-bottom: 0.5rem; }
+
+  /* ═══ MCQ OPTIONS — vertical list with small pattern box ═══ */
+  .al-mcq-options { list-style: none; padding: 0; margin: 0.75rem 0 0.5rem; }
+  .al-mcq-option { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--al-border); }
+  .al-mcq-option:last-child { border-bottom: none; }
+  .al-mcq-letter { font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 0.88rem; color: var(--al-navy); min-width: 1.5rem; }
+  .al-mcq-cell { width: 56px; height: 56px; background: var(--al-white); border: 1.5px solid var(--al-border); border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .al-mcq-cell svg { width: 40px; height: 40px; }
+  .al-mcq-cell.al-mcq-correct { border-color: var(--al-success); background: var(--al-success-bg); }
+
+  /* ═══ REVEAL (details/summary) ═══ */
+  .al-reveal { margin-top: 1rem; border: 2px solid var(--al-border); border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; }
+  .al-reveal[open] { border-color: var(--al-success); }
+  .al-reveal-btn { display: block; padding: 0.85rem 1.25rem; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--al-navy); background: var(--al-cream); cursor: pointer; list-style: none; user-select: none; -webkit-user-select: none; }
+  .al-reveal-btn::-webkit-details-marker { display: none; }
+  .al-reveal-btn::marker { display: none; content: ''; }
+  .al-reveal-btn:hover { background: var(--al-gold-pale); }
+  .al-reveal[open] .al-reveal-btn { background: #EDF7F0; color: var(--al-success); border-bottom: 1px solid var(--al-border); }
+  .al-reveal-content { padding: 1.25rem; font-size: 0.92rem; }
+  .al-reveal-content p { margin-bottom: 0.6rem; }
+  .al-reveal-content p:last-child { margin-bottom: 0; }
+
+  /* ═══ PRACTICE QUESTION ═══ */
+  .al-practice { background: var(--al-cream); border: 2px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 0.5rem; }
+  .al-practice-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-gold); margin-bottom: 0.35rem; }
+  .al-practice-q { font-size: 0.95rem; font-weight: 600; color: var(--al-navy); line-height: 1.5; }
+
+  /* ═══ KEY TAKEAWAYS ═══ */
+  .al-takeaways { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.5rem 1.75rem; margin-bottom: 1.25rem; }
+  .al-takeaways h3 { color: var(--al-gold) !important; font-size: 1.1rem; margin-bottom: 1rem; }
+  .al-takeaways-list { list-style: none; padding: 0; }
+  .al-takeaways-list li { color: rgba(255, 255, 255, 0.95) !important; font-size: 0.92rem; padding: 0.45rem 0 0.45rem 1.75rem; position: relative; line-height: 1.5; }
+  .al-takeaways-list li::before { content: '✓'; position: absolute; left: 0; color: var(--al-gold); font-weight: 700; font-size: 1rem; }
+
+  /* ═══ NEXT LESSON ═══ */
+  .al-next { background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .al-next-arrow { width: 2.5rem; height: 2.5rem; background: var(--al-navy); color: var(--al-gold) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .al-next-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-text-light); margin-bottom: 0.15rem; }
+  .al-next-title { font-family: 'Source Sans 3', sans-serif; font-weight: 700; color: var(--al-navy); font-size: 1rem; }
+  .al-next-desc { font-size: 0.85rem; color: var(--al-text-light); margin-top: 0.15rem; }
+
+  /* ═══ UTILITY ═══ */
+  .al-lesson strong { color: var(--al-navy); }
+  .al-divider { border: none; height: 1px; background: var(--al-border); margin: 2rem 0; }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .al-card, .al-example-body, .al-reveal-content { padding: 1.15rem; }
+    .al-vs { grid-template-columns: 1fr; }
+    .al-pattern-cell { width: 60px; height: 60px; }
+    .al-pattern-cell svg { width: 40px; height: 40px; }
+    .al-pattern-row { gap: 0.35rem; }
+    .al-mcq-cell { width: 48px; height: 48px; }
+    .al-mcq-cell svg { width: 34px; height: 34px; }
+    .al-takeaways { padding: 1.25rem; }
+    .al-next { flex-direction: column; text-align: center; }
+    .al-formula { padding: 1rem; }
+    .al-example-header { padding: 1.1rem 1.25rem; }
+    .al-example-q { font-size: 1.05rem; }
+  }
+</style>
+
+<div class="al-lesson">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 4 · Lesson 4.2</div>
+    <h1>Pattern Recognition</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">Abstract and inductive reasoning — identifying visual rules in shape sequences under time pressure. The questions that feel like guesswork until you learn to see systematically.</p>
+  </div>
+
+  <!-- ═══ SECTION 1: WHAT THESE TESTS ACTUALLY LOOK LIKE ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">1</div>
+      <h2>What These Tests Actually Look Like</h2>
+    </div>
+    <div class="al-card">
+      <p>Abstract reasoning — also called inductive reasoning — presents a sequence of shapes and asks you to identify the governing rule. You then select the next shape from four options, or identify which shape doesn't belong to a set.</p>
+      <p>These questions appear in SHL Inductive Reasoning (Barclays, Deloitte, Rothschild), Aon Scales (BNP Paribas, UBS, Schroders), Cappfinity (HSBC), and Korn Ferry Aspects (Citi, Macquarie). Typically 18–24 questions in 12–25 minutes — meaning you have <strong>40–75 seconds per question</strong>.</p>
+    </div>
+
+    <div class="al-callout al-callout-gold">
+      <div class="al-callout-label">Why These Feel Hard</div>
+      <p>The difficulty doesn't come from any single rule. Most rules are simple — a shape rotates, elements are added, a fill alternates. The difficulty comes from <strong>multiple rules operating at once</strong>, combined with answer options that each satisfy <em>some</em> of the rules but only one satisfies <em>all</em> of them. Every wrong option corresponds to a candidate who spotted one rule but missed another.</p>
+    </div>
+
+    <div class="al-card">
+      <p>This lesson starts with a straightforward warm-up to establish the fundamentals, then rapidly escalates to the kind of multi-rule problems that actually appear in assessments. Five categories of rules account for virtually every question: <strong>rotation, reflection, element addition/removal, shading changes,</strong> and — most commonly at real test difficulty — <strong>combinations of two or three of these applied simultaneously</strong>.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 2: WARM-UP — SINGLE RULE ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">2</div>
+      <h2>Warm-Up: Single-Rule Patterns</h2>
+    </div>
+    <div class="al-card">
+      <p>Before tackling the harder questions, let's establish the core rule types you'll encounter. Most easy questions use one rule only. Most hard questions use two or three at once — so you need to recognise each rule type instantly.</p>
+    </div>
+
+    <!-- WE1: Simple 90° rotation -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 1 — Rotation</span>
+        <span class="al-example-q">What comes next in this sequence?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-pattern-row">
+          <!-- Arrow UP -->
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56"><polygon points="28,8 44,36 12,36" fill="#1B2A4A"/><rect x="24" y="34" width="8" height="16" fill="#1B2A4A"/></svg>
+          </div>
+          <span class="al-pattern-arrow">→</span>
+          <!-- Arrow RIGHT -->
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56"><polygon points="48,28 20,12 20,44" fill="#1B2A4A"/><rect x="6" y="24" width="16" height="8" fill="#1B2A4A"/></svg>
+          </div>
+          <span class="al-pattern-arrow">→</span>
+          <!-- Arrow DOWN -->
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56"><polygon points="28,48 44,20 12,20" fill="#1B2A4A"/><rect x="24" y="6" width="8" height="16" fill="#1B2A4A"/></svg>
+          </div>
+          <span class="al-pattern-arrow">→</span>
+          <div class="al-pattern-cell al-answer-cell"></div>
+        </div>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">The arrow points Up → Right → Down. Each step rotates 90° clockwise.</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Next: Down + 90° CW = <span class="al-step-result">Arrow pointing Left</span></span></div>
+        <p style="margin-top: 0.75rem;">This is a single-rule question — pure rotation. In a real test, you'd solve this in under 15 seconds. The difficulty ramps from here.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 3: TWO-RULE PATTERNS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">3</div>
+      <h2>Two-Rule Patterns: Where Tests Get Serious</h2>
+    </div>
+    <div class="al-card">
+      <p>At real assessment difficulty, most questions layer <strong>two rules on top of each other</strong>. A shape might rotate while its fill alternates, or elements are added while their position shifts. Candidates who spot only one rule pick a distractor that satisfies that rule but violates the other.</p>
+    </div>
+
+    <!-- WE2: Rotation + Shading alternation -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 2 — Rotation + Shading</span>
+        <span class="al-example-q">Two rules operate simultaneously. What comes next?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-pattern-row">
+          <!-- Frame 1: Filled triangle pointing UP -->
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56"><polygon points="28,8 48,44 8,44" fill="#1B2A4A" stroke="#1B2A4A" stroke-width="2"/></svg>
+          </div>
+          <span class="al-pattern-arrow">→</span>
+          <!-- Frame 2: Empty triangle pointing RIGHT -->
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56"><polygon points="48,28 8,8 8,48" fill="none" stroke="#1B2A4A" stroke-width="2.5"/></svg>
+          </div>
+          <span class="al-pattern-arrow">→</span>
+          <!-- Frame 3: Filled triangle pointing DOWN -->
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56"><polygon points="28,48 48,12 8,12" fill="#1B2A4A" stroke="#1B2A4A" stroke-width="2"/></svg>
+          </div>
+          <span class="al-pattern-arrow">→</span>
+          <!-- Frame 4: Empty triangle pointing LEFT -->
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56"><polygon points="8,28 48,8 48,48" fill="none" stroke="#1B2A4A" stroke-width="2.5"/></svg>
+          </div>
+          <span class="al-pattern-arrow">→</span>
+          <div class="al-pattern-cell al-answer-cell"></div>
+        </div>
+
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>Rule A — Rotation:</strong> The triangle rotates 90° CW each step: Up → Right → Down → Left → Up</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>Rule B — Shading:</strong> Filled → Empty → Filled → Empty → <strong>Filled</strong></span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Answer: <span class="al-step-result">Filled triangle pointing Up</span> (the sequence cycles back)</span></div>
+
+        <div class="al-pattern-label" style="margin-top: 1rem;">Answer</div>
+        <div class="al-pattern-row">
+          <div class="al-pattern-cell al-correct-cell">
+            <svg viewBox="0 0 56 56"><polygon points="28,8 48,44 8,44" fill="#2D8F5E" stroke="#2D8F5E" stroke-width="2"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-danger">
+      <div class="al-callout-label">The Distractor Trap</div>
+      <p>A test would include: (A) Filled triangle pointing Up ✔, (B) Empty triangle pointing Up — correct rotation but wrong shading, (C) Filled triangle pointing Right — correct shading but wrong rotation, (D) Empty triangle pointing Down — both wrong. Candidates who spot only rotation pick (B). Candidates who spot only shading pick (C). <strong>Both rules must match.</strong></p>
+    </div>
+
+    <!-- WE3: Element count + position shift -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 3 — Count + Position</span>
+        <span class="al-example-q">Two independent changes per step. What should Frame 4 look like?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-pattern-row">
+          <!-- Frame 1: 1 dot, top-left corner -->
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56">
+              <rect x="6" y="6" width="44" height="44" fill="none" stroke="#E8E4DA" stroke-width="1.5"/>
+              <circle cx="16" cy="16" r="5" fill="#1B2A4A"/>
+            </svg>
+          </div>
+          <span class="al-pattern-arrow">→</span>
+          <!-- Frame 2: 2 dots, top-right corner -->
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56">
+              <rect x="6" y="6" width="44" height="44" fill="none" stroke="#E8E4DA" stroke-width="1.5"/>
+              <circle cx="34" cy="16" r="5" fill="#1B2A4A"/><circle cx="44" cy="16" r="5" fill="#1B2A4A"/>
+            </svg>
+          </div>
+          <span class="al-pattern-arrow">→</span>
+          <!-- Frame 3: 3 dots, bottom-right corner (L-shape) -->
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56">
+              <rect x="6" y="6" width="44" height="44" fill="none" stroke="#E8E4DA" stroke-width="1.5"/>
+              <circle cx="40" cy="28" r="5" fill="#1B2A4A"/><circle cx="40" cy="40" r="5" fill="#1B2A4A"/><circle cx="28" cy="40" r="5" fill="#1B2A4A"/>
+            </svg>
+          </div>
+          <span class="al-pattern-arrow">→</span>
+          <div class="al-pattern-cell al-answer-cell"></div>
+        </div>
+
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>Rule A — Count:</strong> 1 → 2 → 3 → next = <strong>4</strong></span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>Rule B — Position:</strong> Cluster moves clockwise: TL → TR → BR → next = <strong>Bottom-left</strong></span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Answer: <span class="al-step-result">4 dots clustered in the bottom-left quadrant</span></span></div>
+
+        <p style="margin-top: 0.75rem; color: var(--al-text-light); font-size: 0.85rem;">A test option with 4 dots in the top-right (correct count, wrong position) would trap candidates who only tracked the count.</p>
+      </div>
+    </div>
+
+    <!-- WE4: Reflection + shading cycle -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 4 — Reflection + Shading Cycle</span>
+        <span class="al-example-q">What comes next?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-pattern-row">
+          <!-- Frame 1: Filled L-shape, top-left -->
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56"><rect x="10" y="10" width="12" height="36" fill="#1B2A4A"/><rect x="10" y="10" width="36" height="12" fill="#1B2A4A"/></svg>
+          </div>
+          <span class="al-pattern-arrow">→</span>
+          <!-- Frame 2: Striped L-shape, top-right (H-flip) -->
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56">
+              <defs><pattern id="str-we4" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><rect width="3" height="6" fill="#1B2A4A"/></pattern></defs>
+              <rect x="34" y="10" width="12" height="36" fill="url(#str-we4)"/><rect x="10" y="10" width="36" height="12" fill="url(#str-we4)"/>
+            </svg>
+          </div>
+          <span class="al-pattern-arrow">→</span>
+          <!-- Frame 3: Empty L-shape, top-left (flipped back) -->
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56"><rect x="10" y="10" width="12" height="36" fill="none" stroke="#1B2A4A" stroke-width="2"/><rect x="10" y="10" width="36" height="12" fill="none" stroke="#1B2A4A" stroke-width="2"/></svg>
+          </div>
+          <span class="al-pattern-arrow">→</span>
+          <div class="al-pattern-cell al-answer-cell"></div>
+        </div>
+
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>Rule A — Reflection:</strong> L alternates between original (TL) and H-flipped (TR): TL → TR → TL → <strong>TR</strong></span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>Rule B — Shading:</strong> 3-state cycle: Filled → Striped → Empty → <strong>Filled</strong></span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Answer: <span class="al-step-result">Filled L-shape, horizontally flipped (top-right orientation)</span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 4: THREE-RULE PATTERNS — EXPERT LEVEL ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">4</div>
+      <h2>Three-Rule Patterns: Expert-Level Questions</h2>
+    </div>
+    <div class="al-card">
+      <p>The hardest questions in any abstract reasoning test layer <strong>three independent rules</strong> onto a single sequence. Each answer option violates exactly one rule — meaning it looks almost right. The correct answer is the only option that satisfies every rule simultaneously. These questions separate the 80th+ percentile candidates from everyone else.</p>
+    </div>
+
+    <!-- WE5: Rotation + shading cycle + element count -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 5 — Triple Combination</span>
+        <span class="al-example-q">Three rules govern this sequence. Identify all three and predict Frame 5.</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-pattern-row">
+          <!-- F1: 1 filled square, centered, no rotation marker. Small dot at top-centre -->
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56">
+              <rect x="18" y="18" width="20" height="20" fill="#1B2A4A" stroke="#1B2A4A" stroke-width="1.5"/>
+              <circle cx="28" cy="8" r="3.5" fill="#C8A951"/>
+            </svg>
+          </div>
+          <span class="al-pattern-arrow">→</span>
+          <!-- F2: 2 empty squares, dot at right-centre -->
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56">
+              <rect x="12" y="12" width="16" height="16" fill="none" stroke="#1B2A4A" stroke-width="2"/>
+              <rect x="30" y="30" width="16" height="16" fill="none" stroke="#1B2A4A" stroke-width="2"/>
+              <circle cx="50" cy="28" r="3.5" fill="#C8A951"/>
+            </svg>
+          </div>
+          <span class="al-pattern-arrow">→</span>
+          <!-- F3: 3 filled squares, dot at bottom-centre -->
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56">
+              <rect x="6" y="6" width="13" height="13" fill="#1B2A4A"/>
+              <rect x="22" y="22" width="13" height="13" fill="#1B2A4A"/>
+              <rect x="38" y="38" width="13" height="13" fill="#1B2A4A"/>
+              <circle cx="28" cy="54" r="3.5" fill="#C8A951"/>
+            </svg>
+          </div>
+          <span class="al-pattern-arrow">→</span>
+          <!-- F4: 4 empty squares, dot at left-centre -->
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56">
+              <rect x="6" y="6" width="11" height="11" fill="none" stroke="#1B2A4A" stroke-width="1.5"/>
+              <rect x="20" y="6" width="11" height="11" fill="none" stroke="#1B2A4A" stroke-width="1.5"/>
+              <rect x="6" y="20" width="11" height="11" fill="none" stroke="#1B2A4A" stroke-width="1.5"/>
+              <rect x="20" y="20" width="11" height="11" fill="none" stroke="#1B2A4A" stroke-width="1.5"/>
+              <circle cx="4" cy="28" r="3.5" fill="#C8A951"/>
+            </svg>
+          </div>
+          <span class="al-pattern-arrow">→</span>
+          <div class="al-pattern-cell al-answer-cell"></div>
+        </div>
+
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>Rule A — Count:</strong> 1 → 2 → 3 → 4 → <strong>5 squares</strong></span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>Rule B — Shading:</strong> Filled → Empty → Filled → Empty → <strong>Filled</strong> (alternating)</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc"><strong>Rule C — Gold dot position:</strong> Top → Right → Bottom → Left → <strong>Top</strong> (rotates 90° CW)</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Answer: <span class="al-step-result">5 filled squares with gold dot at top-centre</span></span></div>
+
+        <p style="margin-top: 0.75rem;"><strong>How a test would trap you:</strong></p>
+        <p style="font-size: 0.88rem; color: var(--al-text-light);">Option (B): 5 empty squares, dot at top — wrong shading. Option (C): 5 filled squares, dot at right — wrong dot position. Option (D): 4 filled squares, dot at top — wrong count. Each option satisfies exactly two of the three rules.</p>
+      </div>
+    </div>
+
+    <!-- WE6: Grid-based matrix pattern -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 6 — 3×3 Matrix</span>
+        <span class="al-example-q">In some tests, patterns appear in a 3×3 grid. The rule applies across rows AND down columns. What replaces the missing cell?</span>
+      </div>
+      <div class="al-example-body">
+        <p style="margin-bottom: 0.75rem;">Each row and column follows the same logic: the third cell combines or resolves the first two.</p>
+
+        <!-- Row 1 -->
+        <div class="al-pattern-row" style="margin-bottom: 0.25rem;">
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="16" fill="#1B2A4A"/></svg>
+          </div>
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56"><rect x="14" y="14" width="28" height="28" fill="none" stroke="#1B2A4A" stroke-width="2.5"/></svg>
+          </div>
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="16" fill="#1B2A4A"/><rect x="18" y="18" width="20" height="20" fill="white"/></svg>
+          </div>
+        </div>
+        <!-- Row 2 -->
+        <div class="al-pattern-row" style="margin-bottom: 0.25rem;">
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56"><rect x="14" y="14" width="28" height="28" fill="#1B2A4A"/></svg>
+          </div>
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56"><polygon points="28,10 46,42 10,42" fill="none" stroke="#1B2A4A" stroke-width="2.5"/></svg>
+          </div>
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56"><rect x="14" y="14" width="28" height="28" fill="#1B2A4A"/><polygon points="28,18 40,38 16,38" fill="white"/></svg>
+          </div>
+        </div>
+        <!-- Row 3 -->
+        <div class="al-pattern-row">
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56"><polygon points="28,8 48,42 8,42" fill="#1B2A4A"/></svg>
+          </div>
+          <div class="al-pattern-cell">
+            <svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="14" fill="none" stroke="#1B2A4A" stroke-width="2.5"/></svg>
+          </div>
+          <div class="al-pattern-cell al-answer-cell"></div>
+        </div>
+
+        <div class="al-step-line" style="margin-top: 0.75rem;"><span class="al-step-num">1</span><span class="al-step-calc"><strong>Row rule:</strong> Column 1 = filled shape. Column 2 = outline of a different shape. Column 3 = Column 1 shape with Column 2 shape cut out (white) inside it.</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Row 1: Filled circle + outline square → circle with white square inside ✓</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Row 2: Filled square + outline triangle → square with white triangle inside ✓</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Row 3: Filled triangle + outline circle → <span class="al-step-result">Filled triangle with white circle cut out inside it</span></span></div>
+
+        <div class="al-pattern-label" style="margin-top: 1rem;">Answer</div>
+        <div class="al-pattern-row">
+          <div class="al-pattern-cell al-correct-cell">
+            <svg viewBox="0 0 56 56"><polygon points="28,8 48,42 8,42" fill="#2D8F5E"/><circle cx="28" cy="30" r="10" fill="white"/></svg>
+          </div>
+        </div>
+
+        <p style="margin-top: 0.5rem; font-size: 0.88rem; color: var(--al-text-light);"><strong>Column verification:</strong> Column 1 (circle, square, triangle) = each shape appears once as filled. Column 2 (square, triangle, circle) = each shape appears once as outline. Column 3 = each combination appears once. The rule is consistent in both directions.</p>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-tip">
+      <div class="al-callout-label">Matrix Technique</div>
+      <p>For 3×3 grid questions, <strong>check the rule across rows first</strong>, then verify it holds down columns. If your answer satisfies the row rule but breaks the column rule, it's wrong. The correct answer always satisfies both. This double-verification is time-consuming but prevents the most common errors on the hardest questions.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 5: THE SYSTEMATIC APPROACH ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">5</div>
+      <h2>The Systematic Approach</h2>
+    </div>
+    <div class="al-card">
+      <p>Don't stare at the sequence hoping inspiration strikes. Run through this checklist <strong>for every element in the frame</strong>. Most candidates fail because they check the main shape but miss a secondary marker (a dot, a line, a shading change) that carries a separate rule.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">The 5-Point Pattern Checklist</div>
+      <div class="al-formula-text" style="text-align: left; font-size: 1rem;">
+        1. SHAPE — Does the main shape change type?<br>
+        2. POSITION — Does anything rotate, shift, or reflect?<br>
+        3. SIZE — Does any element grow or shrink?<br>
+        4. SHADING — Does fill change (filled / striped / empty)?<br>
+        5. COUNT — Are elements added, removed, or rearranged?
+      </div>
+      <div class="al-formula-note">Run this for EACH distinct element — main shape, inner shape, dots, lines, markers. On hard questions, different elements follow different rules.</div>
+    </div>
+
+    <div class="al-vs">
+      <div class="al-vs-box al-vs-wrong">
+        <div class="al-vs-label">Why Intuition Fails</div>
+        <p>Test designers create distractors that <strong>feel</strong> right. Each wrong option satisfies one or two rules — enough to trigger a sense of recognition. Candidates who rely on gut feeling achieve 40–50% accuracy on hard questions (barely above the 25% chance of random guessing on 4 options).</p>
+      </div>
+      <div class="al-vs-box al-vs-right">
+        <div class="al-vs-label">Why the Checklist Works</div>
+        <p>The checklist forces you to identify <strong>every</strong> rule before evaluating options. Explicitly state the rules: "main shape rotates 90° CW, fill alternates, dot moves anticlockwise." Then test each option against all rules. Only one option satisfies them all.</p>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-warn">
+      <div class="al-callout-label">Time Allocation — 60 Seconds</div>
+      <p><strong>10 seconds:</strong> scan the sequence, note how many distinct elements exist. <strong>20 seconds:</strong> run the checklist, state the rule(s) explicitly. <strong>20 seconds:</strong> test each option against your rules. <strong>10 seconds:</strong> confirm by checking the answer against every frame. If you can't identify the rule within 30 seconds, eliminate one or two options, pick the most likely, and move on.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 6: PRACTICE QUESTIONS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">6</div>
+      <h2>Practice Questions</h2>
+    </div>
+    <p style="margin-bottom:1rem; font-size:0.92rem;">These are at realistic assessment difficulty. Apply the checklist, identify the rules, then select from the four options. Work through each question before revealing the answer.</p>
+
+    <!-- ═══ PQ1: Rotation + shading (2 rules) ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 1</div>
+      <div class="al-practice-q">What comes next in this sequence?</div>
+      <div class="al-pattern-row" style="margin-top: 0.75rem;">
+        <!-- F1: Filled diamond (square rotated 45°) -->
+        <div class="al-pattern-cell">
+          <svg viewBox="0 0 56 56"><polygon points="28,6 50,28 28,50 6,28" fill="#1B2A4A" stroke="#1B2A4A" stroke-width="1.5"/><line x1="28" y1="6" x2="28" y2="50" stroke="white" stroke-width="1.5"/></svg>
+        </div>
+        <span class="al-pattern-arrow">→</span>
+        <!-- F2: Empty diamond, line rotated 90° (horizontal) -->
+        <div class="al-pattern-cell">
+          <svg viewBox="0 0 56 56"><polygon points="28,6 50,28 28,50 6,28" fill="none" stroke="#1B2A4A" stroke-width="2.5"/><line x1="6" y1="28" x2="50" y2="28" stroke="#1B2A4A" stroke-width="1.5"/></svg>
+        </div>
+        <span class="al-pattern-arrow">→</span>
+        <!-- F3: Filled diamond, line rotated 180° from start (vertical again) -->
+        <div class="al-pattern-cell">
+          <svg viewBox="0 0 56 56"><polygon points="28,6 50,28 28,50 6,28" fill="#1B2A4A" stroke="#1B2A4A" stroke-width="1.5"/><line x1="28" y1="6" x2="28" y2="50" stroke="white" stroke-width="1.5"/></svg>
+        </div>
+        <span class="al-pattern-arrow">→</span>
+        <!-- F4: Empty diamond, line horizontal -->
+        <div class="al-pattern-cell">
+          <svg viewBox="0 0 56 56"><polygon points="28,6 50,28 28,50 6,28" fill="none" stroke="#1B2A4A" stroke-width="2.5"/><line x1="6" y1="28" x2="50" y2="28" stroke="#1B2A4A" stroke-width="1.5"/></svg>
+        </div>
+        <span class="al-pattern-arrow">→</span>
+        <div class="al-pattern-cell al-answer-cell"></div>
+      </div>
+
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option">
+          <span class="al-mcq-letter">(A)</span>
+          <div class="al-mcq-cell"><svg viewBox="0 0 56 56"><polygon points="28,6 50,28 28,50 6,28" fill="#1B2A4A" stroke="#1B2A4A" stroke-width="1.5"/><line x1="6" y1="28" x2="50" y2="28" stroke="white" stroke-width="1.5"/></svg></div>
+          <span style="font-size: 0.85rem; color: var(--al-text-light);">Filled diamond, horizontal line</span>
+        </li>
+        <li class="al-mcq-option">
+          <span class="al-mcq-letter">(B)</span>
+          <div class="al-mcq-cell"><svg viewBox="0 0 56 56"><polygon points="28,6 50,28 28,50 6,28" fill="none" stroke="#1B2A4A" stroke-width="2.5"/><line x1="28" y1="6" x2="28" y2="50" stroke="#1B2A4A" stroke-width="1.5"/></svg></div>
+          <span style="font-size: 0.85rem; color: var(--al-text-light);">Empty diamond, vertical line</span>
+        </li>
+        <li class="al-mcq-option">
+          <span class="al-mcq-letter">(C)</span>
+          <div class="al-mcq-cell"><svg viewBox="0 0 56 56"><polygon points="28,6 50,28 28,50 6,28" fill="#1B2A4A" stroke="#1B2A4A" stroke-width="1.5"/><line x1="28" y1="6" x2="28" y2="50" stroke="white" stroke-width="1.5"/></svg></div>
+          <span style="font-size: 0.85rem; color: var(--al-text-light);">Filled diamond, vertical line</span>
+        </li>
+        <li class="al-mcq-option">
+          <span class="al-mcq-letter">(D)</span>
+          <div class="al-mcq-cell"><svg viewBox="0 0 56 56"><polygon points="28,6 50,28 28,50 6,28" fill="none" stroke="#1B2A4A" stroke-width="2.5"/><line x1="6" y1="28" x2="50" y2="28" stroke="#1B2A4A" stroke-width="1.5"/></svg></div>
+          <span style="font-size: 0.85rem; color: var(--al-text-light);">Empty diamond, horizontal line</span>
+        </li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>Rule A — Shading:</strong> Filled → Empty → Filled → Empty → <strong>Filled</strong></span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>Rule B — Internal line:</strong> Vertical → Horizontal → Vertical → Horizontal → <strong>Vertical</strong></span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Answer: <span class="al-step-result">(C) Filled diamond with vertical line</span></span></div>
+        <p><strong>Trap analysis:</strong> (A) has the right fill but wrong line direction. (B) has the right line but wrong fill. (D) is wrong on both. Each distractor catches candidates who track only one rule.</p>
+      </div>
+    </details>
+
+    <!-- ═══ PQ2: 3-rule combination ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 2</div>
+      <div class="al-practice-q">Three rules operate in this sequence. What comes next?</div>
+      <div class="al-pattern-row" style="margin-top: 0.75rem;">
+        <!-- F1: Small filled circle at top, 1 horizontal line below it -->
+        <div class="al-pattern-cell">
+          <svg viewBox="0 0 56 56">
+            <circle cx="28" cy="14" r="7" fill="#1B2A4A"/>
+            <line x1="14" y1="34" x2="42" y2="34" stroke="#1B2A4A" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="al-pattern-arrow">→</span>
+        <!-- F2: Medium empty circle at right, 2 lines to the left -->
+        <div class="al-pattern-cell">
+          <svg viewBox="0 0 56 56">
+            <circle cx="38" cy="28" r="10" fill="none" stroke="#1B2A4A" stroke-width="2.5"/>
+            <line x1="8" y1="20" x2="8" y2="36" stroke="#1B2A4A" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="18" y1="20" x2="18" y2="36" stroke="#1B2A4A" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="al-pattern-arrow">→</span>
+        <!-- F3: Large filled circle at bottom, 3 lines above it -->
+        <div class="al-pattern-cell">
+          <svg viewBox="0 0 56 56">
+            <circle cx="28" cy="40" r="13" fill="#1B2A4A"/>
+            <line x1="14" y1="10" x2="42" y2="10" stroke="#1B2A4A" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="14" y1="18" x2="42" y2="18" stroke="#1B2A4A" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="14" y1="26" x2="42" y2="26" stroke="#1B2A4A" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="al-pattern-arrow">→</span>
+        <div class="al-pattern-cell al-answer-cell"></div>
+      </div>
+
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option">
+          <span class="al-mcq-letter">(A)</span>
+          <div class="al-mcq-cell">
+            <svg viewBox="0 0 56 56">
+              <circle cx="16" cy="28" r="15" fill="none" stroke="#1B2A4A" stroke-width="2"/>
+              <line x1="38" y1="8" x2="38" y2="18" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round"/>
+              <line x1="38" y1="22" x2="38" y2="32" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round"/>
+              <line x1="38" y1="36" x2="38" y2="46" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round"/>
+              <line x1="48" y1="8" x2="48" y2="18" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span style="font-size: 0.85rem; color: var(--al-text-light);">Empty circle at left, 4 vertical lines to right</span>
+        </li>
+        <li class="al-mcq-option">
+          <span class="al-mcq-letter">(B)</span>
+          <div class="al-mcq-cell">
+            <svg viewBox="0 0 56 56">
+              <circle cx="16" cy="28" r="15" fill="#1B2A4A"/>
+              <line x1="38" y1="8" x2="38" y2="18" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round"/>
+              <line x1="38" y1="22" x2="38" y2="32" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round"/>
+              <line x1="38" y1="36" x2="38" y2="46" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round"/>
+              <line x1="48" y1="8" x2="48" y2="18" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span style="font-size: 0.85rem; color: var(--al-text-light);">Filled circle at left, 4 vertical lines to right</span>
+        </li>
+        <li class="al-mcq-option">
+          <span class="al-mcq-letter">(C)</span>
+          <div class="al-mcq-cell">
+            <svg viewBox="0 0 56 56">
+              <circle cx="16" cy="28" r="15" fill="none" stroke="#1B2A4A" stroke-width="2"/>
+              <line x1="36" y1="10" x2="50" y2="10" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round"/>
+              <line x1="36" y1="20" x2="50" y2="20" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round"/>
+              <line x1="36" y1="30" x2="50" y2="30" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round"/>
+              <line x1="36" y1="40" x2="50" y2="40" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span style="font-size: 0.85rem; color: var(--al-text-light);">Empty circle at left, 4 horizontal lines to right</span>
+        </li>
+        <li class="al-mcq-option">
+          <span class="al-mcq-letter">(D)</span>
+          <div class="al-mcq-cell">
+            <svg viewBox="0 0 56 56">
+              <circle cx="28" cy="14" r="15" fill="none" stroke="#1B2A4A" stroke-width="2"/>
+              <line x1="14" y1="38" x2="42" y2="38" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round"/>
+              <line x1="14" y1="44" x2="42" y2="44" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round"/>
+              <line x1="14" y1="50" x2="42" y2="50" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round"/>
+              <line x1="14" y1="32" x2="42" y2="32" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span style="font-size: 0.85rem; color: var(--al-text-light);">Empty circle at top, 4 horizontal lines below</span>
+        </li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>Rule A — Circle position:</strong> Top → Right → Bottom → <strong>Left</strong> (90° CW each step)</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>Rule B — Shading:</strong> Filled → Empty → Filled → <strong>Empty</strong> (alternating)</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc"><strong>Rule C — Line count:</strong> 1 → 2 → 3 → <strong>4</strong> lines (lines appear opposite the circle)</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Answer: <span class="al-step-result">(A) Empty circle at left, 4 vertical lines to the right</span></span></div>
+        <p><strong>Trap analysis:</strong> (B) has correct position and count but wrong shading (filled instead of empty). (C) has correct shading and count but wrong line orientation (lines should be vertical when circle is at left, matching the pattern of lines perpendicular to their position). (D) has correct shading but wrong circle position (top instead of left) and horizontal lines.</p>
+      </div>
+    </details>
+
+    <!-- ═══ PQ3: Odd-one-out with subtle rule ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 3</div>
+      <div class="al-practice-q">Which figure does NOT belong in this group?</div>
+
+      <ul class="al-mcq-options" style="margin-top: 0.75rem;">
+        <li class="al-mcq-option">
+          <span class="al-mcq-letter">(A)</span>
+          <div class="al-mcq-cell">
+            <!-- Square with 2 dots inside, outer shape has even sides, dot count = sides/2 -->
+            <svg viewBox="0 0 56 56"><rect x="10" y="10" width="36" height="36" fill="none" stroke="#1B2A4A" stroke-width="2.5"/><circle cx="22" cy="28" r="3.5" fill="#1B2A4A"/><circle cx="34" cy="28" r="3.5" fill="#1B2A4A"/></svg>
+          </div>
+        </li>
+        <li class="al-mcq-option">
+          <span class="al-mcq-letter">(B)</span>
+          <div class="al-mcq-cell">
+            <!-- Hexagon with 3 dots -->
+            <svg viewBox="0 0 56 56"><polygon points="28,6 48,17 48,39 28,50 8,39 8,17" fill="none" stroke="#1B2A4A" stroke-width="2.5"/><circle cx="20" cy="28" r="3" fill="#1B2A4A"/><circle cx="28" cy="28" r="3" fill="#1B2A4A"/><circle cx="36" cy="28" r="3" fill="#1B2A4A"/></svg>
+          </div>
+        </li>
+        <li class="al-mcq-option">
+          <span class="al-mcq-letter">(C)</span>
+          <div class="al-mcq-cell">
+            <!-- Octagon with 4 dots -->
+            <svg viewBox="0 0 56 56"><polygon points="20,6 36,6 48,18 48,38 36,50 20,50 8,38 8,18" fill="none" stroke="#1B2A4A" stroke-width="2.5"/><circle cx="20" cy="24" r="3" fill="#1B2A4A"/><circle cx="36" cy="24" r="3" fill="#1B2A4A"/><circle cx="20" cy="36" r="3" fill="#1B2A4A"/><circle cx="36" cy="36" r="3" fill="#1B2A4A"/></svg>
+          </div>
+        </li>
+        <li class="al-mcq-option">
+          <span class="al-mcq-letter">(D)</span>
+          <div class="al-mcq-cell">
+            <!-- Pentagon with 2 dots — breaks the rule: 5 sides / 2 = 2.5, not integer -->
+            <svg viewBox="0 0 56 56"><polygon points="28,6 48,22 40,46 16,46 8,22" fill="none" stroke="#1B2A4A" stroke-width="2.5"/><circle cx="22" cy="30" r="3" fill="#1B2A4A"/><circle cx="34" cy="30" r="3" fill="#1B2A4A"/></svg>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>Count sides and dots:</strong> (A) 4 sides, 2 dots. (B) 6 sides, 3 dots. (C) 8 sides, 4 dots. (D) 5 sides, 2 dots.</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>Rule:</strong> Number of dots = number of sides ÷ 2. A: 4/2=2 ✓. B: 6/2=3 ✓. C: 8/2=4 ✓. D: 5/2=2.5, but has 2 dots.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Answer: <span class="al-step-result">(D) — the pentagon has an odd number of sides, breaking the sides÷2=dots relationship</span></span></div>
+        <p><strong>Why this is hard:</strong> The initial instinct is to count dots alone (2, 3, 4, 2 — D looks like it could belong as "another shape with 2 dots"). The real rule links dots to sides, and only even-sided polygons satisfy it. This requires noticing a <em>relationship between two properties</em>, not just tracking one property.</p>
+      </div>
+    </details>
+
+    <!-- ═══ PQ4: Matrix pattern ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 4</div>
+      <div class="al-practice-q">What completes the bottom-right cell of this 3×3 matrix?</div>
+
+      <!-- Row 1 -->
+      <div class="al-pattern-row" style="margin-top: 0.75rem; margin-bottom: 0.25rem;">
+        <div class="al-pattern-cell">
+          <svg viewBox="0 0 56 56">
+            <circle cx="28" cy="28" r="16" fill="none" stroke="#1B2A4A" stroke-width="2.5"/>
+            <circle cx="28" cy="28" r="4" fill="#1B2A4A"/>
+          </svg>
+        </div>
+        <div class="al-pattern-cell">
+          <svg viewBox="0 0 56 56">
+            <circle cx="28" cy="28" r="16" fill="none" stroke="#1B2A4A" stroke-width="2.5"/>
+            <circle cx="20" cy="28" r="4" fill="#1B2A4A"/>
+            <circle cx="36" cy="28" r="4" fill="#1B2A4A"/>
+          </svg>
+        </div>
+        <div class="al-pattern-cell">
+          <svg viewBox="0 0 56 56">
+            <circle cx="28" cy="28" r="16" fill="none" stroke="#1B2A4A" stroke-width="2.5"/>
+            <circle cx="20" cy="22" r="3.5" fill="#1B2A4A"/>
+            <circle cx="36" cy="22" r="3.5" fill="#1B2A4A"/>
+            <circle cx="28" cy="36" r="3.5" fill="#1B2A4A"/>
+          </svg>
+        </div>
+      </div>
+      <!-- Row 2 -->
+      <div class="al-pattern-row" style="margin-bottom: 0.25rem;">
+        <div class="al-pattern-cell">
+          <svg viewBox="0 0 56 56">
+            <rect x="12" y="12" width="32" height="32" fill="none" stroke="#1B2A4A" stroke-width="2.5"/>
+            <circle cx="28" cy="28" r="4" fill="#1B2A4A"/>
+          </svg>
+        </div>
+        <div class="al-pattern-cell">
+          <svg viewBox="0 0 56 56">
+            <rect x="12" y="12" width="32" height="32" fill="none" stroke="#1B2A4A" stroke-width="2.5"/>
+            <circle cx="20" cy="28" r="4" fill="#1B2A4A"/>
+            <circle cx="36" cy="28" r="4" fill="#1B2A4A"/>
+          </svg>
+        </div>
+        <div class="al-pattern-cell">
+          <svg viewBox="0 0 56 56">
+            <rect x="12" y="12" width="32" height="32" fill="none" stroke="#1B2A4A" stroke-width="2.5"/>
+            <circle cx="20" cy="22" r="3.5" fill="#1B2A4A"/>
+            <circle cx="36" cy="22" r="3.5" fill="#1B2A4A"/>
+            <circle cx="28" cy="36" r="3.5" fill="#1B2A4A"/>
+          </svg>
+        </div>
+      </div>
+      <!-- Row 3 -->
+      <div class="al-pattern-row">
+        <div class="al-pattern-cell">
+          <svg viewBox="0 0 56 56">
+            <polygon points="28,8 48,42 8,42" fill="none" stroke="#1B2A4A" stroke-width="2.5"/>
+            <circle cx="28" cy="32" r="4" fill="#1B2A4A"/>
+          </svg>
+        </div>
+        <div class="al-pattern-cell">
+          <svg viewBox="0 0 56 56">
+            <polygon points="28,8 48,42 8,42" fill="none" stroke="#1B2A4A" stroke-width="2.5"/>
+            <circle cx="22" cy="32" r="4" fill="#1B2A4A"/>
+            <circle cx="34" cy="32" r="4" fill="#1B2A4A"/>
+          </svg>
+        </div>
+        <div class="al-pattern-cell al-answer-cell"></div>
+      </div>
+
+      <ul class="al-mcq-options" style="margin-top: 0.5rem;">
+        <li class="al-mcq-option">
+          <span class="al-mcq-letter">(A)</span>
+          <div class="al-mcq-cell"><svg viewBox="0 0 56 56"><polygon points="28,8 48,42 8,42" fill="none" stroke="#1B2A4A" stroke-width="2"/><circle cx="22" cy="24" r="3" fill="#1B2A4A"/><circle cx="34" cy="24" r="3" fill="#1B2A4A"/><circle cx="28" cy="36" r="3" fill="#1B2A4A"/></svg></div>
+          <span style="font-size: 0.85rem; color: var(--al-text-light);">Triangle with 3 dots (2 top, 1 bottom)</span>
+        </li>
+        <li class="al-mcq-option">
+          <span class="al-mcq-letter">(B)</span>
+          <div class="al-mcq-cell"><svg viewBox="0 0 56 56"><polygon points="28,8 48,42 8,42" fill="none" stroke="#1B2A4A" stroke-width="2"/><circle cx="28" cy="20" r="3" fill="#1B2A4A"/><circle cx="20" cy="34" r="3" fill="#1B2A4A"/><circle cx="36" cy="34" r="3" fill="#1B2A4A"/></svg></div>
+          <span style="font-size: 0.85rem; color: var(--al-text-light);">Triangle with 3 dots (1 top, 2 bottom)</span>
+        </li>
+        <li class="al-mcq-option">
+          <span class="al-mcq-letter">(C)</span>
+          <div class="al-mcq-cell"><svg viewBox="0 0 56 56"><rect x="12" y="12" width="32" height="32" fill="none" stroke="#1B2A4A" stroke-width="2"/><circle cx="20" cy="20" r="3" fill="#1B2A4A"/><circle cx="36" cy="20" r="3" fill="#1B2A4A"/><circle cx="28" cy="34" r="3" fill="#1B2A4A"/></svg></div>
+          <span style="font-size: 0.85rem; color: var(--al-text-light);">Square with 3 dots</span>
+        </li>
+        <li class="al-mcq-option">
+          <span class="al-mcq-letter">(D)</span>
+          <div class="al-mcq-cell"><svg viewBox="0 0 56 56"><polygon points="28,8 48,42 8,42" fill="none" stroke="#1B2A4A" stroke-width="2"/><circle cx="20" cy="28" r="3" fill="#1B2A4A"/><circle cx="36" cy="28" r="3" fill="#1B2A4A"/><circle cx="28" cy="38" r="3" fill="#1B2A4A"/><circle cx="28" cy="20" r="3" fill="#1B2A4A"/></svg></div>
+          <span style="font-size: 0.85rem; color: var(--al-text-light);">Triangle with 4 dots</span>
+        </li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>Row rule (across):</strong> Each row keeps the same outer shape. Dot count increases left to right: 1 → 2 → 3.</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>Column rule (down):</strong> Each column keeps the same dot count. Outer shape changes: Circle → Square → Triangle.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc"><strong>Dot arrangement:</strong> In every cell across the grid, 3-dot configurations use the same layout: 2 at top, 1 at bottom.</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Missing cell = Row 3 (triangle) + Column 3 (3 dots, arranged 2-top 1-bottom) = <span class="al-step-result">(A)</span></span></div>
+        <p><strong>Trap analysis:</strong> (B) has 3 dots in a triangle but inverted arrangement (1-top, 2-bottom) — breaks the dot-layout consistency. (C) is a square, not a triangle — wrong outer shape for Row 3. (D) has 4 dots — wrong count for Column 3.</p>
+      </div>
+    </details>
+
+    <!-- ═══ PQ5: Hard combination with secondary marker ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 5</div>
+      <div class="al-practice-q">What comes next? Pay attention to every element in each frame.</div>
+      <div class="al-pattern-row" style="margin-top: 0.75rem;">
+        <!-- F1: Large empty square, small filled circle inside top-left, small line at bottom-right of square -->
+        <div class="al-pattern-cell">
+          <svg viewBox="0 0 56 56">
+            <rect x="8" y="8" width="40" height="40" fill="none" stroke="#1B2A4A" stroke-width="2"/>
+            <circle cx="18" cy="18" r="5" fill="#1B2A4A"/>
+            <line x1="38" y1="44" x2="48" y2="44" stroke="#C8A951" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="al-pattern-arrow">→</span>
+        <!-- F2: Large empty square, small empty circle inside top-right, 2 gold lines at bottom-left -->
+        <div class="al-pattern-cell">
+          <svg viewBox="0 0 56 56">
+            <rect x="8" y="8" width="40" height="40" fill="none" stroke="#1B2A4A" stroke-width="2"/>
+            <circle cx="38" cy="18" r="5" fill="none" stroke="#1B2A4A" stroke-width="2"/>
+            <line x1="8" y1="40" x2="18" y2="40" stroke="#C8A951" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="8" y1="46" x2="18" y2="46" stroke="#C8A951" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="al-pattern-arrow">→</span>
+        <!-- F3: Large empty square, small filled circle inside bottom-right, 3 gold lines at top-left -->
+        <div class="al-pattern-cell">
+          <svg viewBox="0 0 56 56">
+            <rect x="8" y="8" width="40" height="40" fill="none" stroke="#1B2A4A" stroke-width="2"/>
+            <circle cx="38" cy="38" r="5" fill="#1B2A4A"/>
+            <line x1="8" y1="8" x2="18" y2="8" stroke="#C8A951" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="8" y1="14" x2="18" y2="14" stroke="#C8A951" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="8" y1="20" x2="18" y2="20" stroke="#C8A951" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="al-pattern-arrow">→</span>
+        <div class="al-pattern-cell al-answer-cell"></div>
+      </div>
+
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option">
+          <span class="al-mcq-letter">(A)</span>
+          <div class="al-mcq-cell">
+            <svg viewBox="0 0 56 56">
+              <rect x="6" y="6" width="32" height="32" fill="none" stroke="#1B2A4A" stroke-width="1.5"/>
+              <circle cx="14" cy="30" r="4" fill="none" stroke="#1B2A4A" stroke-width="1.5"/>
+              <line x1="38" y1="8" x2="48" y2="8" stroke="#C8A951" stroke-width="2" stroke-linecap="round"/>
+              <line x1="38" y1="14" x2="48" y2="14" stroke="#C8A951" stroke-width="2" stroke-linecap="round"/>
+              <line x1="38" y1="20" x2="48" y2="20" stroke="#C8A951" stroke-width="2" stroke-linecap="round"/>
+              <line x1="38" y1="26" x2="48" y2="26" stroke="#C8A951" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span style="font-size: 0.85rem; color: var(--al-text-light);">Empty circle bottom-left, 4 gold lines top-right</span>
+        </li>
+        <li class="al-mcq-option">
+          <span class="al-mcq-letter">(B)</span>
+          <div class="al-mcq-cell">
+            <svg viewBox="0 0 56 56">
+              <rect x="8" y="8" width="40" height="40" fill="none" stroke="#1B2A4A" stroke-width="1.5"/>
+              <circle cx="18" cy="38" r="4" fill="#1B2A4A"/>
+              <line x1="38" y1="8" x2="48" y2="8" stroke="#C8A951" stroke-width="2" stroke-linecap="round"/>
+              <line x1="38" y1="14" x2="48" y2="14" stroke="#C8A951" stroke-width="2" stroke-linecap="round"/>
+              <line x1="38" y1="20" x2="48" y2="20" stroke="#C8A951" stroke-width="2" stroke-linecap="round"/>
+              <line x1="38" y1="26" x2="48" y2="26" stroke="#C8A951" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span style="font-size: 0.85rem; color: var(--al-text-light);">Filled circle bottom-left, 4 gold lines top-right</span>
+        </li>
+        <li class="al-mcq-option">
+          <span class="al-mcq-letter">(C)</span>
+          <div class="al-mcq-cell">
+            <svg viewBox="0 0 56 56">
+              <rect x="8" y="8" width="40" height="40" fill="none" stroke="#1B2A4A" stroke-width="1.5"/>
+              <circle cx="18" cy="38" r="4" fill="none" stroke="#1B2A4A" stroke-width="1.5"/>
+              <line x1="38" y1="8" x2="48" y2="8" stroke="#C8A951" stroke-width="2" stroke-linecap="round"/>
+              <line x1="38" y1="14" x2="48" y2="14" stroke="#C8A951" stroke-width="2" stroke-linecap="round"/>
+              <line x1="38" y1="20" x2="48" y2="20" stroke="#C8A951" stroke-width="2" stroke-linecap="round"/>
+              <line x1="38" y1="26" x2="48" y2="26" stroke="#C8A951" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span style="font-size: 0.85rem; color: var(--al-text-light);">Empty circle bottom-left, 4 gold lines top-right</span>
+        </li>
+        <li class="al-mcq-option">
+          <span class="al-mcq-letter">(D)</span>
+          <div class="al-mcq-cell">
+            <svg viewBox="0 0 56 56">
+              <rect x="8" y="8" width="40" height="40" fill="none" stroke="#1B2A4A" stroke-width="1.5"/>
+              <circle cx="18" cy="38" r="4" fill="none" stroke="#1B2A4A" stroke-width="1.5"/>
+              <line x1="38" y1="8" x2="48" y2="8" stroke="#C8A951" stroke-width="2" stroke-linecap="round"/>
+              <line x1="38" y1="14" x2="48" y2="14" stroke="#C8A951" stroke-width="2" stroke-linecap="round"/>
+              <line x1="38" y1="20" x2="48" y2="20" stroke="#C8A951" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span style="font-size: 0.85rem; color: var(--al-text-light);">Empty circle bottom-left, 3 gold lines top-right</span>
+        </li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc"><strong>Rule A — Circle position:</strong> TL → TR → BR → <strong>BL</strong> (90° CW)</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc"><strong>Rule B — Circle shading:</strong> Filled → Empty → Filled → <strong>Empty</strong></span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc"><strong>Rule C — Gold line count:</strong> 1 → 2 → 3 → <strong>4</strong> (lines appear diagonally opposite the circle)</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Answer: Empty circle at BL + 4 gold lines at TR = <span class="al-step-result">(C)</span></span></div>
+        <p><strong>Trap analysis:</strong> (A) has the correct content but the outer square appears smaller — a visual distractor testing whether you'd dismiss it. (B) has the correct position and line count but the circle is filled instead of empty. (D) has the right shading and position but only 3 lines instead of 4. The lesson: check <em>every</em> property of <em>every</em> element.</p>
+      </div>
+    </details>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ KEY TAKEAWAYS ═══ -->
+  <div class="al-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul class="al-takeaways-list">
+      <li>At real assessment difficulty, most questions layer two or three rules simultaneously. Single-rule questions are rare beyond warm-up level.</li>
+      <li>Every wrong answer option satisfies some rules but violates at least one. The correct answer is the only option that satisfies all rules at once.</li>
+      <li>Run the 5-point checklist (Shape, Position, Size, Shading, Count) for every distinct element in the frame — main shapes, secondary markers, dots, lines.</li>
+      <li>For 3×3 matrix questions, verify your answer satisfies the rule across its row AND down its column. If it only works in one direction, it's wrong.</li>
+      <li>Rotation vs Reflection: rotation preserves handedness, reflection reverses it. Track one asymmetric feature across frames to tell them apart.</li>
+      <li>Time rule: if you can't identify the rule within 30 seconds, eliminate what you can, pick the best remaining option, and move on. One slow question ruins three fast ones.</li>
+    </ul>
+  </div>
+
+  <!-- ═══ NEXT LESSON ═══ -->
+  <div class="al-next">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Lesson</div>
+      <div class="al-next-title">4.3 — Rule Application &amp; Ordering</div>
+      <div class="al-next-desc">Applying logical rules to sequences, seating arrangements, and scheduling problems under time pressure.</div>
+    </div>
+  </div>
+
+</div>
+
+<!--
+  VERIFICATION NOTES:
+  This is a visual pattern recognition lesson — no numerical calculations.
+
+  PATTERN VERIFICATION:
+  WE1: Arrow rotation 90° CW — Up(0°) → Right(90°) → Down(180°) → Left(270°) ✓
+  WE2: Rotation 90° CW (Up→Right→Down→Left→Up) + shading alternates (F→E→F→E→F) ✓
+  WE3: Count +1 (1→2→3→4) + position CW (TL→TR→BR→BL) ✓
+  WE4: Reflection alternates (TL→TR→TL→TR) + 3-state shading (F→Striped→E→F) ✓
+  WE5: Count +1 (1→2→3→4→5) + shading alternates (F→E→F→E→F) + dot 90° CW (T→R→B→L→T) ✓
+  WE6: Matrix — Col1=filled, Col2=outline, Col3=Col1 with Col2 cut out. Rows: Circle/Square/Triangle. Columns consistent ✓
+  PQ1: Shading alternates (F→E→F→E→F) + line alternates (V→H→V→H→V). Answer (C): Filled + Vertical ✓
+  PQ2: Circle 90° CW (T→R→B→L) + shading alternates (F→E→F→E) + line count +1 (1→2→3→4). Answer (A) ✓
+  PQ3: Sides÷2 = dots. A:4/2=2✓ B:6/2=3✓ C:8/2=4✓ D:5/2=2.5≠2. Answer (D) ✓
+  PQ4: Row rule: same outer shape, dots 1→2→3. Col rule: same dot count, shape Circle→Square→Triangle. Dot layout consistent (3-dot: 2 top, 1 bottom). Answer (A) ✓
+  PQ5: Circle CW (TL→TR→BR→BL) + shading alternates (F→E→F→E) + gold lines +1 (1→2→3→4) opposite circle. Answer (C) ✓
+-->

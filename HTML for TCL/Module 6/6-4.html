@@ -1,0 +1,502 @@
+<!--
+  ACUMEN LOGIC — Module 6.4: Full Mock Assessment 2 — Mixed Format
+  For ThriveCart Learn Custom HTML Block
+  Interactive MCQ with JS scoring
+
+  TYPE: Assessment (20 questions, 30 minutes target)
+  SHL-format: Numerical + Verbal (T/F/CS) + Logical combined.
+-->
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+  .al-lesson { --al-navy: #1B2A4A; --al-navy-light: #2A3D66; --al-navy-muted: #3D5280; --al-gold: #C8A951; --al-gold-light: #D4BC72; --al-gold-pale: #F5EFD9; --al-cream: #FAFAF6; --al-white: #FFFFFF; --al-text: #2C2C2C; --al-text-light: #6B6B6B; --al-border: #E8E4DA; --al-success: #2D8F5E; --al-danger: #C0392B; --al-radius: 10px; --al-radius-sm: 6px; --al-shadow: 0 2px 12px rgba(27,42,74,0.08); --al-shadow-lg: 0 8px 32px rgba(27,42,74,0.12); }
+  .al-lesson { font-family: 'Source Sans 3','Segoe UI',system-ui,sans-serif; color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .al-lesson h1, .al-lesson h2, .al-lesson h3 { font-family: 'Source Sans 3','Segoe UI',system-ui,sans-serif; font-weight: 700; color: var(--al-navy); line-height: 1.25; }
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .al-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200,169,81,0.08) 0%, transparent 70%); pointer-events: none; }
+  .al-hero-eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem,4vw,2.2rem); margin-bottom: 0.75rem; }
+  .al-hero-subtitle { color: rgba(255,255,255,0.9) !important; font-size: 1rem; max-width: 36rem; line-height: 1.5; }
+  .al-hero-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 1rem 0; }
+  .al-quiz { margin-bottom: 2rem; }
+  .al-q-block { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--al-shadow); transition: border-color 0.3s ease; }
+  .al-q-block.al-q-answered { border-color: var(--al-gold); }
+  .al-q-block.al-q-correct { border-color: var(--al-success); }
+  .al-q-block.al-q-incorrect { border-color: var(--al-danger); }
+  .al-q-header { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem; }
+  .al-q-num { min-width: 2rem; height: 2rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
+  .al-q-topic { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-gold); margin-bottom: 0.25rem; }
+  .al-q-text { font-size: 1rem; font-weight: 600; color: var(--al-navy); line-height: 1.5; }
+  .al-q-context { font-size: 0.88rem; color: var(--al-text-light); margin-top: 0.35rem; line-height: 1.6; }
+  .al-q-passage { background: var(--al-cream); border-left: 3px solid var(--al-navy-muted); padding: 1rem 1.25rem; border-radius: 0 var(--al-radius-sm) var(--al-radius-sm) 0; margin: 0.5rem 0 0.75rem; font-size: 0.88rem; line-height: 1.65; color: var(--al-text); font-style: italic; }
+  .al-options { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem; }
+  .al-opt { display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1.15rem; border: 2px solid var(--al-border); border-radius: var(--al-radius-sm); cursor: pointer; transition: all 0.2s ease; user-select: none; background: var(--al-white); }
+  .al-opt:hover { border-color: var(--al-navy-muted); background: var(--al-cream); }
+  .al-opt-radio { width: 1.25rem; height: 1.25rem; border: 2px solid var(--al-border); border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+  .al-opt-radio::after { content: ''; width: 0.55rem; height: 0.55rem; border-radius: 50%; background: transparent; transition: background 0.2s ease; }
+  .al-opt.al-opt-selected { border-color: var(--al-navy); background: #F0F2F7; }
+  .al-opt.al-opt-selected .al-opt-radio { border-color: var(--al-navy); }
+  .al-opt.al-opt-selected .al-opt-radio::after { background: var(--al-navy); }
+  .al-opt.al-opt-correct-answer { border-color: var(--al-success); background: #EDF7F0; }
+  .al-opt.al-opt-correct-answer .al-opt-radio { border-color: var(--al-success); }
+  .al-opt.al-opt-correct-answer .al-opt-radio::after { background: var(--al-success); }
+  .al-opt.al-opt-wrong-pick { border-color: var(--al-danger); background: #FDF2F0; }
+  .al-opt.al-opt-wrong-pick .al-opt-radio { border-color: var(--al-danger); }
+  .al-opt.al-opt-wrong-pick .al-opt-radio::after { background: var(--al-danger); }
+  .al-opt-label { font-weight: 700; color: var(--al-navy); min-width: 1.5rem; font-size: 0.92rem; }
+  .al-opt-text { font-size: 0.92rem; color: var(--al-text); }
+  .al-q-block.al-q-submitted .al-opt { cursor: default; pointer-events: none; }
+  .al-q-explanation { display: none; margin-top: 1rem; padding: 1rem 1.25rem; border-radius: var(--al-radius-sm); font-size: 0.88rem; line-height: 1.55; }
+  .al-q-explanation.al-exp-correct { background: #EDF7F0; border-left: 4px solid var(--al-success); }
+  .al-q-explanation.al-exp-wrong { background: #FDF2F0; border-left: 4px solid var(--al-danger); }
+  .al-q-explanation.al-exp-skipped { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-q-explanation.al-exp-visible { display: block; }
+  .al-exp-label { font-weight: 700; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .al-exp-correct .al-exp-label { color: var(--al-success); }
+  .al-exp-wrong .al-exp-label { color: var(--al-danger); }
+  .al-exp-skipped .al-exp-label { color: #D4823A; }
+  .al-result-panel { display: none; border-radius: var(--al-radius); padding: 2rem; margin-bottom: 2rem; text-align: center; box-shadow: var(--al-shadow-lg); }
+  .al-result-panel.al-result-visible { display: block; }
+  .al-result-panel.al-result-excellent { background: linear-gradient(135deg, #1a3a2a 0%, #2D8F5E 100%); }
+  .al-result-panel.al-result-good { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 100%); }
+  .al-result-panel.al-result-needs-work { background: linear-gradient(135deg, #3a2a1a 0%, #D4823A 100%); }
+  .al-result-panel.al-result-weak { background: linear-gradient(135deg, #3a1a1a 0%, var(--al-danger) 100%); }
+  .al-result-score { font-weight: 700; font-size: clamp(2.5rem,6vw,3.5rem); color: var(--al-white) !important; margin-bottom: 0.25rem; }
+  .al-result-pct { font-size: 1.15rem; font-weight: 600; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-result-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.5rem; }
+  .al-result-msg { color: rgba(255,255,255,0.9) !important; font-size: 0.95rem; line-height: 1.5; max-width: 32rem; margin: 0 auto; }
+  .al-result-breakdown { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1.25rem; flex-wrap: wrap; }
+  .al-result-stat { text-align: center; }
+  .al-result-stat-num { font-weight: 700; font-size: 1.5rem; color: var(--al-white) !important; }
+  .al-result-stat-lbl { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.7) !important; }
+  .al-submit-area { text-align: center; margin: 2rem 0; }
+  .al-submit-btn { display: inline-block; padding: 1.1rem 3rem; font-family: 'Source Sans 3',sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--al-white) !important; background: linear-gradient(135deg, var(--al-gold) 0%, var(--al-gold-light) 100%); border: 2px solid var(--al-gold); border-radius: var(--al-radius); cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 16px rgba(200,169,81,0.4); letter-spacing: 0.03em; text-transform: uppercase; position: relative; overflow: hidden; }
+  .al-submit-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: left 0.5s ease; }
+  .al-submit-btn:hover { background: linear-gradient(135deg, var(--al-gold-light) 0%, #E0C878 100%); transform: translateY(-2px); }
+  .al-submit-btn:hover::before { left: 100%; }
+  .al-submit-btn.al-btn-hidden { display: none; }
+  .al-progress-text { font-size: 0.85rem; color: var(--al-text-light); margin-bottom: 0.75rem; }
+  .al-progress-bar { height: 6px; background: var(--al-border); border-radius: 3px; overflow: hidden; max-width: 20rem; margin: 0 auto 1rem; }
+  .al-progress-fill { height: 100%; background: var(--al-gold); border-radius: 3px; transition: width 0.4s ease; }
+  .al-callout { border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; font-size: 0.92rem; }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; color: var(--al-success); }
+  .al-next { background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .al-next-arrow { width: 2.5rem; height: 2.5rem; background: var(--al-navy); color: var(--al-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .al-next-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-text-light); margin-bottom: 0.15rem; }
+  .al-next-title { font-weight: 700; color: var(--al-navy); font-size: 1rem; }
+  .al-next-desc { font-size: 0.85rem; color: var(--al-text-light); margin-top: 0.15rem; }
+  .al-lesson strong { color: var(--al-navy); }
+  .al-section-divider { text-align: center; padding: 1.25rem 0; }
+  .al-section-divider-label { display: inline-block; background: var(--al-navy); color: var(--al-gold) !important; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.5rem 1.25rem; border-radius: var(--al-radius); }
+  .al-id-form { background: var(--al-white); border: 2px solid var(--al-gold); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; }
+  .al-id-form-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--al-navy); margin-bottom: 0.75rem; }
+  .al-id-fields { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .al-id-input { flex: 1; min-width: 180px; padding: 0.6rem 1rem; border: 2px solid var(--al-border); border-radius: var(--al-radius-sm); font-family: 'Source Sans 3',sans-serif; font-size: 0.88rem; outline: none; transition: border-color 0.2s; }
+  .al-id-input:focus { border-color: var(--al-gold); }
+  .al-id-input::placeholder { color: #B0B0B0; }
+  .al-timer { font-size: 0.85rem; color: var(--al-text-light); text-align: center; margin-bottom: 0.5rem; }
+  .al-timer strong { color: var(--al-navy); font-variant-numeric: tabular-nums; }
+  @media (max-width: 600px) { .al-hero { padding: 1.75rem 1.25rem 1.5rem; } .al-q-block { padding: 1.15rem; } .al-opt { padding: 0.75rem 1rem; } .al-result-panel { padding: 1.5rem 1rem; } .al-next { flex-direction: column; text-align: center; } .al-submit-btn { padding: 1rem 2rem; font-size: 1rem; width: 100%; max-width: 300px; } .al-id-fields { flex-direction: column; } }
+</style>
+
+<div class="al-lesson" id="alQuizTop">
+  <div class="al-result-panel" id="alResultPanel">
+    <div class="al-result-label">Mock Assessment 2 — Your Score</div>
+    <div class="al-result-score" id="alResultScore">—</div>
+    <div class="al-result-pct" id="alResultPct">—</div>
+    <div class="al-result-msg" id="alResultMsg">—</div>
+    <div class="al-result-breakdown">
+      <div class="al-result-stat"><div class="al-result-stat-num" id="alStatCorrect">—</div><div class="al-result-stat-lbl">Correct</div></div>
+      <div class="al-result-stat"><div class="al-result-stat-num" id="alStatWrong">—</div><div class="al-result-stat-lbl">Wrong</div></div>
+      <div class="al-result-stat"><div class="al-result-stat-num" id="alStatSkipped">—</div><div class="al-result-stat-lbl">Skipped</div></div>
+    </div>
+  </div>
+
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 6 · Lesson 6.4</div>
+    <h1>Full Mock Assessment 2: Mixed Format</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">20 questions across Numerical, Verbal, and Logical reasoning. Target: 30 minutes. This is the closest simulation to a real aptitude test.</p>
+  </div>
+
+  <div class="al-callout al-callout-tip">
+    <div class="al-callout-label">Exam Conditions</div>
+    <p>Set a timer for 30 minutes. Use a calculator for numerical questions only. No notes. The test mixes question types — just like a real SHL or Korn Ferry assessment. Answer all questions, then submit.</p>
+  </div>
+
+  <div class="al-id-form">
+    <div class="al-id-form-label">Your Details (for your results record)</div>
+    <div class="al-id-fields">
+      <input type="text" class="al-id-input" id="alUserName" placeholder="Full name" autocomplete="name">
+      <input type="email" class="al-id-input" id="alUserEmail" placeholder="Email address" autocomplete="email">
+    </div>
+  </div>
+
+  <div class="al-timer" id="alTimer">Time elapsed: <strong id="alTimerDisplay">0:00</strong></div>
+
+  <div class="al-submit-area" id="alProgressArea">
+    <div class="al-progress-text"><span id="alAnsweredCount">0</span> of 20 answered</div>
+    <div class="al-progress-bar"><div class="al-progress-fill" id="alProgressFill" style="width:0%;"></div></div>
+  </div>
+
+  <div class="al-quiz" id="alQuiz">
+
+    <!-- ═══════ SECTION A: NUMERICAL (Q1-8) ═══════ -->
+    <div class="al-section-divider"><div class="al-section-divider-label">Section A — Numerical Reasoning</div></div>
+
+    <div class="al-q-block" data-q="1" data-answer="1">
+      <div class="al-q-header"><div class="al-q-num">1</div><div><div class="al-q-topic">Percentage Change</div><div class="al-q-text">A department's headcount rose from 85 to 102 over one year. What was the percentage increase?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">16.7%</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">20.0%</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">17.0%</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">21.2%</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>(102 − 85) ÷ 85 × 100 = 17 ÷ 85 = <strong>20.0%</strong>. Option A (16.7%) divides by the new value (17 ÷ 102) — the classic reverse-base trap.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="2" data-answer="2">
+      <div class="al-q-header"><div class="al-q-num">2</div><div><div class="al-q-topic">Compound Change</div><div class="al-q-text">An investment of £50,000 grows at 6% per annum compound interest for 3 years. What is its value at the end of Year 3 (to the nearest pound)?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£59,000</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£56,180</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£59,551</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£59,328</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>£50,000 × 1.06³ = £50,000 × 1.191016 = <strong>£59,551</strong>. Option A (£59,000) uses simple interest (£50k + 3 × £3k). Option B stops at Year 2 (£50k × 1.06²).</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="3" data-answer="0">
+      <div class="al-q-header"><div class="al-q-num">3</div><div><div class="al-q-topic">Ratio</div><div class="al-q-context">Three business units — Alpha, Beta, and Gamma — share a £420,000 bonus pool in the ratio 5 : 3 : 6.</div><div class="al-q-text">How much does Beta receive?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£90,000</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£126,000</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£150,000</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£140,000</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>Total parts = 5 + 3 + 6 = 14. One part = £420,000 ÷ 14 = £30,000. Beta = 3 parts = <strong>£90,000</strong>. Option C (£150,000) is Alpha's share (5 parts). Option D divides by 3 units instead of 14 parts.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="4" data-answer="3">
+      <div class="al-q-header"><div class="al-q-num">4</div><div><div class="al-q-topic">Data Interpretation</div><div class="al-q-context">Q1 sales: £2.4m. Q2: £2.8m. Q3: £3.1m. Q4: £2.7m. Marketing spend per quarter: Q1 £300k, Q2 £350k, Q3 £400k, Q4 £320k.</div><div class="al-q-text">Which quarter had the highest ratio of sales to marketing spend?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">Q1</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">Q2</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">Q3</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">Q4</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>Q1: 2.4 ÷ 0.3 = 8.0. Q2: 2.8 ÷ 0.35 = 8.0. Q3: 3.1 ÷ 0.4 = 7.75. Q4: 2.7 ÷ 0.32 = <strong>8.44</strong>. Q4 is the most efficient quarter. Don't pick Q3 just because it had the highest raw sales.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="5" data-answer="1">
+      <div class="al-q-header"><div class="al-q-num">5</div><div><div class="al-q-topic">Weighted Average</div><div class="al-q-context">Fund A holds £2m with a 4.2% return. Fund B holds £3.5m with a 6.8% return. Fund C holds £1.5m with a 3.1% return.</div><div class="al-q-text">What is the portfolio-weighted average return?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">4.7%</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">5.2%</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">5.0%</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">4.4%</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>(2×4.2 + 3.5×6.8 + 1.5×3.1) ÷ (2+3.5+1.5) = (8.4 + 23.8 + 4.65) ÷ 7 = 36.85 ÷ 7 = <strong>5.26 ≈ 5.2%</strong>. Option A (4.7%) is the simple average ((4.2+6.8+3.1)÷3) — the trap.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="6" data-answer="0">
+      <div class="al-q-header"><div class="al-q-num">6</div><div><div class="al-q-topic">Profit Margin</div><div class="al-q-context">Revenue: £8.5m. Cost of goods sold: £3.4m. Operating expenses: £2.9m. Tax: £440k.</div><div class="al-q-text">What is the operating profit margin?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">25.9%</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">60.0%</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">20.7%</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">34.1%</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>Operating profit = Revenue − COGS − OpEx = £8.5m − £3.4m − £2.9m = £2.2m. Margin = £2.2m ÷ £8.5m = <strong>25.9%</strong>. Option B is gross margin (£5.1m ÷ £8.5m). Option C subtracts tax too (that's net margin).</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="7" data-answer="2">
+      <div class="al-q-header"><div class="al-q-num">7</div><div><div class="al-q-topic">Reverse Percentage</div><div class="al-q-text">After a 15% discount, a corporate licence costs £5,100. What was the original price before the discount?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£5,865</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£5,950</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£6,000</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£6,120</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>£5,100 = 85% of original. Original = £5,100 ÷ 0.85 = <strong>£6,000</strong>. Option A (£5,865) adds 15% to £5,100 — the classic reverse percentage trap (operating on the wrong base).</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="8" data-answer="3">
+      <div class="al-q-header"><div class="al-q-num">8</div><div><div class="al-q-topic">Multi-Source</div><div class="al-q-context">Company total revenue: £12m. UK: 45%, Europe: 30%, Asia: 25%. The company plans to increase Asia revenue by 40% next year while other regions stay flat.</div><div class="al-q-text">What will total revenue be next year?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£16.8m</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£13.0m</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£13.4m</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£13.2m</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>Asia revenue = £12m × 0.25 = £3m. Increase = £3m × 0.4 = £1.2m. New total = £12m + £1.2m = <strong>£13.2m</strong>. Option A (£16.8m) applies 40% to the whole £12m. Option C applies 40% to 30% (Europe's share).</p></div>
+    </div>
+
+    <!-- ═══════ SECTION B: VERBAL REASONING (Q9-14) ═══════ -->
+    <div class="al-section-divider"><div class="al-section-divider-label">Section B — Verbal Reasoning</div></div>
+
+    <div class="al-q-block" data-q="9" data-answer="0">
+      <div class="al-q-header"><div class="al-q-num">9</div><div><div class="al-q-topic">Verbal — True / False / Cannot Say</div></div></div>
+      <div class="al-q-passage">The Financial Conduct Authority (FCA) requires all UK-regulated firms to maintain adequate capital reserves based on their risk profile. Firms categorised as "enhanced" must hold reserves equal to at least 12% of their risk-weighted assets, while "standard" firms must hold at least 8%. The FCA reviews these thresholds annually and may adjust them in response to systemic risk changes. In 2024, no threshold changes were made.</div>
+      <div class="al-q-header" style="margin-top:0.75rem;"><div class="al-q-num" style="opacity:0;min-width:2rem;"></div><div><div class="al-q-text">Statement: In 2025, enhanced firms will need to hold at least 12% of their risk-weighted assets in capital reserves.</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">Cannot Say</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">True</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">False</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>Cannot Say.</strong> The passage confirms the 2024 threshold and that the FCA reviews annually. We know no changes were made in 2024, but the passage doesn't state what will happen in 2025 — the FCA "may adjust" thresholds. We cannot assume they will stay the same.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="10" data-answer="1">
+      <div class="al-q-header"><div class="al-q-num">10</div><div><div class="al-q-topic">Verbal — True / False / Cannot Say</div></div></div>
+      <div class="al-q-passage">Remote working policies in the financial sector have evolved significantly since 2020. A survey of 150 UK-based financial institutions found that 78% now offer hybrid working arrangements, with employees typically required to attend the office 2–3 days per week. The survey also noted that firms with fully remote policies experienced 15% higher staff turnover than hybrid firms. However, fully remote firms reported 22% lower office-related operating costs.</div>
+      <div class="al-q-header" style="margin-top:0.75rem;"><div class="al-q-num" style="opacity:0;min-width:2rem;"></div><div><div class="al-q-text">Statement: Hybrid working arrangements are the most common policy among the surveyed UK financial institutions.</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">Cannot Say</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">True</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">False</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>True.</strong> 78% offer hybrid — that is a clear majority and thus the "most common" policy among those surveyed. This is directly supported by the passage.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="11" data-answer="2">
+      <div class="al-q-header"><div class="al-q-num">11</div><div><div class="al-q-topic">Verbal — True / False / Cannot Say</div></div></div>
+      <div class="al-q-passage">Algorithmic trading now accounts for approximately 60–70% of equity market volume in major exchanges. Proponents argue it increases market liquidity and reduces bid-ask spreads. Critics counter that it amplifies volatility during market stress events, as multiple algorithms may trigger sell orders simultaneously. Regulators in the EU have introduced circuit breakers that temporarily halt trading when prices move beyond defined thresholds within short timeframes.</div>
+      <div class="al-q-header" style="margin-top:0.75rem;"><div class="al-q-num" style="opacity:0;min-width:2rem;"></div><div><div class="al-q-text">Statement: Algorithmic trading always reduces market volatility.</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">Cannot Say</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">True</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">False</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>False.</strong> The passage explicitly states critics argue algorithmic trading "amplifies volatility during market stress events." The word "always" makes the statement definitively false based on the passage content.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="12" data-answer="0">
+      <div class="al-q-header"><div class="al-q-num">12</div><div><div class="al-q-topic">Verbal — True / False / Cannot Say</div></div></div>
+      <div class="al-q-passage">ESG (Environmental, Social, and Governance) investing has grown rapidly, with global ESG assets under management exceeding $30 trillion in 2023. Institutional investors increasingly integrate ESG factors into their decision-making processes. However, there is ongoing debate about whether ESG-focused portfolios consistently outperform traditional benchmarks over the long term. Some studies suggest ESG screening reduces downside risk, while others find no statistically significant performance difference.</div>
+      <div class="al-q-header" style="margin-top:0.75rem;"><div class="al-q-num" style="opacity:0;min-width:2rem;"></div><div><div class="al-q-text">Statement: ESG-focused portfolios are less risky than non-ESG portfolios.</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">Cannot Say</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">True</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">False</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>Cannot Say.</strong> The passage mentions "some studies suggest ESG screening reduces downside risk" but "others find no statistically significant performance difference." The evidence is mixed — we cannot definitively conclude ESG portfolios are less risky.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="13" data-answer="1">
+      <div class="al-q-header"><div class="al-q-num">13</div><div><div class="al-q-topic">Verbal — True / False / Cannot Say</div></div></div>
+      <div class="al-q-passage">The Bank of England's Monetary Policy Committee (MPC) meets eight times per year to set the base interest rate. The committee has nine members: the Governor, four Deputy Governors, the Chief Economist, and three external members. Decisions are made by simple majority vote. In the event of a tie, the Governor has the casting vote.</div>
+      <div class="al-q-header" style="margin-top:0.75rem;"><div class="al-q-num" style="opacity:0;min-width:2rem;"></div><div><div class="al-q-text">Statement: A tie vote on interest rates is impossible given the MPC has nine members.</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">Cannot Say</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">False</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">True</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>False.</strong> The passage explicitly describes what happens "in the event of a tie" — the Governor has a casting vote. If ties were impossible, this provision would be unnecessary. A tie could occur if a member abstains or is absent, for example.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="14" data-answer="0">
+      <div class="al-q-header"><div class="al-q-num">14</div><div><div class="al-q-topic">Verbal — True / False / Cannot Say</div></div></div>
+      <div class="al-q-passage">Anti-money laundering (AML) regulations require financial institutions to conduct customer due diligence (CDD) before establishing a business relationship. Enhanced due diligence (EDD) is required for politically exposed persons (PEPs) and customers from high-risk jurisdictions. Non-compliance with AML regulations can result in significant fines; in 2023, the FCA issued £176 million in AML-related penalties across nine firms.</div>
+      <div class="al-q-header" style="margin-top:0.75rem;"><div class="al-q-num" style="opacity:0;min-width:2rem;"></div><div><div class="al-q-text">Statement: The average AML-related fine per firm in 2023 was approximately £19.6 million.</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">Cannot Say</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">True</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">False</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>Cannot Say.</strong> While £176m ÷ 9 ≈ £19.6m is mathematically correct, the passage states the total across nine firms — not that each received the same fine. Without knowing the distribution, we cannot confirm the "average" figure represents individual firm fines. The simple average is £19.6m, but the statement says "approximately" without acknowledging this is just a mathematical average, not necessarily indicative of actual fine distribution. However, the literal arithmetic is correct — this is a borderline question designed to test careful reading. The safest answer is <strong>Cannot Say</strong> because "average per firm" implies individual firm data we don't have (fines could be heavily skewed).</p></div>
+    </div>
+
+    <!-- ═══════ SECTION C: LOGICAL REASONING (Q15-20) ═══════ -->
+    <div class="al-section-divider"><div class="al-section-divider-label">Section C — Logical Reasoning</div></div>
+
+    <div class="al-q-block" data-q="15" data-answer="2">
+      <div class="al-q-header"><div class="al-q-num">15</div><div><div class="al-q-topic">Deductive Reasoning</div><div class="al-q-context">Rules: All senior analysts must complete compliance training by March. Anyone who has not completed compliance training cannot access restricted client data. James is a senior analyst. It is currently April.</div><div class="al-q-text">Which conclusion MUST be true?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">James has completed compliance training</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">James cannot access restricted client data</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">Either James has completed compliance training or he cannot access restricted client data</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">James was penalised for missing the deadline</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>C is correct.</strong> James "must" complete training by March (the rule). Either he did (and can access data), or he didn't (and cannot access data). We don't know which scenario applies, but one of these two must be true. Option A assumes he complied. Option B assumes he didn't. Option D introduces information not in the rules.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="16" data-answer="1">
+      <div class="al-q-header"><div class="al-q-num">16</div><div><div class="al-q-topic">Rule Application</div><div class="al-q-context">Expense claim rules: Claims under £50 require no approval. Claims of £50–£500 require line manager approval. Claims over £500 require both line manager and finance director approval. All claims for client entertainment require finance director approval regardless of amount.</div><div class="al-q-text">Sarah submits a £320 claim for client entertainment. What approval is needed?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">Line manager only</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">Finance director only</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">Line manager and finance director</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">No approval needed</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>Finance director only.</strong> The client entertainment rule overrides the amount-based rule — it requires finance director approval "regardless of amount." The £50–£500 rule would normally require line manager approval, but the client entertainment rule takes precedence. The question tests whether you apply the specific rule over the general one.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="17" data-answer="0">
+      <div class="al-q-header"><div class="al-q-num">17</div><div><div class="al-q-topic">Deductive Reasoning</div><div class="al-q-context">Facts: No employee in the London office speaks fewer than two languages. All employees who speak three or more languages are eligible for the international rotation programme. Maria works in the London office and is not eligible for the international rotation programme.</div><div class="al-q-text">Which conclusion MUST be true about Maria?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">She speaks exactly two languages</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">She speaks one language</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">She speaks at least two languages but may speak three</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">She is not based in the London office</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>Exactly two languages.</strong> London office → at least 2 languages. Not eligible for rotation → fewer than 3 languages. Combined: Maria speaks at least 2 but fewer than 3, so exactly 2. Option B contradicts the London office rule. Option C is wrong because 3+ languages would make her eligible. Option D contradicts the given fact.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="18" data-answer="3">
+      <div class="al-q-header"><div class="al-q-num">18</div><div><div class="al-q-topic">Rule Application</div><div class="al-q-context">Scheduling rules for quarterly reviews: 1) Directors are always reviewed in the first week. 2) Managers cannot be reviewed in the same week as their direct reports. 3) Analysts must be reviewed before associates. 4) No more than 5 reviews per week. Given: Director Chen (Week 1), Manager Patel reports to Director Chen, Analyst Kumar, Associate Williams.</div><div class="al-q-text">If Analyst Kumar is reviewed in Week 2, what is the earliest week for Associate Williams?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">Week 1</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">Week 2</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">Week 4</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">Week 3</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>Week 3.</strong> Rule 3: analysts before associates → Kumar (Week 2) must come before Williams. So Williams cannot be in Week 1 or 2. The earliest possible week is Week 3. There is no rule preventing Week 3 specifically, so <strong>Week 3</strong> is the answer.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="19" data-answer="2">
+      <div class="al-q-header"><div class="al-q-num">19</div><div><div class="al-q-topic">Deductive Reasoning</div><div class="al-q-context">Premises: If a trade exceeds £1 million, it must be reported to compliance within 24 hours. If a trade is not reported within 24 hours, the trader receives a formal warning. Tom executed a trade on Monday that exceeded £1 million. No report was filed by Tuesday evening.</div><div class="al-q-text">Which conclusion MUST follow?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">Tom will be dismissed</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">The compliance team was unavailable</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">Tom receives a formal warning</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">Tom's trade will be reversed</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>Tom receives a formal warning.</strong> Chain: trade &gt; £1m → must report in 24 hours. No report filed by Tuesday evening (more than 24 hours after Monday). Not reported in 24 hours → formal warning. This is a straightforward syllogism. Options A, B, and D introduce consequences not stated in the premises.</p></div>
+    </div>
+
+    <div class="al-q-block" data-q="20" data-answer="1">
+      <div class="al-q-header"><div class="al-q-num">20</div><div><div class="al-q-topic">Rule Application</div><div class="al-q-context">Office allocation rules: 1) Partners get individual offices on the top floor. 2) Teams of 4+ people get a dedicated meeting room on their floor. 3) No team can occupy more than two consecutive floors. 4) IT support must be within one floor of every team. The building has floors 1–5. IT is on Floor 3. Partner offices are on Floor 5.</div><div class="al-q-text">Which floors could a team of 6 people occupy?</div></div></div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">Floors 1 and 2</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">Floors 2 and 3</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">Floors 4 and 5</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">Floors 1 and 3</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>Floors 2 and 3.</strong> Rule 3: no more than two consecutive floors ✓ (2–3 are consecutive). Rule 4: IT on Floor 3 — within one floor of both Floor 2 and Floor 3 ✓. Rule 1: Floor 5 is for partners only, so C is eliminated. Rule 4 eliminates A (Floors 1–2 are not within one floor of Floor 3 for Floor 1). D violates Rule 3 (non-consecutive floors 1 and 3).</p></div>
+    </div>
+
+  </div>
+
+  <div class="al-submit-area">
+    <div class="al-progress-text"><span id="alAnsweredCount2">0</span> of 20 answered</div>
+    <button class="al-submit-btn" id="alSubmitBtn" onclick="alSubmitQuiz()">Submit Mock Assessment</button>
+  </div>
+
+  <div class="al-next" id="alNextLesson" style="display:none;">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Final Lesson</div>
+      <div class="al-next-title">6.5 — Test Day Checklist &amp; Final Tips</div>
+      <div class="al-next-desc">Everything you need on the day of your real assessment — your final preparation guide.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var submitted = false, answers = {}, totalQs = 20;
+  var startTime = Date.now();
+  var timerInterval = setInterval(function() {
+    var elapsed = Math.floor((Date.now() - startTime) / 1000);
+    var m = Math.floor(elapsed / 60), s = elapsed % 60;
+    var d = document.getElementById('alTimerDisplay');
+    if (d) d.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+  }, 1000);
+
+  // ── RESULTS SERVER URL ──
+  // IMPORTANT: Change this to your deployed server URL
+  var AL_RESULTS_URL = 'https://YOUR-SERVER-URL.com/api/results';
+
+  document.querySelectorAll('.al-q-block').forEach(function(block) {
+    block.querySelectorAll('.al-opt').forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        if (submitted) return;
+        var qNum = block.getAttribute('data-q');
+        block.querySelectorAll('.al-opt').forEach(function(o) { o.classList.remove('al-opt-selected'); });
+        opt.classList.add('al-opt-selected');
+        block.classList.add('al-q-answered');
+        answers[qNum] = parseInt(opt.getAttribute('data-opt'));
+        var count = Object.keys(answers).length;
+        var e1 = document.getElementById('alAnsweredCount'), e2 = document.getElementById('alAnsweredCount2'), fill = document.getElementById('alProgressFill');
+        if (e1) e1.textContent = count; if (e2) e2.textContent = count;
+        if (fill) fill.style.width = (count / totalQs * 100) + '%';
+      });
+    });
+  });
+  window.alSubmitQuiz = function() {
+    if (submitted) return; submitted = true;
+    clearInterval(timerInterval);
+    var timeTaken = Math.floor((Date.now() - startTime) / 1000);
+    var correct = 0, wrong = 0, skipped = 0;
+    var topicResults = {};
+    document.querySelectorAll('.al-q-block').forEach(function(block) {
+      var qNum = block.getAttribute('data-q'), correctIdx = parseInt(block.getAttribute('data-answer')), userAnswer = answers[qNum], explanation = block.querySelector('.al-q-explanation');
+      var topicEl = block.querySelector('.al-q-topic');
+      var topic = topicEl ? topicEl.textContent : 'Other';
+      var section = 'Other';
+      if (parseInt(qNum) <= 8) section = 'Numerical';
+      else if (parseInt(qNum) <= 14) section = 'Verbal';
+      else section = 'Logical';
+      if (!topicResults[section]) topicResults[section] = { correct: 0, total: 0 };
+      topicResults[section].total++;
+      block.classList.add('al-q-submitted');
+      var correctOpt = block.querySelector('[data-opt="' + correctIdx + '"]');
+      if (correctOpt) correctOpt.classList.add('al-opt-correct-answer');
+      if (userAnswer === undefined) { skipped++; block.classList.add('al-q-incorrect'); explanation.classList.add('al-exp-skipped','al-exp-visible'); explanation.querySelector('.al-exp-label').textContent = 'SKIPPED'; }
+      else if (userAnswer === correctIdx) { correct++; topicResults[section].correct++; block.classList.add('al-q-correct'); explanation.classList.add('al-exp-correct','al-exp-visible'); explanation.querySelector('.al-exp-label').textContent = 'CORRECT'; }
+      else { wrong++; block.classList.add('al-q-incorrect'); var wo = block.querySelector('[data-opt="'+userAnswer+'"]'); if(wo) wo.classList.add('al-opt-wrong-pick'); explanation.classList.add('al-exp-wrong','al-exp-visible'); explanation.querySelector('.al-exp-label').textContent = 'INCORRECT'; }
+    });
+    var pct = Math.round(correct / totalQs * 100), panel = document.getElementById('alResultPanel');
+    document.getElementById('alResultScore').textContent = correct + ' / ' + totalQs;
+    document.getElementById('alResultPct').textContent = pct + '%';
+    document.getElementById('alStatCorrect').textContent = correct;
+    document.getElementById('alStatWrong').textContent = wrong;
+    document.getElementById('alStatSkipped').textContent = skipped;
+    var msg = document.getElementById('alResultMsg');
+    var tier = '';
+    if (pct >= 85) { panel.classList.add('al-result-excellent'); tier = 'Excellent'; msg.innerHTML = 'Outstanding. You are ready for the real thing.'; }
+    else if (pct >= 65) { panel.classList.add('al-result-good'); tier = 'Good'; msg.innerHTML = 'Strong performance. Review your errors and check the section breakdown below.'; }
+    else if (pct >= 45) { panel.classList.add('al-result-needs-work'); tier = 'Needs Work'; msg.innerHTML = 'Foundations in place but more practice needed. Focus on your weakest section.'; }
+    else { panel.classList.add('al-result-weak'); tier = 'Weak'; msg.innerHTML = 'Significant revision needed. Revisit the relevant module lessons.'; }
+    var breakdownHTML = '';
+    for (var s in topicResults) {
+      breakdownHTML += '<div class="al-result-stat"><div class="al-result-stat-num">' + topicResults[s].correct + '/' + topicResults[s].total + '</div><div class="al-result-stat-lbl">' + s + '</div></div>';
+    }
+    var existingBreakdown = panel.querySelector('.al-result-breakdown');
+    if (existingBreakdown) {
+      existingBreakdown.innerHTML = '<div class="al-result-stat"><div class="al-result-stat-num" id="alStatCorrect2">' + correct + '</div><div class="al-result-stat-lbl">Correct</div></div><div class="al-result-stat"><div class="al-result-stat-num">' + wrong + '</div><div class="al-result-stat-lbl">Wrong</div></div><div class="al-result-stat"><div class="al-result-stat-num">' + skipped + '</div><div class="al-result-stat-lbl">Skipped</div></div>' + breakdownHTML;
+    }
+    panel.classList.add('al-result-visible');
+    document.getElementById('alSubmitBtn').classList.add('al-btn-hidden');
+    document.getElementById('alNextLesson').style.display = 'flex';
+    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // ── Send results to server ──
+    try {
+      var nameEl = document.getElementById('alUserName');
+      var emailEl = document.getElementById('alUserEmail');
+      fetch(AL_RESULTS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          assessment_type: 'mock-2',
+          user_name: nameEl ? nameEl.value.trim() : '',
+          user_email: emailEl ? emailEl.value.trim() : '',
+          score_correct: correct,
+          score_total: totalQs,
+          score_percentage: pct,
+          score_wrong: wrong,
+          score_skipped: skipped,
+          section_breakdown: topicResults,
+          time_taken_seconds: timeTaken,
+          performance_tier: tier,
+          answers: answers
+        })
+      }).catch(function(e) { console.warn('Results sync:', e); });
+    } catch(e) { console.warn('Results sync:', e); }
+  };
+})();
+</script>

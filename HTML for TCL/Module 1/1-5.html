@@ -1,0 +1,868 @@
+<!--
+  ACUMEN LOGIC — Lesson 1.5: Diagnostic Assessment
+  For ThriveCart Learn Custom HTML Block
+  Pure CSS · Zero JavaScript · Fully responsive
+  
+  PURPOSE: Explains the diagnostic test — categories, scoring,
+  classification, bottleneck identification, training tracks.
+  Links to live diagnostic at acumenlogic.co.uk/diagnostic.
+-->
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+  
+  .al-lesson {
+    --al-navy: #1B2A4A;
+    --al-navy-light: #2A3D66;
+    --al-navy-muted: #3D5280;
+    --al-gold: #C8A951;
+    --al-gold-dark: #B8983F;
+    --al-gold-light: #D4BC72;
+    --al-gold-pale: #F5EFD9;
+    --al-cream: #FAFAF6;
+    --al-white: #FFFFFF;
+    --al-text: #2C2C2C;
+    --al-text-light: #6B6B6B;
+    --al-border: #E8E4DA;
+    --al-success: #2D8F5E;
+    --al-danger: #C0392B;
+    --al-radius: 10px;
+    --al-radius-sm: 6px;
+    --al-shadow: 0 2px 12px rgba(27, 42, 74, 0.08);
+    --al-shadow-lg: 0 8px 32px rgba(27, 42, 74, 0.12);
+    --al-cat-nr: #C8A951;
+    --al-cat-di: #5B8DEF;
+    --al-cat-lr: #A78BFA;
+  }
+  .al-lesson {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  .al-lesson h1, .al-lesson h2, .al-lesson h3 { 
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; 
+    font-weight: 700;
+    color: var(--al-navy); 
+    line-height: 1.25; 
+  }
+
+  .al-hero { 
+    background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); 
+    border-radius: var(--al-radius); 
+    padding: 2.5rem 2rem 2rem; 
+    margin-bottom: 2rem; 
+    position: relative; 
+    overflow: hidden; 
+  }
+  .al-hero::before { 
+    content: ''; 
+    position: absolute; 
+    top: -40%; 
+    right: -20%; 
+    width: 60%; 
+    height: 180%; 
+    background: radial-gradient(ellipse, rgba(200, 169, 81, 0.08) 0%, transparent 70%); 
+    pointer-events: none; 
+  }
+  .al-hero-eyebrow { 
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; 
+    font-size: 0.75rem; 
+    font-weight: 700; 
+    letter-spacing: 0.15em; 
+    text-transform: uppercase; 
+    color: var(--al-gold) !important; 
+    margin-bottom: 0.75rem; 
+  }
+  .al-lesson .al-hero h1 { 
+    color: var(--al-white) !important; 
+    font-size: clamp(1.6rem, 4vw, 2.2rem); 
+    margin-bottom: 0.75rem; 
+  }
+  .al-hero-subtitle { 
+    color: rgba(255, 255, 255, 0.9) !important; 
+    font-size: 1rem; 
+    max-width: 36rem; 
+    line-height: 1.5; 
+  }
+  .al-hero-rule { 
+    width: 3rem; 
+    height: 3px; 
+    background: var(--al-gold); 
+    border: none; 
+    border-radius: 2px; 
+    margin: 1rem 0; 
+  }
+
+  .al-section { margin-bottom: 2rem; }
+  .al-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-section-number { 
+    width: 2rem; 
+    height: 2rem; 
+    background: var(--al-navy); 
+    color: var(--al-white); 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; 
+    font-weight: 700;
+    font-size: 0.95rem; 
+    flex-shrink: 0; 
+  }
+  .al-section h2 { font-size: clamp(1.15rem, 3vw, 1.4rem); }
+
+  .al-card { 
+    background: var(--al-white); 
+    border: 1px solid var(--al-border); 
+    border-radius: var(--al-radius); 
+    padding: 1.5rem; 
+    margin-bottom: 1.25rem; 
+    box-shadow: var(--al-shadow); 
+  }
+  .al-card p { margin-bottom: 0.75rem; }
+  .al-card p:last-child { margin-bottom: 0; }
+  .al-callout { 
+    border-radius: var(--al-radius); 
+    padding: 1.25rem 1.5rem; 
+    margin-bottom: 1.25rem; 
+    font-size: 0.92rem; 
+  }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-gold { background: var(--al-gold-pale); border-left: 4px solid var(--al-gold); }
+  .al-callout-warn { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-callout-label { 
+    font-weight: 700; 
+    font-size: 0.78rem; 
+    letter-spacing: 0.08em; 
+    text-transform: uppercase; 
+    margin-bottom: 0.4rem; 
+  }
+  .al-callout-tip .al-callout-label { color: var(--al-success); }
+  .al-callout-gold .al-callout-label { color: var(--al-navy); }
+  .al-callout-warn .al-callout-label { color: #D4823A; }
+
+  /* CTA BANNER */
+  .al-cta { 
+    background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 100%); 
+    border: 2px solid var(--al-gold); 
+    border-radius: var(--al-radius); 
+    padding: 1.5rem 1.75rem; 
+    margin-bottom: 2rem; 
+    text-align: center; 
+    position: relative; 
+    overflow: hidden; 
+  }
+  .al-cta::before { 
+    content: ''; 
+    position: absolute; 
+    top: -50%; 
+    left: -30%; 
+    width: 160%; 
+    height: 200%; 
+    background: radial-gradient(ellipse, rgba(200, 169, 81, 0.06) 0%, transparent 60%); 
+    pointer-events: none; 
+  }
+  .al-cta-eyebrow { 
+    font-size: 0.72rem; 
+    font-weight: 700; 
+    letter-spacing: 0.15em; 
+    text-transform: uppercase; 
+    color: var(--al-gold); 
+    margin-bottom: 0.5rem; 
+    position: relative; 
+  }
+  .al-cta h3 { 
+    color: var(--al-white) !important; 
+    font-size: clamp(1.1rem, 3vw, 1.35rem); 
+    margin-bottom: 0.6rem; 
+    position: relative; 
+  }
+  .al-cta p { 
+    color: rgba(255, 255, 255, 0.85) !important; 
+    font-size: 0.95rem; 
+    margin-bottom: 1.25rem; 
+    position: relative; 
+  }
+  
+  /* SOLID BUTTON STYLE - White text on gold background */
+  .al-cta-link { 
+    display: inline-block !important; 
+    background-color: var(--al-gold) !important; 
+    color: var(--al-white) !important; 
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif !important; 
+    font-weight: 700 !important; 
+    font-size: 1rem !important; 
+    padding: 0.9rem 2.5rem !important; 
+    border-radius: var(--al-radius-sm) !important; 
+    text-decoration: none !important; 
+    border: 2px solid var(--al-gold) !important;
+    cursor: pointer !important;
+    transition: background-color 0.2s ease !important;
+    position: relative; 
+  }
+  .al-cta-link:hover {
+    background-color: var(--al-gold-dark) !important;
+    color: var(--al-white) !important;
+    text-decoration: none !important;
+    border-color: var(--al-gold-dark) !important;
+  }
+  
+  .al-cta-sub { 
+    color: rgba(255, 255, 255, 0.6) !important; 
+    font-size: 0.78rem; 
+    margin-top: 0.85rem; 
+    position: relative; 
+  }
+
+  /* AT-A-GLANCE STATS */
+  .al-glance { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 0.65rem; 
+    margin-bottom: 1.25rem; 
+  }
+  .al-glance-item { 
+    background: var(--al-white); 
+    border: 1px solid var(--al-border); 
+    border-radius: var(--al-radius-sm); 
+    padding: 1rem; 
+    text-align: center; 
+    box-shadow: var(--al-shadow); 
+  }
+  .al-glance-value { 
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; 
+    font-weight: 700;
+    font-size: 1.6rem; 
+    color: var(--al-navy); 
+    margin-bottom: 0.15rem; 
+  }
+  .al-glance-label { 
+    font-size: 0.78rem; 
+    color: var(--al-text-light); 
+    font-weight: 600; 
+  }
+
+  /* CATEGORY DEEP-DIVE CARDS */
+  .al-cat-card { 
+    background: var(--al-white); 
+    border: 1px solid var(--al-border); 
+    border-radius: var(--al-radius); 
+    overflow: hidden; 
+    margin-bottom: 1rem; 
+    box-shadow: var(--al-shadow); 
+  }
+  .al-cat-header { 
+    padding: 0.75rem 1.25rem; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+  }
+  .al-cat-header-nr { background: rgba(200, 169, 81, 0.12); border-bottom: 2px solid var(--al-cat-nr); }
+  .al-cat-header-di { background: rgba(91, 141, 239, 0.1); border-bottom: 2px solid var(--al-cat-di); }
+  .al-cat-header-lr { background: rgba(167, 139, 250, 0.1); border-bottom: 2px solid var(--al-cat-lr); }
+  .al-cat-name { 
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; 
+    font-weight: 700;
+    font-size: 1rem; 
+    color: var(--al-navy); 
+  }
+  .al-cat-tag { 
+    font-size: 0.7rem; 
+    font-weight: 700; 
+    letter-spacing: 0.08em; 
+    text-transform: uppercase; 
+    padding: 0.2rem 0.6rem; 
+    border-radius: 3px; 
+    color: var(--al-white); 
+  }
+  .al-cat-tag-nr { background: var(--al-cat-nr); }
+  .al-cat-tag-di { background: var(--al-cat-di); }
+  .al-cat-tag-lr { background: var(--al-cat-lr); }
+  .al-cat-body { padding: 1.15rem 1.25rem; font-size: 0.92rem; }
+  .al-cat-body p { margin-bottom: 0.6rem; }
+  .al-cat-body p:last-child { margin-bottom: 0; }
+  .al-cat-topics { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.65rem; }
+  .al-cat-topic { 
+    background: var(--al-cream); 
+    border: 1px solid var(--al-border); 
+    border-radius: 3px; 
+    padding: 0.15rem 0.55rem; 
+    font-size: 0.75rem; 
+    font-weight: 600; 
+    color: var(--al-navy); 
+  }
+  .al-cat-meta { 
+    display: flex; 
+    gap: 0.75rem; 
+    margin-top: 0.65rem; 
+    padding-top: 0.65rem; 
+    border-top: 1px solid var(--al-border); 
+    font-size: 0.82rem; 
+    color: var(--al-text-light); 
+    flex-wrap: wrap; 
+  }
+  .al-cat-meta strong { color: var(--al-navy); }
+
+  /* CLASSIFICATION GRID */
+  .al-class-grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 0.75rem; 
+    margin: 1rem 0; 
+  }
+  .al-class-box { 
+    border-radius: var(--al-radius); 
+    padding: 1.15rem; 
+    text-align: center; 
+  }
+  .al-class-strong { background: #EDF7F0; border: 2px solid var(--al-success); }
+  .al-class-weak { background: #FDF2F0; border: 2px solid var(--al-danger); }
+  .al-class-label { 
+    font-size: 0.72rem; 
+    font-weight: 700; 
+    letter-spacing: 0.1em; 
+    text-transform: uppercase; 
+    margin-bottom: 0.35rem; 
+  }
+  .al-class-strong .al-class-label { color: var(--al-success); }
+  .al-class-weak .al-class-label { color: var(--al-danger); }
+  .al-class-threshold { 
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; 
+    font-weight: 700;
+    font-size: 1.4rem; 
+    color: var(--al-navy); 
+    margin-bottom: 0.15rem; 
+  }
+  .al-class-detail { 
+    font-size: 0.82rem; 
+    color: var(--al-text-light); 
+    line-height: 1.4; 
+  }
+
+  /* TRAINING TRACKS */
+  .al-tracks { 
+    display: grid; 
+    grid-template-columns: 1fr; 
+    gap: 0.75rem; 
+    margin: 0.75rem 0 1.25rem; 
+  }
+  .al-track { 
+    border-radius: var(--al-radius); 
+    padding: 1.15rem 1.35rem; 
+    display: flex; 
+    gap: 1rem; 
+    align-items: flex-start; 
+  }
+  .al-track-advanced { background: #EDF7F0; border-left: 4px solid var(--al-success); }
+  .al-track-standard { background: var(--al-gold-pale); border-left: 4px solid var(--al-gold); }
+  .al-track-intensive { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-track-score { 
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; 
+    font-weight: 700;
+    font-size: 1.1rem; 
+    color: var(--al-navy); 
+    min-width: 4rem; 
+    flex-shrink: 0; 
+  }
+  .al-track-name { 
+    font-weight: 700; 
+    color: var(--al-navy); 
+    font-size: 0.92rem; 
+    margin-bottom: 0.2rem; 
+  }
+  .al-track-desc { 
+    font-size: 0.85rem; 
+    color: var(--al-text-light); 
+    line-height: 1.5; 
+  }
+
+  /* SCORING FLOW */
+  .al-score-flow { 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 0.4rem; 
+    flex-wrap: wrap; 
+    margin: 1rem 0; 
+  }
+  .al-score-step { 
+    background: var(--al-white); 
+    border: 2px solid var(--al-border); 
+    border-radius: var(--al-radius-sm); 
+    padding: 0.55rem 0.85rem; 
+    text-align: center; 
+    font-size: 0.82rem; 
+    font-weight: 600; 
+    color: var(--al-navy); 
+  }
+  .al-score-step strong { 
+    display: block; 
+    font-size: 1rem; 
+    color: var(--al-gold); 
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; 
+    font-weight: 700;
+  }
+  .al-score-arrow { 
+    color: var(--al-gold); 
+    font-size: 1.1rem; 
+    font-weight: 700; 
+  }
+
+  /* SAMPLE QUESTION PREVIEW */
+  .al-sample { 
+    background: var(--al-navy); 
+    border-radius: var(--al-radius); 
+    padding: 1.25rem 1.5rem; 
+    margin-bottom: 0.85rem; 
+  }
+  .al-sample-cat { 
+    display: inline-block; 
+    padding: 0.15rem 0.55rem; 
+    border-radius: 3px; 
+    font-size: 0.7rem; 
+    font-weight: 700; 
+    letter-spacing: 0.06em; 
+    text-transform: uppercase; 
+    color: var(--al-white) !important; 
+    margin-bottom: 0.5rem; 
+  }
+  .al-sample-q { 
+    color: var(--al-white) !important; 
+    font-size: 0.95rem; 
+    line-height: 1.6; 
+    margin-bottom: 0.75rem; 
+    font-weight: 500;
+  }
+  .al-sample-note { 
+    color: rgba(255, 255, 255, 0.75) !important; 
+    font-size: 0.8rem; 
+    font-style: italic; 
+  }
+
+  /* KEY TAKEAWAYS */
+  .al-takeaways { 
+    background: var(--al-navy); 
+    border-radius: var(--al-radius); 
+    padding: 1.5rem 1.75rem; 
+    margin-bottom: 1.25rem; 
+  }
+  .al-takeaways h3 { 
+    color: var(--al-gold) !important; 
+    font-size: 1.1rem; 
+    margin-bottom: 1rem; 
+  }
+  .al-takeaways-list { list-style: none; padding: 0; }
+  .al-takeaways-list li { 
+    color: rgba(255, 255, 255, 0.95) !important; 
+    font-size: 0.92rem; 
+    padding: 0.45rem 0 0.45rem 1.75rem; 
+    position: relative; 
+    line-height: 1.5; 
+  }
+  .al-takeaways-list li::before { 
+    content: '✓'; 
+    position: absolute; 
+    left: 0; 
+    color: var(--al-gold); 
+    font-weight: 700; 
+    font-size: 1rem; 
+  }
+
+  /* NEXT LESSON */
+  .al-next { 
+    background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); 
+    border: 1px solid var(--al-border); 
+    border-radius: var(--al-radius); 
+    padding: 1.25rem 1.5rem; 
+    display: flex; 
+    align-items: center; 
+    gap: 1rem; 
+  }
+  .al-next-arrow { 
+    width: 2.5rem; 
+    height: 2.5rem; 
+    background: var(--al-navy); 
+    color: var(--al-gold); 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 1.1rem; 
+    flex-shrink: 0; 
+  }
+  .al-next-label { 
+    font-size: 0.72rem; 
+    font-weight: 700; 
+    letter-spacing: 0.1em; 
+    text-transform: uppercase; 
+    color: var(--al-text-light); 
+    margin-bottom: 0.15rem; 
+  }
+  .al-next-title { 
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; 
+    font-weight: 700;
+    color: var(--al-navy); 
+    font-size: 1rem; 
+  }
+  .al-next-desc { 
+    font-size: 0.85rem; 
+    color: var(--al-text-light); 
+    margin-top: 0.15rem; 
+  }
+
+  .al-lesson strong { color: var(--al-navy); }
+  .al-divider { 
+    border: none; 
+    height: 1px; 
+    background: var(--al-border); 
+    margin: 2rem 0; 
+  }
+
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .al-card, .al-cat-body { padding: 1.15rem; }
+    .al-glance { grid-template-columns: 1fr; }
+    .al-glance-item { 
+      display: flex; 
+      align-items: center; 
+      gap: 0.75rem; 
+      text-align: left; 
+    }
+    .al-class-grid { grid-template-columns: 1fr; }
+    .al-score-flow { gap: 0.25rem; }
+    .al-score-step { padding: 0.4rem 0.55rem; font-size: 0.75rem; }
+    .al-cta { padding: 1.25rem; }
+    .al-cta-link { 
+      width: 100% !important; 
+      padding: 1rem !important;
+      font-size: 1.05rem !important;
+    }
+    .al-takeaways { padding: 1.25rem; }
+    .al-next { flex-direction: column; text-align: center; }
+  }
+</style>
+
+<div class="al-lesson">
+
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 1 · Lesson 1.5</div>
+    <h1>Diagnostic Assessment</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">What the diagnostic tests, how your results are classified, and how to use them to guide your training.</p>
+  </div>
+
+  <!-- CTA: TAKE THE DIAGNOSTIC -->
+  <div class="al-cta">
+    <div class="al-cta-eyebrow">Before You Continue</div>
+    <h3>Have You Taken the Diagnostic?</h3>
+    <p>If you haven't completed your free diagnostic assessment yet, do so before reading this lesson. Your results will make everything below far more meaningful.</p>
+    <a href="https://acumenlogic.co.uk/diagnostic " class="al-cta-link">Take the Diagnostic →</a>
+    <div class="al-cta-sub">20 questions · 15 minutes · Free · Instant results</div>
+  </div>
+
+  <!-- SECTION 1: WHAT IT MEASURES -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">1</div>
+      <h2>What the Diagnostic Measures</h2>
+    </div>
+    <div class="al-card">
+      <p>The diagnostic is a 20-question timed assessment designed to mirror the format, difficulty, and time pressure of real UK finance aptitude tests. It tests three distinct cognitive categories — the same three that SHL, Aon, Korn Ferry, and Cappfinity assessments evaluate.</p>
+      <p>The goal is not to "pass" — it's to identify your <strong>specific bottleneck</strong> so you can train on what actually matters instead of wasting time on areas where you're already strong.</p>
+    </div>
+    <div class="al-glance">
+      <div class="al-glance-item">
+        <div class="al-glance-value">20</div>
+        <div class="al-glance-label">Questions</div>
+      </div>
+      <div class="al-glance-item">
+        <div class="al-glance-value">15</div>
+        <div class="al-glance-label">Minutes</div>
+      </div>
+      <div class="al-glance-item">
+        <div class="al-glance-value">3</div>
+        <div class="al-glance-label">Categories</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- SECTION 2: THE THREE CATEGORIES -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">2</div>
+      <h2>The Three Categories</h2>
+    </div>
+    <p style="margin-bottom:1rem; font-size:0.92rem;">Questions are <strong>interleaved</strong> — you'll alternate between categories throughout the test, just as some real assessments do. This prevents you from settling into one mode of thinking and tests your ability to switch between different cognitive skills under pressure.</p>
+
+    <div class="al-cat-card">
+      <div class="al-cat-header al-cat-header-nr">
+        <span class="al-cat-name">Numerical Reasoning</span>
+        <span class="al-cat-tag al-cat-tag-nr">7 Questions</span>
+      </div>
+      <div class="al-cat-body">
+        <p>Tests your ability to perform calculations accurately and efficiently under pressure. These questions require you to apply mathematical concepts — not just recall formulas, but interpret a scenario and decide which operation to use.</p>
+        <div class="al-cat-topics">
+          <span class="al-cat-topic">Sequential % changes</span>
+          <span class="al-cat-topic">Compound interest</span>
+          <span class="al-cat-topic">Ratios</span>
+          <span class="al-cat-topic">Profit margins</span>
+          <span class="al-cat-topic">Reverse percentages</span>
+          <span class="al-cat-topic">Multiplicative changes</span>
+          <span class="al-cat-topic">Work-rate problems</span>
+        </div>
+        <div class="al-cat-meta">
+          <span><strong>Strong threshold:</strong> 5+ / 7 correct</span>
+          <span><strong>Course focus:</strong> Modules 2 &amp; 3</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="al-cat-card">
+      <div class="al-cat-header al-cat-header-di">
+        <span class="al-cat-name">Data Interpretation</span>
+        <span class="al-cat-tag al-cat-tag-di">7 Questions</span>
+      </div>
+      <div class="al-cat-body">
+        <p>Tests your ability to extract, compare, and draw conclusions from data presented in tables. Each question gives you a data table and asks you to find a specific insight — sometimes requiring multiple calculations across rows and columns.</p>
+        <div class="al-cat-topics">
+          <span class="al-cat-topic">Table aggregation</span>
+          <span class="al-cat-topic">Revenue per head</span>
+          <span class="al-cat-topic">Consistency &amp; variance</span>
+          <span class="al-cat-topic">Trend projection</span>
+          <span class="al-cat-topic">Total cost comparison</span>
+          <span class="al-cat-topic">Profit maximisation</span>
+          <span class="al-cat-topic">Market share</span>
+        </div>
+        <div class="al-cat-meta">
+          <span><strong>Strong threshold:</strong> 5+ / 7 correct</span>
+          <span><strong>Course focus:</strong> Module 3</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="al-cat-card">
+      <div class="al-cat-header al-cat-header-lr">
+        <span class="al-cat-name">Logical Reasoning</span>
+        <span class="al-cat-tag al-cat-tag-lr">6 Questions</span>
+      </div>
+      <div class="al-cat-body">
+        <p>Tests your ability to draw valid conclusions from given information, recognise patterns, and apply rules accurately. These questions don't involve any calculations — they test the clarity and rigour of your thinking.</p>
+        <div class="al-cat-topics">
+          <span class="al-cat-topic">Syllogisms</span>
+          <span class="al-cat-topic">Deductive logic</span>
+          <span class="al-cat-topic">Conditional rules</span>
+          <span class="al-cat-topic">Number sequences</span>
+          <span class="al-cat-topic">Logical fallacies</span>
+          <span class="al-cat-topic">Code &amp; cipher logic</span>
+        </div>
+        <div class="al-cat-meta">
+          <span><strong>Strong threshold:</strong> 4+ / 6 correct</span>
+          <span><strong>Course focus:</strong> Module 4</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- SECTION 3: SAMPLE QUESTIONS -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">3</div>
+      <h2>What the Questions Look Like</h2>
+    </div>
+    <p style="margin-bottom:1rem; font-size:0.92rem;">Every question has five answer options. Data Interpretation questions include a data table directly above the question. Here's a flavour of each category:</p>
+
+    <div class="al-sample">
+      <span class="al-sample-cat al-cat-tag-nr">Numerical Reasoning</span>
+      <p class="al-sample-q">"A company's revenue increased by 15% from Q1 to Q2, then decreased by 8% from Q2 to Q3. If Q1 revenue was £2.4 million, what was the Q3 revenue?"</p>
+      <p class="al-sample-note">Tests: sequential percentage changes — a classic trap where adding/subtracting percentages gives the wrong answer.</p>
+    </div>
+
+    <div class="al-sample">
+      <span class="al-sample-cat al-cat-tag-di">Data Interpretation</span>
+      <p class="al-sample-q">"Referring to the table, which region had the highest revenue per employee in Q3?"</p>
+      <p class="al-sample-note">Tests: derived metric calculation — you must divide revenue by headcount for each region, not just pick the largest revenue.</p>
+    </div>
+
+    <div class="al-sample">
+      <span class="al-sample-cat al-cat-tag-lr">Logical Reasoning</span>
+      <p class="al-sample-q">"All successful candidates have strong analytical skills. Some candidates with strong analytical skills lack commercial awareness. Therefore…"</p>
+      <p class="al-sample-note">Tests: syllogistic reasoning — the conclusion is indeterminate, which most candidates fail to recognise.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- SECTION 4: HOW SCORING WORKS -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">4</div>
+      <h2>How Scoring Works</h2>
+    </div>
+    <div class="al-card">
+      <p>Your results page shows three separate scores — one for each category. Each category is independently classified as <strong>Strong</strong> or <strong>Weak</strong> based on a 70% threshold within that category.</p>
+    </div>
+
+    <div class="al-class-grid">
+      <div class="al-class-box al-class-strong">
+        <div class="al-class-label">Strong</div>
+        <div class="al-class-threshold">70%+</div>
+        <div class="al-class-detail">NR: 5+ / 7<br>DI: 5+ / 7<br>LR: 4+ / 6</div>
+      </div>
+      <div class="al-class-box al-class-weak">
+        <div class="al-class-label">Weak</div>
+        <div class="al-class-threshold">Below 70%</div>
+        <div class="al-class-detail">NR: 0–4 / 7<br>DI: 0–4 / 7<br>LR: 0–3 / 6</div>
+      </div>
+    </div>
+
+    <div class="al-card">
+      <p>This gives you one of <strong>eight possible profiles</strong> — for example, Strong-Strong-Weak (solid at numbers, but logical reasoning is the bottleneck) or Weak-Strong-Strong (numerical skills need the most work). Your profile tells you exactly where to invest your training time.</p>
+      <p>Your overall score is also calculated as a simple percentage across all 20 questions, which determines your recommended training track.</p>
+    </div>
+
+    <div class="al-callout al-callout-gold">
+      <div class="al-callout-label">Important</div>
+      <p>A "Weak" classification on the diagnostic does <strong>not</strong> mean you'll fail real tests. It means that category is where you'll gain the most marks from training. The diagnostic measures your <strong>starting point</strong> — not your ceiling.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- SECTION 5: BOTTLENECK -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">5</div>
+      <h2>Your Bottleneck</h2>
+    </div>
+    <div class="al-card">
+      <p>Your <strong>primary bottleneck</strong> is the category with the lowest score relative to its threshold. This is the single area that, if improved, will have the biggest impact on your overall test performance.</p>
+      <p>Most candidates assume their bottleneck is numerical — because the maths feels hardest. In practice, Data Interpretation is the most common bottleneck. The reason: DI questions require both mathematical skill <strong>and</strong> the ability to extract the right numbers from complex tables under pressure. It's the combination that trips people up.</p>
+    </div>
+
+    <div class="al-score-flow">
+      <div class="al-score-step">Category<br>scores<strong>NR · DI · LR</strong></div>
+      <span class="al-score-arrow">→</span>
+      <div class="al-score-step">Classify<strong>Strong / Weak</strong></div>
+      <span class="al-score-arrow">→</span>
+      <div class="al-score-step">Lowest<br>category<strong>= Bottleneck</strong></div>
+      <span class="al-score-arrow">→</span>
+      <div class="al-score-step">Training<br>prioritised<strong>Here first</strong></div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- SECTION 6: TRAINING TRACKS -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">6</div>
+      <h2>Training Tracks</h2>
+    </div>
+    <p style="margin-bottom:1rem; font-size:0.92rem;">Based on your overall percentage score, the diagnostic recommends one of three training approaches:</p>
+
+    <div class="al-tracks">
+      <div class="al-track al-track-advanced">
+        <div class="al-track-score">80%+</div>
+        <div>
+          <div class="al-track-name">Advanced Track</div>
+          <div class="al-track-desc">Strong foundation already in place. Focus on speed optimisation, complex multi-table scenarios, and provider-specific exam technique. Prioritise Modules 4, 5, and 6.</div>
+        </div>
+      </div>
+      <div class="al-track al-track-standard">
+        <div class="al-track-score">60–79%</div>
+        <div>
+          <div class="al-track-name">Standard Track</div>
+          <div class="al-track-desc">Solid fundamentals with identifiable gaps. Complete all modules in order, with extra attention on your weak categories. This is where most candidates start.</div>
+        </div>
+      </div>
+      <div class="al-track al-track-intensive">
+        <div class="al-track-score">Below 60%</div>
+        <div>
+          <div class="al-track-name">Intensive Track</div>
+          <div class="al-track-desc">Extended focus on the fundamentals before advancing. Revisit Module 1's maths refresh, then work through Modules 2 and 3 thoroughly. Speed comes after accuracy is established.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-tip">
+      <div class="al-callout-label">Regardless of Track</div>
+      <p>Everyone should complete the full course. The tracks determine <strong>pacing and emphasis</strong>, not which lessons to skip. A candidate scoring 85% still benefits from Module 2 — they just move through it faster.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- SECTION 7: HOW TO USE RESULTS -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">7</div>
+      <h2>How to Use Your Results</h2>
+    </div>
+    <div class="al-card">
+      <p>After completing the diagnostic, you'll see your full breakdown on the results screen — scores by category, your Strong/Weak classification, and your primary bottleneck. You'll also receive this by email. Here's how to act on it:</p>
+      <p><strong>If Numerical Reasoning is your bottleneck:</strong> Modules 2 and 3 are your priority. Spend extra time on the worked examples and repeat the speed drills until the shortcuts become automatic. As your raw numerical fluency improves, your DI score will rise too — because faster calculations mean more time to interpret data.</p>
+      <p><strong>If Data Interpretation is your bottleneck:</strong> Module 3 is critical. The issue is rarely the maths — it's the data extraction. Focus on learning to scan tables systematically: column headers first, then row labels, then the specific cell you need. Practise identifying which data point the question is actually asking for before starting any calculation.</p>
+      <p><strong>If Logical Reasoning is your bottleneck:</strong> Module 4 is your focus. Logical reasoning is the most "learnable" of the three categories — once you recognise the common patterns (syllogisms, conditional rules, sequence logic), your accuracy improves quickly. Most candidates see the biggest percentage point gains here.</p>
+    </div>
+
+    <div class="al-callout al-callout-warn">
+      <div class="al-callout-label">Common Mistake</div>
+      <p>Don't ignore a category just because it's classified as "Strong." A score of 5/7 is technically Strong but still means you got 2 wrong — there's room to improve. The classification tells you where to <strong>start</strong>, not where to stop.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- SECTION 8: RETAKING -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">8</div>
+      <h2>Retaking the Diagnostic</h2>
+    </div>
+    <div class="al-card">
+      <p>In Module 6, you'll take a full mock assessment that serves as your post-training benchmark. Comparing your Module 6 results against this diagnostic baseline is the clearest way to measure your progress and confirm your training has worked.</p>
+      <p>Expect to see the biggest improvements in whichever category was classified as "Weak" — that's the whole point of targeted training. Candidates who follow the full course typically move from the 40th–50th percentile range to the 75th–85th percentile on real employer assessments.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- KEY TAKEAWAYS -->
+  <div class="al-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul class="al-takeaways-list">
+      <li>The diagnostic tests three categories: Numerical Reasoning (7 Qs), Data Interpretation (7 Qs), and Logical Reasoning (6 Qs) — interleaved across 15 minutes.</li>
+      <li>Each category is classified as Strong (70%+) or Weak (below 70%), giving you one of eight possible profiles.</li>
+      <li>Your primary bottleneck is the lowest-scoring category — this is where training gives you the highest return on time invested.</li>
+      <li>Data Interpretation is the most common bottleneck, even among candidates who are strong at pure maths.</li>
+      <li>Your overall score determines your training track: Advanced (80%+), Standard (60–79%), or Intensive (below 60%).</li>
+      <li>The diagnostic is a starting point. Module 6 includes a post-training benchmark to measure your progress.</li>
+    </ul>
+  </div>
+
+  <!-- CTA: RETAKE OR CONTINUE -->
+  <div class="al-cta" style="margin-bottom:1.25rem;">
+    <div class="al-cta-eyebrow">Haven't Taken It Yet?</div>
+    <h3>Take Your Diagnostic Now</h3>
+    <p>Complete the assessment before starting Module 2. Your results shape how you approach every lesson that follows.</p>
+    <a href="https://acumenlogic.co.uk/diagnostic " class="al-cta-link">Take the Diagnostic →</a>
+    <div class="al-cta-sub">Already taken it? Your results were emailed to you — check your inbox.</div>
+  </div>
+
+  <!-- NEXT LESSON -->
+  <div class="al-next">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Lesson</div>
+      <div class="al-next-title">2.1 — Percentages Mastery</div>
+      <div class="al-next-desc">The most frequently tested topic in UK finance aptitude tests. Module 2 begins.</div>
+    </div>
+  </div>
+
+</div>

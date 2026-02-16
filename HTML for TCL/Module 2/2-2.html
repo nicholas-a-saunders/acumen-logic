@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview — Lesson 2.2 in ThriveCart Context</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #F0F0ED; font-family: system-ui, sans-serif; min-height: 100vh; }
+.tc-chrome { max-width: 780px; margin: 2rem auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.1); overflow: hidden; }
+.tc-header { background: #f8f8f6; border-bottom: 1px solid #e5e5e0; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+.tc-header-left { display: flex; align-items: center; gap: 0.75rem; font-size: 0.85rem; color: #666; }
+.tc-header-dot { width: 8px; height: 8px; border-radius: 50%; background: #2D8F5E; }
+.tc-header-right { font-size: 0.8rem; color: #999; }
+.tc-body { padding: 1.5rem; }
+.tc-footer { background: #f8f8f6; border-top: 1px solid #e5e5e0; padding: 0.75rem 1.5rem; text-align: center; font-size: 0.75rem; color: #999; }
+</style>
+</head>
+<body>
+<div class="tc-chrome">
+<div class="tc-header">
+<div class="tc-header-left"><div class="tc-header-dot"></div><span>ThriveCart Learn Preview</span></div>
+<div class="tc-header-right">Module 2 — Numerical Reasoning: Core Skills</div>
+</div>
+<div class="tc-body">
+<!--
+  ACUMEN LOGIC — Lesson 2.2: Ratios & Proportions
+  For ThriveCart Learn Custom HTML Block
+  Pure CSS · Zero JavaScript · Fully responsive
+  
+  TYPE: Core worked-example lesson (heavy)
+  CSS RULES: Source Sans 3 only, no DM Serif Display,
+  !important on dark-section text for ThriveCart compatibility.
+-->
+
+<style>
+  /* ═══ BRAND TOKENS ═══ */
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+  .al-lesson {
+    --al-navy: #1B2A4A;
+    --al-navy-light: #2A3D66;
+    --al-navy-muted: #3D5280;
+    --al-gold: #C8A951;
+    --al-gold-light: #D4BC72;
+    --al-gold-pale: #F5EFD9;
+    --al-cream: #FAFAF6;
+    --al-white: #FFFFFF;
+    --al-text: #2C2C2C;
+    --al-text-light: #6B6B6B;
+    --al-border: #E8E4DA;
+    --al-success: #2D8F5E;
+    --al-danger: #C0392B;
+    --al-radius: 10px;
+    --al-radius-sm: 6px;
+    --al-shadow: 0 2px 12px rgba(27, 42, 74, 0.08);
+  }
+
+  /* ═══ RESET & BASE ═══ */
+  .al-lesson {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .al-lesson h1, .al-lesson h2, .al-lesson h3 {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    font-weight: 700; color: var(--al-navy); line-height: 1.25;
+  }
+
+  /* ═══ HERO ═══ */
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .al-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200, 169, 81, 0.08) 0%, transparent 70%); pointer-events: none; }
+  .al-hero-eyebrow { font-family: 'Source Sans 3', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem, 4vw, 2.2rem); margin-bottom: 0.75rem; font-weight: 700; }
+  .al-hero-subtitle { color: rgba(255, 255, 255, 0.9) !important; font-size: 1rem; max-width: 36rem; line-height: 1.5; }
+  .al-hero-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 1rem 0; }
+
+  /* ═══ SECTIONS ═══ */
+  .al-section { margin-bottom: 2rem; }
+  .al-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-section-number { width: 2rem; height: 2rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.95rem; flex-shrink: 0; }
+  .al-section h2 { font-size: clamp(1.15rem, 3vw, 1.4rem); }
+
+  /* ═══ CARDS ═══ */
+  .al-card { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-card p { margin-bottom: 0.75rem; }
+  .al-card p:last-child { margin-bottom: 0; }
+
+  /* ═══ CALLOUTS ═══ */
+  .al-callout { border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; font-size: 0.92rem; }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-gold { background: var(--al-gold-pale); border-left: 4px solid var(--al-gold); }
+  .al-callout-warn { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-callout-danger { background: #FDF2F0; border-left: 4px solid var(--al-danger); }
+  .al-callout-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .al-callout-tip .al-callout-label { color: var(--al-success); }
+  .al-callout-gold .al-callout-label { color: var(--al-navy); }
+  .al-callout-warn .al-callout-label { color: #D4823A; }
+  .al-callout-danger .al-callout-label { color: var(--al-danger); }
+
+  /* ═══ WORKED EXAMPLES ═══ */
+  .al-example { border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-example-header { 
+    background: var(--al-navy); 
+    padding: 1.25rem 1.5rem; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: flex-start; 
+    gap: 0.5rem;
+  }
+  .al-example-label { 
+    color: var(--al-gold) !important; 
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    font-weight: 700; 
+    font-size: 0.72rem; 
+    letter-spacing: 0.1em; 
+    text-transform: uppercase; 
+  }
+  .al-example-q { 
+    color: var(--al-white) !important; 
+    font-size: 1.15rem; 
+    font-weight: 600; 
+    line-height: 1.4;
+    margin-top: 0.5rem;
+  }
+  .al-example-body { background: var(--al-white); border: 1px solid var(--al-border); border-top: none; border-radius: 0 0 var(--al-radius) var(--al-radius); padding: 1.5rem; font-size: 0.92rem; }
+  .al-example-body p { margin-bottom: 0.6rem; }
+  .al-example-body p:last-child { margin-bottom: 0; }
+
+  /* ═══ STEP LINES ═══ */
+  .al-step-line { display: flex; align-items: baseline; gap: 0.65rem; margin-bottom: 0.45rem; }
+  .al-step-num { width: 1.4rem; height: 1.4rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.7rem; flex-shrink: 0; }
+  .al-step-calc { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-size: 0.9rem; color: var(--al-navy); }
+  .al-step-result { font-weight: 700; color: var(--al-success); }
+
+  /* ═══ WRONG vs RIGHT ═══ */
+  .al-vs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin-bottom: 1.25rem; }
+  .al-vs-box { border-radius: var(--al-radius); padding: 1rem; }
+  .al-vs-wrong { background: #FDF2F0; border: 2px solid var(--al-danger); }
+  .al-vs-right { background: #EDF7F0; border: 2px solid var(--al-success); }
+  .al-vs-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .al-vs-wrong .al-vs-label { color: var(--al-danger); }
+  .al-vs-right .al-vs-label { color: var(--al-success); }
+  .al-vs-calc { font-size: 0.88rem; margin-bottom: 0.25rem; }
+  .al-vs-answer { 
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    font-weight: 700; 
+    font-size: 1.15rem; 
+  }
+  .al-vs-wrong .al-vs-answer { color: var(--al-danger); }
+  .al-vs-right .al-vs-answer { color: var(--al-success); }
+  .al-vs-explain { font-size: 0.8rem; color: var(--al-text-light); margin-top: 0.3rem; }
+
+  /* ═══ FORMULA / RULE CARDS ═══ */
+  .al-formula { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.15rem 1.5rem; margin-bottom: 1.25rem; text-align: center; }
+  .al-formula-label { color: var(--al-gold) !important; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .al-formula-text { color: var(--al-white) !important; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: clamp(1rem, 2.5vw, 1.25rem); line-height: 1.4; }
+  .al-formula-note { color: rgba(255, 255, 255, 0.75) !important; font-size: 0.78rem; margin-top: 0.35rem; }
+
+  /* ═══ REVEAL (details/summary) ═══ */
+  .al-reveal { margin-top: 0.5rem; border: 2px solid var(--al-border); border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; }
+  .al-reveal[open] { border-color: var(--al-success); }
+  .al-reveal-btn { display: block; padding: 0.85rem 1.25rem; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--al-navy); background: var(--al-cream); cursor: pointer; list-style: none; user-select: none; -webkit-user-select: none; }
+  .al-reveal-btn::-webkit-details-marker { display: none; }
+  .al-reveal-btn::marker { display: none; content: ''; }
+  .al-reveal-btn:hover { background: var(--al-gold-pale); }
+  .al-reveal[open] .al-reveal-btn { background: #EDF7F0; color: var(--al-success); border-bottom: 1px solid var(--al-border); }
+  .al-reveal-content { 
+    padding: 1.25rem; 
+    font-size: 0.92rem; 
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+  }
+  .al-reveal-content p { margin-bottom: 0.6rem; }
+  .al-reveal-content p:last-child { margin-bottom: 0; }
+
+  /* ═══ PRACTICE QUESTION ═══ */
+  .al-practice { background: var(--al-cream); border: 2px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 0.5rem; }
+  .al-practice-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-gold); margin-bottom: 0.35rem; }
+  .al-practice-q { 
+    font-size: 0.95rem; 
+    font-weight: 600; 
+    color: var(--al-navy); 
+    line-height: 1.5; 
+    margin-top: 0.5rem;
+  }
+
+  /* ═══ KEY TAKEAWAYS ═══ */
+  .al-takeaways { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.5rem 1.75rem; margin-bottom: 1.25rem; }
+  .al-takeaways h3 { color: var(--al-gold) !important; font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; }
+  .al-takeaways-list { list-style: none; padding: 0; }
+  .al-takeaways-list li { color: rgba(255, 255, 255, 0.95) !important; font-size: 0.92rem; padding: 0.45rem 0 0.45rem 1.75rem; position: relative; line-height: 1.5; }
+  .al-takeaways-list li::before { content: '✓'; position: absolute; left: 0; color: var(--al-gold) !important; font-weight: 700; font-size: 1rem; }
+
+  /* ═══ NEXT LESSON ═══ */
+  .al-next { background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .al-next-arrow { width: 2.5rem; height: 2.5rem; background: var(--al-navy); color: var(--al-gold) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .al-next-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-text-light); margin-bottom: 0.15rem; }
+  .al-next-title { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; color: var(--al-navy); font-size: 1rem; }
+  .al-next-desc { font-size: 0.85rem; color: var(--al-text-light); margin-top: 0.15rem; }
+
+  /* ═══ UTILITY ═══ */
+  .al-lesson strong { color: var(--al-navy); }
+  .al-divider { border: none; height: 1px; background: var(--al-border); margin: 2rem 0; }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .al-card, .al-example-body, .al-reveal-content { padding: 1.15rem; }
+    .al-vs { grid-template-columns: 1fr; }
+    .al-takeaways { padding: 1.25rem; }
+    .al-next { flex-direction: column; text-align: center; }
+    .al-formula { padding: 1rem; }
+    .al-example-header { padding: 1.1rem 1.25rem; }
+    .al-example-q { font-size: 1.05rem; }
+  }
+</style>
+
+<div class="al-lesson">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 2 · Lesson 2.2</div>
+    <h1>Ratios &amp; Proportions</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">The second most tested numerical skill in UK finance aptitude tests. Ratios appear in staffing questions, financial analysis, resource allocation, and every data interpretation section.</p>
+  </div>
+
+  <!-- ═══ SECTION 1: WHY RATIOS MATTER ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">1</div>
+      <h2>Why Ratios Matter in Finance Tests</h2>
+    </div>
+    <div class="al-card">
+      <p>Ratios test your ability to compare quantities, allocate resources, and scale values — all fundamental skills in finance. In real SHL and Aon tests, ratios rarely appear as straightforward "simplify 12:8" questions. Instead, they're embedded in scenarios: dividing a budget between departments, calculating staffing requirements, or interpreting financial ratios from a data table.</p>
+      <p>The concepts are simple. The difficulty comes from working quickly with unfamiliar numbers, and from the specific traps that test designers build into the answer options.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 2: SIMPLIFYING RATIOS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">2</div>
+      <h2>Simplifying Ratios</h2>
+    </div>
+    <div class="al-card">
+      <p>A ratio compares two or more quantities. Simplifying means dividing all parts by their highest common factor (HCF) to get the smallest whole numbers.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Method</div>
+      <div class="al-formula-text">Divide every part of the ratio by the HCF</div>
+      <div class="al-formula-note">If you can't spot the HCF, divide by any common factor and repeat until simplified.</div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 1</span>
+        <span class="al-example-q">Simplify 150 : 250 : 100</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">All divisible by 50: 150÷50 = 3, 250÷50 = 5, 100÷50 = 2</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Simplified: <span class="al-step-result">3 : 5 : 2</span></span></div>
+      </div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 2</span>
+        <span class="al-example-q">Express the ratio £1.20 : £3.00 in simplest form</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Convert to same units: 120p : 300p</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">HCF of 120 and 300 = 60</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">120÷60 : 300÷60 = <span class="al-step-result">2 : 5</span></span></div>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-warn">
+      <div class="al-callout-label">Common Trap</div>
+      <p>When the ratio involves different units (e.g. £ and pence, metres and cm, hours and minutes), you <strong>must</strong> convert to the same unit first. Test designers include answers based on the unconverted numbers.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 3: DIVIDING IN A RATIO ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">3</div>
+      <h2>Dividing a Quantity in a Given Ratio</h2>
+    </div>
+    <div class="al-card">
+      <p>This is the most common ratio question type in finance aptitude tests: splitting a total amount between two or more parts according to a ratio. The method is always the same.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">3-Step Method</div>
+      <div class="al-formula-text">① Add the ratio parts &nbsp; ② Divide total by sum &nbsp; ③ Multiply each part</div>
+      <div class="al-formula-note">Total parts → value of one part → value of each share.</div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 3</span>
+        <span class="al-example-q">A £360,000 budget is split between departments A, B, and C in the ratio 3 : 2 : 1. How much does each get?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Total parts = 3 + 2 + 1 = 6</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Value of 1 part = £360,000 ÷ 6 = £60,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">A = 3 × £60,000 = <span class="al-step-result">£180,000</span></span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">B = 2 × £60,000 = <span class="al-step-result">£120,000</span></span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">C = 1 × £60,000 = <span class="al-step-result">£60,000</span></span></div>
+        <p style="margin-top:0.5rem; color:var(--al-text-light); font-size:0.85rem;">Check: £180,000 + £120,000 + £60,000 = £360,000 ✓</p>
+      </div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 4</span>
+        <span class="al-example-q">A profit of £84,000 is shared between two partners in the ratio 5 : 7. How much does the smaller share receive?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Total parts = 5 + 7 = 12</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Value of 1 part = £84,000 ÷ 12 = £7,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Smaller share = 5 × £7,000 = <span class="al-step-result">£35,000</span></span></div>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-danger">
+      <div class="al-callout-label">The Ratio Trap</div>
+      <p>A common wrong answer is to divide the total by one of the ratio numbers directly. In Example 3, dividing £360,000 by 3 gives £120,000 — which is Department B's share, not Department A's. The test will include this as an option. <strong>Always find the total number of parts first.</strong></p>
+    </div>
+
+    <div class="al-vs">
+      <div class="al-vs-box al-vs-wrong">
+        <div class="al-vs-label">Wrong — Dividing by Ratio Number</div>
+        <div class="al-vs-calc">£360,000 ÷ 3 = £120,000</div>
+        <div class="al-vs-answer">£120,000 ✗</div>
+        <div class="al-vs-explain">This divides by one part of the ratio, ignoring the other parts.</div>
+      </div>
+      <div class="al-vs-box al-vs-right">
+        <div class="al-vs-label">Right — Dividing by Total Parts</div>
+        <div class="al-vs-calc">£360,000 ÷ 6 = £60,000 per part</div>
+        <div class="al-vs-calc">3 parts = 3 × £60,000</div>
+        <div class="al-vs-answer">£180,000 ✓</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 4: FINDING UNKNOWN QUANTITIES ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">4</div>
+      <h2>Finding Unknown Quantities from a Ratio</h2>
+    </div>
+    <div class="al-card">
+      <p>Sometimes you're given one part of the ratio and asked to find the total or another part. The method: find the value of one "unit" first, then scale.</p>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 5</span>
+        <span class="al-example-q">Senior and junior staff are in the ratio 3 : 5. If there are 90 senior staff, how many junior staff are there?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">3 parts = 90 staff → 1 part = 90 ÷ 3 = 30</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Junior = 5 parts = 5 × 30 = <span class="al-step-result">150 junior staff</span></span></div>
+      </div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 6</span>
+        <span class="al-example-q">A firm's debt-to-equity ratio is 2 : 3. If equity is £450,000, what is the total capital (debt + equity)?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Equity = 3 parts = £450,000 → 1 part = £150,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Debt = 2 parts = 2 × £150,000 = £300,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Total capital = £300,000 + £450,000 = <span class="al-step-result">£750,000</span></span></div>
+        <p style="margin-top:0.5rem; color:var(--al-text-light); font-size:0.85rem;">Or: total parts = 5, so total = 5 × £150,000 = £750,000.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 5: SCALING RATIOS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">5</div>
+      <h2>Scaling &amp; Changing Ratios</h2>
+    </div>
+    <div class="al-card">
+      <p>Harder ratio questions involve a ratio that changes — for example, a company adds staff and you need to calculate the new ratio, or you need to determine how much of something to add to change a ratio to a target.</p>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 7</span>
+        <span class="al-example-q">A solution mixes water and concentrate in the ratio 4 : 1. If you have 600ml of solution, how much concentrate must you add to change the ratio to 3 : 1?</span>
+      </div>
+      <div class="al-example-body">
+        <p>First, find current amounts:</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Current: 4 + 1 = 5 parts. Water = 600 × 4/5 = 480ml. Concentrate = 120ml.</span></div>
+        <p style="margin-top:0.5rem;">Water stays at 480ml. New ratio is 3 : 1, so concentrate should be 480 ÷ 3:</p>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">New concentrate needed = 480 ÷ 3 = 160ml</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Extra concentrate = 160 − 120 = <span class="al-step-result">40ml</span></span></div>
+      </div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 8</span>
+        <span class="al-example-q">A team of 24 has a manager-to-staff ratio of 1 : 5. After hiring, the team grows to 35. The manager-to-staff ratio is now 1 : 4. How many managers were hired?</span>
+      </div>
+      <div class="al-example-body">
+        <p>Before:</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">1 + 5 = 6 parts. Managers = 24 ÷ 6 = 4. Staff = 20.</span></div>
+        <p style="margin-top:0.5rem;">After:</p>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">1 + 4 = 5 parts. Managers = 35 ÷ 5 = 7. Staff = 28.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Managers hired = 7 − 4 = <span class="al-step-result">3 managers</span></span></div>
+        <p style="margin-top:0.3rem; color:var(--al-text-light); font-size:0.85rem;">Staff hired = 28 − 20 = 8. Total hired = 3 + 8 = 11. Check: 24 + 11 = 35 ✓</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 6: DIRECT & INVERSE PROPORTION ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">6</div>
+      <h2>Direct &amp; Inverse Proportion</h2>
+    </div>
+    <div class="al-card">
+      <p><strong>Direct proportion:</strong> when one quantity doubles, the other doubles. Cost and quantity, revenue and units sold. The ratio between them stays constant.</p>
+      <p><strong>Inverse proportion:</strong> when one quantity doubles, the other halves. Workers and time, speed and journey time. The product stays constant.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Direct Proportion</div>
+      <div class="al-formula-text">If A doubles, B doubles → A/B = constant</div>
+    </div>
+    <div class="al-formula">
+      <div class="al-formula-label">Inverse Proportion</div>
+      <div class="al-formula-text">If A doubles, B halves → A × B = constant</div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 9 — Direct</span>
+        <span class="al-example-q">If 12 units cost £84, how much do 20 units cost?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Cost per unit = £84 ÷ 12 = £7</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">20 units = 20 × £7 = <span class="al-step-result">£140</span></span></div>
+      </div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 10 — Inverse</span>
+        <span class="al-example-q">8 workers complete a project in 15 days. How long would 12 workers take?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Total work = 8 × 15 = 120 worker-days</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">12 workers: 120 ÷ 12 = <span class="al-step-result">10 days</span></span></div>
+      </div>
+    </div>
+
+    <div class="al-vs">
+      <div class="al-vs-box al-vs-wrong">
+        <div class="al-vs-label">Wrong — Treating as Direct</div>
+        <div class="al-vs-calc">More workers = more time?</div>
+        <div class="al-vs-calc">15 × (12/8) = 22.5 days</div>
+        <div class="al-vs-answer">22.5 days ✗</div>
+        <div class="al-vs-explain">This treats it as direct proportion — more workers, more days. The opposite is true.</div>
+      </div>
+      <div class="al-vs-box al-vs-right">
+        <div class="al-vs-label">Right — Inverse Proportion</div>
+        <div class="al-vs-calc">Total work = 8 × 15 = 120</div>
+        <div class="al-vs-calc">120 ÷ 12</div>
+        <div class="al-vs-answer">10 days ✓</div>
+        <div class="al-vs-explain">More workers = less time. The product (workers × days) stays constant.</div>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-tip">
+      <div class="al-callout-label">How to Tell the Difference</div>
+      <p>Ask yourself: if the first quantity increases, does the second increase (direct) or decrease (inverse)? More workers → less time = inverse. More items → higher cost = direct. If in doubt, calculate the "total work" or "unit rate" as an intermediate step.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 7: FINANCE APPLICATIONS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">7</div>
+      <h2>Finance Applications</h2>
+    </div>
+    <div class="al-card">
+      <p>In real aptitude tests, ratio questions are dressed in finance language. You need to recognise the ratio structure underneath. Here are the most common finance ratio formats.</p>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 11 — Price-to-Earnings</span>
+        <span class="al-example-q">Company X has a P/E ratio of 18. Earnings per share are £2.40. What is the share price?</span>
+      </div>
+      <div class="al-example-body">
+        <p>P/E ratio = Price ÷ Earnings. So Price = P/E × Earnings.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Share price = 18 × £2.40 = <span class="al-step-result">£43.20</span></span></div>
+      </div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 12 — Staffing Ratio</span>
+        <span class="al-example-q">A consultancy maintains a partner-to-associate ratio of 1 : 6. The firm has 14 partners. It plans to hire enough associates to change the ratio to 1 : 8. How many associates must be hired?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Current associates = 14 × 6 = 84</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Target associates = 14 × 8 = 112</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Associates to hire = 112 − 84 = <span class="al-step-result">28</span></span></div>
+      </div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 13 — Revenue Split</span>
+        <span class="al-example-q">Three regional offices generate revenue in the ratio 5 : 3 : 2. The East office (smallest share) generated £1.8m. What was the total revenue?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">East = 2 parts = £1.8m → 1 part = £0.9m</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Total = 5 + 3 + 2 = 10 parts = 10 × £0.9m = <span class="al-step-result">£9.0m</span></span></div>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-gold">
+      <div class="al-callout-label">Watch For</div>
+      <p>Questions that give you one share and ask for the total — or give you the total and ask for the difference between two shares. Always establish the value of one part first. This works regardless of how many parts or how complex the question.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 8: PRACTICE QUESTIONS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">8</div>
+      <h2>Practice Questions</h2>
+    </div>
+    <p style="margin-bottom:1rem; font-size:0.92rem;">Work through each question before revealing the answer. These cover all the ratio skills from this lesson.</p>
+
+    <!-- PQ1 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 1</div>
+      <div class="al-practice-q">A £540,000 investment fund is allocated to equities, bonds, and cash in the ratio 6 : 3 : 1. How much is allocated to bonds?</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Total parts = 6 + 3 + 1 = 10</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">1 part = £540,000 ÷ 10 = £54,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Bonds = 3 parts = 3 × £54,000 = <span class="al-step-result">£162,000</span></span></div>
+      </div>
+    </details>
+
+    <!-- PQ2 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 2</div>
+      <div class="al-practice-q">The ratio of domestic to international sales is 7 : 3. International sales are £126,000. What are domestic sales?</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">3 parts = £126,000 → 1 part = £42,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Domestic = 7 parts = 7 × £42,000 = <span class="al-step-result">£294,000</span></span></div>
+      </div>
+    </details>
+
+    <!-- PQ3 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 3</div>
+      <div class="al-practice-q">5 printers can complete a batch of reports in 12 hours. The deadline is brought forward and the batch must be done in 4 hours. How many printers are needed?</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p>Inverse proportion — more printers, less time.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Total work = 5 × 12 = 60 printer-hours</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Printers needed = 60 ÷ 4 = <span class="al-step-result">15 printers</span></span></div>
+      </div>
+    </details>
+
+    <!-- PQ4 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 4</div>
+      <div class="al-practice-q">A company's debt-to-equity ratio is 3 : 4. Total capital is £2.1 million. What is the debt?</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Total parts = 3 + 4 = 7</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">1 part = £2,100,000 ÷ 7 = £300,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Debt = 3 × £300,000 = <span class="al-step-result">£900,000</span></span></div>
+      </div>
+    </details>
+
+    <!-- PQ5 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 5</div>
+      <div class="al-practice-q">A department has 45 staff split between analysts and managers in the ratio 7 : 2. The department is expanding to 72 staff with a new ratio of 5 : 1. How many additional analysts are needed?</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p>Before:</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">9 parts. Analysts = 45 × 7/9 = 35. Managers = 10.</span></div>
+        <p style="margin-top:0.35rem;">After:</p>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">6 parts. Analysts = 72 × 5/6 = 60. Managers = 12.</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Additional analysts = 60 − 35 = <span class="al-step-result">25</span></span></div>
+      </div>
+    </details>
+
+    <!-- PQ6 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 6</div>
+      <div class="al-practice-q">Company X has a P/E ratio of 15. Company Y has a P/E ratio of 22. Both have earnings per share of £3.00. How much more expensive is one share of Company Y than Company X?</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Price X = 15 × £3.00 = £45.00</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Price Y = 22 × £3.00 = £66.00</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Difference = £66.00 − £45.00 = <span class="al-step-result">£21.00</span></span></div>
+      </div>
+    </details>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ KEY TAKEAWAYS ═══ -->
+  <div class="al-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul class="al-takeaways-list">
+      <li>To divide a quantity in a ratio: add the parts, divide the total by the sum, then multiply each part. Find the value of one part first — this solves everything.</li>
+      <li>When given one share of a ratio and asked for the total (or another share), work out what one part equals and scale from there.</li>
+      <li>Convert to the same units before simplifying a ratio. Mixed units are a deliberate trap.</li>
+      <li>Direct proportion: both quantities change in the same direction. Inverse proportion: one goes up, the other goes down. Use "total work" as your intermediate step for inverse problems.</li>
+      <li>Finance ratios (P/E, debt-to-equity, staffing) are just regular ratios in context. Identify which value maps to which part of the ratio.</li>
+      <li>The most common trap: dividing the total by one ratio number instead of the sum of all parts.</li>
+    </ul>
+  </div>
+
+  <!-- ═══ NEXT LESSON ═══ -->
+  <div class="al-next">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Lesson</div>
+      <div class="al-next-title">2.3 — Fractions, Decimals &amp; Conversions</div>
+      <div class="al-next-desc">Converting between fractions, decimals, and percentages. Operations, ordering, and the shortcuts that save time in tests.</div>
+    </div>
+  </div>
+
+</div>
+</div>
+<div class="tc-footer">Preview wrapper simulating ThriveCart Learn content area</div>
+</div>
+</body>
+</html>

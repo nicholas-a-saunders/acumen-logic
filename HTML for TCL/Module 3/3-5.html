@@ -1,0 +1,870 @@
+<!--
+  ACUMEN LOGIC — Lesson 3.5: Profit, Loss & Financial Statements
+  For ThriveCart Learn Custom HTML Block
+  Pure CSS · Zero JavaScript · Fully responsive
+  
+  TYPE: Theory lesson (finance-context numeracy)
+  NOT accounting — no debits, credits, or standards. Just calculate from data.
+  P&L terminology, margin calculations, waterfall chart, simplified financials.
+  
+  4 teaching sections + 2 worked examples + 5 practice questions
+  
+  ALL CALCULATIONS VERIFIED — see block at end of file.
+-->
+
+<style>
+  /* ═══ BRAND TOKENS ═══ */
+  .al-lesson {
+    --al-navy: #1B2A4A;
+    --al-navy-light: #2A3D66;
+    --al-navy-muted: #3D5280;
+    --al-gold: #C8A951;
+    --al-gold-light: #D4BC72;
+    --al-gold-pale: #F5EFD9;
+    --al-cream: #FAFAF6;
+    --al-white: #FFFFFF;
+    --al-text: #2C2C2C;
+    --al-text-light: #6B6B6B;
+    --al-border: #E8E4DA;
+    --al-success: #2D8F5E;
+    --al-success-bg: #EDF7F0;
+    --al-danger: #C0392B;
+    --al-danger-bg: #FDF2F0;
+    --al-radius: 10px;
+    --al-radius-sm: 6px;
+    --al-shadow: 0 2px 12px rgba(27, 42, 74, 0.08);
+    --al-shadow-lg: 0 8px 32px rgba(27, 42, 74, 0.12);
+    --al-chart-a: #1B2A4A;
+    --al-chart-b: #C8A951;
+    --al-chart-c: #5B8DEF;
+    --al-chart-d: #3D5280;
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+  .al-lesson {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .al-lesson h1, .al-lesson h2, .al-lesson h3, .al-section-number, .al-example-label, .al-next-title {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; color: var(--al-navy); line-height: 1.25;
+  }
+
+  /* ═══ HERO ═══ */
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .al-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200, 169, 81, 0.08) 0%, transparent 70%); pointer-events: none; }
+  .al-hero-eyebrow { font-family: 'Source Sans 3', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem, 4vw, 2.2rem); margin-bottom: 0.75rem; }
+  .al-hero-subtitle { color: rgba(255, 255, 255, 0.9) !important; font-size: 1rem; max-width: 36rem; line-height: 1.5; }
+  .al-hero-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 1rem 0; }
+
+  /* ═══ SECTIONS ═══ */
+  .al-section { margin-bottom: 2rem; }
+  .al-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-section-number { width: 2rem; height: 2rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0; }
+  .al-section h2 { font-size: clamp(1.15rem, 3vw, 1.4rem); }
+
+  /* ═══ CARDS / CALLOUTS ═══ */
+  .al-card { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-card p { margin-bottom: 0.75rem; }
+  .al-card p:last-child { margin-bottom: 0; }
+  .al-callout { border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; font-size: 0.92rem; }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-warn { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-callout-danger { background: #FDF2F0; border-left: 4px solid var(--al-danger); }
+  .al-callout-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .al-callout-tip .al-callout-label { color: var(--al-success); }
+  .al-callout-warn .al-callout-label { color: #D4823A; }
+  .al-callout-danger .al-callout-label { color: var(--al-danger); }
+
+  /* ═══ WORKED EXAMPLES ═══ */
+  .al-example { border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-example-header { background: var(--al-navy); padding: 1.25rem 1.5rem; }
+  .al-example-label { color: var(--al-gold) !important; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; display: block; margin-bottom: 0.5rem; }
+  .al-example-q { color: var(--al-white) !important; font-size: 1.15rem; font-weight: 600; line-height: 1.4; display: block; }
+  .al-example-body { background: var(--al-white); border: 1px solid var(--al-border); border-top: none; border-radius: 0 0 var(--al-radius) var(--al-radius); padding: 1.5rem; font-size: 0.92rem; }
+  .al-example-body p { margin-bottom: 0.6rem; }
+  .al-example-body p:last-child { margin-bottom: 0; }
+
+  /* ═══ STEP LINES ═══ */
+  .al-step-line { display: flex; align-items: baseline; gap: 0.65rem; margin-bottom: 0.45rem; }
+  .al-step-num { width: 1.4rem; height: 1.4rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.7rem; flex-shrink: 0; }
+  .al-step-num.al-wrong-icon { background: var(--al-danger) !important; }
+  .al-step-num.al-right-icon { background: var(--al-success) !important; }
+  .al-step-calc { font-size: 0.95rem; color: var(--al-navy); }
+  .al-step-result { font-weight: 700; color: var(--al-success); }
+
+  /* ═══ FORMULA ═══ */
+  .al-formula { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.15rem 1.5rem; margin-bottom: 1.25rem; text-align: center; }
+  .al-formula-label { color: var(--al-gold) !important; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .al-formula-text { color: var(--al-white) !important; font-weight: 700; font-size: clamp(1rem, 2.5vw, 1.25rem); line-height: 1.4; }
+  .al-formula-note { color: rgba(255, 255, 255, 0.75) !important; font-size: 0.78rem; margin-top: 0.35rem; }
+
+  /* ═══ DATA TABLES ═══ */
+  .al-data-table { width: 100%; border-collapse: collapse; margin-bottom: 1.25rem; font-size: 0.88rem; box-shadow: var(--al-shadow); border-radius: var(--al-radius); overflow: hidden; }
+  .al-data-table thead th { background: var(--al-navy); color: var(--al-white) !important; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.75rem 0.85rem; text-align: center; }
+  .al-data-table thead th:first-child { text-align: left; }
+  .al-data-table tbody td { padding: 0.7rem 0.85rem; text-align: center; border-bottom: 1px solid var(--al-border); font-weight: 500; color: var(--al-navy); vertical-align: middle; }
+  .al-data-table tbody td:first-child { font-weight: 700; text-align: left; }
+  .al-data-table tbody tr:nth-child(even) { background: var(--al-cream); }
+  .al-data-table tbody tr:last-child td { border-bottom: none; }
+  .al-data-table .al-table-note { font-size: 0.75rem; color: var(--al-text-light); font-style: italic; font-weight: 400; padding: 0.55rem 0.85rem; background: var(--al-cream); text-align: left; border-top: 1px solid var(--al-border); }
+  .al-data-table .al-cell-highlight { background: var(--al-gold-pale) !important; font-weight: 700 !important; border: 2px solid var(--al-gold); }
+  .al-data-table .al-row-total td { font-weight: 700 !important; border-top: 2px solid var(--al-navy); background: var(--al-cream); }
+  .al-data-table .al-row-subtotal td { font-weight: 600 !important; border-top: 1px solid var(--al-navy); font-style: italic; }
+
+  /* ═══ WRONG / RIGHT COMPARISON ═══ */
+  .al-compare-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
+  .al-compare-box { border-radius: var(--al-radius); padding: 1.15rem 1.25rem; font-size: 0.88rem; }
+  .al-compare-wrong { background: var(--al-danger-bg); border: 2px solid var(--al-danger); }
+  .al-compare-right { background: var(--al-success-bg); border: 2px solid var(--al-success); }
+  .al-compare-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
+  .al-compare-wrong .al-compare-label { color: var(--al-danger); }
+  .al-compare-right .al-compare-label { color: var(--al-success); }
+
+  /* ═══ WATERFALL CHART ═══ */
+  .al-waterfall { display: flex; align-items: flex-end; position: relative; height: 272px; padding-left: 55px; padding-bottom: 42px; }
+  .al-waterfall .al-y-axis { position: absolute; left: 0; bottom: 44px; width: 55px; height: 230px; }
+  .al-waterfall .al-y-tick { font-size: 0.65rem; color: var(--al-text-light); text-align: right; padding-right: 8px; font-weight: 500; position: absolute; right: 0; line-height: 1; transform: translateY(50%); }
+  .al-waterfall .al-y-tick::after { content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 4px; height: 1px; background: var(--al-navy); }
+  .al-waterfall .al-plot-area { flex: 1; height: 100%; display: flex; align-items: flex-end; border-left: 2px solid var(--al-navy); border-bottom: 2px solid var(--al-navy); position: relative; padding: 0 4px; }
+  .al-waterfall .al-grid { position: absolute; left: 0; right: 0; border-top: 1px dashed #E8E4DA; pointer-events: none; }
+  .al-wf-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; position: relative; }
+  .al-wf-col-label { position: absolute; bottom: -28px; left: 50%; transform: translateX(-50%); font-size: 0.62rem; font-weight: 600; color: var(--al-navy); white-space: nowrap; text-align: center; line-height: 1.35; }
+  .al-wf-bar { width: 44px; border-radius: 3px; position: absolute; }
+  .al-wf-bar-val { position: absolute; left: 50%; transform: translateX(-50%); font-size: 0.58rem; font-weight: 700; white-space: nowrap; }
+  .al-wf-bar-pos { background: var(--al-chart-a); }
+  .al-wf-bar-neg { background: var(--al-danger); }
+  .al-wf-bar-total { background: var(--al-gold); }
+  .al-wf-connector { position: absolute; height: 1px; background: var(--al-text-light); opacity: 0.4; pointer-events: none; }
+
+  /* ═══ CHART CONTAINER ═══ */
+  .al-chart-container { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem 1.5rem 1rem; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-chart-label { font-size: 0.78rem; font-weight: 700; color: var(--al-text-light); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1.25rem; }
+  .al-chart-legend { display: flex; gap: 1.25rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+  .al-legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; font-weight: 600; color: var(--al-navy); }
+  .al-legend-swatch { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+
+  /* Source tags */
+  .al-source-tag { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 3px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-right: 0.35rem; vertical-align: middle; }
+  .al-source-a { background: var(--al-chart-a); color: var(--al-white); }
+  .al-source-b { background: var(--al-chart-b); color: var(--al-navy); }
+  .al-source-c { background: var(--al-chart-c); color: var(--al-white); }
+
+  /* ═══ REVEAL ═══ */
+  .al-reveal { margin-top: 1rem; border: 2px solid var(--al-border); border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; }
+  .al-reveal[open] { border-color: var(--al-success); }
+  .al-reveal-btn { display: block; padding: 0.85rem 1.25rem; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--al-navy); background: var(--al-cream); cursor: pointer; list-style: none; user-select: none; -webkit-user-select: none; }
+  .al-reveal-btn::-webkit-details-marker { display: none; }
+  .al-reveal-btn::marker { display: none; content: ''; }
+  .al-reveal-btn:hover { background: var(--al-gold-pale); }
+  .al-reveal[open] .al-reveal-btn { background: #EDF7F0; color: var(--al-success); border-bottom: 1px solid var(--al-border); }
+  .al-reveal-content { padding: 1.25rem; font-size: 0.92rem; }
+  .al-reveal-content p { margin-bottom: 0.6rem; }
+  .al-reveal-content p:last-child { margin-bottom: 0; }
+
+  /* ═══ PRACTICE ═══ */
+  .al-practice { background: var(--al-cream); border: 2px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 0.5rem; }
+  .al-practice-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-gold); margin-bottom: 0.75rem; }
+  .al-practice-q { font-size: 0.95rem; font-weight: 600; color: var(--al-navy); line-height: 1.6; margin-bottom: 1rem; }
+  .al-practice-options { margin-top: 1rem; }
+  .al-practice-options p { margin-bottom: 0.4rem; font-size: 0.95rem; color: var(--al-navy); line-height: 1.6; }
+
+  /* ═══ TAKEAWAYS ═══ */
+  .al-takeaways { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.5rem 1.75rem; margin-bottom: 1.25rem; }
+  .al-takeaways h3 { color: var(--al-gold) !important; font-size: 1.1rem; margin-bottom: 1rem; }
+  .al-takeaways-list { list-style: none; padding: 0; }
+  .al-takeaways-list li { color: rgba(255, 255, 255, 0.95) !important; font-size: 0.92rem; padding: 0.45rem 0 0.45rem 1.75rem; position: relative; line-height: 1.5; }
+  .al-takeaways-list li::before { content: '✓'; position: absolute; left: 0; color: var(--al-gold); font-weight: 700; }
+
+  /* ═══ NEXT LESSON ═══ */
+  .al-next { background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .al-next-arrow { width: 2.5rem; height: 2.5rem; background: var(--al-navy); color: var(--al-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .al-next-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-text-light); margin-bottom: 0.15rem; }
+  .al-next-title { font-weight: 700; color: var(--al-navy); font-size: 1rem; }
+  .al-next-desc { font-size: 0.85rem; color: var(--al-text-light); margin-top: 0.15rem; }
+
+  .al-lesson strong { color: var(--al-navy); }
+  .al-divider { border: none; height: 1px; background: var(--al-border); margin: 2rem 0; }
+
+  /* ═══ DEFINITION GRID ═══ */
+  .al-def-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-def-item { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius-sm); padding: 1rem 1.15rem; box-shadow: var(--al-shadow); }
+  .al-def-term { font-weight: 700; font-size: 0.88rem; color: var(--al-navy); margin-bottom: 0.3rem; }
+  .al-def-desc { font-size: 0.82rem; color: var(--al-text-light); line-height: 1.5; }
+
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .al-card, .al-example-body, .al-reveal-content { padding: 1.15rem; }
+    .al-takeaways { padding: 1.25rem; }
+    .al-next { flex-direction: column; text-align: center; }
+    .al-data-table { font-size: 0.78rem; }
+    .al-data-table thead th { padding: 0.6rem 0.5rem; font-size: 0.65rem; }
+    .al-data-table tbody td { padding: 0.55rem 0.5rem; }
+    .al-compare-wrap { grid-template-columns: 1fr; }
+    .al-def-grid { grid-template-columns: 1fr; }
+    .al-waterfall { height: 220px; padding-left: 45px; }
+    .al-waterfall .al-y-axis { width: 45px; }
+    .al-wf-bar { width: 32px; }
+  }
+</style>
+
+<div class="al-lesson">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 3 · Lesson 3.5</div>
+    <h1>Profit, Loss &amp; Financial Statements</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">This is not accounting. You won't see debits, credits, or balance sheets. What you will see — in almost every finance-sector test — is simplified P&amp;L data that demands fast, accurate calculation of revenue, costs, profit, and margins.</p>
+  </div>
+
+  <!-- ═══ SECTION 1: THE P&L VOCABULARY ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">1</div>
+      <h2>The P&amp;L Vocabulary You Need</h2>
+    </div>
+    <div class="al-card">
+      <p>Aptitude tests for Goldman Sachs, KPMG, and McKinsey don't test accounting knowledge. They test whether you can <strong>extract numbers from simplified financial data and calculate relationships between them</strong>. You need exactly six terms:</p>
+    </div>
+
+    <div class="al-def-grid">
+      <div class="al-def-item">
+        <div class="al-def-term">Revenue (Sales / Turnover)</div>
+        <div class="al-def-desc">Total income before any costs are deducted. The top line. All questions start here.</div>
+      </div>
+      <div class="al-def-item">
+        <div class="al-def-term">Cost of Sales (COGS / Direct Costs)</div>
+        <div class="al-def-desc">Costs directly tied to delivering the product or service. Materials, labour, production.</div>
+      </div>
+      <div class="al-def-item">
+        <div class="al-def-term">Gross Profit</div>
+        <div class="al-def-desc">Revenue minus cost of sales. Shows profitability before overheads. = Revenue − COGS.</div>
+      </div>
+      <div class="al-def-item">
+        <div class="al-def-term">Operating Expenses (Overheads)</div>
+        <div class="al-def-desc">Rent, salaries, marketing, admin — costs not directly tied to production.</div>
+      </div>
+      <div class="al-def-item">
+        <div class="al-def-term">Operating Profit (EBIT)</div>
+        <div class="al-def-desc">Gross profit minus operating expenses. The core measure of business performance.</div>
+      </div>
+      <div class="al-def-item">
+        <div class="al-def-term">Net Profit</div>
+        <div class="al-def-desc">Operating profit minus tax and interest. The bottom line — what the business actually keeps.</div>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-warn">
+      <div class="al-callout-label">Watch for Synonym Traps</div>
+      <p>Tests use these terms interchangeably to confuse: Revenue = Sales = Turnover. Cost of Sales = COGS = Direct Costs. Operating Profit = EBIT. If the question says "turnover" and the table says "revenue", they mean the same thing. Don't waste time looking for a different row.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">The P&amp;L Cascade</div>
+      <div class="al-formula-text">Revenue → − COGS = Gross Profit → − Overheads = Operating Profit → − Tax &amp; Interest = Net Profit</div>
+      <div class="al-formula-note">Each level subtracts a different category of costs. Tests can ask about any level.</div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 2: READING A P&L — WATERFALL CHART ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">2</div>
+      <h2>Reading a P&amp;L — The Waterfall</h2>
+    </div>
+
+    <div class="al-card">
+      <p>The best way to understand a P&amp;L is as a <strong>waterfall</strong> — revenue starts high, and each cost category pulls it down toward the final profit figure. Here's a simplified P&amp;L for a consulting firm, shown as both a table and a waterfall chart.</p>
+    </div>
+
+    <div class="al-chart-container">
+      <div class="al-chart-label"><span class="al-source-tag al-source-a">Source A</span> Meridian Consulting — FY2024 P&amp;L Summary (£ thousands)</div>
+      <table class="al-data-table">
+        <thead>
+          <tr><th style="text-align:left;">Line Item</th><th>FY2024</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Revenue</td><td>8,400</td></tr>
+          <tr><td>Cost of Sales</td><td>(3,360)</td></tr>
+          <tr class="al-row-subtotal"><td>Gross Profit</td><td>5,040</td></tr>
+          <tr><td>Operating Expenses</td><td>(2,940)</td></tr>
+          <tr class="al-row-subtotal"><td>Operating Profit</td><td>2,100</td></tr>
+          <tr><td>Interest</td><td>(210)</td></tr>
+          <tr><td>Tax</td><td>(472.5)</td></tr>
+          <tr class="al-row-total"><td>Net Profit</td><td>1,417.5</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- WATERFALL CHART — CSS only -->
+    <!-- Scale: max 8400, plot height 230px. 1k = 230/8400 = 0.02738px per unit. Round to gridlines at 2k intervals. -->
+    <!-- Gridline spacing: 2000 = 230*(2000/8400) = 54.76px. Use 2k gridlines at bottom: 54.8, 109.5, 164.3, 219.0 -->
+    <div class="al-chart-container">
+      <div class="al-chart-label">Waterfall — Revenue to Net Profit</div>
+      <div class="al-waterfall">
+        <div class="al-y-axis">
+          <div class="al-y-tick" style="bottom:0;">0</div>
+          <div class="al-y-tick" style="bottom:54.8px;">2,000</div>
+          <div class="al-y-tick" style="bottom:109.5px;">4,000</div>
+          <div class="al-y-tick" style="bottom:164.3px;">6,000</div>
+          <div class="al-y-tick" style="bottom:219px;">8,000</div>
+        </div>
+        <div class="al-plot-area">
+          <div class="al-grid" style="bottom:54.8px;"></div>
+          <div class="al-grid" style="bottom:109.5px;"></div>
+          <div class="al-grid" style="bottom:164.3px;"></div>
+          <div class="al-grid" style="bottom:219px;"></div>
+
+          <!-- Revenue: 8400 → height = 230px, starts at 0 -->
+          <div class="al-wf-col">
+            <div class="al-wf-bar al-wf-bar-pos" style="bottom:0; height:230px;">
+              <span class="al-wf-bar-val" style="top:-14px; color:var(--al-navy);">8,400</span>
+            </div>
+            <span class="al-wf-col-label">Revenue</span>
+          </div>
+
+          <!-- COGS: -3360 → height=92.0px, starts at top of revenue minus this = bottom at 138.0px -->
+          <div class="al-wf-col">
+            <div class="al-wf-bar al-wf-bar-neg" style="bottom:138px; height:92px;">
+              <span class="al-wf-bar-val" style="top:-14px; color:var(--al-danger);">(3,360)</span>
+            </div>
+            <span class="al-wf-col-label">COGS</span>
+          </div>
+
+          <!-- Gross Profit: 5040 → height=138.0px, starts at 0 -->
+          <div class="al-wf-col">
+            <div class="al-wf-bar al-wf-bar-total" style="bottom:0; height:138px;">
+              <span class="al-wf-bar-val" style="top:-14px; color:var(--al-navy);">5,040</span>
+            </div>
+            <span class="al-wf-col-label">Gross<br>Profit</span>
+          </div>
+
+          <!-- OpEx: -2940 → height=80.5px, starts at top of gross profit minus this = bottom at 57.5px -->
+          <div class="al-wf-col">
+            <div class="al-wf-bar al-wf-bar-neg" style="bottom:57.5px; height:80.5px;">
+              <span class="al-wf-bar-val" style="top:-14px; color:var(--al-danger);">(2,940)</span>
+            </div>
+            <span class="al-wf-col-label">OpEx</span>
+          </div>
+
+          <!-- Operating Profit: 2100 → height=57.5px, starts at 0 -->
+          <div class="al-wf-col">
+            <div class="al-wf-bar al-wf-bar-total" style="bottom:0; height:57.5px;">
+              <span class="al-wf-bar-val" style="top:-14px; color:var(--al-navy);">2,100</span>
+            </div>
+            <span class="al-wf-col-label">Operating<br>Profit</span>
+          </div>
+
+          <!-- Interest + Tax: -(210+472.5) = -682.5 → height=18.7px, bottom at 38.8px -->
+          <div class="al-wf-col">
+            <div class="al-wf-bar al-wf-bar-neg" style="bottom:38.8px; height:18.7px;">
+              <span class="al-wf-bar-val" style="top:-14px; color:var(--al-danger);">(682.5)</span>
+            </div>
+            <span class="al-wf-col-label">Tax &amp;<br>Interest</span>
+          </div>
+
+          <!-- Net Profit: 1417.5 → height=38.8px, starts at 0 -->
+          <div class="al-wf-col">
+            <div class="al-wf-bar al-wf-bar-total" style="bottom:0; height:38.8px;">
+              <span class="al-wf-bar-val" style="top:-14px; color:var(--al-navy);">1,417.5</span>
+            </div>
+            <span class="al-wf-col-label">Net<br>Profit</span>
+          </div>
+        </div>
+      </div>
+      <div class="al-chart-legend">
+        <div class="al-legend-item"><span class="al-legend-swatch" style="background:var(--al-chart-a);"></span> Revenue / Positive</div>
+        <div class="al-legend-item"><span class="al-legend-swatch" style="background:var(--al-danger);"></span> Costs (subtracted)</div>
+        <div class="al-legend-item"><span class="al-legend-swatch" style="background:var(--al-gold);"></span> Profit subtotals</div>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-tip">
+      <div class="al-callout-label">Reading the Waterfall</div>
+      <p>The red bars are costs — they hang down from the previous level. The gold bars are subtotals that show where you've landed after subtracting. In a test, the waterfall helps you <strong>estimate</strong> before calculating: you can see at a glance that COGS takes roughly 40% of revenue, and operating expenses take another large chunk.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 3: MARGINS — THE MOST TESTED SKILL ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">3</div>
+      <h2>Margins — The Most Tested P&amp;L Skill</h2>
+    </div>
+
+    <div class="al-card">
+      <p>A margin converts a profit figure into a percentage of revenue. Tests love margins because the formula is simple but the trap — <strong>dividing by the wrong base</strong> — catches candidates every time. Three margins appear in tests:</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Gross Margin</div>
+      <div class="al-formula-text">Gross Margin = Gross Profit ÷ Revenue × 100</div>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Operating Margin</div>
+      <div class="al-formula-text">Operating Margin = Operating Profit ÷ Revenue × 100</div>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Net Margin</div>
+      <div class="al-formula-text">Net Margin = Net Profit ÷ Revenue × 100</div>
+    </div>
+
+    <div class="al-card">
+      <p><strong>The denominator is always revenue.</strong> Not cost. Not total expenses. Not gross profit. Every margin divides by revenue — the top line. This is the single rule you need.</p>
+      <p>Using the Meridian data above:</p>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 1</span>
+        <span class="al-example-q">Calculate Meridian Consulting's gross margin, operating margin, and net margin for FY2024.</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Gross margin = £5,040k ÷ £8,400k × 100 = <span class="al-step-result">60.0%</span></span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Operating margin = £2,100k ÷ £8,400k × 100 = <span class="al-step-result">25.0%</span></span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Net margin = £1,417.5k ÷ £8,400k × 100 = <span class="al-step-result">16.9%</span></span></div>
+        <p style="margin-top:0.5rem; font-size:0.85rem; color:var(--al-text-light);">Quick sense-check: margins should decrease as you move down the P&amp;L (gross > operating > net). If your operating margin is higher than your gross margin, you've made an error.</p>
+      </div>
+    </div>
+
+    <div class="al-compare-wrap">
+      <div class="al-compare-box al-compare-wrong">
+        <div class="al-compare-label"><span style="font-size:1.1rem;">✗</span> Margin on Cost</div>
+        <p>£5,040k ÷ £3,360k = <strong>150%</strong></p>
+        <p style="font-size:0.82rem; color:var(--al-text-light);">This is gross profit as a percentage of cost — a markup, not a margin. Tests include this as a trap option.</p>
+      </div>
+      <div class="al-compare-box al-compare-right">
+        <div class="al-compare-label"><span style="font-size:1.1rem;">✓</span> Margin on Revenue</div>
+        <p>£5,040k ÷ £8,400k = <strong>60.0%</strong></p>
+        <p style="font-size:0.82rem; color:var(--al-text-light);">Margin always divides by revenue. Markup divides by cost. If you see an answer above 100%, you've calculated markup.</p>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-danger">
+      <div class="al-callout-label">Margin vs Markup</div>
+      <p><strong>Margin</strong> = profit ÷ revenue. <strong>Markup</strong> = profit ÷ cost. They use the same numerator but different denominators. If a question asks for "margin" and your answer is over 100%, you've divided by cost instead of revenue. In SHL tests, both values will appear as answer options.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 4: DIVISIONAL P&L ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">4</div>
+      <h2>Divisional P&amp;L — Where Tests Get Harder</h2>
+    </div>
+
+    <div class="al-card">
+      <p>Real test data rarely shows a single company P&amp;L. More commonly, you'll see a <strong>divisional breakdown</strong> — multiple business units with different revenue and cost structures. This forces you to extract the right division's data before calculating. Here's a realistic example:</p>
+    </div>
+
+    <div class="al-chart-container">
+      <div class="al-chart-label"><span class="al-source-tag al-source-b">Source B</span> Meridian Consulting — FY2024 Divisional P&amp;L (£ thousands)</div>
+      <table class="al-data-table">
+        <thead>
+          <tr><th style="text-align:left;">Line Item</th><th>Strategy</th><th>Technology</th><th>Operations</th><th>Total</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Revenue</td><td>3,600</td><td>2,800</td><td>2,000</td><td>8,400</td></tr>
+          <tr><td>Cost of Sales</td><td>(1,260)</td><td>(1,260)</td><td>(840)</td><td>(3,360)</td></tr>
+          <tr class="al-row-subtotal"><td>Gross Profit</td><td>2,340</td><td>1,540</td><td>1,160</td><td>5,040</td></tr>
+          <tr><td>Operating Expenses</td><td>(1,080)</td><td>(1,036)</td><td>(824)</td><td>(2,940)</td></tr>
+          <tr class="al-row-total"><td>Operating Profit</td><td>1,260</td><td>504</td><td>336</td><td>2,100</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 2</span>
+        <span class="al-example-q">Which division has the highest gross margin? And which has the highest operating margin? Are they the same division?</span>
+      </div>
+      <div class="al-example-body">
+        <p><strong>Gross margins</strong> (gross profit ÷ revenue):</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Strategy: £2,340k ÷ £3,600k = <strong>65.0%</strong></span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Technology: £1,540k ÷ £2,800k = <strong>55.0%</strong></span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Operations: £1,160k ÷ £2,000k = <strong>58.0%</strong></span></div>
+        <p style="margin-top:0.5rem;"><strong>Operating margins</strong> (operating profit ÷ revenue):</p>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Strategy: £1,260k ÷ £3,600k = <strong>35.0%</strong></span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Technology: £504k ÷ £2,800k = <strong>18.0%</strong></span></div>
+        <div class="al-step-line"><span class="al-step-num">6</span><span class="al-step-calc">Operations: £336k ÷ £2,000k = <strong>16.8%</strong></span></div>
+        <p style="margin-top:0.5rem;"><span class="al-step-result">Strategy has both the highest gross margin (65.0%) and the highest operating margin (35.0%).</span></p>
+        <p style="margin-top:0.5rem;">But notice: Operations has a higher gross margin (58.0%) than Technology (55.0%), yet a <strong>lower</strong> operating margin (16.8% vs 18.0%). This happens because Operations has proportionally higher overheads. The ranking can flip between profit levels — tests exploit this by asking about one margin and including the other margin's ranking as a trap.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 5: COMPARING PERIODS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">5</div>
+      <h2>Comparing Periods — Revenue Up, Profit Down</h2>
+    </div>
+
+    <div class="al-card">
+      <p>The most challenging P&amp;L questions give you two time periods and ask you to explain the change. The key insight: <strong>revenue can grow while profit falls</strong> if costs grow faster. Tests love this because it catches candidates who assume "bigger revenue = bigger profit".</p>
+    </div>
+
+    <div class="al-chart-container">
+      <div class="al-chart-label"><span class="al-source-tag al-source-c">Source C</span> Meridian Consulting — Year-on-Year Comparison (£ thousands)</div>
+      <table class="al-data-table">
+        <thead>
+          <tr><th style="text-align:left;">Line Item</th><th>FY2023</th><th>FY2024</th><th>Change</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Revenue</td><td>7,200</td><td>8,400</td><td>+16.7%</td></tr>
+          <tr><td>Cost of Sales</td><td>(2,520)</td><td>(3,360)</td><td>+33.3%</td></tr>
+          <tr class="al-row-subtotal"><td>Gross Profit</td><td>4,680</td><td>5,040</td><td>+7.7%</td></tr>
+          <tr><td>Operating Expenses</td><td>(2,520)</td><td>(2,940)</td><td>+16.7%</td></tr>
+          <tr class="al-row-total"><td>Operating Profit</td><td>2,160</td><td>2,100</td><td>−2.8%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="al-card">
+      <p>Revenue grew 16.7% but operating profit <strong>fell</strong> 2.8%. Why? Because cost of sales grew at double the rate of revenue (33.3% vs 16.7%), compressing the gross margin from 65.0% to 60.0%. Operating expenses grew in line with revenue, but the damage was already done at the gross profit level.</p>
+      <p>In a test, this data generates questions like "Which cost category grew faster than revenue?" and "What was the change in gross margin from FY2023 to FY2024?" — both require understanding the P&amp;L structure, not just individual calculations.</p>
+    </div>
+
+    <div class="al-callout al-callout-tip">
+      <div class="al-callout-label">The Margin Compression Signal</div>
+      <p>When a question says "revenue increased but operating profit decreased", immediately check whether costs grew faster than revenue. Calculate both growth rates and compare them. The cost category that outpaced revenue is where the margin compression happened.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 6: PRACTICE ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">6</div>
+      <h2>Practice — P&amp;L Calculations</h2>
+    </div>
+
+    <div class="al-card">
+      <p>Use Sources A, B, and C from this lesson to answer all five questions. Each question tests a different P&amp;L skill — extraction, margin calculation, cross-divisional comparison, and period-on-period analysis.</p>
+    </div>
+
+    <!-- ═══ PQ1: Basic extraction ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 1 — P&amp;L Extraction</div>
+
+      <div class="al-chart-container" style="margin-bottom:1rem;">
+        <div class="al-chart-label"><span class="al-source-tag al-source-a">Source A</span> Meridian Consulting — FY2024 P&amp;L Summary (£ thousands)</div>
+        <table class="al-data-table" style="margin-bottom:0;">
+          <thead>
+            <tr><th style="text-align:left;">Line Item</th><th>FY2024</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Revenue</td><td>8,400</td></tr>
+            <tr><td>Cost of Sales</td><td>(3,360)</td></tr>
+            <tr class="al-row-subtotal"><td>Gross Profit</td><td>5,040</td></tr>
+            <tr><td>Operating Expenses</td><td>(2,940)</td></tr>
+            <tr class="al-row-subtotal"><td>Operating Profit</td><td>2,100</td></tr>
+            <tr><td>Interest</td><td>(210)</td></tr>
+            <tr><td>Tax</td><td>(472.5)</td></tr>
+            <tr class="al-row-total"><td>Net Profit</td><td>1,417.5</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="al-practice-q">What was Meridian's net profit as a percentage of gross profit in FY2024?</div>
+      <div class="al-practice-options">
+        <p>(A) 16.9%</p>
+        <p>(B) 25.0%</p>
+        <p>(C) 28.1%</p>
+        <p>(D) 60.0%</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-source-tag al-source-a">A</span> Net profit = £1,417.5k. Gross profit = £5,040k.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">£1,417.5k ÷ £5,040k × 100 = <span class="al-step-result">28.1% → Answer: C</span></span></div>
+        <p>Trap: Option A (16.9%) is net profit ÷ <strong>revenue</strong> — the net margin. Option B (25.0%) is operating profit ÷ revenue — the operating margin. Option D (60.0%) is gross profit ÷ revenue — the gross margin. The question specifically asks net profit as a percentage of <strong>gross profit</strong>, not of revenue.</p>
+      </div>
+    </details>
+
+    <!-- ═══ PQ2: Divisional margin comparison ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 2 — Divisional Comparison</div>
+
+      <div class="al-chart-container" style="margin-bottom:1rem;">
+        <div class="al-chart-label"><span class="al-source-tag al-source-b">Source B</span> Meridian Consulting — FY2024 Divisional P&amp;L (£ thousands)</div>
+        <table class="al-data-table" style="margin-bottom:0;">
+          <thead>
+            <tr><th style="text-align:left;">Line Item</th><th>Strategy</th><th>Technology</th><th>Operations</th><th>Total</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Revenue</td><td>3,600</td><td>2,800</td><td>2,000</td><td>8,400</td></tr>
+            <tr><td>Cost of Sales</td><td>(1,260)</td><td>(1,260)</td><td>(840)</td><td>(3,360)</td></tr>
+            <tr class="al-row-subtotal"><td>Gross Profit</td><td>2,340</td><td>1,540</td><td>1,160</td><td>5,040</td></tr>
+            <tr><td>Operating Expenses</td><td>(1,080)</td><td>(1,036)</td><td>(824)</td><td>(2,940)</td></tr>
+            <tr class="al-row-total"><td>Operating Profit</td><td>1,260</td><td>504</td><td>336</td><td>2,100</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="al-practice-q">If Technology's operating expenses decreased by £200k while all other figures remained the same, what would Technology's new operating margin be?</div>
+      <div class="al-practice-options">
+        <p>(A) 18.0%</p>
+        <p>(B) 22.1%</p>
+        <p>(C) 25.1%</p>
+        <p>(D) 55.0%</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-source-tag al-source-b">B</span> Technology: Revenue = £2,800k. Current OpEx = £1,036k. New OpEx = £1,036k − £200k = £836k.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">New operating profit = £1,540k − £836k = £704k</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">New operating margin = £704k ÷ £2,800k × 100 = <span class="al-step-result">25.1% → Answer: C</span></span></div>
+        <p>Trap: Option A (18.0%) is the current operating margin — ignoring the £200k change. Option D (55.0%) is the gross margin, unchanged because OpEx doesn't affect gross profit.</p>
+      </div>
+    </details>
+
+    <!-- ═══ PQ3: Cost ratio ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 3 — Cost Structure</div>
+
+      <div class="al-chart-container" style="margin-bottom:1rem;">
+        <div class="al-chart-label"><span class="al-source-tag al-source-a">Source A</span> Meridian Consulting — FY2024 P&amp;L Summary (£ thousands)</div>
+        <table class="al-data-table" style="margin-bottom:0;">
+          <thead>
+            <tr><th style="text-align:left;">Line Item</th><th>FY2024</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Revenue</td><td>8,400</td></tr>
+            <tr><td>Cost of Sales</td><td>(3,360)</td></tr>
+            <tr class="al-row-subtotal"><td>Gross Profit</td><td>5,040</td></tr>
+            <tr><td>Operating Expenses</td><td>(2,940)</td></tr>
+            <tr class="al-row-subtotal"><td>Operating Profit</td><td>2,100</td></tr>
+            <tr><td>Interest</td><td>(210)</td></tr>
+            <tr><td>Tax</td><td>(472.5)</td></tr>
+            <tr class="al-row-total"><td>Net Profit</td><td>1,417.5</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="al-practice-q">In FY2024, what percentage of Meridian's total costs (COGS + operating expenses) was attributable to cost of sales?</div>
+      <div class="al-practice-options">
+        <p>(A) 40.0%</p>
+        <p>(B) 46.7%</p>
+        <p>(C) 53.3%</p>
+        <p>(D) 60.0%</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-source-tag al-source-a">A</span> COGS = £3,360k. Operating expenses = £2,940k. Total costs = £3,360k + £2,940k = £6,300k.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">£3,360k ÷ £6,300k × 100 = <span class="al-step-result">53.3% → Answer: C</span></span></div>
+        <p>Trap: Option A (40.0%) = COGS ÷ revenue — cost of sales as a proportion of revenue, not of total costs. Option B (46.7%) = OpEx ÷ total costs — the wrong cost category.</p>
+      </div>
+    </details>
+
+    <!-- ═══ PQ4: Period comparison ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 4 — Margin Change</div>
+
+      <div class="al-chart-container" style="margin-bottom:1rem;">
+        <div class="al-chart-label"><span class="al-source-tag al-source-c">Source C</span> Meridian Consulting — Year-on-Year Comparison (£ thousands)</div>
+        <table class="al-data-table" style="margin-bottom:0;">
+          <thead>
+            <tr><th style="text-align:left;">Line Item</th><th>FY2023</th><th>FY2024</th><th>Change</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Revenue</td><td>7,200</td><td>8,400</td><td>+16.7%</td></tr>
+            <tr><td>Cost of Sales</td><td>(2,520)</td><td>(3,360)</td><td>+33.3%</td></tr>
+            <tr class="al-row-subtotal"><td>Gross Profit</td><td>4,680</td><td>5,040</td><td>+7.7%</td></tr>
+            <tr><td>Operating Expenses</td><td>(2,520)</td><td>(2,940)</td><td>+16.7%</td></tr>
+            <tr class="al-row-total"><td>Operating Profit</td><td>2,160</td><td>2,100</td><td>−2.8%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="al-practice-q">What was the change in Meridian's gross margin from FY2023 to FY2024?</div>
+      <div class="al-practice-options">
+        <p>(A) Decreased by 5.0 percentage points</p>
+        <p>(B) Decreased by 7.7%</p>
+        <p>(C) Increased by 7.7%</p>
+        <p>(D) Increased by 5.0 percentage points</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-source-tag al-source-c">C</span> FY2023: Gross profit = £4,680k, Revenue = £7,200k → margin = 65.0%. FY2024: Gross profit = £5,040k, Revenue = £8,400k → margin = 60.0%.</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Change = 60.0% − 65.0% = <span class="al-step-result">−5.0 percentage points → Answer: A</span></span></div>
+        <p>Trap: Option B (−7.7%) confuses percentage point change with percentage change. The gross margin didn't fall <em>by</em> 7.7% — gross <em>profit</em> grew by 7.7%. The <strong>margin</strong> fell by 5.0 <strong>percentage points</strong>. These are completely different measures. Option C/D are increases — wrong direction.</p>
+      </div>
+    </details>
+
+    <!-- ═══ PQ5: Multi-step cross-source (hard) ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 5 — Cross-Source Analysis (Hard)</div>
+
+      <div class="al-chart-container" style="margin-bottom:1rem;">
+        <div class="al-chart-label"><span class="al-source-tag al-source-b">Source B</span> Meridian Consulting — FY2024 Divisional P&amp;L (£ thousands)</div>
+        <table class="al-data-table" style="margin-bottom:0;">
+          <thead>
+            <tr><th style="text-align:left;">Line Item</th><th>Strategy</th><th>Technology</th><th>Operations</th><th>Total</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Revenue</td><td>3,600</td><td>2,800</td><td>2,000</td><td>8,400</td></tr>
+            <tr><td>Cost of Sales</td><td>(1,260)</td><td>(1,260)</td><td>(840)</td><td>(3,360)</td></tr>
+            <tr class="al-row-subtotal"><td>Gross Profit</td><td>2,340</td><td>1,540</td><td>1,160</td><td>5,040</td></tr>
+            <tr><td>Operating Expenses</td><td>(1,080)</td><td>(1,036)</td><td>(824)</td><td>(2,940)</td></tr>
+            <tr class="al-row-total"><td>Operating Profit</td><td>1,260</td><td>504</td><td>336</td><td>2,100</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="al-chart-container" style="margin-bottom:1rem;">
+        <div class="al-chart-label"><span class="al-source-tag al-source-c">Source C</span> Meridian Consulting — Year-on-Year Comparison (£ thousands)</div>
+        <table class="al-data-table" style="margin-bottom:0;">
+          <thead>
+            <tr><th style="text-align:left;">Line Item</th><th>FY2023</th><th>FY2024</th><th>Change</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Revenue</td><td>7,200</td><td>8,400</td><td>+16.7%</td></tr>
+            <tr><td>Cost of Sales</td><td>(2,520)</td><td>(3,360)</td><td>+33.3%</td></tr>
+            <tr class="al-row-subtotal"><td>Gross Profit</td><td>4,680</td><td>5,040</td><td>+7.7%</td></tr>
+            <tr><td>Operating Expenses</td><td>(2,520)</td><td>(2,940)</td><td>+16.7%</td></tr>
+            <tr class="al-row-total"><td>Operating Profit</td><td>2,160</td><td>2,100</td><td>−2.8%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="al-practice-q">If the Strategy division's FY2023 revenue was £3,100k and its FY2023 cost of sales ratio was the same as FY2024's, what was Strategy's FY2023 gross profit?</div>
+      <div class="al-practice-options">
+        <p>(A) £1,085k</p>
+        <p>(B) £2,015k</p>
+        <p>(C) £2,170k</p>
+        <p>(D) £2,340k</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-source-tag al-source-b">B</span> Strategy FY2024: COGS = £1,260k, Revenue = £3,600k → COGS ratio = 1,260 ÷ 3,600 = 35.0%.</p>
+        <p>FY2023 Strategy revenue = £3,100k (given). Same COGS ratio:</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">FY2023 COGS = £3,100k × 0.35 = £1,085k</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">FY2023 gross profit = £3,100k − £1,085k = <span class="al-step-result">£2,015k → Answer: B</span></span></div>
+        <p>Trap: Option A (£1,085k) is the COGS figure, not gross profit — a classic extraction error where you calculate the intermediate step and select it as the answer. Option D (£2,340k) is FY2024's Strategy gross profit, not FY2023's.</p>
+      </div>
+    </details>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ KEY TAKEAWAYS ═══ -->
+  <div class="al-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul class="al-takeaways-list">
+      <li>The P&amp;L is a cascade: Revenue → Gross Profit → Operating Profit → Net Profit. Each level subtracts a different cost category. Know the sequence so you don't confuse what's been subtracted at each stage.</li>
+      <li>Margins always divide by revenue. If your answer is above 100%, you've divided by cost (that's markup, not margin). This is the most common P&amp;L error in aptitude tests.</li>
+      <li>Revenue, Sales, and Turnover mean the same thing. Cost of Sales, COGS, and Direct Costs mean the same thing. Don't panic if the table uses different terminology from the question.</li>
+      <li>When comparing periods, check whether costs grew faster than revenue. Rising revenue with falling profit means a cost category outpaced growth — find which one.</li>
+      <li>Percentage point change and percentage change are different. A margin moving from 65% to 60% is a 5 percentage point decrease but a 7.7% decrease. Tests always include both as answer options.</li>
+      <li>In divisional P&amp;Ls, the division with the highest gross margin may not have the highest operating margin. Overheads can flip the rankings — always calculate the specific margin the question asks about.</li>
+    </ul>
+  </div>
+
+  <!-- ═══ NEXT LESSON ═══ -->
+  <div class="al-next">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Lesson</div>
+      <div class="al-next-title">3.6 — Weighted Averages &amp; Index Numbers</div>
+      <div class="al-next-desc">Why simple averages give wrong answers when groups have different sizes — and the index number technique that appears in the hardest SHL and Aon tests.</div>
+    </div>
+  </div>
+
+</div>
+
+<!--
+  CALCULATION VERIFICATION:
+
+  Source A — P&L:
+  Revenue: 8,400 ✓
+  COGS: 3,360 ✓
+  Gross Profit: 8,400 - 3,360 = 5,040 ✓
+  OpEx: 2,940 ✓
+  Operating Profit: 5,040 - 2,940 = 2,100 ✓
+  Interest: 210 ✓
+  Tax: 472.5 ✓
+  Net Profit: 2,100 - 210 - 472.5 = 1,417.5 ✓
+
+  Source B — Divisional P&L:
+  Revenue: 3,600 + 2,800 + 2,000 = 8,400 ✓ (matches Source A)
+  COGS: 1,260 + 1,260 + 840 = 3,360 ✓ (matches Source A)
+  Gross Profit: 2,340 + 1,540 + 1,160 = 5,040 ✓ (matches Source A)
+  OpEx: 1,080 + 1,036 + 824 = 2,940 ✓ (matches Source A)
+  Operating Profit: 1,260 + 504 + 336 = 2,100 ✓ (matches Source A)
+  
+  Strategy: 3,600 - 1,260 = 2,340 ✓; 2,340 - 1,080 = 1,260 ✓
+  Technology: 2,800 - 1,260 = 1,540 ✓; 1,540 - 1,036 = 504 ✓
+  Operations: 2,000 - 840 = 1,160 ✓; 1,160 - 824 = 336 ✓
+
+  Source C — YoY Comparison:
+  FY2023 GP: 7,200 - 2,520 = 4,680 ✓
+  FY2023 OP: 4,680 - 2,520 = 2,160 ✓
+  FY2024 GP: 8,400 - 3,360 = 5,040 ✓ (matches Source A)
+  FY2024 OP: 5,040 - 2,940 = 2,100 ✓ (matches Source A)
+  
+  Revenue change: (8400-7200)/7200 = 1200/7200 = 16.667% ≈ 16.7% ✓
+  COGS change: (3360-2520)/2520 = 840/2520 = 33.333% ≈ 33.3% ✓
+  GP change: (5040-4680)/4680 = 360/4680 = 7.692% ≈ 7.7% ✓
+  OpEx change: (2940-2520)/2520 = 420/2520 = 16.667% ≈ 16.7% ✓
+  OP change: (2100-2160)/2160 = -60/2160 = -2.778% ≈ -2.8% ✓
+
+  Waterfall heights (plot 230px, max 8400, scale = 230/8400 = 0.027381):
+  Revenue: 8400 × 0.027381 = 230.0px ✓
+  COGS: 3360 × 0.027381 = 92.0px ✓; bottom = 230 - 92 = 138px ✓
+  Gross Profit: 5040 × 0.027381 = 138.0px ✓
+  OpEx: 2940 × 0.027381 = 80.5px ✓; bottom = 138 - 80.5 = 57.5px ✓
+  Operating Profit: 2100 × 0.027381 = 57.5px ✓
+  Tax+Interest: 682.5 × 0.027381 = 18.7px ✓; bottom = 57.5 - 18.7 = 38.8px ✓
+  Net Profit: 1417.5 × 0.027381 = 38.8px ✓
+  
+  Gridlines at 2000: 2000 × 0.027381 = 54.76 ≈ 54.8px ✓
+  4000: 109.5px ✓; 6000: 164.3px ✓; 8000: 219.0px ✓
+
+  WE1 — Margins:
+  Gross: 5040/8400 = 0.60 = 60.0% ✓
+  Operating: 2100/8400 = 0.25 = 25.0% ✓
+  Net: 1417.5/8400 = 0.16875 = 16.9% ✓
+  Wrong (markup): 5040/3360 = 1.5 = 150% ✓
+
+  WE2 — Divisional margins:
+  Strategy gross: 2340/3600 = 0.65 = 65.0% ✓
+  Technology gross: 1540/2800 = 0.55 = 55.0% ✓
+  Operations gross: 1160/2000 = 0.58 = 58.0% ✓
+  Strategy op: 1260/3600 = 0.35 = 35.0% ✓
+  Technology op: 504/2800 = 0.18 = 18.0% ✓
+  Operations op: 336/2000 = 0.168 = 16.8% ✓
+
+  FY2023 gross margin: 4680/7200 = 0.65 = 65.0% ✓
+  FY2024 gross margin: 5040/8400 = 0.60 = 60.0% ✓
+  Change: -5.0 percentage points ✓
+
+  PQ1: 1417.5 / 5040 = 0.28125 = 28.1% ✓
+  PQ2: New OP = 1540 - 836 = 704; 704/2800 = 0.25143 = 25.1% ✓
+  PQ3: 3360 / (3360+2940) = 3360/6300 = 0.53333 = 53.3% ✓
+  PQ4: 60.0% - 65.0% = -5.0 pp ✓
+  PQ5: 3100 × 0.35 = 1085; 3100 - 1085 = 2015 ✓
+-->

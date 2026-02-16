@@ -1,0 +1,20 @@
+[
+  {
+    "id": "mljqdit3mb7l8h",
+    "submitted_at": "2026-02-12T17:26:37.431Z",
+    "user_name": "Test Student",
+    "user_email": "test@example.com",
+    "score_correct": 14,
+    "score_total": 18,
+    "score_percentage": 78,
+    "score_wrong": 3,
+    "score_skipped": 1,
+    "section_breakdown": null,
+    "answers": {
+      "1": 2,
+      "2": 1
+    },
+    "time_taken_seconds": 1245,
+    "performance_tier": "Good"
+  }
+]

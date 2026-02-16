@@ -1,0 +1,25 @@
+{
+  "name": "acumen-logic-website-backend",
+  "version": "1.0.0",
+  "description": "Backend server for Acumen Logic website - handles diagnostic leads and results",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "acumen-logic",
+    "backend",
+    "api",
+    "express"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.0",
+    "cors": "^2.8.5"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

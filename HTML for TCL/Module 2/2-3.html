@@ -1,0 +1,663 @@
+<!--
+  ACUMEN LOGIC — Lesson 2.3: Fractions, Decimals & Conversions
+  For ThriveCart Learn Custom HTML Block
+  Pure CSS · Zero JavaScript · Fully responsive
+-->
+
+<style>
+  /* ═══ BRAND TOKENS ═══ */
+  .al-lesson {
+    --al-navy: #1B2A4A;
+    --al-navy-light: #2A3D66;
+    --al-navy-muted: #3D5280;
+    --al-gold: #C8A951;
+    --al-gold-light: #D4BC72;
+    --al-gold-pale: #F5EFD9;
+    --al-cream: #FAFAF6;
+    --al-white: #FFFFFF;
+    --al-text: #2C2C2C;
+    --al-text-light: #6B6B6B;
+    --al-border: #E8E4DA;
+    --al-success: #2D8F5E;
+    --al-danger: #C0392B;
+    --al-radius: 10px;
+    --al-radius-sm: 6px;
+    --al-shadow: 0 2px 12px rgba(27, 42, 74, 0.08);
+    --al-shadow-lg: 0 8px 32px rgba(27, 42, 74, 0.12);
+  }
+
+  /* ═══ RESET & BASE ═══ */
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+  .al-lesson {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .al-lesson h1, .al-lesson h2, .al-lesson h3 { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; color: var(--al-navy); line-height: 1.25; }
+
+  /* ═══ HERO ═══ */
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .al-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200, 169, 81, 0.08) 0%, transparent 70%); pointer-events: none; }
+  .al-hero-eyebrow { font-family: 'Source Sans 3', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem, 4vw, 2.2rem); margin-bottom: 0.75rem; }
+  .al-hero-subtitle { color: rgba(255, 255, 255, 0.9) !important; font-size: 1rem; max-width: 36rem; line-height: 1.5; }
+  .al-hero-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 1rem 0; }
+
+  /* ═══ SECTIONS ═══ */
+  .al-section { margin-bottom: 2rem; }
+  .al-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-section-number { width: 2rem; height: 2rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.95rem; flex-shrink: 0; }
+  .al-section h2 { font-size: clamp(1.15rem, 3vw, 1.4rem); }
+
+  /* ═══ CARDS ═══ */
+  .al-card { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-card p { margin-bottom: 0.75rem; }
+  .al-card p:last-child { margin-bottom: 0; }
+
+  /* ═══ CALLOUTS ═══ */
+  .al-callout { border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; font-size: 0.92rem; }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-warn { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-callout-danger { background: #FDF2F0; border-left: 4px solid var(--al-danger); }
+  .al-callout-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .al-callout-tip .al-callout-label { color: var(--al-success); }
+  .al-callout-warn .al-callout-label { color: #D4823A; }
+  .al-callout-danger .al-callout-label { color: var(--al-danger); }
+
+  /* ═══ WORKED EXAMPLES ═══ */
+  .al-example { border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-example-header { background: var(--al-navy); padding: 1.25rem 1.5rem; display: flex; flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  .al-example-label { color: var(--al-gold) !important; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .al-example-q { color: var(--al-white) !important; font-size: 1.15rem; font-weight: 600; line-height: 1.4; margin-top: 0.25rem; }
+  .al-example-body { background: var(--al-white); border: 1px solid var(--al-border); border-top: none; border-radius: 0 0 var(--al-radius) var(--al-radius); padding: 1.5rem; font-size: 0.92rem; }
+  .al-example-body p { margin-bottom: 0.6rem; }
+  .al-example-body p:last-child { margin-bottom: 0; }
+
+  /* ═══ STEP LINES ═══ */
+  .al-step-line { display: flex; align-items: baseline; gap: 0.65rem; margin-bottom: 0.45rem; }
+  .al-step-num { width: 1.4rem; height: 1.4rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.7rem; flex-shrink: 0; }
+  .al-step-calc { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-size: 0.95rem; color: var(--al-navy); }
+  .al-step-result { font-weight: 700; color: var(--al-success); }
+
+  /* ═══ WRONG vs RIGHT ═══ */
+  .al-vs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin-bottom: 1.25rem; }
+  .al-vs-box { border-radius: var(--al-radius); padding: 1rem; }
+  .al-vs-wrong { background: #FDF2F0; border: 2px solid var(--al-danger); }
+  .al-vs-right { background: #EDF7F0; border: 2px solid var(--al-success); }
+  .al-vs-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .al-vs-wrong .al-vs-label { color: var(--al-danger); }
+  .al-vs-right .al-vs-label { color: var(--al-success); }
+  .al-vs-calc { font-size: 0.88rem; margin-bottom: 0.25rem; }
+  .al-vs-answer { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 1.15rem; }
+  .al-vs-wrong .al-vs-answer { color: var(--al-danger); }
+  .al-vs-right .al-vs-answer { color: var(--al-success); }
+  .al-vs-explain { font-size: 0.8rem; color: var(--al-text-light); margin-top: 0.3rem; }
+  .al-wrong-x { color: var(--al-danger); font-weight: 700; }
+
+  /* ═══ FORMULA / RULE CARDS ═══ */
+  .al-formula { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.15rem 1.5rem; margin-bottom: 1.25rem; text-align: center; }
+  .al-formula-label { color: var(--al-gold) !important; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .al-formula-text { color: var(--al-white) !important; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: clamp(1rem, 2.5vw, 1.25rem); line-height: 1.4; }
+  .al-formula-note { color: rgba(255, 255, 255, 0.75) !important; font-size: 0.78rem; margin-top: 0.35rem; }
+
+  /* ═══ CONVERSION TABLE ═══ */
+  .al-conv-table { width: 100%; border-collapse: collapse; margin-bottom: 1.25rem; font-size: 0.92rem; box-shadow: var(--al-shadow); border-radius: var(--al-radius); overflow: hidden; }
+  .al-conv-table thead th { background: var(--al-navy); color: var(--al-white) !important; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.75rem 1rem; text-align: center; }
+  .al-conv-table tbody td { padding: 0.65rem 1rem; text-align: center; border-bottom: 1px solid var(--al-border); font-weight: 500; color: var(--al-navy); }
+  .al-conv-table tbody tr:hover { background: var(--al-gold-pale); }
+
+  /* ═══ REVEAL (details/summary) ═══ */
+  .al-reveal { margin-top: 1rem; border: 2px solid var(--al-border); border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; }
+  .al-reveal[open] { border-color: var(--al-success); }
+  .al-reveal-btn { display: block; padding: 0.85rem 1.25rem; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--al-navy); background: var(--al-cream); cursor: pointer; list-style: none; user-select: none; -webkit-user-select: none; }
+  .al-reveal-btn::-webkit-details-marker { display: none; }
+  .al-reveal-btn::marker { display: none; content: ''; }
+  .al-reveal-btn:hover { background: var(--al-gold-pale); }
+  .al-reveal[open] .al-reveal-btn { background: #EDF7F0; color: var(--al-success); border-bottom: 1px solid var(--al-border); }
+  .al-reveal-content { padding: 1.25rem; font-size: 0.92rem; }
+  .al-reveal-content p { margin-bottom: 0.6rem; }
+  .al-reveal-content p:last-child { margin-bottom: 0; }
+
+  /* ═══ PRACTICE QUESTION ═══ */
+  .al-practice { background: var(--al-cream); border: 2px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 0.5rem; }
+  .al-practice-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-gold); margin-bottom: 0.35rem; }
+  .al-practice-q { font-size: 0.95rem; font-weight: 600; color: var(--al-navy); line-height: 1.5; }
+
+  /* ═══ KEY TAKEAWAYS ═══ */
+  .al-takeaways { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.5rem 1.75rem; margin-bottom: 1.25rem; }
+  .al-takeaways h3 { color: var(--al-gold) !important; font-size: 1.1rem; margin-bottom: 1rem; }
+  .al-takeaways-list { list-style: none; padding: 0; }
+  .al-takeaways-list li { color: rgba(255, 255, 255, 0.95) !important; font-size: 0.92rem; padding: 0.45rem 0 0.45rem 1.75rem; position: relative; line-height: 1.5; }
+  .al-takeaways-list li::before { content: '✓'; position: absolute; left: 0; color: var(--al-gold); font-weight: 700; font-size: 1rem; }
+
+  /* ═══ NEXT LESSON ═══ */
+  .al-next { background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .al-next-arrow { width: 2.5rem; height: 2.5rem; background: var(--al-navy); color: var(--al-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .al-next-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-text-light); margin-bottom: 0.15rem; }
+  .al-next-title { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; color: var(--al-navy); font-size: 1rem; }
+  .al-next-desc { font-size: 0.85rem; color: var(--al-text-light); margin-top: 0.15rem; }
+
+  /* ═══ UTILITY ═══ */
+  .al-lesson strong { color: var(--al-navy); }
+  .al-divider { border: none; height: 1px; background: var(--al-border); margin: 2rem 0; }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .al-card, .al-example-body, .al-reveal-content { padding: 1.15rem; }
+    .al-vs { grid-template-columns: 1fr; }
+    .al-takeaways { padding: 1.25rem; }
+    .al-next { flex-direction: column; text-align: center; }
+    .al-formula { padding: 1rem; }
+    .al-example-header { padding: 1.1rem 1.25rem; }
+    .al-example-q { font-size: 1.05rem; }
+  }
+</style>
+
+<div class="al-lesson">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 2 · Lesson 2.3</div>
+    <h1>Fractions, Decimals &amp; Conversions</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">Master instant conversions between fractions, decimals, and percentages — plus currency and unit conversions that appear in every finance test.</p>
+  </div>
+
+  <!-- ═══ SECTION 1: THE CONVERSION TRIANGLE ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">1</div>
+      <h2>The Conversion Triangle</h2>
+    </div>
+    <div class="al-card">
+      <p>Every aptitude test question involving fractions, decimals, or percentages requires you to move between these three formats. The method is always the same — the speed at which you execute it determines your score.</p>
+      <p><strong>Fraction → Decimal:</strong> divide numerator by denominator. <strong>Decimal → Percentage:</strong> multiply by 100. <strong>Percentage → Decimal:</strong> divide by 100. <strong>Decimal → Fraction:</strong> write as a fraction over a power of 10, then simplify.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Core Conversion Chain</div>
+      <div class="al-formula-text">³⁄₈ → 3 ÷ 8 = 0.375 → × 100 = 37.5%</div>
+      <div class="al-formula-note">Fraction → decimal → percentage. Reverse the steps to go backwards.</div>
+    </div>
+
+    <!-- Example 1 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 1</span>
+        <span class="al-example-q">Convert ³⁄₈ to a decimal and a percentage.</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Fraction → Decimal: 3 ÷ 8 = 0.375</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Decimal → Percentage: 0.375 × 100 = <span class="al-step-result">37.5%</span></span></div>
+      </div>
+    </div>
+
+    <!-- Example 2 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 2</span>
+        <span class="al-example-q">Convert 62.5% to a fraction in its simplest form.</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Percentage → Decimal: 62.5 ÷ 100 = 0.625</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Decimal → Fraction: 0.625 = 625/1000</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Simplify: 625 ÷ 125 = 5, 1000 ÷ 125 = 8 → <span class="al-step-result">⁵⁄₈</span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 2: ESSENTIAL CONVERSIONS TABLE ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">2</div>
+      <h2>Essential Conversions Table</h2>
+    </div>
+    <div class="al-card">
+      <p>These conversions appear constantly in finance aptitude tests. You need instant, zero-hesitation recall of every value below. Screenshot this table.</p>
+    </div>
+
+    <table class="al-conv-table">
+      <thead>
+        <tr><th>Fraction</th><th>Decimal</th><th>Percentage</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>½</td><td>0.5</td><td>50%</td></tr>
+        <tr><td>⅓</td><td>0.333</td><td>33.3%</td></tr>
+        <tr><td>⅔</td><td>0.667</td><td>66.7%</td></tr>
+        <tr><td>¼</td><td>0.25</td><td>25%</td></tr>
+        <tr><td>¾</td><td>0.75</td><td>75%</td></tr>
+        <tr><td>⅕</td><td>0.2</td><td>20%</td></tr>
+        <tr><td>⅛</td><td>0.125</td><td>12.5%</td></tr>
+        <tr><td>⅜</td><td>0.375</td><td>37.5%</td></tr>
+        <tr><td>⅝</td><td>0.625</td><td>62.5%</td></tr>
+        <tr><td>⅞</td><td>0.875</td><td>87.5%</td></tr>
+      </tbody>
+    </table>
+
+    <div class="al-callout al-callout-danger">
+      <div class="al-callout-label">Common Trap — Thirds Are Recurring</div>
+      <p>⅓ of £840,000 = £280,000 exactly. But ⅓ of £850,000 = £283,333.33. When a test says "to the nearest whole number," you must round — not truncate. The wrong answer option will always be the truncated value.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 3: COMPARING VALUES ACROSS FORMATS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">3</div>
+      <h2>Comparing Values Across Formats</h2>
+    </div>
+    <div class="al-card">
+      <p>Test questions frequently present values in mixed formats and ask you to identify the largest or smallest. The method is always the same: <strong>convert everything to decimals, then compare</strong>.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">The Rule</div>
+      <div class="al-formula-text">Mixed formats? Convert all to decimals first.</div>
+      <div class="al-formula-note">Never estimate mixed-format comparisons by eye. Always convert.</div>
+    </div>
+
+    <!-- Example 3 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 3</span>
+        <span class="al-example-q">Which is the largest: ⁷⁄₂₀, 0.38, or 34%?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Convert ⁷⁄₂₀: 7 ÷ 20 = 0.35</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">0.38 is already a decimal</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Convert 34%: 34 ÷ 100 = 0.34</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Compare: 0.34 &lt; 0.35 &lt; 0.38 → <span class="al-step-result">0.38 is largest</span></span></div>
+      </div>
+    </div>
+
+    <!-- Example 4 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 4 — Finance Context</span>
+        <span class="al-example-q">A fund's quarterly returns were: Q1 = ³⁄₁₆, Q2 = 17.5%, Q3 = 0.19, Q4 = ⁹⁄₅₀. In which quarter was the return highest?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Q1: 3 ÷ 16 = 0.1875</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Q2: 17.5 ÷ 100 = 0.175</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Q3: 0.19</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Q4: 9 ÷ 50 = 0.18</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Order: 0.175 &lt; 0.18 &lt; 0.1875 &lt; 0.19 → <span class="al-step-result">Q3 (0.19)</span></span></div>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-warn">
+      <div class="al-callout-label">Watch Out</div>
+      <p>⁷⁄₂₀ looks larger than 34% at first glance, but it isn't. Fractions feel "bigger" than they are because the numbers are whole. Never estimate — always convert and compare on the same scale.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 4: ADDING & SUBTRACTING FRACTIONS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">4</div>
+      <h2>Adding &amp; Subtracting Fractions</h2>
+    </div>
+    <div class="al-card">
+      <p>Finance tests love "remainder" questions: a budget or portfolio is split into named fractions, and you must find what's left. The method requires a <strong>lowest common denominator (LCD)</strong>.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">The Method</div>
+      <div class="al-formula-text">Find LCD → Convert each fraction → Add numerators → Subtract from 1</div>
+      <div class="al-formula-note">Same denominator? Add/subtract numerators directly. Different? Find the LCD first.</div>
+    </div>
+
+    <!-- Example 5 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 5</span>
+        <span class="al-example-q">A portfolio is ²⁄₅ equities and ¼ bonds. What fraction is allocated to other assets?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">LCD of 5 and 4 = 20</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Convert: ²⁄₅ = ⁸⁄₂₀, ¼ = ⁵⁄₂₀</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Sum: ⁸⁄₂₀ + ⁵⁄₂₀ = ¹³⁄₂₀</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Remainder: ²⁰⁄₂₀ − ¹³⁄₂₀ = <span class="al-step-result">⁷⁄₂₀ (35%)</span></span></div>
+      </div>
+    </div>
+
+    <!-- Example 6 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 6</span>
+        <span class="al-example-q">A company's annual budget is split: ⅓ on salaries, ¼ on premises, ⅙ on marketing. The remaining budget is £450,000. What is the total budget?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">LCD of 3, 4, and 6 = 12</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Convert: ⅓ = ⁴⁄₁₂, ¼ = ³⁄₁₂, ⅙ = ²⁄₁₂</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Sum: ⁴⁄₁₂ + ³⁄₁₂ + ²⁄₁₂ = ⁹⁄₁₂ = ¾</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Remainder: 1 − ¾ = ¼ of total budget</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">¼ of total = £450,000 → total = £450,000 × 4 = <span class="al-step-result">£1,800,000</span></span></div>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-danger">
+      <div class="al-callout-label">The #1 Fraction Trap</div>
+      <p>Adding denominators instead of finding the LCD. Students write ⅓ + ¼ + ⅙ = ³⁄₁₃ by adding the bottom numbers. This produces a remainder of ¹⁰⁄₁₃ — which gives an answer not in the options. If your answer doesn't match any option, you've almost certainly added denominators instead of converting to a common one.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 5: MULTIPLYING FRACTIONS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">5</div>
+      <h2>Multiplying Fractions</h2>
+    </div>
+    <div class="al-card">
+      <p>Fraction multiplication appears when you need "a fraction of a fraction" — for example, "¾ of employees are full-time, and ⅔ of full-time employees are based in London." The key technique is <strong>cross-cancelling before multiplying</strong> to keep numbers small.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Key Rule</div>
+      <div class="al-formula-text">Simplify BEFORE multiplying</div>
+      <div class="al-formula-note">Cross-cancel common factors between any numerator and any denominator. Smaller numbers = faster mental maths.</div>
+    </div>
+
+    <!-- Example 7 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 7</span>
+        <span class="al-example-q">A firm has 480 employees. ¾ work full-time. ⅔ of full-time staff are based in London. How many full-time London staff?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Set up: ¾ × ⅔ × 480</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Cross-cancel: the 3 in ¾ cancels with the 3 in ⅔ → ¹⁄₄ × ² = ²⁄₄ = ½</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Apply: ½ × 480 = <span class="al-step-result">240</span></span></div>
+      </div>
+    </div>
+
+    <!-- Wrong vs Right -->
+    <div class="al-vs">
+      <div class="al-vs-box al-vs-wrong">
+        <div class="al-vs-label">Slow Method</div>
+        <div class="al-vs-calc">¾ × ⅔ × 480</div>
+        <div class="al-vs-calc">= (3 × 2 × 480) ÷ (4 × 3)</div>
+        <div class="al-vs-calc">= 2,880 ÷ 12</div>
+        <div class="al-vs-answer">240</div>
+        <div class="al-vs-explain">Correct, but large numbers and harder mental maths. More time on calculator.</div>
+      </div>
+      <div class="al-vs-box al-vs-right">
+        <div class="al-vs-label">Fast Method</div>
+        <div class="al-vs-calc">Cancel the 3s first:</div>
+        <div class="al-vs-calc">¾ × ⅔ = ½</div>
+        <div class="al-vs-calc">½ × 480</div>
+        <div class="al-vs-answer">240</div>
+        <div class="al-vs-explain">Small numbers, instant mental maths. ~8 seconds saved per question.</div>
+      </div>
+    </div>
+
+    <!-- Example 8 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 8 — Finance Context</span>
+        <span class="al-example-q">A £1.2 million marketing budget: ⅗ is digital, and ⅚ of the digital budget goes to paid search. What is the paid search budget?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Set up: ⅗ × ⅚ × £1,200,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Cross-cancel: the 5 in ⅗ cancels with the 5 in ⅚ → ³⁄₁ × ¹⁄₆ = ³⁄₆ = ½</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Apply: ½ × £1,200,000 = <span class="al-step-result">£600,000</span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 6: RECURRING DECIMALS & ROUNDING ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">6</div>
+      <h2>Recurring Decimals &amp; Rounding</h2>
+    </div>
+    <div class="al-card">
+      <p>Some fractions produce recurring decimals. Tests handle this in two ways: they give you exact fractions in the answer options, or they ask you to round to a specified number of decimal places. The critical rule is: <strong>only round at the very last step</strong>.</p>
+    </div>
+
+    <table class="al-conv-table">
+      <thead>
+        <tr><th>Fraction</th><th>Exact Decimal</th><th>Rounded (3 d.p.)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>⅓</td><td>0.3333…</td><td>0.333</td></tr>
+        <tr><td>⅔</td><td>0.6666…</td><td>0.667</td></tr>
+        <tr><td>⅙</td><td>0.1666…</td><td>0.167</td></tr>
+        <tr><td>⅐</td><td>0.142857…</td><td>0.143</td></tr>
+        <tr><td>⅑</td><td>0.1111…</td><td>0.111</td></tr>
+      </tbody>
+    </table>
+
+    <div class="al-callout al-callout-warn">
+      <div class="al-callout-label">Precision Tip</div>
+      <p>When your answer is a decimal and the question says "to 2 decimal places," only round at the <strong>very last step</strong>. Rounding intermediate calculations compounds rounding errors and can push you to the wrong answer choice. Keep full precision on your calculator until the final answer.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 7: CURRENCY & UNIT CONVERSIONS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">7</div>
+      <h2>Currency &amp; Unit Conversions</h2>
+    </div>
+    <div class="al-card">
+      <p>Currency and unit conversions appear frequently in finance aptitude tests. The core skill is <strong>directional logic</strong>: knowing when to multiply and when to divide. Get the direction wrong and you'll find your answer among the trap options.</p>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">The Direction Rule</div>
+      <div class="al-formula-text">£1 = $1.25 → multiply £ by 1.25 to get $ · divide $ by 1.25 to get £</div>
+      <div class="al-formula-note">Going TO the larger-number currency? Multiply. Going TO the smaller-number currency? Divide.</div>
+    </div>
+
+    <!-- Example 9 -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 9 — Simple Conversion</span>
+        <span class="al-example-q">A London office spends £48,000 on software licences priced in US dollars. The exchange rate is £1 = $1.26. What is the cost in USD?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Direction: converting FROM £ TO $ → multiply</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">£48,000 × 1.26 = <span class="al-step-result">$60,480</span></span></div>
+      </div>
+    </div>
+
+    <!-- Example 10 — Cross-currency chain -->
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 10 — Cross-Currency Chain</span>
+        <span class="al-example-q">A firm receives €72,000. The rates are: £1 = €1.16 and £1 = $1.26. What is the equivalent in USD?</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Convert € to £: €72,000 ÷ 1.16 = £62,068.97</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Convert £ to $: £62,068.97 × 1.26 = <span class="al-step-result">$78,206.90</span></span></div>
+        <p style="margin-top:0.5rem; color:var(--al-text-light); font-size:0.85rem;">Always chain through GBP when no direct cross-rate is given.</p>
+      </div>
+    </div>
+
+    <div class="al-vs">
+      <div class="al-vs-box al-vs-wrong">
+        <div class="al-vs-label">Common Trap</div>
+        <div class="al-vs-calc">€72,000 × 1.16 = €83,520</div>
+        <div class="al-vs-answer">Wrong direction</div>
+        <div class="al-vs-explain">Multiplying by 1.16 converts £ to € — not € to £. The result is larger, which makes no sense (€ are worth less than £).</div>
+      </div>
+      <div class="al-vs-box al-vs-right">
+        <div class="al-vs-label">Correct Method</div>
+        <div class="al-vs-calc">€72,000 ÷ 1.16 = £62,069</div>
+        <div class="al-vs-answer">Divide to get £</div>
+        <div class="al-vs-explain">Since £1 = €1.16, you divide by 1.16 to go from € back to £. The GBP amount should be smaller.</div>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-tip">
+      <div class="al-callout-label">Sanity Check</div>
+      <p>After converting, ask: "Does the answer make sense?" If £1 buys more than 1 of the foreign currency, then the foreign-currency amount should always be <strong>larger</strong> than the GBP amount. If your answer goes the wrong way, you've multiplied when you should have divided (or vice versa).</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 8: EXAM-STYLE QUESTION ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">8</div>
+      <h2>Exam-Style Question</h2>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">SHL-Style Question</span>
+        <span class="al-example-q">A company has a £1.2 million annual marketing budget allocated as follows: Digital Advertising = ⅓, Events &amp; Conferences = ¼, Print &amp; PR = ⅙, Market Research = remainder. How much is allocated to Market Research?</span>
+      </div>
+      <div class="al-example-body">
+        <p style="color: var(--al-text-light); font-size: 0.85rem; margin-bottom: 0.75rem;">Options: (A) £200,000 &nbsp; (B) £250,000 &nbsp; (C) £300,000 &nbsp; (D) £350,000</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">LCD of 3, 4, and 6 = 12</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Convert: ⅓ = ⁴⁄₁₂, ¼ = ³⁄₁₂, ⅙ = ²⁄₁₂</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Sum: ⁴⁄₁₂ + ³⁄₁₂ + ²⁄₁₂ = ⁹⁄₁₂ = ¾</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Remainder: 1 − ¾ = ¼</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Calculate: ¼ × £1,200,000 = <span class="al-step-result">£300,000 → Answer: C</span></span></div>
+        <p style="margin-top:0.5rem; color:var(--al-text-light); font-size:0.85rem;">Common mistake: adding the denominators (⅓ + ¼ + ⅙ = ³⁄₁₃) instead of finding the LCD. This gives a remainder of ¹⁰⁄₁₃ — which produces an answer not matching any option, a signal you've gone wrong.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SECTION 9: PRACTICE QUESTIONS ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">9</div>
+      <h2>Practice Questions</h2>
+    </div>
+    <p style="margin-bottom:1rem; font-size:0.92rem;">Work through each question before revealing the answer. Target: 90 seconds per question.</p>
+
+    <!-- Practice Q1 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 1</div>
+      <div class="al-practice-q">Which is the smallest: ⁵⁄₁₆, 0.32, or 31.5%?</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">⁵⁄₁₆ = 5 ÷ 16 = 0.3125</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">31.5% = 0.315</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">0.3125 &lt; 0.315 &lt; 0.32 → <span class="al-step-result">⁵⁄₁₆ is smallest</span></span></div>
+      </div>
+    </details>
+
+    <!-- Practice Q2 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 2</div>
+      <div class="al-practice-q">An investment fund allocates ²⁄₅ to equities, ³⁄₁₀ to bonds, and the remainder to alternative assets. If the fund is worth £2.5 million, how much is in alternative assets?</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">LCD of 5 and 10 = 10. Equities: ²⁄₅ = ⁴⁄₁₀. Bonds: ³⁄₁₀</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Sum = ⁴⁄₁₀ + ³⁄₁₀ = ⁷⁄₁₀. Remainder = ³⁄₁₀</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">³⁄₁₀ × £2,500,000 = <span class="al-step-result">£750,000</span></span></div>
+      </div>
+    </details>
+
+    <!-- Practice Q3 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 3</div>
+      <div class="al-practice-q">A company has 720 employees. ⅝ are full-time. ⅔ of full-time employees have completed compliance training. How many full-time employees have completed compliance training?</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Set up: ⅝ × ⅔ × 720</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Simplify: ⅝ × ⅔ = ¹⁰⁄₂₄ = ⁵⁄₁₂</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">⁵⁄₁₂ × 720 = 5 × 60 = <span class="al-step-result">300</span></span></div>
+      </div>
+    </details>
+
+    <!-- Practice Q4 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 4</div>
+      <div class="al-practice-q">Convert 0.875 to a fraction in its simplest form.</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">0.875 = 875/1000</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Divide both by 125: 875 ÷ 125 = 7, 1000 ÷ 125 = 8 → <span class="al-step-result">⁷⁄₈</span></span></div>
+        <p>Quick check: ⁷⁄₈ = 0.875 appears in the conversion table above.</p>
+      </div>
+    </details>
+
+    <!-- Practice Q5 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 5</div>
+      <div class="al-practice-q">A department's £960,000 operating budget is split: ⅜ on personnel, ¼ on technology, ⅙ on facilities, and the rest on discretionary spending. What is the discretionary spending amount?</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">LCD of 8, 4, and 6 = 24</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Convert: ⅜ = ⁹⁄₂₄, ¼ = ⁶⁄₂₄, ⅙ = ⁴⁄₂₄</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Sum = ¹⁹⁄₂₄. Remainder = ⁵⁄₂₄</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">£960,000 ÷ 24 = £40,000. Then £40,000 × 5 = <span class="al-step-result">£200,000</span></span></div>
+      </div>
+    </details>
+
+    <!-- Practice Q6 -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 6</div>
+      <div class="al-practice-q">A pie chart shows market share: Company A = ⅓, Company B = ⅕, Company C = ¼, Company D = remainder. Total market size is £18 million. What is Company D's revenue?</div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">LCD of 3, 5, and 4 = 60</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Convert: ⅓ = ²⁰⁄₆₀, ⅕ = ¹²⁄₆₀, ¼ = ¹⁵⁄₆₀</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Sum = ⁴⁷⁄₆₀. Remainder = ¹³⁄₆₀</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">¹³⁄₆₀ × £18,000,000 = 13 × £300,000 = <span class="al-step-result">£3,900,000</span></span></div>
+      </div>
+    </details>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ KEY TAKEAWAYS ═══ -->
+  <div class="al-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul class="al-takeaways-list">
+      <li>Convert everything to decimals when comparing mixed-format values — never estimate by eye.</li>
+      <li>Memorise the essential conversion table: halves, thirds, quarters, fifths, and eighths. These appear in almost every test.</li>
+      <li>For "remainder" questions: find the LCD, sum the named fractions, subtract from 1, then multiply by the total.</li>
+      <li>When multiplying fractions, always cross-cancel before multiplying — it halves your calculation time and keeps numbers manageable.</li>
+      <li>Only round at the very last step. Rounding intermediate calculations can push you to the wrong answer option.</li>
+      <li>Currency conversions are about direction: multiply to go TO the bigger-number currency, divide to go back. Always sanity-check the result.</li>
+    </ul>
+  </div>
+
+  <!-- ═══ NEXT LESSON ═══ -->
+  <div class="al-next">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Lesson</div>
+      <div class="al-next-title">2.4 — Averages, Growth &amp; Compound Change</div>
+      <div class="al-next-desc">Weighted averages, CAGR, sequential percentage changes, and the "average of averages" trap that catches most candidates.</div>
+    </div>
+  </div>
+
+</div>

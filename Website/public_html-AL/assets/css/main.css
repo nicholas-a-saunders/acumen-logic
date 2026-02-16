@@ -1,0 +1,499 @@
+/* Acumen Logic - Main Stylesheet */
+
+/* Supplementary to Tailwind CSS */
+
+/* ============================================
+   CSS VARIABLES
+   ============================================ */
+
+:root {
+  /* Primary Colors */
+  --navy-900: #0a1628;
+  --navy-800: #0f1d32;
+  --navy-700: #152238;
+  --navy-600: #1e3a8a;
+  --navy-500: #1e40af;
+  
+  /* Gold Accent */
+  --gold-400: #C9A961;
+  --gold-500: #b89851;
+  --gold-600: #a68641;
+  --gold-light: #f4e5c2;
+  
+  /* Supporting Colors */
+  --slate-100: #f1f5f9;
+  --slate-300: #cbd5e1;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
+  --slate-600: #475569;
+  
+  /* Functional Colors */
+  --red-400: #f87171;
+  --green-400: #4ade80;
+  
+  /* Typography */
+  --font-serif: 'Playfair Display', georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 300ms ease;
+  --transition-slow: 500ms ease;
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--navy-900);
+  color: var(--slate-100);
+  line-height: 1.6;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--gold-400);
+  color: var(--navy-900);
+}
+
+/* Focus Styles */
+*:focus-visible {
+  outline: 2px solid var(--gold-400);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   TYPOGRAPHY UTILITIES
+   ============================================ */
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+/* Text Gradient */
+.gradient-text {
+  background: linear-gradient(135deg, var(--gold-400) 0%, var(--gold-light) 100%);
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   BACKGROUND PATTERNS
+   ============================================ */
+
+.geometric-pattern {
+  background-image: radial-gradient(circle at 2px 2px, rgb(201 169 97 / 15%) 1px, transparent 0);
+  background-size: 40px 40px;
+}
+
+.data-grid {
+  background-image: 
+    linear-gradient(rgb(201 169 97 / 5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(201 169 97 / 5%) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* ============================================
+   GLASS MORPHISM
+   ============================================ */
+
+.glass-effect {
+  background: rgb(255 255 255 / 3%);
+  backdrop-filter: blur(10px);
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgb(201 169 97 / 10%);
+}
+
+.glass-effect-strong {
+  background: rgb(15 29 50 / 80%);
+  backdrop-filter: blur(16px);
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgb(201 169 97 / 15%);
+}
+
+/* ============================================
+   BUTTONS & INTERACTIVE ELEMENTS
+   ============================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 0.375rem;
+  transition: all var(--transition-base);
+  cursor: pointer;
+  border: none;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.btn-primary {
+  background-color: var(--gold-400);
+  color: var(--navy-900);
+}
+
+.btn-primary:hover {
+  background-color: var(--gold-500);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgb(201 169 97 / 30%);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--slate-300);
+  border: 2px solid var(--slate-600);
+}
+
+.btn-secondary:hover {
+  border-color: var(--gold-400);
+  color: var(--gold-400);
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--slate-300);
+  border: 1px solid rgb(201 169 97 / 20%);
+}
+
+.btn-ghost:hover {
+  background-color: rgb(201 169 97 / 5%);
+  border-color: var(--gold-400);
+  color: var(--gold-400);
+}
+
+/* ============================================
+   CARDS
+   ============================================ */
+
+.card {
+  background: rgb(255 255 255 / 3%);
+  border: 1px solid rgb(201 169 97 / 10%);
+  border-radius: 1rem;
+  padding: 2rem;
+  transition: all var(--transition-base);
+}
+
+.card:hover {
+  border-color: rgb(201 169 97 / 30%);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgb(0 0 0 / 30%);
+}
+
+/* ============================================
+   FORMS
+   ============================================ */
+
+.input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  background-color: var(--navy-800);
+  border: 1px solid rgb(201 169 97 / 20%);
+  border-radius: 0.5rem;
+  color: var(--slate-100);
+  font-size: 0.875rem;
+  transition: all var(--transition-base);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--gold-400);
+  box-shadow: 0 0 0 3px rgb(201 169 97 / 10%);
+}
+
+.input::placeholder {
+  color: var(--slate-500);
+}
+
+.select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23C9A961' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-gold {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgb(201 169 97 / 40%);
+  }
+
+  50% {
+    box-shadow: 0 0 0 10px rgb(201 169 97 / 0%);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes timer-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out forwards;
+}
+
+.animate-pulse-gold {
+  animation: pulse-gold 2s infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-timer {
+  animation: timer-pulse 1s ease-in-out infinite;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Text Colors */
+.text-gold {
+  color: var(--gold-400);
+}
+
+.text-slate {
+  color: var(--slate-300);
+}
+
+/* Background Colors */
+.bg-navy {
+  background-color: var(--navy-900);
+}
+
+.bg-navy-light {
+  background-color: var(--navy-800);
+}
+
+/* Borders */
+.border-gold {
+  border-color: var(--gold-400);
+}
+
+.border-gold-subtle {
+  border-color: rgb(201 169 97 / 10%);
+}
+
+/* Shadows */
+.shadow-gold {
+  box-shadow: 0 4px 20px rgb(201 169 97 / 15%);
+}
+
+/* ============================================
+   DIAGNOSTIC SPECIFIC
+   ============================================ */
+
+.timer-warning {
+  color: var(--red-400) !important;
+  animation: timer-pulse 1s ease-in-out infinite;
+}
+
+.question-active {
+  border-color: var(--gold-400);
+  background-color: rgb(201 169 97 / 5%);
+}
+
+.answer-selected {
+  border-color: var(--gold-400);
+  background-color: rgb(201 169 97 / 10%);
+}
+
+.answer-correct {
+  border-color: var(--green-400);
+  background-color: rgb(74 222 128 / 10%);
+}
+
+.answer-incorrect {
+  border-color: var(--red-400);
+  background-color: rgb(248 113 113 / 10%);
+}
+
+/* Progress Bar */
+.progress-fill {
+  background: linear-gradient(90deg, var(--gold-400), var(--gold-500));
+  transition: width 0.3s ease;
+}
+
+/* ============================================
+   TABLES (Data Interpretation)
+   ============================================ */
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  margin: 1.5rem 0;
+}
+
+.data-table th {
+  text-align: left;
+  padding: 0.75rem;
+  border-bottom: 1px solid rgb(201 169 97 / 30%);
+  color: var(--gold-400);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.data-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid rgb(201 169 97 / 10%);
+  color: var(--slate-300);
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table tr:hover td {
+  background-color: rgb(201 169 97 / 3%);
+}
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--navy-800);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(201 169 97 / 30%);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(201 169 97 / 50%);
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+  
+  .glass-effect,
+  .geometric-pattern,
+  .data-grid {
+    background: none !important;
+    border: 1px solid #ccc;
+  }
+  
+  .gradient-text {
+    background: none;
+    -webkit-text-fill-color: black;
+    color: black;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ============================================
+   RESPONSIVE UTILITIES
+   ============================================ */
+
+@media (width <= 640px) {
+  .geometric-pattern {
+    background-size: 20px 20px;
+  }
+  
+  .card {
+    padding: 1.5rem;
+  }
+}

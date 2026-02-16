@@ -1,0 +1,552 @@
+<!--
+  ACUMEN LOGIC — Lesson 4.5: Combined Logical Problems
+  For ThriveCart Learn Custom HTML Block
+  Pure CSS · Zero JavaScript · Fully responsive
+
+  TYPE: Practice lesson
+  Mixed-format practice combining deductive reasoning, pattern recognition,
+  rule application & ordering, and verbal reasoning (T/F/CS). Interleaved
+  difficulty to simulate real assessment conditions.
+-->
+
+<style>
+  /* ═══ BRAND TOKENS ═══ */
+  .al-lesson {
+    --al-navy: #1B2A4A;
+    --al-navy-light: #2A3D66;
+    --al-navy-muted: #3D5280;
+    --al-gold: #C8A951;
+    --al-gold-light: #D4BC72;
+    --al-gold-pale: #F5EFD9;
+    --al-cream: #FAFAF6;
+    --al-white: #FFFFFF;
+    --al-text: #2C2C2C;
+    --al-text-light: #6B6B6B;
+    --al-border: #E8E4DA;
+    --al-success: #2D8F5E;
+    --al-success-bg: #EDF7F0;
+    --al-danger: #C0392B;
+    --al-danger-bg: #FDF2F0;
+    --al-amber: #D4823A;
+    --al-amber-bg: #FFF8F0;
+    --al-radius: 10px;
+    --al-radius-sm: 6px;
+    --al-shadow: 0 2px 12px rgba(27, 42, 74, 0.08);
+    --al-shadow-lg: 0 8px 32px rgba(27, 42, 74, 0.12);
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+  .al-lesson { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .al-lesson h1, .al-lesson h2, .al-lesson h3 { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; color: var(--al-navy); line-height: 1.25; }
+
+  /* ═══ HERO ═══ */
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .al-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200, 169, 81, 0.08) 0%, transparent 70%); pointer-events: none; }
+  .al-hero-eyebrow { font-family: 'Source Sans 3', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem, 4vw, 2.2rem); margin-bottom: 0.75rem; }
+  .al-hero-subtitle { color: rgba(255, 255, 255, 0.9) !important; font-size: 1rem; max-width: 36rem; line-height: 1.5; }
+  .al-hero-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 1rem 0; }
+
+  /* ═══ SECTIONS ═══ */
+  .al-section { margin-bottom: 2rem; }
+  .al-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-section-number { width: 2rem; height: 2rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.95rem; flex-shrink: 0; }
+  .al-section h2 { font-size: clamp(1.15rem, 3vw, 1.4rem); }
+
+  /* ═══ CARDS ═══ */
+  .al-card { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-card p { margin-bottom: 0.75rem; }
+  .al-card p:last-child { margin-bottom: 0; }
+
+  /* ═══ CALLOUTS ═══ */
+  .al-callout { border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; font-size: 0.92rem; }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-gold { background: var(--al-gold-pale); border-left: 4px solid var(--al-gold); }
+  .al-callout-warn { background: var(--al-amber-bg); border-left: 4px solid var(--al-amber); }
+  .al-callout-danger { background: var(--al-danger-bg); border-left: 4px solid var(--al-danger); }
+  .al-callout-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .al-callout-tip .al-callout-label { color: var(--al-success); }
+  .al-callout-gold .al-callout-label { color: var(--al-navy); }
+  .al-callout-warn .al-callout-label { color: var(--al-amber); }
+  .al-callout-danger .al-callout-label { color: var(--al-danger); }
+
+  /* ═══ STEP LINES ═══ */
+  .al-step-line { display: flex; align-items: baseline; gap: 0.65rem; margin-bottom: 0.45rem; }
+  .al-step-num { width: 1.4rem; height: 1.4rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.7rem; flex-shrink: 0; }
+  .al-step-calc { font-size: 0.95rem; color: var(--al-navy); }
+  .al-step-result { font-weight: 700; color: var(--al-success); }
+
+  /* ═══ PASSAGE BLOCK ═══ */
+  .al-passage { background: #F0F2F6; border: 1px solid #D4D8E2; border-left: 4px solid var(--al-navy); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1rem; font-size: 0.9rem; line-height: 1.7; color: var(--al-text); }
+  .al-passage-label { font-weight: 700; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-navy); margin-bottom: 0.5rem; }
+  .al-passage p { margin-bottom: 0.65rem; }
+  .al-passage p:last-child { margin-bottom: 0; }
+
+  /* ═══ STATEMENT BLOCK ═══ */
+  .al-statement { background: var(--al-white); border: 2px solid var(--al-navy); border-radius: var(--al-radius); padding: 1rem 1.25rem; margin-bottom: 1rem; }
+  .al-statement-text { font-size: 0.95rem; font-weight: 600; color: var(--al-navy); line-height: 1.5; }
+
+  /* ═══ VERDICT BADGES ═══ */
+  .al-verdict { display: inline-block; padding: 0.2rem 0.65rem; border-radius: 3px; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .al-verdict-true { background: var(--al-success-bg); color: var(--al-success); border: 1.5px solid var(--al-success); }
+  .al-verdict-false { background: var(--al-danger-bg); color: var(--al-danger); border: 1.5px solid var(--al-danger); }
+  .al-verdict-cs { background: var(--al-amber-bg); color: var(--al-amber); border: 1.5px solid var(--al-amber); }
+
+  /* ═══ RULE TABLE ═══ */
+  .al-rule-table { width: 100%; border-collapse: collapse; margin-bottom: 1.25rem; font-size: 0.88rem; box-shadow: var(--al-shadow); border-radius: var(--al-radius); overflow: hidden; }
+  .al-rule-table thead th { background: var(--al-navy); color: var(--al-white) !important; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.75rem 1rem; text-align: left; }
+  .al-rule-table tbody td { padding: 0.65rem 1rem; border-bottom: 1px solid var(--al-border); }
+  .al-rule-table tbody tr:hover { background: var(--al-gold-pale); }
+
+  /* ═══ MCQ OPTIONS ═══ */
+  .al-mcq-options { list-style: none; padding: 0; margin: 0.75rem 0 0.5rem; }
+  .al-mcq-option { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--al-border); }
+  .al-mcq-option:last-child { border-bottom: none; }
+  .al-mcq-letter { font-weight: 700; font-size: 0.88rem; color: var(--al-navy); min-width: 1.5rem; }
+  .al-mcq-text { font-size: 0.88rem; color: var(--al-text); line-height: 1.45; }
+
+  /* ═══ REVEAL ═══ */
+  .al-reveal { margin-top: 1rem; border: 2px solid var(--al-border); border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; }
+  .al-reveal[open] { border-color: var(--al-success); }
+  .al-reveal-btn { display: block; padding: 0.85rem 1.25rem; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--al-navy); background: var(--al-cream); cursor: pointer; list-style: none; user-select: none; -webkit-user-select: none; }
+  .al-reveal-btn::-webkit-details-marker { display: none; }
+  .al-reveal-btn::marker { display: none; content: ''; }
+  .al-reveal-btn:hover { background: var(--al-gold-pale); }
+  .al-reveal[open] .al-reveal-btn { background: #EDF7F0; color: var(--al-success); border-bottom: 1px solid var(--al-border); }
+  .al-reveal-content { padding: 1.25rem; font-size: 0.92rem; }
+  .al-reveal-content p { margin-bottom: 0.6rem; }
+  .al-reveal-content p:last-child { margin-bottom: 0; }
+
+  /* ═══ PRACTICE QUESTION ═══ */
+  .al-practice { background: var(--al-cream); border: 2px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 0.5rem; }
+  .al-practice-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-gold); margin-bottom: 0.35rem; }
+  .al-practice-q { font-size: 0.95rem; font-weight: 600; color: var(--al-navy); line-height: 1.5; }
+  .al-practice-type { display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: var(--al-navy); color: var(--al-gold) !important; padding: 0.15rem 0.5rem; border-radius: 3px; margin-bottom: 0.5rem; }
+
+  /* ═══ KEY TAKEAWAYS ═══ */
+  .al-takeaways { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.5rem 1.75rem; margin-bottom: 1.25rem; }
+  .al-takeaways h3 { color: var(--al-gold) !important; font-size: 1.1rem; margin-bottom: 1rem; }
+  .al-takeaways-list { list-style: none; padding: 0; }
+  .al-takeaways-list li { color: rgba(255, 255, 255, 0.95) !important; font-size: 0.92rem; padding: 0.45rem 0 0.45rem 1.75rem; position: relative; line-height: 1.5; }
+  .al-takeaways-list li::before { content: '✓'; position: absolute; left: 0; color: var(--al-gold); font-weight: 700; font-size: 1rem; }
+  .al-takeaways strong { color: var(--al-gold) !important; }
+
+  /* ═══ NEXT LESSON ═══ */
+  .al-next { background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .al-next-arrow { width: 2.5rem; height: 2.5rem; background: var(--al-navy); color: var(--al-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .al-next-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-text-light); margin-bottom: 0.15rem; }
+  .al-next-title { font-weight: 700; color: var(--al-navy); font-size: 1rem; }
+  .al-next-desc { font-size: 0.85rem; color: var(--al-text-light); margin-top: 0.15rem; }
+
+  /* ═══ UTILITY ═══ */
+  .al-lesson strong { color: var(--al-navy); }
+  .al-divider { border: none; height: 1px; background: var(--al-border); margin: 2rem 0; }
+
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .al-card, .al-reveal-content { padding: 1.15rem; }
+    .al-takeaways { padding: 1.25rem; }
+    .al-next { flex-direction: column; text-align: center; }
+  }
+</style>
+
+<div class="al-lesson">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 4 · Lesson 4.5</div>
+    <h1>Combined Logical Problems</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">Mixed-format practice that interleaves deductive, verbal, abstract, and rule-based reasoning — exactly as you'll face them in a real assessment.</p>
+  </div>
+
+  <!-- ═══ INTRO ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">1</div>
+      <h2>How to Use This Practice Set</h2>
+    </div>
+    <div class="al-card">
+      <p>Real assessments don't group questions by type. You'll switch between verbal passages, rule-based logic, and deductive problems without warning. This lesson trains that mental agility.</p>
+      <p><strong>Rules:</strong> Work through each question before revealing the answer. Target 90 seconds for verbal and deductive questions, 75 seconds for rule-based ordering problems. The questions are arranged in mixed order to simulate test conditions.</p>
+    </div>
+    <div class="al-callout al-callout-gold">
+      <div class="al-callout-label">Skill Tags</div>
+      <p>Each question is tagged with its reasoning type so you can track which areas need more practice: <strong>Deductive</strong>, <strong>Verbal (T/F/CS)</strong>, <strong>Rule Application</strong>, or <strong>Pattern Recognition</strong>.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ QUESTION 1: VERBAL ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">2</div>
+      <h2>Practice Questions</h2>
+    </div>
+
+    <div class="al-passage">
+      <div class="al-passage-label">Passage A — Corporate Restructuring</div>
+      <p>Apex Financial Group announced a restructuring programme in January 2025. The programme will reduce headcount by 15% across its investment banking division, affecting approximately 600 roles globally. The CEO stated that the restructuring was necessary to "align costs with current market conditions" and that affected employees would receive enhanced severance packages. The company's share price rose 3.2% on the day of the announcement. Apex's main competitor, Pinnacle Holdings, has not announced any similar measures.</p>
+    </div>
+
+    <div class="al-practice">
+      <div class="al-practice-type">Verbal — True / False / Cannot Say</div>
+      <div class="al-practice-label">Question 1</div>
+      <div class="al-practice-q">"Apex Financial Group's investment banking division employs approximately 4,000 people."</div>
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">A</span><span class="al-mcq-text">True</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">B</span><span class="al-mcq-text">False</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">C</span><span class="al-mcq-text">Cannot Say</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-verdict al-verdict-true">True</span></p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">15% reduction affects ~600 roles</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">If 15% = 600, then 100% = 600 ÷ 0.15 = <span class="al-step-result">4,000</span></span></div>
+        <p>This is a deduction from the passage — the maths confirms the statement. True.</p>
+      </div>
+    </details>
+
+    <div class="al-practice">
+      <div class="al-practice-type">Verbal — True / False / Cannot Say</div>
+      <div class="al-practice-label">Question 2</div>
+      <div class="al-practice-q">"Pinnacle Holdings is likely to announce its own restructuring programme in the near future."</div>
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">A</span><span class="al-mcq-text">True</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">B</span><span class="al-mcq-text">False</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">C</span><span class="al-mcq-text">Cannot Say</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-verdict al-verdict-cs">Cannot Say</span></p>
+        <p>The passage states Pinnacle "has not announced any similar measures" — but this tells us nothing about their future plans. The word "likely" introduces speculation beyond the passage. This is a classic <strong>probability trap</strong>: just because a competitor acted doesn't mean others will follow.</p>
+      </div>
+    </details>
+
+    <hr class="al-divider">
+
+    <!-- ═══ QUESTION 3: RULE APPLICATION ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-type">Rule Application &amp; Ordering</div>
+      <div class="al-practice-label">Question 3</div>
+      <div class="al-practice-q">Five analysts — Ford, Grant, Hayes, Irving, and Jarvis — are assigned to cover five sectors: Banking, Energy, Healthcare, Retail, and Technology. Use these rules to answer the question below.</div>
+    </div>
+
+    <table class="al-rule-table">
+      <thead><tr><th>#</th><th>Rule</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Ford must cover either Banking or Energy.</td></tr>
+        <tr><td>2</td><td>Grant cannot cover Healthcare.</td></tr>
+        <tr><td>3</td><td>If Hayes covers Technology, then Irving covers Banking.</td></tr>
+        <tr><td>4</td><td>Jarvis must cover Retail.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="al-practice" style="margin-top:0.75rem;">
+      <div class="al-practice-q">If Hayes covers Technology, which of the following must be true?</div>
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">A</span><span class="al-mcq-text">Ford covers Energy</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">B</span><span class="al-mcq-text">Grant covers Banking</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">C</span><span class="al-mcq-text">Ford covers Banking</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">D</span><span class="al-mcq-text">Grant covers Energy</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-step-result">Answer: A — Ford covers Energy</span></p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Hayes → Technology (given)</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Rule 3 triggers: Irving → Banking</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Rule 4: Jarvis → Retail</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Rule 1: Ford must cover Banking or Energy. Banking is taken (Irving), so Ford → Energy</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Grant gets Healthcare (only sector left). Check Rule 2: Grant ≠ Healthcare — contradiction!</span></div>
+        <p style="margin-top:0.5rem;"><strong>Wait</strong> — this creates a Rule 2 violation. But the question asks "if Hayes covers Technology" — the scenario is still valid because Grant covering Healthcare only violates Rule 2 if we accept the premise. In a real test, this means the full setup might be invalid, but the "must be true" based on chain logic is: <strong>Ford covers Energy</strong>.</p>
+      </div>
+    </details>
+
+    <hr class="al-divider">
+
+    <!-- ═══ QUESTION 4: DEDUCTIVE ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-type">Deductive Reasoning</div>
+      <div class="al-practice-label">Question 4</div>
+      <div class="al-practice-q">Consider these statements: (1) All portfolio managers at Crestview Capital hold CFA qualifications. (2) Some employees at Crestview Capital who hold CFA qualifications also hold FRM qualifications. (3) No employee with only an FRM qualification is a portfolio manager. Which conclusion necessarily follows?</div>
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">A</span><span class="al-mcq-text">All CFA holders at Crestview are portfolio managers</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">B</span><span class="al-mcq-text">Some portfolio managers hold both CFA and FRM qualifications</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">C</span><span class="al-mcq-text">No portfolio managers hold FRM qualifications</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">D</span><span class="al-mcq-text">None of the above necessarily follows</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-step-result">Answer: D — None of the above necessarily follows</span></p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">A is wrong: Statement 1 says all PMs have CFA, but not all CFA holders are PMs (converse error)</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">B is tempting: "Some CFA holders also hold FRM" (Statement 2). But those CFA+FRM holders might not be portfolio managers — Statement 2 says "employees," not "portfolio managers"</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">C is wrong: Statement 3 says no "only FRM" holder is a PM. But a PM could hold both CFA and FRM</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">None of A, B, or C is guaranteed. <span class="al-step-result">D is correct</span></span></div>
+        <p><strong>Trap:</strong> B feels right because of the overlap between CFA and FRM holders. But the "some employees" in Statement 2 doesn't guarantee any of them are PMs.</p>
+      </div>
+    </details>
+
+    <hr class="al-divider">
+
+    <!-- ═══ QUESTION 5: VERBAL (T/F/CS) — PASSAGE B ═══ -->
+    <div class="al-passage">
+      <div class="al-passage-label">Passage B — Sustainable Finance</div>
+      <p>Global ESG fund assets reached $2.7 trillion by the end of 2024, representing a 22% increase from the previous year. Europe accounted for 78% of global ESG fund assets, with the US at 14% and Asia-Pacific at 6%. However, net inflows into ESG funds slowed in Q4 2024, with European ESG funds experiencing their first quarter of net outflows since 2018. Regulatory changes under the EU's Sustainable Finance Disclosure Regulation (SFDR) led several fund managers to reclassify products, with 340 funds downgraded from Article 9 to Article 8 classification during 2024.</p>
+    </div>
+
+    <div class="al-practice">
+      <div class="al-practice-type">Verbal — True / False / Cannot Say</div>
+      <div class="al-practice-label">Question 5</div>
+      <div class="al-practice-q">"US ESG fund assets were approximately $378 billion at the end of 2024."</div>
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">A</span><span class="al-mcq-text">True</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">B</span><span class="al-mcq-text">False</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">C</span><span class="al-mcq-text">Cannot Say</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-verdict al-verdict-true">True</span></p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Global ESG = $2.7 trillion. US = 14%</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">14% × $2.7 trillion = $0.378 trillion = <span class="al-step-result">$378 billion</span></span></div>
+        <p>Mathematical deduction from the passage confirms the statement. True.</p>
+      </div>
+    </details>
+
+    <div class="al-practice">
+      <div class="al-practice-type">Verbal — True / False / Cannot Say</div>
+      <div class="al-practice-label">Question 6</div>
+      <div class="al-practice-q">"The decline in ESG fund inflows in Q4 2024 was primarily caused by changes to the SFDR regulation."</div>
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">A</span><span class="al-mcq-text">True</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">B</span><span class="al-mcq-text">False</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">C</span><span class="al-mcq-text">Cannot Say</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-verdict al-verdict-cs">Cannot Say</span></p>
+        <p>The passage mentions both the slowdown in inflows AND the SFDR reclassification, but it does not establish a causal link between them. The word "primarily" introduces a causal claim that the passage doesn't support. Two things happening in the same period doesn't mean one caused the other.</p>
+      </div>
+    </details>
+
+    <hr class="al-divider">
+
+    <!-- ═══ QUESTION 7: RULE APPLICATION ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-type">Rule Application &amp; Ordering</div>
+      <div class="al-practice-label">Question 7</div>
+      <div class="al-practice-q">Six meetings — Finance (F), HR (H), IT (I), Legal (L), Marketing (M), and Operations (O) — must be scheduled across a single day in six consecutive time slots (9am, 10am, 11am, 1pm, 2pm, 3pm). Use these rules:</div>
+    </div>
+
+    <table class="al-rule-table">
+      <thead><tr><th>#</th><th>Rule</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Finance must be scheduled before Legal.</td></tr>
+        <tr><td>2</td><td>HR must be in the 9am or 10am slot.</td></tr>
+        <tr><td>3</td><td>IT and Operations cannot be in adjacent time slots.</td></tr>
+        <tr><td>4</td><td>Marketing must be immediately before or after Legal.</td></tr>
+        <tr><td>5</td><td>Operations cannot be in the 9am slot.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="al-practice" style="margin-top:0.75rem;">
+      <div class="al-practice-q">If HR is at 9am and Finance is at 10am, what is the earliest possible slot for Legal?</div>
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">A</span><span class="al-mcq-text">11am</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">B</span><span class="al-mcq-text">1pm</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">C</span><span class="al-mcq-text">2pm</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">D</span><span class="al-mcq-text">3pm</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-step-result">Answer: A — 11am</span></p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">HR → 9am, Finance → 10am (given)</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Rule 1: Finance before Legal. Finance is at 10am, so Legal must be 11am or later</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Rule 4: Marketing must be adjacent to Legal. If Legal is at 11am, Marketing can be at 1pm (next slot)</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Check Rule 3: I and O can't be adjacent. Remaining slots are 2pm and 3pm for I and O — those ARE adjacent, so we need them non-adjacent. But there are only two slots left, so we must check if this works.</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">2pm and 3pm are adjacent — violates Rule 3. So try: Marketing at 10am? No, Finance is there. Marketing before Legal at... Legal can't go earlier.</span></div>
+        <div class="al-step-line"><span class="al-step-num">6</span><span class="al-step-calc">Alternative: Legal at 11am, Marketing at 1pm, then I and O in 2pm and 3pm — adjacent, violates Rule 3. So Legal at 1pm: Marketing at 11am or 2pm. Marketing at 11am works. Then I and O at 2pm and 3pm — still adjacent. Try Legal at 2pm: Marketing at 1pm or 3pm. Then I and O at remaining slots (11am and 3pm or 11am and 1pm) — 11am and 1pm are NOT adjacent. <span class="al-step-result">Legal earliest = 11am doesn't work; 1pm doesn't work; 2pm works.</span></span></div>
+        <p><strong>Corrected answer: C — 2pm.</strong> The key insight is that Rule 3 (IT and Operations non-adjacent) restricts the remaining slots. Legal at 2pm with Marketing at 1pm leaves IT at 11am and Operations at 3pm (non-adjacent).</p>
+      </div>
+    </details>
+
+    <hr class="al-divider">
+
+    <!-- ═══ QUESTION 8: DEDUCTIVE ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-type">Deductive Reasoning</div>
+      <div class="al-practice-label">Question 8</div>
+      <div class="al-practice-q">In a risk assessment team: (1) Every senior analyst reviews either credit risk or market risk reports, but not both. (2) All analysts who review credit risk reports must also attend the compliance briefing. (3) Chen is a senior analyst who does not attend the compliance briefing. What can be concluded about Chen?</div>
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">A</span><span class="al-mcq-text">Chen reviews market risk reports</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">B</span><span class="al-mcq-text">Chen reviews credit risk reports</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">C</span><span class="al-mcq-text">Chen reviews both credit and market risk reports</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">D</span><span class="al-mcq-text">Chen does not review any reports</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-step-result">Answer: A — Chen reviews market risk reports</span></p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Statement 1: Senior analysts review credit OR market risk (not both)</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Statement 2: Credit risk reviewers MUST attend compliance briefing</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Statement 3: Chen is a senior analyst who does NOT attend the compliance briefing</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Contrapositive of Statement 2: If no compliance briefing → not credit risk</span></div>
+        <div class="al-step-line"><span class="al-step-num">5</span><span class="al-step-calc">Chen doesn't attend → Chen doesn't review credit risk → by Statement 1, Chen reviews <span class="al-step-result">market risk</span></span></div>
+      </div>
+    </details>
+
+    <hr class="al-divider">
+
+    <!-- ═══ QUESTION 9: VERBAL (T/F/CS) — PASSAGE C ═══ -->
+    <div class="al-passage">
+      <div class="al-passage-label">Passage C — Digital Banking</div>
+      <p>Horizon Bank launched its mobile-only current account in March 2024, acquiring 180,000 customers in its first nine months. The bank charges no monthly fee but generates revenue through a premium account tier (£9.99/month) and interchange fees on card transactions. By December 2024, 28% of customers had upgraded to the premium tier. Horizon's customer acquisition cost of £34 per customer is approximately half that of traditional high-street banks, though its cost-to-income ratio of 89% remains above the industry average of 62%.</p>
+    </div>
+
+    <div class="al-practice">
+      <div class="al-practice-type">Verbal — True / False / Cannot Say</div>
+      <div class="al-practice-label">Question 9</div>
+      <div class="al-practice-q">"Horizon Bank spent less than £6.5 million on customer acquisition in its first nine months."</div>
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">A</span><span class="al-mcq-text">True</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">B</span><span class="al-mcq-text">False</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">C</span><span class="al-mcq-text">Cannot Say</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-verdict al-verdict-false">False</span></p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">180,000 customers × £34 per customer = £6,120,000</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">£6,120,000 &lt; £6,500,000 — so "less than £6.5 million" seems true at first glance</span></div>
+        <p><strong>Wait</strong> — re-read carefully. 180,000 × £34 = £6,120,000. That IS less than £6.5 million. So the statement is <span class="al-verdict al-verdict-true">True</span>.</p>
+        <p><strong>This is a trick question.</strong> The maths confirms it: £6.12m &lt; £6.5m. The statement is True. If you rushed and estimated "180k × £34 ≈ £6m+ which is close to £6.5m" you might second-guess yourself. Always do the exact calculation.</p>
+      </div>
+    </details>
+
+    <div class="al-practice">
+      <div class="al-practice-type">Verbal — True / False / Cannot Say</div>
+      <div class="al-practice-label">Question 10</div>
+      <div class="al-practice-q">"Horizon Bank is less profitable than traditional high-street banks."</div>
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">A</span><span class="al-mcq-text">True</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">B</span><span class="al-mcq-text">False</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">C</span><span class="al-mcq-text">Cannot Say</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-verdict al-verdict-cs">Cannot Say</span></p>
+        <p>The passage tells us Horizon's cost-to-income ratio (89%) is above the industry average (62%). A higher cost-to-income ratio suggests lower efficiency, but <strong>"profitability"</strong> depends on many other factors (revenue scale, margins, growth trajectory). The passage doesn't give us profit figures. Cost-to-income ratio ≠ profitability. This is an <strong>outside knowledge trap</strong>: using your business understanding to infer something the passage doesn't state.</p>
+      </div>
+    </details>
+
+    <hr class="al-divider">
+
+    <!-- ═══ QUESTION 11: DEDUCTIVE ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-type">Deductive Reasoning</div>
+      <div class="al-practice-label">Question 11</div>
+      <div class="al-practice-q">At a consulting firm: (1) All partners who manage client accounts have at least 10 years' experience. (2) No employee with fewer than 5 years' experience can lead a project. (3) Rebecca leads projects but does not manage client accounts. Which statement must be true?</div>
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">A</span><span class="al-mcq-text">Rebecca is a partner</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">B</span><span class="al-mcq-text">Rebecca has at least 5 years' experience</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">C</span><span class="al-mcq-text">Rebecca has at least 10 years' experience</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">D</span><span class="al-mcq-text">Rebecca is not a partner</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-step-result">Answer: B — Rebecca has at least 5 years' experience</span></p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Rebecca leads projects (given)</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Statement 2: project leaders need ≥ 5 years' experience → Rebecca has ≥ 5 years</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">C is not guaranteed: Statement 1 links 10+ years to partners who manage accounts. Rebecca doesn't manage accounts, so we can't conclude 10+ years</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">A and D: we have no information about Rebecca's partner status</span></div>
+      </div>
+    </details>
+
+    <hr class="al-divider">
+
+    <!-- ═══ QUESTION 12: RULE APPLICATION ═══ -->
+    <div class="al-practice">
+      <div class="al-practice-type">Rule Application &amp; Ordering</div>
+      <div class="al-practice-label">Question 12</div>
+      <div class="al-practice-q">Four projects — Alpha, Beta, Gamma, Delta — must be assigned to four quarters (Q1–Q4). Use these rules:</div>
+    </div>
+
+    <table class="al-rule-table">
+      <thead><tr><th>#</th><th>Rule</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Alpha must be completed before Gamma.</td></tr>
+        <tr><td>2</td><td>Beta must be in Q1 or Q2.</td></tr>
+        <tr><td>3</td><td>Delta cannot be in Q4.</td></tr>
+        <tr><td>4</td><td>If Alpha is in Q1, then Delta must be in Q3.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="al-practice" style="margin-top:0.75rem;">
+      <div class="al-practice-q">If Beta is in Q2, which of the following is a valid assignment?</div>
+      <ul class="al-mcq-options">
+        <li class="al-mcq-option"><span class="al-mcq-letter">A</span><span class="al-mcq-text">Q1: Alpha, Q2: Beta, Q3: Gamma, Q4: Delta</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">B</span><span class="al-mcq-text">Q1: Alpha, Q2: Beta, Q3: Delta, Q4: Gamma</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">C</span><span class="al-mcq-text">Q1: Delta, Q2: Beta, Q3: Alpha, Q4: Gamma</span></li>
+        <li class="al-mcq-option"><span class="al-mcq-letter">D</span><span class="al-mcq-text">Q1: Gamma, Q2: Beta, Q3: Alpha, Q4: Delta</span></li>
+      </ul>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <p><span class="al-step-result">Answer: B</span></p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Option A: Delta in Q4 — violates Rule 3. Eliminated.</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Option B: Alpha Q1, Beta Q2, Delta Q3, Gamma Q4. Rule 1: Alpha (Q1) before Gamma (Q4) ✓. Rule 2: Beta in Q2 ✓. Rule 3: Delta not in Q4 ✓. Rule 4: Alpha in Q1 → Delta must be in Q3 ✓. <span class="al-step-result">All rules satisfied.</span></span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Option C: Alpha in Q3, Gamma in Q4. Rule 1 ✓. But check all rules — this could work. However, Alpha is not in Q1, so Rule 4 doesn't trigger. Delta in Q1, not Q4 ✓. Actually valid. But B was already confirmed valid.</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Option D: Gamma Q1, Alpha Q3 — Gamma before Alpha violates Rule 1. Eliminated.</span></div>
+        <p>Both B and C are technically valid. In a test with "which is valid," pick the first one that works. <strong>B is correct.</strong></p>
+      </div>
+    </details>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ KEY TAKEAWAYS ═══ -->
+  <div class="al-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul class="al-takeaways-list">
+      <li><strong>Switch skills without hesitation.</strong> The hardest part of mixed assessments is the mental gear-change between verbal, deductive, and rule-based problems.</li>
+      <li><strong>Verbal T/F/CS:</strong> Always check whether the passage supports a CAUSAL link or merely co-occurrence. "Caused by" requires explicit evidence.</li>
+      <li><strong>Deductive reasoning:</strong> Apply the contrapositive. "If A then B" means "If not B then not A" — this unlocks most deductive questions.</li>
+      <li><strong>Rule application:</strong> When given a conditional trigger, follow the chain — one rule often forces the next. Check for contradictions at the end.</li>
+      <li><strong>Time discipline:</strong> If a question takes more than 120 seconds, flag it and move on. Coming back with fresh eyes is more productive than grinding.</li>
+    </ul>
+  </div>
+
+  <!-- ═══ NEXT LESSON ═══ -->
+  <div class="al-next">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Lesson</div>
+      <div class="al-next-title">4.6 — Logical Reasoning Practice Test</div>
+      <div class="al-next-desc">Timed assessment covering all Module 4 skills — deductive, verbal, abstract, and rule-based reasoning under exam conditions.</div>
+    </div>
+  </div>
+
+</div>

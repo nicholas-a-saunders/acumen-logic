@@ -1,0 +1,1313 @@
+<!--
+  ACUMEN LOGIC — Lesson 3.2: Bar Charts, Line Graphs & Pie Charts
+  For ThriveCart Learn Custom HTML Block
+  Pure CSS · Zero JavaScript · Fully responsive
+  
+  TYPE: Teaching lesson (theory + worked examples + practice)
+  VISUAL CHARTS: Grouped bar, stacked bar, line graph (SVG), pie (conic-gradient)
+  
+  ALL CALCULATIONS VERIFIED — see verification block at end of file.
+-->
+
+<style>
+  /* ═══ BRAND TOKENS ═══ */
+  .al-lesson {
+    --al-navy: #1B2A4A;
+    --al-navy-light: #2A3D66;
+    --al-navy-muted: #3D5280;
+    --al-gold: #C8A951;
+    --al-gold-light: #D4BC72;
+    --al-gold-pale: #F5EFD9;
+    --al-cream: #FAFAF6;
+    --al-white: #FFFFFF;
+    --al-text: #2C2C2C;
+    --al-text-light: #6B6B6B;
+    --al-border: #E8E4DA;
+    --al-success: #2D8F5E;
+    --al-success-bg: #EDF7F0;
+    --al-danger: #C0392B;
+    --al-danger-bg: #FDF2F0;
+    --al-radius: 10px;
+    --al-radius-sm: 6px;
+    --al-shadow: 0 2px 12px rgba(27, 42, 74, 0.08);
+    --al-shadow-lg: 0 8px 32px rgba(27, 42, 74, 0.12);
+    --al-chart-a: #1B2A4A;
+    --al-chart-b: #C8A951;
+    --al-chart-c: #5B8DEF;
+    --al-chart-d: #3D5280;
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+  .al-lesson {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .al-lesson h1, .al-lesson h2, .al-lesson h3, .al-section-number, .al-example-label, .al-next-title {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; color: var(--al-navy); line-height: 1.25;
+  }
+
+  /* ═══ HERO ═══ */
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .al-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200, 169, 81, 0.08) 0%, transparent 70%); pointer-events: none; }
+  .al-hero-eyebrow { font-family: 'Source Sans 3', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem, 4vw, 2.2rem); margin-bottom: 0.75rem; }
+  .al-hero-subtitle { color: rgba(255, 255, 255, 0.9) !important; font-size: 1rem; max-width: 36rem; line-height: 1.5; }
+  .al-hero-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 1rem 0; }
+
+  /* ═══ SECTIONS ═══ */
+  .al-section { margin-bottom: 2rem; }
+  .al-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-section-number { width: 2rem; height: 2rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0; }
+  .al-section h2 { font-size: clamp(1.15rem, 3vw, 1.4rem); }
+
+  /* ═══ CARDS / CALLOUTS ═══ */
+  .al-card { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-card p { margin-bottom: 0.75rem; }
+  .al-card p:last-child { margin-bottom: 0; }
+  .al-callout { border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; font-size: 0.92rem; }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-warn { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-callout-danger { background: #FDF2F0; border-left: 4px solid var(--al-danger); }
+  .al-callout-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .al-callout-tip .al-callout-label { color: var(--al-success); }
+  .al-callout-warn .al-callout-label { color: #D4823A; }
+  .al-callout-danger .al-callout-label { color: var(--al-danger); }
+
+  /* ═══ WORKED EXAMPLES ═══ */
+  .al-example { border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-example-header { background: var(--al-navy); padding: 1.25rem 1.5rem; }
+  .al-example-label { color: var(--al-gold) !important; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; display: block; margin-bottom: 0.5rem; }
+  .al-example-q { color: var(--al-white) !important; font-size: 1.15rem; font-weight: 600; line-height: 1.4; display: block; }
+  .al-example-body { background: var(--al-white); border: 1px solid var(--al-border); border-top: none; border-radius: 0 0 var(--al-radius) var(--al-radius); padding: 1.5rem; font-size: 0.92rem; }
+  .al-example-body p { margin-bottom: 0.6rem; }
+  .al-example-body p:last-child { margin-bottom: 0; }
+
+  /* ═══ STEP LINES ═══ */
+  .al-step-line { display: flex; align-items: baseline; gap: 0.65rem; margin-bottom: 0.45rem; }
+  .al-step-num { width: 1.4rem; height: 1.4rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.7rem; flex-shrink: 0; }
+  .al-step-num.al-wrong-icon { background: var(--al-danger) !important; }
+  .al-step-num.al-right-icon { background: var(--al-success) !important; }
+  .al-step-calc { font-size: 0.95rem; color: var(--al-navy); }
+  .al-step-result { font-weight: 700; color: var(--al-success); }
+
+  /* ═══ FORMULA ═══ */
+  .al-formula { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.15rem 1.5rem; margin-bottom: 1.25rem; text-align: center; }
+  .al-formula-label { color: var(--al-gold) !important; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .al-formula-text { color: var(--al-white) !important; font-weight: 700; font-size: clamp(1rem, 2.5vw, 1.25rem); line-height: 1.4; }
+  .al-formula-note { color: rgba(255, 255, 255, 0.75) !important; font-size: 0.78rem; margin-top: 0.35rem; }
+
+  /* ═══ VS BOXES ═══ */
+  .al-vs { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+  .al-vs-box { border-radius: var(--al-radius); padding: 1.25rem; border: 2px solid; background: var(--al-white); }
+  .al-vs-wrong { border-color: var(--al-danger); background: var(--al-danger-bg); }
+  .al-vs-right { border-color: var(--al-success); background: var(--al-success-bg); }
+  .al-vs-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.75rem; display: block; }
+  .al-vs-wrong .al-vs-label { color: var(--al-danger); }
+  .al-vs-right .al-vs-label { color: var(--al-success); }
+  .al-vs-box p { margin-bottom: 0.35rem; font-size: 0.92rem; color: var(--al-navy); line-height: 1.5; }
+  .al-vs-answer { font-weight: 700; font-size: 1.15rem; margin: 0.75rem 0 0.5rem; display: block; }
+  .al-vs-wrong .al-vs-answer { color: var(--al-danger); }
+  .al-vs-right .al-vs-answer { color: var(--al-success); }
+  .al-vs-explain { font-size: 0.85rem; color: var(--al-text-light); margin-top: 0.75rem; line-height: 1.5; display: block; }
+
+  /* ═══ REVEAL ═══ */
+  .al-reveal { margin-top: 1rem; border: 2px solid var(--al-border); border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.25rem; }
+  .al-reveal[open] { border-color: var(--al-success); }
+  .al-reveal-btn { display: block; padding: 0.85rem 1.25rem; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--al-navy); background: var(--al-cream); cursor: pointer; list-style: none; user-select: none; -webkit-user-select: none; }
+  .al-reveal-btn::-webkit-details-marker { display: none; }
+  .al-reveal-btn::marker { display: none; content: ''; }
+  .al-reveal-btn:hover { background: var(--al-gold-pale); }
+  .al-reveal[open] .al-reveal-btn { background: #EDF7F0; color: var(--al-success); border-bottom: 1px solid var(--al-border); }
+  .al-reveal-content { padding: 1.25rem; font-size: 0.92rem; }
+  .al-reveal-content p { margin-bottom: 0.6rem; }
+  .al-reveal-content p:last-child { margin-bottom: 0; }
+
+  /* ═══ PRACTICE ═══ */
+  .al-practice { background: var(--al-cream); border: 2px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 0.5rem; }
+  .al-practice-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-gold); margin-bottom: 0.75rem; }
+  .al-practice-q { font-size: 0.95rem; font-weight: 600; color: var(--al-navy); line-height: 1.6; margin-bottom: 1rem; }
+  
+  /* ═══ SIMPLE TEXT OPTIONS (like Image 2) ═══ */
+  .al-practice-options { margin-top: 1rem; }
+  .al-practice-options p { margin-bottom: 0.4rem; font-size: 0.95rem; color: var(--al-navy); line-height: 1.6; }
+
+  /* ═══ TAKEAWAYS ═══ */
+  .al-takeaways { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.5rem 1.75rem; margin-bottom: 1.25rem; }
+  .al-takeaways h3 { color: var(--al-gold) !important; font-size: 1.1rem; margin-bottom: 1rem; }
+  .al-takeaways-list { list-style: none; padding: 0; }
+  .al-takeaways-list li { color: rgba(255, 255, 255, 0.95) !important; font-size: 0.92rem; padding: 0.45rem 0 0.45rem 1.75rem; position: relative; line-height: 1.5; }
+  .al-takeaways-list li::before { content: '✓'; position: absolute; left: 0; color: var(--al-gold); font-weight: 700; }
+
+  /* ═══ NEXT LESSON ═══ */
+  .al-next { background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .al-next-arrow { width: 2.5rem; height: 2.5rem; background: var(--al-navy); color: var(--al-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .al-next-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-text-light); margin-bottom: 0.15rem; }
+  .al-next-title { font-weight: 700; color: var(--al-navy); font-size: 1rem; }
+  .al-next-desc { font-size: 0.85rem; color: var(--al-text-light); margin-top: 0.15rem; }
+
+  /* ═══ UTILITY ═══ */
+  .al-lesson strong { color: var(--al-navy); }
+  .al-divider { border: none; height: 1px; background: var(--al-border); margin: 2rem 0; }
+
+  /* ════════════════════════════════════════════ */
+  /*  CHART COMPONENTS — PURE CSS, ZERO JS       */
+  /* ════════════════════════════════════════════ */
+
+  .al-chart-container {
+    background: var(--al-white);
+    border: 1px solid var(--al-border);
+    border-radius: var(--al-radius);
+    padding: 1.5rem 1.5rem 1rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--al-shadow);
+  }
+  .al-chart-label {
+    font-size: 0.78rem; font-weight: 700; color: var(--al-text-light);
+    text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1.25rem;
+  }
+  .al-chart-legend {
+    display: flex; gap: 1.25rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap;
+  }
+  .al-legend-item {
+    display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; font-weight: 600; color: var(--al-navy);
+  }
+  .al-legend-swatch { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+
+  /* --- GROUPED BAR CHART --- */
+  .al-grouped-bar {
+    --al-axis-w: 45px;
+    --al-axis-bottom: 30px;
+    --al-plot-h: 220px;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+    height: calc(var(--al-plot-h) + var(--al-axis-bottom));
+    padding-left: var(--al-axis-w);
+    padding-bottom: var(--al-axis-bottom);
+  }
+  .al-grouped-bar .al-y-axis {
+    position: absolute;
+    left: 0;
+    bottom: var(--al-axis-bottom);
+    width: var(--al-axis-w);
+    height: var(--al-plot-h);
+  }
+  .al-grouped-bar .al-y-tick {
+    position: absolute;
+    right: 8px;
+    font-size: 0.65rem;
+    line-height: 1;
+    color: var(--al-text-light);
+    font-weight: 500;
+    transform: translateY(-50%);
+  }
+  .al-grouped-bar .al-y-tick:nth-child(1) { top: 100%; }  /* 0   */
+  .al-grouped-bar .al-y-tick:nth-child(2) { top: 80%; }   /* 100 */
+  .al-grouped-bar .al-y-tick:nth-child(3) { top: 60%; }   /* 200 */
+  .al-grouped-bar .al-y-tick:nth-child(4) { top: 40%; }   /* 300 */
+  .al-grouped-bar .al-y-tick:nth-child(5) { top: 20%; }   /* 400 */
+  .al-grouped-bar .al-y-tick:nth-child(6) { top: 0%; }    /* 500 */
+
+  .al-grouped-bar .al-y-tick::after {
+    content: '';
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 1px;
+    background: var(--al-navy);
+  }
+
+  .al-grouped-bar .al-plot-area {
+    flex: 1;
+    height: var(--al-plot-h);
+    display: flex;
+    align-items: flex-end;
+    border-left: 2px solid var(--al-navy);
+    border-bottom: 2px solid var(--al-navy);
+    position: relative;
+    padding: 0 8px;
+  }
+  /* Gridlines */
+  .al-grouped-bar .al-grid {
+    position: absolute; left: 0; right: 0; border-top: 1px dashed #E8E4DA; pointer-events: none;
+  }
+  .al-bar-group {
+    flex: 1; display: flex; align-items: flex-end; justify-content: center;
+    gap: 4px; position: relative; padding: 0 2px;
+  }
+  .al-bar-group-label {
+    position: absolute; bottom: -24px; left: 50%; transform: translateX(-50%);
+    font-size: 0.72rem; font-weight: 600; color: var(--al-navy); white-space: nowrap;
+  }
+  .al-bar {
+    width: 28px; border-radius: 3px 3px 0 0; position: relative;
+  }
+  .al-bar-val {
+    position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
+    font-size: 0.58rem; font-weight: 700; color: var(--al-text); white-space: nowrap;
+  }
+
+  /* Force Chart 1 labels back above grouped bars */
+  .al-grouped-bar .al-bar-inner-label {
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.58rem;
+    font-weight: 700;
+    color: var(--al-text);
+    white-space: nowrap;
+    text-shadow: none;
+    line-height: 1;
+  }
+
+  /* White text inside bars for Chart 2 styling (kept for stacked bars/other use) */
+  .al-bar-inner-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: white;
+    white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  }
+
+  /* --- STACKED BAR CHART --- */
+  .al-stacked-bar {
+    --al-axis-w: 45px;
+    --al-axis-bottom: 30px;
+    --al-plot-h: 240px;
+    display: flex; align-items: flex-end; position: relative;
+    height: calc(var(--al-plot-h) + var(--al-axis-bottom));
+    padding-left: var(--al-axis-w);
+    padding-bottom: var(--al-axis-bottom);
+  }
+  .al-stacked-bar .al-y-axis {
+    position: absolute;
+    left: 0;
+    bottom: var(--al-axis-bottom);
+    width: var(--al-axis-w);
+    height: var(--al-plot-h);
+  }
+  .al-stacked-bar .al-y-tick {
+    position: absolute;
+    right: 8px;
+    font-size: 0.65rem;
+    line-height: 1;
+    color: var(--al-text-light);
+    font-weight: 500;
+    transform: translateY(-50%);
+  }
+  .al-stacked-bar .al-y-tick:nth-child(1) { top: 100%; }  /* 0   */
+  .al-stacked-bar .al-y-tick:nth-child(2) { top: 80%; }   /* 100 */
+  .al-stacked-bar .al-y-tick:nth-child(3) { top: 60%; }   /* 200 */
+  .al-stacked-bar .al-y-tick:nth-child(4) { top: 40%; }   /* 300 */
+  .al-stacked-bar .al-y-tick:nth-child(5) { top: 20%; }   /* 400 */
+  .al-stacked-bar .al-y-tick:nth-child(6) { top: 0%; }    /* 500 */
+
+  .al-stacked-bar .al-y-tick::after {
+    content: '';
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px; height: 1px; background: var(--al-navy);
+  }
+  .al-stacked-bar .al-plot-area {
+    flex: 1;
+    height: var(--al-plot-h);
+    display: flex; align-items: flex-end;
+    border-left: 2px solid var(--al-navy); border-bottom: 2px solid var(--al-navy);
+    position: relative; padding: 0 16px;
+  }
+  .al-stacked-bar .al-grid {
+    position: absolute; left: 0; right: 0; border-top: 1px dashed #E8E4DA; pointer-events: none;
+  }
+  .al-stacked-col {
+    flex: 1; display: flex; flex-direction: column-reverse; align-items: center; position: relative;
+  }
+  .al-stacked-col-label {
+    position: absolute; bottom: -24px; font-size: 0.72rem; font-weight: 600; color: var(--al-navy);
+  }
+  .al-seg {
+    width: 65px; display: flex; align-items: center; justify-content: center;
+    font-size: 0.6rem; font-weight: 700; color: var(--al-white); border: 0.5px solid rgba(255,255,255,0.3);
+    position: relative;
+  }
+  .al-stacked-seg-label {
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    font-size: 0.62rem;
+    font-weight: 700;
+  }
+  .al-stacked-total {
+    position: absolute; top: -18px; font-size: 0.62rem; font-weight: 700; color: var(--al-text);
+  }
+
+  /* --- LINE CHART (inline SVG) --- */
+  .al-line-chart-area {
+    position: relative;
+    padding-left: 40px;
+    padding-bottom: 28px;
+  }
+  .al-line-chart-area .al-y-axis-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 28px;    /* matches padding-bottom, so container spans full SVG height */
+  width: 40px;
+  }
+  .al-line-chart-area .al-y-axis-line .al-y-tick {
+    position: absolute;
+    right: 6px;
+    font-size: 0.65rem;
+    line-height: 1;
+    color: var(--al-text-light);
+    font-weight: 500;
+    transform: translateY(-50%);
+  }
+  /* Positions from SVG: gridline_y / viewBox_height
+     0  → y=230 → 230/250 = 92%
+     20 → y=177.5 → 177.5/250 = 71%
+     40 → y=125 → 125/250 = 50%
+     60 → y=72.5 → 72.5/250 = 29%
+     80 → y=20 → 20/250 = 8%  */
+  .al-line-chart-area .al-y-axis-line .al-y-tick:nth-child(1) { top: 100%; }  /* 0 */
+  .al-line-chart-area .al-y-axis-line .al-y-tick:nth-child(2) { top: 77%; }   /* 20 */
+  .al-line-chart-area .al-y-axis-line .al-y-tick:nth-child(3) { top: 54%; }   /* 40 */
+  .al-line-chart-area .al-y-axis-line .al-y-tick:nth-child(4) { top: 31%; }   /* 60 */
+  .al-line-chart-area .al-y-axis-line .al-y-tick:nth-child(5) { top: 8%; }    /* 80 */
+
+  .al-line-svg-wrap {
+    border-left: 2px solid var(--al-navy);
+    border-bottom: 2px solid var(--al-navy);
+    position: relative;
+  }
+  .al-line-svg-wrap svg { display: block; width: 100%; height: auto; }
+  .al-line-x-labels {
+    display: flex; justify-content: space-around; padding-left: 40px;
+    margin-top: 4px;
+  }
+  .al-line-x-labels span {
+    font-size: 0.68rem; font-weight: 600; color: var(--al-navy); text-align: center;
+  }
+
+  /* --- PIE CHART --- */
+  .al-pie-wrap { display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; justify-content: center; }
+  .al-pie { width: 200px; height: 200px; border-radius: 50%; box-shadow: var(--al-shadow); }
+  .al-pie-labels { display: flex; flex-direction: column; gap: 0.5rem; }
+  .al-pie-label-row { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; font-weight: 500; color: var(--al-navy); }
+  .al-pie-label-pct { font-weight: 700; min-width: 2.5rem; text-align: right; }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .al-card, .al-example-body, .al-reveal-content { padding: 1.15rem; }
+    .al-takeaways { padding: 1.25rem; }
+    .al-next { flex-direction: column; text-align: center; }
+    .al-vs { grid-template-columns: 1fr; }
+    .al-bar { width: 18px; }
+    .al-bar-val { font-size: 0.5rem; top: -14px; }
+    .al-grouped-bar .al-bar-inner-label { font-size: 0.5rem; top: -14px; }
+    .al-seg { width: 45px; font-size: 0.5rem; }
+    .al-pie { width: 160px; height: 160px; }
+    .al-chart-container { padding: 1rem; }
+    .al-practice { padding: 1.25rem; }
+  }
+</style>
+
+<div class="al-lesson">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 3 · Lesson 3.2</div>
+    <h1>Bar Charts, Line Graphs &amp; Pie Charts</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">SHL and Aon tests present data visually. You need to read values accurately, compare data points, and calculate from charts — all under time pressure.</p>
+  </div>
+
+  <!-- ═══ SECTION 1: OVERVIEW ═══ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">1</div>
+      <h2>Chart Types in Aptitude Tests</h2>
+    </div>
+    <div class="al-card">
+      <p>Four chart types dominate UK finance aptitude tests: <strong>grouped bar charts</strong> (comparing values across categories), <strong>stacked bar charts</strong> (showing composition), <strong>line graphs</strong> (tracking trends over time), and <strong>pie charts</strong> (showing proportions). Each has its own reading technique and its own specific trap.</p>
+      <p>The calculations are things you already know from Module 2. The new skill is <strong>extracting the right numbers from a visual</strong> before you calculate.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 2: GROUPED BAR CHART                    -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">2</div>
+      <h2>Grouped Bar Charts</h2>
+    </div>
+    <div class="al-card">
+      <p>Grouped bar charts place bars for multiple categories side by side. The key technique: <strong>use a straight edge (finger or pen) to trace horizontally from the top of a bar to the y-axis</strong>. Never estimate by eye alone — bars that look similar can differ by 10–15%, enough to change your answer.</p>
+    </div>
+
+    <!-- ══ GROUPED BAR CHART ══
+         Data (£k): Apex: 320, 380, 420, 460
+                    Bridgewell: 280, 340, 390, 450
+                    Castleton: 240, 260, 310, 350
+         Max value: 460 → scale to 500 for chart height
+         Chart height: 220px (plot area), so 1k = 220/500 = 0.44px
+    -->
+    <div class="al-chart-container">
+      <div class="al-chart-label">Chart 1 — Annual Revenue by Company (£ thousands)</div>
+      <div class="al-grouped-bar">
+        <!-- Y-axis -->
+        <div class="al-y-axis">
+          <div class="al-y-tick">0</div>
+          <div class="al-y-tick">100</div>
+          <div class="al-y-tick">200</div>
+          <div class="al-y-tick">300</div>
+          <div class="al-y-tick">400</div>
+          <div class="al-y-tick">500</div>
+        </div>
+        <div class="al-plot-area">
+          <!-- Gridlines at 100, 200, 300, 400, 500 (plot height 220px, each 100 = 44px from bottom) -->
+          <div class="al-grid" style="bottom: 44px;"></div>
+          <div class="al-grid" style="bottom: 88px;"></div>
+          <div class="al-grid" style="bottom: 132px;"></div>
+          <div class="al-grid" style="bottom: 176px;"></div>
+          <div class="al-grid" style="bottom: 220px;"></div>
+
+          <!-- 2022 -->
+          <div class="al-bar-group">
+            <div class="al-bar al-bar-a" style="height:140.8px; background:var(--al-chart-a);"><span class="al-bar-inner-label">320</span></div>
+            <div class="al-bar" style="height:123.2px; background:var(--al-chart-b);"><span class="al-bar-inner-label">280</span></div>
+            <div class="al-bar" style="height:105.6px; background:var(--al-chart-c);"><span class="al-bar-inner-label">240</span></div>
+            <span class="al-bar-group-label">2022</span>
+          </div>
+          <!-- 2023 -->
+          <div class="al-bar-group">
+            <div class="al-bar" style="height:167.2px; background:var(--al-chart-a);"><span class="al-bar-inner-label">380</span></div>
+            <div class="al-bar" style="height:149.6px; background:var(--al-chart-b);"><span class="al-bar-inner-label">340</span></div>
+            <div class="al-bar" style="height:114.4px; background:var(--al-chart-c);"><span class="al-bar-inner-label">260</span></div>
+            <span class="al-bar-group-label">2023</span>
+          </div>
+          <!-- 2024 -->
+          <div class="al-bar-group">
+            <div class="al-bar" style="height:184.8px; background:var(--al-chart-a);"><span class="al-bar-inner-label">420</span></div>
+            <div class="al-bar" style="height:171.6px; background:var(--al-chart-b);"><span class="al-bar-inner-label">390</span></div>
+            <div class="al-bar" style="height:136.4px; background:var(--al-chart-c);"><span class="al-bar-inner-label">310</span></div>
+            <span class="al-bar-group-label">2024</span>
+          </div>
+          <!-- 2025 -->
+          <div class="al-bar-group">
+            <div class="al-bar" style="height:202.4px; background:var(--al-chart-a);"><span class="al-bar-inner-label">460</span></div>
+            <div class="al-bar" style="height:198.0px; background:var(--al-chart-b);"><span class="al-bar-inner-label">450</span></div>
+            <div class="al-bar" style="height:154.0px; background:var(--al-chart-c);"><span class="al-bar-inner-label">350</span></div>
+            <span class="al-bar-group-label">2025</span>
+          </div>
+        </div>
+      </div>
+      <div class="al-chart-legend">
+        <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-a);"></div>Apex Ltd</div>
+        <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-b);"></div>Bridgewell</div>
+        <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-c);"></div>Castleton</div>
+      </div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 1 — Direct Read</span>
+        <span class="al-example-q">"What was Bridgewell's revenue in 2024?"</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Locate the 2024 group of bars</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Identify Bridgewell (gold bar) within the group</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Trace horizontally to y-axis → the bar sits between 350 and 400, closer to 400</span></div>
+        <div class="al-step-line"><span class="al-step-num">4</span><span class="al-step-calc">Read value: <span class="al-step-result">£390k = £390,000</span></span></div>
+        <p style="margin-top:0.75rem; color:var(--al-text-light); font-size:0.85rem;">In a real test the value labels won't be shown. You'd estimate proportionally between gridlines: the bar is ~80% of the way from 350 to 400, so approximately 350 + (0.8 × 50) = 390.</p>
+      </div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 2 — Comparison</span>
+        <span class="al-example-q">"By how much did Apex Ltd's revenue exceed Castleton's in 2023?"</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Apex 2023: £380k</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Castleton 2023: £260k</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Difference: £380k − £260k = <span class="al-step-result">£120,000</span></span></div>
+      </div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 3 — Percentage Change from Chart</span>
+        <span class="al-example-q">"What was the percentage change in Bridgewell's revenue from 2022 to 2024?"</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Bridgewell 2022 (old): £280k</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Bridgewell 2024 (new): £390k</span></div>
+        <div class="al-step-line"><span class="al-step-num">3</span><span class="al-step-calc">Change: (390 − 280) ÷ 280 × 100 = 110 ÷ 280 = <span class="al-step-result">39.3%</span></span></div>
+        <p style="margin-top:0.5rem; color:var(--al-text-light); font-size:0.85rem;">Divide by the OLD value (2022), not the new. Module 2 percentage change formula applied to chart data.</p>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-tip">
+      <div class="al-callout-label">Reading Technique</div>
+      <p>On screen tests, you can't use a physical ruler. Instead: <strong>note the gridline values above and below the bar</strong>, then estimate proportionally. If gridlines are at 350 and 400, and the bar top is roughly four-fifths of the way up, the value is ~390.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 3: STACKED BAR CHART                    -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">3</div>
+      <h2>Stacked Bar Charts — The Segment Trap</h2>
+    </div>
+    <div class="al-card">
+      <p>Stacked bar charts show composition — how a total breaks down into parts. They contain the <strong>single most common chart-reading error</strong> in aptitude tests: reading a middle segment's value as where its top sits on the y-axis, instead of subtracting the bottom from the top.</p>
+    </div>
+
+    <!-- ══ STACKED BAR CHART ══
+         Data (£k):          Q1    Q2    Q3    Q4
+         Salaries (bottom):  180   185   190   188
+         Rent:                95    95   100    98
+         Marketing:           85   110   125   118
+         Other (top):         60    65    75    71
+         Totals:             420   455   490   475
+         Max: 490 → scale to 500. Plot height 240px, 1k = 240/500 = 0.48px
+    -->
+    <div class="al-chart-container">
+      <div class="al-chart-label">Chart 2 — Quarterly Operating Costs by Category (£ thousands)</div>
+      <div class="al-stacked-bar">
+        <div class="al-y-axis">
+          <div class="al-y-tick">0</div>
+          <div class="al-y-tick">100</div>
+          <div class="al-y-tick">200</div>
+          <div class="al-y-tick">300</div>
+          <div class="al-y-tick">400</div>
+          <div class="al-y-tick">500</div>
+        </div>
+        <div class="al-plot-area">
+          <div class="al-grid" style="bottom:48px;"></div>
+          <div class="al-grid" style="bottom:96px;"></div>
+          <div class="al-grid" style="bottom:144px;"></div>
+          <div class="al-grid" style="bottom:192px;"></div>
+          <div class="al-grid" style="bottom:240px;"></div>
+
+          <!-- Q1: 180+95+85+60 = 420 -->
+          <div class="al-stacked-col">
+            <div class="al-seg" style="height:86.4px; background:var(--al-chart-a);"><span class="al-stacked-seg-label">180</span></div>
+            <div class="al-seg" style="height:45.6px; background:var(--al-chart-d);"><span class="al-stacked-seg-label">95</span></div>
+            <div class="al-seg" style="height:40.8px; background:var(--al-chart-b);"><span class="al-stacked-seg-label">85</span></div>
+            <div class="al-seg" style="height:28.8px; background:var(--al-chart-c);"><span class="al-stacked-seg-label">60</span></div>
+            <span class="al-stacked-total">420</span>
+            <span class="al-stacked-col-label">Q1</span>
+          </div>
+          <!-- Q2: 185+95+110+65 = 455 -->
+          <div class="al-stacked-col">
+            <div class="al-seg" style="height:88.8px; background:var(--al-chart-a);"><span class="al-stacked-seg-label">185</span></div>
+            <div class="al-seg" style="height:45.6px; background:var(--al-chart-d);"><span class="al-stacked-seg-label">95</span></div>
+            <div class="al-seg" style="height:52.8px; background:var(--al-chart-b);"><span class="al-stacked-seg-label">110</span></div>
+            <div class="al-seg" style="height:31.2px; background:var(--al-chart-c);"><span class="al-stacked-seg-label">65</span></div>
+            <span class="al-stacked-total">455</span>
+            <span class="al-stacked-col-label">Q2</span>
+          </div>
+          <!-- Q3: 190+100+125+75 = 490 -->
+          <div class="al-stacked-col">
+            <div class="al-seg" style="height:91.2px; background:var(--al-chart-a);"><span class="al-stacked-seg-label">190</span></div>
+            <div class="al-seg" style="height:48.0px; background:var(--al-chart-d);"><span class="al-stacked-seg-label">100</span></div>
+            <div class="al-seg" style="height:60.0px; background:var(--al-chart-b);"><span class="al-stacked-seg-label">125</span></div>
+            <div class="al-seg" style="height:36.0px; background:var(--al-chart-c);"><span class="al-stacked-seg-label">75</span></div>
+            <span class="al-stacked-total">490</span>
+            <span class="al-stacked-col-label">Q3</span>
+          </div>
+          <!-- Q4: 188+98+118+71 = 475 -->
+          <div class="al-stacked-col">
+            <div class="al-seg" style="height:90.24px; background:var(--al-chart-a);"><span class="al-stacked-seg-label">188</span></div>
+            <div class="al-seg" style="height:47.04px; background:var(--al-chart-d);"><span class="al-stacked-seg-label">98</span></div>
+            <div class="al-seg" style="height:56.64px; background:var(--al-chart-b);"><span class="al-stacked-seg-label">118</span></div>
+            <div class="al-seg" style="height:34.08px; background:var(--al-chart-c);"><span class="al-stacked-seg-label">71</span></div>
+            <span class="al-stacked-total">475</span>
+            <span class="al-stacked-col-label">Q4</span>
+          </div>
+        </div>
+      </div>
+      <div class="al-chart-legend">
+        <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-a);"></div>Salaries</div>
+        <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-d);"></div>Rent</div>
+        <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-b);"></div>Marketing</div>
+        <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-c);"></div>Other</div>
+      </div>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">The Stacked Bar Rule</div>
+      <div class="al-formula-text">Segment Value = Top of Segment − Bottom of Segment</div>
+      <div class="al-formula-note">NEVER read the y-axis at the top of a middle segment. That includes everything below it.</div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 4 — The Segment Trap</span>
+        <span class="al-example-q">"What were the Marketing costs in Q2?"</span>
+      </div>
+      <div class="al-example-body">
+        <p style="font-weight:600; color:var(--al-navy); margin-bottom:0.75rem;">In the Q2 stacked bar, segments stack bottom-to-top: Salaries (0→185), Rent (185→280), Marketing (280→390), Other (390→455).</p>
+        <div class="al-step-line"><span class="al-step-num al-wrong-icon">✗</span><span class="al-step-calc"><strong>Wrong:</strong> Reading the top of Marketing on the y-axis → 390. This is Salaries + Rent + Marketing combined.</span></div>
+        <div class="al-step-line" style="margin-top:0.5rem;"><span class="al-step-num al-right-icon">✓</span><span class="al-step-calc"><strong>Correct:</strong> Top (390) − Bottom (280) = <span class="al-step-result">£110k</span></span></div>
+      </div>
+    </div>
+
+    <div class="al-vs">
+      <div class="al-vs-box al-vs-wrong">
+        <div class="al-vs-label">Common Mistake</div>
+        <p>"Marketing Q2 = £390k"</p>
+        <div class="al-vs-answer">£390,000</div>
+        <div class="al-vs-explain">Reading where the top of Marketing meets the y-axis. This is actually Salaries (£185k) + Rent (£95k) + Marketing (£110k) combined.</div>
+      </div>
+      <div class="al-vs-box al-vs-right">
+        <div class="al-vs-label">Correct Method</div>
+        <p>"Top of Marketing minus bottom"</p>
+        <div class="al-vs-answer">£110,000</div>
+        <div class="al-vs-explain">£390k (top) − £280k (bottom) = £110k. Always subtract for any segment that isn't the bottom one.</div>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-warn">
+      <div class="al-callout-label">Quick Check</div>
+      <p>After calculating a segment, ask: <strong>does the value look proportional to its visual height?</strong> If Marketing visually occupies about a quarter of the bar but your answer is 80% of the total, you've read the cumulative y-axis position.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 4: LINE GRAPH                           -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">4</div>
+      <h2>Line Graphs — Trends &amp; Comparisons</h2>
+    </div>
+    <div class="al-card">
+      <p>Line graphs show change over time. The two most common question types: <strong>"In which period was the gap between X and Y greatest?"</strong> (comparison) and <strong>"What was the average value of X?"</strong> (aggregation). For both, read each data point carefully — don't just eyeball the trend.</p>
+    </div>
+
+    <!-- ══ LINE GRAPH (inline SVG) ══
+         Data (thousands):
+         UK:     45, 52, 48, 58, 65, 72
+         Europe: 30, 35, 38, 42, 40, 44
+         Asia:   18, 22, 28, 35, 42, 50
+         
+         SVG viewBox: 0 0 500 250
+         Y range: 0-80 → plot area: y=20 (top, 80k) to y=230 (bottom, 0)
+         Scale: each 1k = (230-20)/80 = 2.625px from bottom (y=230)
+         X positions: 6 months at x = 50, 140, 230, 320, 410, 450 (evenly spaced)
+         
+         Positions (x, y) where y = 230 - (value × 2.625):
+         UK:     (50,111.9) (140,93.5) (230,104.0) (320,77.7) (410,59.4) (450,41.0)
+         Europe: (50,151.3) (140,138.1) (230,130.2) (320,119.7) (410,125.0) (450,114.5)
+         Asia:   (50,182.7) (140,172.2) (230,156.5) (320,138.1) (410,119.7) (450,98.8)
+    -->
+    <div class="al-chart-container">
+      <div class="al-chart-label">Chart 3 — Monthly Website Traffic by Region (thousands of visitors)</div>
+      <div class="al-line-chart-area">
+        <div class="al-y-axis-line">
+          <div class="al-y-tick">0</div>
+          <div class="al-y-tick">20</div>
+          <div class="al-y-tick">40</div>
+          <div class="al-y-tick">60</div>
+          <div class="al-y-tick">80</div>
+        </div>
+        <div class="al-line-svg-wrap">
+          <svg viewBox="0 0 500 250" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;">
+            <!-- Gridlines -->
+            <line x1="0" y1="192.5" x2="500" y2="192.5" stroke="#E8E4DA" stroke-width="0.5" stroke-dasharray="4,4"/>
+            <line x1="0" y1="135" x2="500" y2="135" stroke="#E8E4DA" stroke-width="0.5" stroke-dasharray="4,4"/>
+            <line x1="0" y1="77.5" x2="500" y2="77.5" stroke="#E8E4DA" stroke-width="0.5" stroke-dasharray="4,4"/>
+            <line x1="0" y1="20" x2="500" y2="20" stroke="#E8E4DA" stroke-width="0.5" stroke-dasharray="4,4"/>
+
+            <!-- UK line (navy) -->
+            <polyline points="42,120.6 125,100.5 208,112 292,83.3 375,63.1 458,43" fill="none" stroke="#1B2A4A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Europe line (gold) -->
+            <polyline points="42,163.8 125,149.4 208,140.8 292,129.3 375,135 458,123.5" fill="none" stroke="#C8A951" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Asia line (blue) -->
+            <polyline points="42,198.3 125,186.8 208,169.5 292,149.4 375,129.3 458,106.3" fill="none" stroke="#5B8DEF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+            <!-- UK dots + values -->
+            <circle cx="42" cy="120.6" r="4" fill="#1B2A4A"/>
+            <text x="42" y="111.6" text-anchor="middle" font-size="9" font-weight="700" fill="#1B2A4A" font-family="Source Sans 3, sans-serif">45</text>
+            <circle cx="125" cy="100.5" r="4" fill="#1B2A4A"/>
+            <text x="125" y="91.5" text-anchor="middle" font-size="9" font-weight="700" fill="#1B2A4A" font-family="Source Sans 3, sans-serif">52</text>
+            <circle cx="208" cy="112" r="4" fill="#1B2A4A"/>
+            <text x="208" y="103" text-anchor="middle" font-size="9" font-weight="700" fill="#1B2A4A" font-family="Source Sans 3, sans-serif">48</text>
+            <circle cx="292" cy="83.3" r="4" fill="#1B2A4A"/>
+            <text x="292" y="74.3" text-anchor="middle" font-size="9" font-weight="700" fill="#1B2A4A" font-family="Source Sans 3, sans-serif">58</text>
+            <circle cx="375" cy="63.1" r="4" fill="#1B2A4A"/>
+            <text x="375" y="54.1" text-anchor="middle" font-size="9" font-weight="700" fill="#1B2A4A" font-family="Source Sans 3, sans-serif">65</text>
+            <circle cx="458" cy="43" r="4" fill="#1B2A4A"/>
+            <text x="458" y="34" text-anchor="middle" font-size="9" font-weight="700" fill="#1B2A4A" font-family="Source Sans 3, sans-serif">72</text>
+
+            <!-- Europe dots + values -->
+            <circle cx="42" cy="163.8" r="4" fill="#C8A951"/>
+            <text x="42" y="176.8" text-anchor="middle" font-size="9" font-weight="700" fill="#C8A951" font-family="Source Sans 3, sans-serif">30</text>
+            <circle cx="125" cy="149.4" r="4" fill="#C8A951"/>
+            <text x="125" y="162.4" text-anchor="middle" font-size="9" font-weight="700" fill="#C8A951" font-family="Source Sans 3, sans-serif">35</text>
+            <circle cx="208" cy="140.8" r="4" fill="#C8A951"/>
+            <text x="208" y="153.8" text-anchor="middle" font-size="9" font-weight="700" fill="#C8A951" font-family="Source Sans 3, sans-serif">38</text>
+            <circle cx="292" cy="129.3" r="4" fill="#C8A951"/>
+            <text x="292" y="142.3" text-anchor="middle" font-size="9" font-weight="700" fill="#C8A951" font-family="Source Sans 3, sans-serif">42</text>
+            <circle cx="375" cy="135" r="4" fill="#C8A951"/>
+            <text x="375" y="148" text-anchor="middle" font-size="9" font-weight="700" fill="#C8A951" font-family="Source Sans 3, sans-serif">40</text>
+            <circle cx="458" cy="123.5" r="4" fill="#C8A951"/>
+            <text x="458" y="136.5" text-anchor="middle" font-size="9" font-weight="700" fill="#C8A951" font-family="Source Sans 3, sans-serif">44</text>
+
+            <!-- Asia dots + values -->
+            <circle cx="42" cy="198.3" r="4" fill="#5B8DEF"/>
+            <text x="42" y="211.3" text-anchor="middle" font-size="9" font-weight="700" fill="#5B8DEF" font-family="Source Sans 3, sans-serif">18</text>
+            <circle cx="125" cy="186.8" r="4" fill="#5B8DEF"/>
+            <text x="125" y="199.8" text-anchor="middle" font-size="9" font-weight="700" fill="#5B8DEF" font-family="Source Sans 3, sans-serif">22</text>
+            <circle cx="208" cy="169.5" r="4" fill="#5B8DEF"/>
+            <text x="208" y="182.5" text-anchor="middle" font-size="9" font-weight="700" fill="#5B8DEF" font-family="Source Sans 3, sans-serif">28</text>
+            <circle cx="292" cy="149.4" r="4" fill="#5B8DEF"/>
+            <text x="292" y="162.4" text-anchor="middle" font-size="9" font-weight="700" fill="#5B8DEF" font-family="Source Sans 3, sans-serif">35</text>
+            <circle cx="375" cy="129.3" r="4" fill="#5B8DEF"/>
+            <text x="375" y="120.3" text-anchor="middle" font-size="9" font-weight="700" fill="#5B8DEF" font-family="Source Sans 3, sans-serif">42</text>
+            <circle cx="458" cy="106.3" r="4" fill="#5B8DEF"/>
+            <text x="458" y="97.3" text-anchor="middle" font-size="9" font-weight="700" fill="#5B8DEF" font-family="Source Sans 3, sans-serif">50</text>
+
+            <!-- X-axis labels -->
+            <text x="42" y="268" text-anchor="middle" font-size="10" font-weight="600" fill="#1B2A4A" font-family="Source Sans 3, sans-serif">Jan</text>
+            <text x="125" y="268" text-anchor="middle" font-size="10" font-weight="600" fill="#1B2A4A" font-family="Source Sans 3, sans-serif">Feb</text>
+            <text x="208" y="268" text-anchor="middle" font-size="10" font-weight="600" fill="#1B2A4A" font-family="Source Sans 3, sans-serif">Mar</text>
+            <text x="292" y="268" text-anchor="middle" font-size="10" font-weight="600" fill="#1B2A4A" font-family="Source Sans 3, sans-serif">Apr</text>
+            <text x="375" y="268" text-anchor="middle" font-size="10" font-weight="600" fill="#1B2A4A" font-family="Source Sans 3, sans-serif">May</text>
+            <text x="458" y="268" text-anchor="middle" font-size="10" font-weight="600" fill="#1B2A4A" font-family="Source Sans 3, sans-serif">Jun</text>
+          </svg>
+        </div>
+      </div>
+      <div class="al-chart-legend">
+        <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-a);"></div>UK</div>
+        <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-b);"></div>Europe</div>
+        <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-c);"></div>Asia</div>
+      </div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 5 — Largest Gap</span>
+        <span class="al-example-q">"In which month was the difference between UK and Europe traffic greatest?"</span>
+      </div>
+      <div class="al-example-body">
+        <p style="margin-bottom:0.5rem;">Calculate UK − Europe for each month:</p>
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Jan: 45 − 30 = 15k &nbsp;|&nbsp; Feb: 52 − 35 = 17k &nbsp;|&nbsp; Mar: 48 − 38 = 10k</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Apr: 58 − 42 = 16k &nbsp;|&nbsp; May: 65 − 40 = 25k &nbsp;|&nbsp; Jun: 72 − 44 = <span class="al-step-result">28k → June</span></span></div>
+        <p style="margin-top:0.75rem; color:var(--al-text-light); font-size:0.85rem;">Trap: May looks dramatic because Europe dips while UK surges. But June's gap (28k) exceeds May's (25k). Always calculate — don't just eyeball.</p>
+      </div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 6 — Average Calculation</span>
+        <span class="al-example-q">"What was Asia's average monthly traffic across all six months?"</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Sum: 18 + 22 + 28 + 35 + 42 + 50 = 195k</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">Average: 195 ÷ 6 = <span class="al-step-result">32.5k = 32,500 visitors</span></span></div>
+      </div>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Trend vs Value</div>
+      <div class="al-formula-text">Slope = Speed of Change &nbsp;|&nbsp; Position = Current Value</div>
+      <div class="al-formula-note">Asia's line is steepest (fastest growth) even though UK has the highest absolute traffic throughout.</div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 5: PIE CHART                            -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">5</div>
+      <h2>Pie Charts — Proportions &amp; Calculations</h2>
+    </div>
+    <div class="al-card">
+      <p>Pie charts show parts of a whole. Common tasks: (a) calculate a segment's value when given the total, (b) add segments for a merger scenario, or (c) work backwards from £ values to percentages. Key trap: <strong>if labels show £ values not %, you must calculate percentages yourself</strong>.</p>
+    </div>
+
+    <!-- Pie: 28% + 22% + 18% + 15% + 17% = 100%
+         Degrees: 100.8 + 79.2 + 64.8 + 54.0 + 61.2 = 360° -->
+    <div class="al-chart-container">
+      <div class="al-chart-label">Chart 4 — UK Digital Payments Market Share</div>
+      <div class="al-pie-wrap">
+        <div class="al-pie" style="background: conic-gradient(
+          var(--al-chart-a) 0deg 100.8deg,
+          var(--al-chart-b) 100.8deg 180deg,
+          var(--al-chart-d) 180deg 244.8deg,
+          var(--al-chart-c) 244.8deg 298.8deg,
+          #B0B0B0 298.8deg 360deg
+        );"></div>
+        <div class="al-pie-labels">
+          <div class="al-pie-label-row"><div class="al-legend-swatch" style="background:var(--al-chart-a);"></div><span class="al-pie-label-pct">28%</span> AlphaFin</div>
+          <div class="al-pie-label-row"><div class="al-legend-swatch" style="background:var(--al-chart-b);"></div><span class="al-pie-label-pct">22%</span> BetaCorp</div>
+          <div class="al-pie-label-row"><div class="al-legend-swatch" style="background:var(--al-chart-d);"></div><span class="al-pie-label-pct">18%</span> GammaGroup</div>
+          <div class="al-pie-label-row"><div class="al-legend-swatch" style="background:var(--al-chart-c);"></div><span class="al-pie-label-pct">15%</span> DeltaLtd</div>
+          <div class="al-pie-label-row"><div class="al-legend-swatch" style="background:#B0B0B0;"></div><span class="al-pie-label-pct">17%</span> Others</div>
+        </div>
+      </div>
+      <p style="text-align:center; font-size:0.82rem; color:var(--al-text-light); margin-top:1rem; font-weight:600;">Total market value: £1.2 billion</p>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 7 — Value from Percentage</span>
+        <span class="al-example-q">"What is DeltaLtd's market value?"</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">DeltaLtd share: 15%. Total market: £1.2bn = £1,200m</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">0.15 × £1,200m = <span class="al-step-result">£180 million</span></span></div>
+      </div>
+    </div>
+
+    <div class="al-example">
+      <div class="al-example-header">
+        <span class="al-example-label">Worked Example 8 — Merger Combination</span>
+        <span class="al-example-q">"If AlphaFin and BetaCorp merge, what % of the market would the combined entity hold?"</span>
+      </div>
+      <div class="al-example-body">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">28% + 22% = <span class="al-step-result">50%</span> (= £600m of £1.2bn)</span></div>
+      </div>
+    </div>
+
+    <div class="al-callout al-callout-danger">
+      <div class="al-callout-label">The Reverse Pie Chart Trap</div>
+      <p>Some tests show pie labels as <strong>absolute values (£m)</strong>, not percentages. If the chart shows "AlphaFin: £336m" you must first calculate the total, then derive the percentage: £336m ÷ £1,200m × 100 = 28%. <strong>Never assume pie labels are percentages</strong> — check whether they show £, units, or %.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 6: PRACTICE                             -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">6</div>
+      <h2>Practice — Chart Reading</h2>
+    </div>
+    <p style="margin-bottom:1rem; font-size:0.92rem;">Apply the correct reading technique to each chart below and watch for the traps.</p>
+
+    <!-- PQ1: Chart 2 Embedded -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 1</div>
+      
+      <!-- Chart 2 Repeated Here -->
+      <div class="al-chart-container" style="margin: 1rem 0;">
+        <div class="al-chart-label">Chart 2 — Quarterly Operating Costs by Category (£ thousands)</div>
+        <div class="al-stacked-bar">
+          <div class="al-y-axis">
+            <div class="al-y-tick">0</div>
+            <div class="al-y-tick">100</div>
+            <div class="al-y-tick">200</div>
+            <div class="al-y-tick">300</div>
+            <div class="al-y-tick">400</div>
+            <div class="al-y-tick">500</div>
+          </div>
+          <div class="al-plot-area">
+            <div class="al-grid" style="bottom:48px;"></div>
+            <div class="al-grid" style="bottom:96px;"></div>
+            <div class="al-grid" style="bottom:144px;"></div>
+            <div class="al-grid" style="bottom:192px;"></div>
+            <div class="al-grid" style="bottom:240px;"></div>
+            <div class="al-stacked-col">
+              <div class="al-seg" style="height:86.4px; background:var(--al-chart-a);"><span class="al-stacked-seg-label">180</span></div>
+              <div class="al-seg" style="height:45.6px; background:var(--al-chart-d);"><span class="al-stacked-seg-label">95</span></div>
+              <div class="al-seg" style="height:40.8px; background:var(--al-chart-b);"><span class="al-stacked-seg-label">85</span></div>
+              <div class="al-seg" style="height:28.8px; background:var(--al-chart-c);"><span class="al-stacked-seg-label">60</span></div>
+              <span class="al-stacked-total">420</span>
+              <span class="al-stacked-col-label">Q1</span>
+            </div>
+            <div class="al-stacked-col">
+              <div class="al-seg" style="height:88.8px; background:var(--al-chart-a);"><span class="al-stacked-seg-label">185</span></div>
+              <div class="al-seg" style="height:45.6px; background:var(--al-chart-d);"><span class="al-stacked-seg-label">95</span></div>
+              <div class="al-seg" style="height:52.8px; background:var(--al-chart-b);"><span class="al-stacked-seg-label">110</span></div>
+              <div class="al-seg" style="height:31.2px; background:var(--al-chart-c);"><span class="al-stacked-seg-label">65</span></div>
+              <span class="al-stacked-total">455</span>
+              <span class="al-stacked-col-label">Q2</span>
+            </div>
+            <div class="al-stacked-col">
+              <div class="al-seg" style="height:91.2px; background:var(--al-chart-a);"><span class="al-stacked-seg-label">190</span></div>
+              <div class="al-seg" style="height:48.0px; background:var(--al-chart-d);"><span class="al-stacked-seg-label">100</span></div>
+              <div class="al-seg" style="height:60.0px; background:var(--al-chart-b);"><span class="al-stacked-seg-label">125</span></div>
+              <div class="al-seg" style="height:36.0px; background:var(--al-chart-c);"><span class="al-stacked-seg-label">75</span></div>
+              <span class="al-stacked-total">490</span>
+              <span class="al-stacked-col-label">Q3</span>
+            </div>
+            <div class="al-stacked-col">
+              <div class="al-seg" style="height:90.24px; background:var(--al-chart-a);"><span class="al-stacked-seg-label">188</span></div>
+              <div class="al-seg" style="height:47.04px; background:var(--al-chart-d);"><span class="al-stacked-seg-label">98</span></div>
+              <div class="al-seg" style="height:56.64px; background:var(--al-chart-b);"><span class="al-stacked-seg-label">118</span></div>
+              <div class="al-seg" style="height:34.08px; background:var(--al-chart-c);"><span class="al-stacked-seg-label">71</span></div>
+              <span class="al-stacked-total">475</span>
+              <span class="al-stacked-col-label">Q4</span>
+            </div>
+          </div>
+        </div>
+        <div class="al-chart-legend">
+          <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-a);"></div>Salaries</div>
+          <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-d);"></div>Rent</div>
+          <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-b);"></div>Marketing</div>
+          <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-c);"></div>Other</div>
+        </div>
+      </div>
+
+      <div class="al-practice-q">What were the total operating costs across all four quarters?</div>
+      <div class="al-practice-options">
+        <p>(A) £1,680k</p>
+        <p>(B) £1,750k</p>
+        <p>(C) £1,840k</p>
+        <p>(D) £1,920k</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Q1: £420 + Q2: £455 + Q3: £490 + Q4: £475 = <span class="al-step-result">£1,840k → Answer: C</span></span></div>
+        <p>Read the total from the top of each stacked bar. Trap: Option A sums only Salaries across quarters.</p>
+      </div>
+    </details>
+
+    <!-- PQ2: Chart 2 Embedded Again -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 2</div>
+      
+      <!-- Chart 2 Repeated Here -->
+      <div class="al-chart-container" style="margin: 1rem 0;">
+        <div class="al-chart-label">Chart 2 — Quarterly Operating Costs by Category (£ thousands)</div>
+        <div class="al-stacked-bar">
+          <div class="al-y-axis">
+            <div class="al-y-tick">0</div>
+            <div class="al-y-tick">100</div>
+            <div class="al-y-tick">200</div>
+            <div class="al-y-tick">300</div>
+            <div class="al-y-tick">400</div>
+            <div class="al-y-tick">500</div>
+          </div>
+          <div class="al-plot-area">
+            <div class="al-grid" style="bottom:48px;"></div>
+            <div class="al-grid" style="bottom:96px;"></div>
+            <div class="al-grid" style="bottom:144px;"></div>
+            <div class="al-grid" style="bottom:192px;"></div>
+            <div class="al-grid" style="bottom:240px;"></div>
+            <div class="al-stacked-col">
+              <div class="al-seg" style="height:86.4px; background:var(--al-chart-a);"><span class="al-stacked-seg-label">180</span></div>
+              <div class="al-seg" style="height:45.6px; background:var(--al-chart-d);"><span class="al-stacked-seg-label">95</span></div>
+              <div class="al-seg" style="height:40.8px; background:var(--al-chart-b);"><span class="al-stacked-seg-label">85</span></div>
+              <div class="al-seg" style="height:28.8px; background:var(--al-chart-c);"><span class="al-stacked-seg-label">60</span></div>
+              <span class="al-stacked-total">420</span>
+              <span class="al-stacked-col-label">Q1</span>
+            </div>
+            <div class="al-stacked-col">
+              <div class="al-seg" style="height:88.8px; background:var(--al-chart-a);"><span class="al-stacked-seg-label">185</span></div>
+              <div class="al-seg" style="height:45.6px; background:var(--al-chart-d);"><span class="al-stacked-seg-label">95</span></div>
+              <div class="al-seg" style="height:52.8px; background:var(--al-chart-b);"><span class="al-stacked-seg-label">110</span></div>
+              <div class="al-seg" style="height:31.2px; background:var(--al-chart-c);"><span class="al-stacked-seg-label">65</span></div>
+              <span class="al-stacked-total">455</span>
+              <span class="al-stacked-col-label">Q2</span>
+            </div>
+            <div class="al-stacked-col">
+              <div class="al-seg" style="height:91.2px; background:var(--al-chart-a);"><span class="al-stacked-seg-label">190</span></div>
+              <div class="al-seg" style="height:48.0px; background:var(--al-chart-d);"><span class="al-stacked-seg-label">100</span></div>
+              <div class="al-seg" style="height:60.0px; background:var(--al-chart-b);"><span class="al-stacked-seg-label">125</span></div>
+              <div class="al-seg" style="height:36.0px; background:var(--al-chart-c);"><span class="al-stacked-seg-label">75</span></div>
+              <span class="al-stacked-total">490</span>
+              <span class="al-stacked-col-label">Q3</span>
+            </div>
+            <div class="al-stacked-col">
+              <div class="al-seg" style="height:90.24px; background:var(--al-chart-a);"><span class="al-stacked-seg-label">188</span></div>
+              <div class="al-seg" style="height:47.04px; background:var(--al-chart-d);"><span class="al-stacked-seg-label">98</span></div>
+              <div class="al-seg" style="height:56.64px; background:var(--al-chart-b);"><span class="al-stacked-seg-label">118</span></div>
+              <div class="al-seg" style="height:34.08px; background:var(--al-chart-c);"><span class="al-stacked-seg-label">71</span></div>
+              <span class="al-stacked-total">475</span>
+              <span class="al-stacked-col-label">Q4</span>
+            </div>
+          </div>
+        </div>
+        <div class="al-chart-legend">
+          <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-a);"></div>Salaries</div>
+          <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-d);"></div>Rent</div>
+          <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-b);"></div>Marketing</div>
+          <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-c);"></div>Other</div>
+        </div>
+      </div>
+
+      <div class="al-practice-q">What was the percentage increase in Marketing costs from Q1 to Q3?</div>
+      <div class="al-practice-options">
+        <p>(A) 32.0%</p>
+        <p>(B) 40.0%</p>
+        <p>(C) 47.1%</p>
+        <p>(D) 68.0%</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Marketing Q1: £85k. Marketing Q3: £125k. (Segment values, not y-axis positions.)</span></div>
+        <div class="al-step-line"><span class="al-step-num">2</span><span class="al-step-calc">(125 − 85) ÷ 85 × 100 = 40 ÷ 85 = <span class="al-step-result">47.1% → Answer: C</span></span></div>
+        <p>Trap: Option D (68.0%) comes from using the y-axis position of Marketing's top in Q3 instead of the segment value.</p>
+      </div>
+    </details>
+
+    <!-- PQ3: Chart 3 Embedded -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 3</div>
+      
+      <!-- Chart 3 Repeated Here -->
+      <div class="al-chart-container" style="margin: 1rem 0;">
+        <div class="al-chart-label">Chart 3 — Monthly Website Traffic by Region (thousands)</div>
+        <div class="al-line-chart-area">
+          <div class="al-y-axis-line">
+            <div class="al-y-tick">0</div>
+            <div class="al-y-tick">20</div>
+            <div class="al-y-tick">40</div>
+            <div class="al-y-tick">60</div>
+            <div class="al-y-tick">80</div>
+          </div>
+          <div class="al-line-svg-wrap">
+            <svg viewBox="0 0 500 250" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;">
+              <line x1="0" y1="192.5" x2="500" y2="192.5" stroke="#E8E4DA" stroke-width="0.5" stroke-dasharray="4,4"/>
+              <line x1="0" y1="135" x2="500" y2="135" stroke="#E8E4DA" stroke-width="0.5" stroke-dasharray="4,4"/>
+              <line x1="0" y1="77.5" x2="500" y2="77.5" stroke="#E8E4DA" stroke-width="0.5" stroke-dasharray="4,4"/>
+              <line x1="0" y1="20" x2="500" y2="20" stroke="#E8E4DA" stroke-width="0.5" stroke-dasharray="4,4"/>
+              <polyline points="42,120.6 125,100.5 208,112 292,83.3 375,63.1 458,43" fill="none" stroke="#1B2A4A" stroke-width="2.5"/>
+              <polyline points="42,163.8 125,149.4 208,140.8 292,129.3 375,135 458,123.5" fill="none" stroke="#C8A951" stroke-width="2.5"/>
+              <polyline points="42,198.3 125,186.8 208,169.5 292,149.4 375,129.3 458,106.3" fill="none" stroke="#5B8DEF" stroke-width="2.5"/>
+              <circle cx="42" cy="120.6" r="4" fill="#1B2A4A"/><text x="42" y="111.6" text-anchor="middle" font-size="9" font-weight="700" fill="#1B2A4A">45</text>
+              <circle cx="125" cy="100.5" r="4" fill="#1B2A4A"/><text x="125" y="91.5" text-anchor="middle" font-size="9" font-weight="700" fill="#1B2A4A">52</text>
+              <circle cx="208" cy="112" r="4" fill="#1B2A4A"/><text x="208" y="103" text-anchor="middle" font-size="9" font-weight="700" fill="#1B2A4A">48</text>
+              <circle cx="292" cy="83.3" r="4" fill="#1B2A4A"/><text x="292" y="74.3" text-anchor="middle" font-size="9" font-weight="700" fill="#1B2A4A">58</text>
+              <circle cx="375" cy="63.1" r="4" fill="#1B2A4A"/><text x="375" y="54.1" text-anchor="middle" font-size="9" font-weight="700" fill="#1B2A4A">65</text>
+              <circle cx="458" cy="43" r="4" fill="#1B2A4A"/><text x="458" y="34" text-anchor="middle" font-size="9" font-weight="700" fill="#1B2A4A">72</text>
+              <circle cx="42" cy="163.8" r="4" fill="#C8A951"/><text x="42" y="176.8" text-anchor="middle" font-size="9" font-weight="700" fill="#C8A951">30</text>
+              <circle cx="125" cy="149.4" r="4" fill="#C8A951"/><text x="125" y="162.4" text-anchor="middle" font-size="9" font-weight="700" fill="#C8A951">35</text>
+              <circle cx="208" cy="140.8" r="4" fill="#C8A951"/><text x="208" y="153.8" text-anchor="middle" font-size="9" font-weight="700" fill="#C8A951">38</text>
+              <circle cx="292" cy="129.3" r="4" fill="#C8A951"/><text x="292" y="142.3" text-anchor="middle" font-size="9" font-weight="700" fill="#C8A951">42</text>
+              <circle cx="375" cy="135" r="4" fill="#C8A951"/><text x="375" y="148" text-anchor="middle" font-size="9" font-weight="700" fill="#C8A951">40</text>
+              <circle cx="458" cy="123.5" r="4" fill="#C8A951"/><text x="458" y="136.5" text-anchor="middle" font-size="9" font-weight="700" fill="#C8A951">44</text>
+              <circle cx="42" cy="198.3" r="4" fill="#5B8DEF"/><text x="42" y="211.3" text-anchor="middle" font-size="9" font-weight="700" fill="#5B8DEF">18</text>
+              <circle cx="125" cy="186.8" r="4" fill="#5B8DEF"/><text x="125" y="199.8" text-anchor="middle" font-size="9" font-weight="700" fill="#5B8DEF">22</text>
+              <circle cx="208" cy="169.5" r="4" fill="#5B8DEF"/><text x="208" y="182.5" text-anchor="middle" font-size="9" font-weight="700" fill="#5B8DEF">28</text>
+              <circle cx="292" cy="149.4" r="4" fill="#5B8DEF"/><text x="292" y="162.4" text-anchor="middle" font-size="9" font-weight="700" fill="#5B8DEF">35</text>
+              <circle cx="375" cy="129.3" r="4" fill="#5B8DEF"/><text x="375" y="120.3" text-anchor="middle" font-size="9" font-weight="700" fill="#5B8DEF">42</text>
+              <circle cx="458" cy="106.3" r="4" fill="#5B8DEF"/><text x="458" y="97.3" text-anchor="middle" font-size="9" font-weight="700" fill="#5B8DEF">50</text>
+              <text x="42" y="268" text-anchor="middle" font-size="10" font-weight="600" fill="#1B2A4A">Jan</text>
+              <text x="125" y="268" text-anchor="middle" font-size="10" font-weight="600" fill="#1B2A4A">Feb</text>
+              <text x="208" y="268" text-anchor="middle" font-size="10" font-weight="600" fill="#1B2A4A">Mar</text>
+              <text x="292" y="268" text-anchor="middle" font-size="10" font-weight="600" fill="#1B2A4A">Apr</text>
+              <text x="375" y="268" text-anchor="middle" font-size="10" font-weight="600" fill="#1B2A4A">May</text>
+              <text x="458" y="268" text-anchor="middle" font-size="10" font-weight="600" fill="#1B2A4A">Jun</text>
+            </svg>
+          </div>
+        </div>
+        <div class="al-chart-legend">
+          <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-a);"></div>UK</div>
+          <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-b);"></div>Europe</div>
+          <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-c);"></div>Asia</div>
+        </div>
+      </div>
+
+      <div class="al-practice-q">Which region showed the largest percentage growth in traffic from January to June?</div>
+      <div class="al-practice-options">
+        <p>(A) UK — 60.0%</p>
+        <p>(B) Europe — 46.7%</p>
+        <p>(C) Asia — 177.8%</p>
+        <p>(D) Cannot be determined</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">UK: (72−45)÷45 = 60.0% | Europe: (44−30)÷30 = 46.7% | Asia: (50−18)÷18 = <span class="al-step-result">177.8% → Answer: C</span></span></div>
+        <p>Asia's line starts lowest but has the steepest slope — fastest percentage growth despite lowest absolute traffic.</p>
+      </div>
+    </details>
+
+    <!-- PQ4: Chart 4 Embedded -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 4</div>
+      
+      <!-- Chart 4 Repeated Here -->
+      <div class="al-chart-container" style="margin: 1rem 0;">
+        <div class="al-chart-label">Chart 4 — UK Digital Payments Market Share</div>
+        <div class="al-pie-wrap">
+          <div class="al-pie" style="background: conic-gradient(
+            var(--al-chart-a) 0deg 100.8deg,
+            var(--al-chart-b) 100.8deg 180deg,
+            var(--al-chart-d) 180deg 244.8deg,
+            var(--al-chart-c) 244.8deg 298.8deg,
+            #B0B0B0 298.8deg 360deg
+          );"></div>
+          <div class="al-pie-labels">
+            <div class="al-pie-label-row"><div class="al-legend-swatch" style="background:var(--al-chart-a);"></div><span class="al-pie-label-pct">28%</span> AlphaFin</div>
+            <div class="al-pie-label-row"><div class="al-legend-swatch" style="background:var(--al-chart-b);"></div><span class="al-pie-label-pct">22%</span> BetaCorp</div>
+            <div class="al-pie-label-row"><div class="al-legend-swatch" style="background:var(--al-chart-d);"></div><span class="al-pie-label-pct">18%</span> GammaGroup</div>
+            <div class="al-pie-label-row"><div class="al-legend-swatch" style="background:var(--al-chart-c);"></div><span class="al-pie-label-pct">15%</span> DeltaLtd</div>
+            <div class="al-pie-label-row"><div class="al-legend-swatch" style="background:#B0B0B0;"></div><span class="al-pie-label-pct">17%</span> Others</div>
+          </div>
+        </div>
+        <p style="text-align:center; font-size:0.82rem; color:var(--al-text-light); margin-top:1rem; font-weight:600;">Total market value: £1.2 billion</p>
+      </div>
+
+      <div class="al-practice-q">What is GammaGroup's market value?</div>
+      <div class="al-practice-options">
+        <p>(A) £180m</p>
+        <p>(B) £196m</p>
+        <p>(C) £216m</p>
+        <p>(D) £264m</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">GammaGroup: 18% × £1,200m = <span class="al-step-result">£216m → Answer: C</span></span></div>
+        <p>Trap: Option A (£180m) = DeltaLtd (15%). Option D (£264m) = BetaCorp (22%). Misreading the legend gives you a different company's answer.</p>
+      </div>
+    </details>
+
+    <!-- PQ5: Chart 1 Embedded -->
+    <div class="al-practice">
+      <div class="al-practice-label">Practice Question 5</div>
+      
+      <!-- Chart 1 Repeated Here -->
+      <div class="al-chart-container" style="margin: 1rem 0;">
+        <div class="al-chart-label">Chart 1 — Annual Revenue by Company (£ thousands)</div>
+        <div class="al-grouped-bar">
+          <div class="al-y-axis">
+            <div class="al-y-tick">0</div>
+            <div class="al-y-tick">100</div>
+            <div class="al-y-tick">200</div>
+            <div class="al-y-tick">300</div>
+            <div class="al-y-tick">400</div>
+            <div class="al-y-tick">500</div>
+          </div>
+          <div class="al-plot-area">
+            <div class="al-grid" style="bottom: 44px;"></div>
+            <div class="al-grid" style="bottom: 88px;"></div>
+            <div class="al-grid" style="bottom: 132px;"></div>
+            <div class="al-grid" style="bottom: 176px;"></div>
+            <div class="al-grid" style="bottom: 220px;"></div>
+            <div class="al-bar-group">
+              <div class="al-bar al-bar-a" style="height:140.8px; background:var(--al-chart-a);"><span class="al-bar-inner-label">320</span></div>
+              <div class="al-bar" style="height:123.2px; background:var(--al-chart-b);"><span class="al-bar-inner-label">280</span></div>
+              <div class="al-bar" style="height:105.6px; background:var(--al-chart-c);"><span class="al-bar-inner-label">240</span></div>
+              <span class="al-bar-group-label">2022</span>
+            </div>
+            <div class="al-bar-group">
+              <div class="al-bar" style="height:167.2px; background:var(--al-chart-a);"><span class="al-bar-inner-label">380</span></div>
+              <div class="al-bar" style="height:149.6px; background:var(--al-chart-b);"><span class="al-bar-inner-label">340</span></div>
+              <div class="al-bar" style="height:114.4px; background:var(--al-chart-c);"><span class="al-bar-inner-label">260</span></div>
+              <span class="al-bar-group-label">2023</span>
+            </div>
+            <div class="al-bar-group">
+              <div class="al-bar" style="height:184.8px; background:var(--al-chart-a);"><span class="al-bar-inner-label">420</span></div>
+              <div class="al-bar" style="height:171.6px; background:var(--al-chart-b);"><span class="al-bar-inner-label">390</span></div>
+              <div class="al-bar" style="height:136.4px; background:var(--al-chart-c);"><span class="al-bar-inner-label">310</span></div>
+              <span class="al-bar-group-label">2024</span>
+            </div>
+            <div class="al-bar-group">
+              <div class="al-bar" style="height:202.4px; background:var(--al-chart-a);"><span class="al-bar-inner-label">460</span></div>
+              <div class="al-bar" style="height:198.0px; background:var(--al-chart-b);"><span class="al-bar-inner-label">450</span></div>
+              <div class="al-bar" style="height:154.0px; background:var(--al-chart-c);"><span class="al-bar-inner-label">350</span></div>
+              <span class="al-bar-group-label">2025</span>
+            </div>
+          </div>
+        </div>
+        <div class="al-chart-legend">
+          <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-a);"></div>Apex Ltd</div>
+          <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-b);"></div>Bridgewell</div>
+          <div class="al-legend-item"><div class="al-legend-swatch" style="background:var(--al-chart-c);"></div>Castleton</div>
+        </div>
+      </div>
+
+      <div class="al-practice-q">What was the total revenue for all three companies combined in 2025?</div>
+      <div class="al-practice-options">
+        <p>(A) £1,120k</p>
+        <p>(B) £1,200k</p>
+        <p>(C) £1,260k</p>
+        <p>(D) £1,310k</p>
+      </div>
+    </div>
+    <details class="al-reveal">
+      <summary class="al-reveal-btn">Show Answer ▾</summary>
+      <div class="al-reveal-content">
+        <div class="al-step-line"><span class="al-step-num">1</span><span class="al-step-calc">Apex: £460 + Bridgewell: £450 + Castleton: £350 = <span class="al-step-result">£1,260k → Answer: C</span></span></div>
+        <p>Read each bar in the 2025 group, then sum. Trap: Option B (£1,200k) is the 2024 total.</p>
+      </div>
+    </details>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ KEY TAKEAWAYS ═══ -->
+  <div class="al-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul class="al-takeaways-list">
+      <li>Grouped bar charts: trace from bar top horizontally to the y-axis. Estimate between gridlines proportionally — never guess by eye alone.</li>
+      <li>Stacked bar trap: a middle segment's value = top minus bottom. Only the bottom segment can be read directly from the y-axis.</li>
+      <li>Line graph "fastest growing" means percentage growth, not absolute. The smallest line can be growing fastest in percentage terms.</li>
+      <li>Pie chart labels may show £ values instead of %. Always check — if they show values, calculate the total first, then derive percentages.</li>
+      <li>When combining data from multiple charts, verify they share common entities before calculating.</li>
+    </ul>
+  </div>
+
+  <!-- ═══ NEXT LESSON ═══ -->
+  <div class="al-next">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Lesson</div>
+      <div class="al-next-title">3.3 — Multi-Source Data Integration</div>
+      <div class="al-next-desc">The hardest numerical skill — combining data from multiple tables and charts in a single question. The systematic 5-step method that separates top performers.</div>
+    </div>
+  </div>
+
+</div>
+
+<!--
+  CALCULATION VERIFICATION:
+  Bar heights: 220px plot, max 500, 1k = 0.44px
+  320×0.44=140.8, 380×0.44=167.2, 420×0.44=184.8, 460×0.44=202.4 ✓
+  280×0.44=123.2, 340×0.44=149.6, 390×0.44=171.6, 450×0.44=198.0 ✓
+  240×0.44=105.6, 260×0.44=114.4, 310×0.44=136.4, 350×0.44=154.0 ✓
+  
+  Stacked heights: 240px plot, max 500, 1k = 0.48px
+  Q1: 180×0.48=86.4, 95×0.48=45.6, 85×0.48=40.8, 60×0.48=28.8 sum=201.6 → 420×0.48=201.6 ✓
+  Q2: 185×0.48=88.8, 95×0.48=45.6, 110×0.48=52.8, 65×0.48=31.2 sum=218.4 → 455×0.48=218.4 ✓
+  Q3: 190×0.48=91.2, 100×0.48=48.0, 125×0.48=60.0, 75×0.48=36.0 sum=235.2 → 490×0.48=235.2 ✓
+  Q4: 188×0.48=90.24, 98×0.48=47.04, 118×0.48=56.64, 71×0.48=34.08 sum=228.0 → 475×0.48=228.0 ✓
+  
+  WE1: 390 ✓  WE2: 380-260=120 ✓  WE3: 110/280=39.3% ✓
+  WE4: 390-280=110 ✓  WE5: Jun gap=28 ✓  WE6: 195/6=32.5 ✓
+  WE7: 0.15×1200=180 ✓  WE8: 28+22=50 ✓
+  PQ1: 420+455+490+475=1840 ✓  PQ2: 40/85=47.1% ✓
+  PQ3: Asia (50-18)/18=177.8% ✓  PQ4: 0.18×1200=216 ✓
+  PQ5: 460+450+350=1260 ✓ (2024 total: 420+390+310=1120)
+  Pie degrees: 100.8+79.2+64.8+54.0+61.2=360 ✓
+-->

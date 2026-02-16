@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en-GB" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice Questions vs Proper Training: An Honest Guide | Acumen Logic</title>
+    <meta name="description" content="An objective comparison of practice-only prep and structured training for finance aptitude tests. Where each approach helps, where it falls short, and how to choose." />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            50: '#f0f3f7',
+                            100: '#dae1eb',
+                            200: '#b8c5d4',
+                            300: '#8da3ba',
+                            400: '#5d7a99',
+                            500: '#3d5a7a',
+                            600: '#2d4561',
+                            700: '#1b263b',
+                            800: '#151e2f',
+                            900: '#0f1624',
+                            950: '#0a0f18',
+                        },
+                        gold: {
+                            50: '#faf6ef',
+                            100: '#f3ebdb',
+                            200: '#e6d4b5',
+                            300: '#d6ba8a',
+                            400: '#c9a961',
+                            500: '#b8935e',
+                            600: '#a17a4a',
+                            700: '#86633d',
+                            800: '#6e5035',
+                            900: '#5a422d',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html { scroll-behavior: smooth; }
+
+        .article-content p {
+            margin-bottom: 1.25rem;
+            line-height: 1.8;
+            color: #475569;
+        }
+        .article-content h2 {
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #1b263b;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .article-content h3 {
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1b263b;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+        }
+        .article-content strong { color: #b8935e; }
+        .article-content ul {
+            margin-bottom: 1.25rem;
+            padding-left: 1.25rem;
+            color: #475569;
+        }
+        .article-content li { margin-bottom: 0.5rem; }
+        .article-content li::marker { color: #c9a961; }
+
+        .section-card {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 0.9rem;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+        .article-content ul.icon-list {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+        .icon-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+            margin-bottom: 0.8rem;
+            color: #334155;
+        }
+        .article-content ul.icon-list li {
+            margin-bottom: 0.8rem;
+        }
+        .icon-list li i {
+            width: 1rem;
+            height: 1rem;
+            color: #c9a961;
+            flex-shrink: 0;
+            margin-top: 0.25rem;
+        }
+
+        .highlight-box {
+            background: #1b263b;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(201, 169, 97, 0.2);
+        }
+        .highlight-box p,
+        .highlight-box li {
+            color: #e2e8f0;
+        }
+
+        .mid-cta {
+            margin: 2rem 0;
+            padding: 1.75rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(201, 169, 97, 0.35);
+            background:
+                radial-gradient(circle at top right, rgba(201, 169, 97, 0.22) 0%, rgba(201, 169, 97, 0) 48%),
+                linear-gradient(160deg, #f6efe2 0%, #fffaf0 35%, #ffffff 100%);
+        }
+
+        .leverage-grid {
+            display: grid;
+            gap: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        .leverage-item {
+            display: flex;
+            gap: 0.9rem;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.8rem;
+            background: #fff;
+        }
+        .leverage-item p {
+            margin-bottom: 0;
+            line-height: 1.65;
+        }
+        .leverage-item p + p {
+            margin-top: 0.2rem;
+        }
+        .leverage-step {
+            width: 1.75rem;
+            height: 1.75rem;
+            border-radius: 9999px;
+            background: #1b263b;
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+        }
+
+        .header-pattern {
+            background-color: #0f1624;
+            background-image:
+                radial-gradient(circle at 1px 1px, rgba(233, 239, 248, 0.09) 0.85px, transparent 1px),
+                linear-gradient(165deg, #0c1526 0%, #0b1424 54%, #0a1221 100%);
+            background-size: 28px 28px, 100% 100%;
+        }
+
+        .navbar-scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 20px rgba(27, 38, 59, 0.08);
+        }
+
+        ::selection {
+            background: rgba(201, 169, 97, 0.3);
+            color: #1b263b;
+        }
+
+        a:focus-visible, button:focus-visible {
+            outline: 2px solid #c9a961;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body class="font-sans text-navy-700 bg-white antialiased">
+
+    <nav id="navbar" class="fixed w-full bg-white/95 backdrop-blur-md border-b border-navy-100/50 z-50 transition-all duration-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="../index.html" class="flex items-center gap-3 group">
+                    <div class="relative">
+                        <img src="../assets/images/logo.png" width="42" height="42" alt="Acumen Logic" class="relative z-10 transition-transform duration-300 group-hover:scale-105">
+                    </div>
+                    <div>
+                        <span class="font-display text-xl font-bold text-navy-700 tracking-tight">Acumen Logic</span>
+                        <span class="hidden sm:block text-xs text-gold-400 font-medium tracking-wide">Precision Training</span>
+                    </div>
+                </a>
+
+                <div class="hidden md:flex items-center gap-10">
+                    <a href="../index.html" class="text-sm font-medium text-navy-600 hover:text-gold-400 transition-colors duration-300">Home</a>
+                    <a href="../diagnostic.html" class="text-sm font-medium text-navy-600 hover:text-gold-400 transition-colors duration-300">Diagnostic</a>
+                    <a href="../masterclass.html" class="text-sm font-medium text-navy-600 hover:text-gold-400 transition-colors duration-300">Product</a>
+                    <a href="index.html" class="text-sm font-medium text-gold-500">Blog</a>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <a href="../diagnostic.html" class="hidden sm:inline-flex bg-navy-700 hover:bg-navy-800 text-white px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-300 shadow-lg shadow-navy-700/20 hover:shadow-xl hover:shadow-navy-700/25 hover:-translate-y-0.5">
+                        Start Free Diagnostic
+                    </a>
+                    <button class="md:hidden text-navy-700" data-mobile-menu-button aria-expanded="false" aria-controls="mobileMenu">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-navy-100">
+            <div class="px-4 py-6 space-y-4">
+                <a href="../index.html" class="block text-navy-600 hover:text-gold-500">Home</a>
+                <a href="../diagnostic.html" class="block text-navy-600 hover:text-gold-500">Diagnostic</a>
+                <a href="../masterclass.html" class="block text-navy-600 hover:text-gold-500">Product</a>
+                <a href="index.html" class="block text-gold-500 font-medium">Blog</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="pt-28 pb-16 lg:pt-36 lg:pb-20 header-pattern">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/10 border border-white/20 text-gold-200 text-sm font-semibold">Strategy • 6 min read</div>
+            <h1 class="font-display text-4xl sm:text-5xl font-bold text-white mt-6 mb-5 text-balance">Practice Questions vs Proper Training: An Honest Guide</h1>
+            <p class="text-lg text-navy-200">If you are serious about Big 4 or banking assessments, volume alone is rarely enough. Here is where practice-only prep helps, where it breaks, and how to train properly.</p>
+        </div>
+    </section>
+
+    <article class="py-12 bg-white">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="article-content">
+                <p>Most candidates ask the same question: <strong>"Do I just need more questions, or do I need a proper training system?"</strong> The honest answer is that both have value, but they solve different problems.</p>
+
+                <p>Question banks are useful for exposure. Structured training is useful for conversion: turning effort into measurable score improvement under timed conditions.</p>
+
+                <h2>What This Comparison Is Based On</h2>
+
+                <div class="section-card">
+                    <p>This guide expands the same criteria shown in our homepage comparison table, focused on the factors that most directly affect your test score:</p>
+                    <ul class="icon-list">
+                        <li><i data-lucide="check-circle-2"></i><span>Baseline diagnostic with category scoring and priority order.</span></li>
+                        <li><i data-lucide="check-circle-2"></i><span>Timed practice under real assessment conditions.</span></li>
+                        <li><i data-lucide="check-circle-2"></i><span>Decision frameworks for Numerical, Data Interpretation, and Logical Reasoning.</span></li>
+                        <li><i data-lucide="check-circle-2"></i><span>Structured error review to prevent repeat mistakes.</span></li>
+                        <li><i data-lucide="check-circle-2"></i><span>Personalised study planning based on weakest categories.</span></li>
+                        <li><i data-lucide="check-circle-2"></i><span>Multi-table integration methods and pressure protocols for finance-style tests.</span></li>
+                    </ul>
+                </div>
+
+                <h2>Where Practice-Only Prep Works</h2>
+
+                <p>Practice-only prep can be a good fit when your main bottleneck is familiarity. If you have never seen typical numerical, data interpretation, or logical formats, repetition helps you stop panicking on day one.</p>
+
+                <div class="section-card">
+                    <ul class="icon-list">
+                        <li><i data-lucide="sparkles"></i><span>You build pattern recognition for common question styles.</span></li>
+                        <li><i data-lucide="sparkles"></i><span>You reduce avoidable surprises in wording and layout.</span></li>
+                        <li><i data-lucide="sparkles"></i><span>You get faster with the mechanics of answering.</span></li>
+                    </ul>
+                </div>
+
+                <p>That is real progress, and it should not be dismissed.</p>
+
+                <h2>Where Practice-Only Prep Often Stalls</h2>
+
+                <p>Many candidates reach a plateau: they do more sets, but keep losing marks for the same reasons. This is where the pain points show up.</p>
+
+                <div class="section-card">
+                    <ul class="icon-list">
+                        <li><i data-lucide="alert-circle"></i><span>No clear diagnosis of <em>why</em> errors repeat.</span></li>
+                        <li><i data-lucide="alert-circle"></i><span>No framework for choosing the right method quickly.</span></li>
+                        <li><i data-lucide="alert-circle"></i><span>No structured way to prioritise the weakest category first.</span></li>
+                        <li><i data-lucide="alert-circle"></i><span>Speed training without decision-quality training.</span></li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <p class="text-white font-semibold mb-2">Important distinction</p>
+                    <p class="text-sm">Doing more questions increases exposure. It does not automatically improve judgement under pressure. Those are different skills.</p>
+                </div>
+
+                <h2>Honest Competitor Framing</h2>
+
+                <p>Whilst GraduatesFirst is great if you want broad access to practice formats and high-volume question exposure, it can feel pointless if you are repeatedly dropping marks for the same underlying decision errors and do not have a clear correction loop. <strong>This is where we differ.</strong></p>
+
+                <p>Our approach starts with diagnostic clarity, then prioritised training. We focus on method, error causes, and pressure protocols before adding more volume. That is what helps candidates who are stuck despite "working hard".</p>
+
+                <div class="mid-cta">
+                    <h3 class="font-display text-2xl font-bold text-navy-700 mb-3">At this stage, structure beats random volume</h3>
+                    <p class="text-navy-700 mb-6">If you are already practising but still plateaued, move to a method-led plan with category priorities and pressure protocols.</p>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <a href="../masterclass.html" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-navy-700 text-white font-semibold rounded hover:bg-navy-800 transition-colors">
+                            Explore the Programme
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                        <a href="../diagnostic.html" class="inline-flex items-center justify-center gap-2 px-6 py-3 border border-navy-300 text-navy-700 font-semibold rounded hover:bg-white transition-colors">
+                            Take Free Diagnostic
+                        </a>
+                    </div>
+                </div>
+
+                <h2>The Leverage Points That Actually Move Scores</h2>
+
+                <div class="leverage-grid">
+                    <div class="leverage-item">
+                        <span class="leverage-step">1</span>
+                        <div>
+                            <p class="font-semibold text-navy-700 mb-1">Baseline diagnostic + category priority</p>
+                            <p>You need to know where marks are leaking first, not guess. If Data Interpretation is your bottleneck, spending most of your time on Numerical Reasoning is low-leverage work.</p>
+                        </div>
+                    </div>
+                    <div class="leverage-item">
+                        <span class="leverage-step">2</span>
+                        <div>
+                            <p class="font-semibold text-navy-700 mb-1">Decision frameworks by question type</p>
+                            <p>Strong candidates do not improvise each time. They apply repeatable frameworks to common structures, which improves both speed and accuracy.</p>
+                        </div>
+                    </div>
+                    <div class="leverage-item">
+                        <span class="leverage-step">3</span>
+                        <div>
+                            <p class="font-semibold text-navy-700 mb-1">Structured error review</p>
+                            <p>"Wrong answer" is not enough feedback. You need to classify the failure mode: extraction error, method selection error, arithmetic execution, or time decision error.</p>
+                        </div>
+                    </div>
+                    <div class="leverage-item">
+                        <span class="leverage-step">4</span>
+                        <div>
+                            <p class="font-semibold text-navy-700 mb-1">Timed pressure protocols</p>
+                            <p>Real assessments test calm execution under time constraints. Training should include that environment, not only untimed accuracy work.</p>
+                        </div>
+                    </div>
+                    <div class="leverage-item">
+                        <span class="leverage-step">5</span>
+                        <div>
+                            <p class="font-semibold text-navy-700 mb-1">Personalised study sequencing</p>
+                            <p>Sequence matters. The highest-return plan is usually category-led, then method-led, then timed integration.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>Who Should Choose What?</h2>
+
+                <div class="section-card">
+                    <ul class="icon-list">
+                        <li><i data-lucide="book-open"></i><span><strong>Choose practice-heavy prep first</strong> if you are new and need quick format familiarity.</span></li>
+                        <li><i data-lucide="target"></i><span><strong>Choose structured training</strong> if your scores are inconsistent, your timing breaks down, or you keep repeating the same error patterns.</span></li>
+                        <li><i data-lucide="shuffle"></i><span><strong>Use both in sequence</strong> if you want the best of each: exposure plus method.</span></li>
+                    </ul>
+                </div>
+
+                <div class="mt-12 p-8 bg-gold-50 rounded-xl border border-gold-100">
+                    <h3 class="font-display text-2xl font-bold text-navy-700 mb-4">Train Properly, Then Add Volume</h3>
+                    <p class="text-navy-600 mb-6">If you want to know exactly where to focus first, start with the free diagnostic. You will get category-level clarity and a training direction you can actually execute.</p>
+                    <a href="../diagnostic.html" class="inline-flex items-center gap-2 px-6 py-3 bg-navy-700 text-white font-semibold rounded hover:bg-navy-800 transition-colors">
+                        Take the Free Diagnostic
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <h2>Final Point</h2>
+
+                <p>You do not need to "trash" other prep options. You need to match the tool to your stage. If you are already practising but still not improving enough, the issue is usually not effort. It is structure.</p>
+
+                <p>Proper training gives you that structure.</p>
+            </div>
+        </div>
+    </article>
+
+    <section class="py-10 bg-navy-50/60 border-t border-navy-100">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-gold-100 flex items-center justify-center text-gold-600 font-bold">AL</div>
+                <div>
+                    <p class="font-semibold text-navy-700">Acumen Logic Research Team</p>
+                    <p class="text-sm text-navy-500">Assessment analysis & methodology</p>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <button type="button" data-share="linkedin" aria-label="Share on LinkedIn" class="w-10 h-10 rounded-full bg-white border border-navy-100 flex items-center justify-center text-navy-500 hover:text-gold-500 hover:border-gold-300 transition-all">
+                    <i data-lucide="linkedin" class="w-5 h-5"></i>
+                </button>
+                <button type="button" data-share="x" aria-label="Share on X" class="w-10 h-10 rounded-full bg-white border border-navy-100 flex items-center justify-center text-navy-500 hover:text-gold-500 hover:border-gold-300 transition-all">
+                    <i data-lucide="twitter" class="w-5 h-5"></i>
+                </button>
+                <button type="button" data-share="copy" aria-label="Copy article link" class="w-10 h-10 rounded-full bg-white border border-navy-100 flex items-center justify-center text-navy-500 hover:text-gold-500 hover:border-gold-300 transition-all">
+                    <i data-lucide="link" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="font-display text-2xl font-bold text-navy-700 mb-8">Related Analysis</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <a href="kpmg-3-reasons-fail.html" class="bg-white rounded-xl p-6 border border-navy-100 shadow-sm hover:shadow-md transition-all">
+                    <span class="text-xs text-gold-500 font-semibold uppercase tracking-wide">KPMG</span>
+                    <h3 class="font-display text-lg font-bold text-navy-700 mt-2">The 3 Reasons Candidates Fail the KPMG Numerical Reasoning Test</h3>
+                    <p class="text-sm text-navy-500 mt-2">A breakdown of recurring failure patterns and how to correct them.</p>
+                </a>
+                <a href="multi-table-integration.html" class="bg-white rounded-xl p-6 border border-navy-100 shadow-sm hover:shadow-md transition-all">
+                    <span class="text-xs text-gold-500 font-semibold uppercase tracking-wide">Goldman Sachs</span>
+                    <h3 class="font-display text-lg font-bold text-navy-700 mt-2">Multi-Table Integration: The Critical Skill Gap</h3>
+                    <p class="text-sm text-navy-500 mt-2">Why cross-referencing failures are common and how to fix them properly.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-navy-950 text-navy-300 py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-16">
+                <div class="col-span-2">
+                    <div class="flex items-center gap-3 mb-6">
+                        <img src="../assets/images/logo.png" width="36" height="36" alt="Acumen Logic">
+                        <span class="font-display text-xl font-bold text-white">Acumen Logic</span>
+                    </div>
+                    <p class="leading-relaxed max-w-sm">Precision training for finance aptitude assessments. Built for candidates targeting Big 4, investment banking, and consulting roles.</p>
+                    <p class="mt-4 text-sm"><a href="mailto:enquiries@acumenlogic.co.uk" class="inline-flex items-center gap-2 hover:text-gold-400 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i><span>enquiries@acumenlogic.co.uk</span></a></p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-5">Programme</h4>
+                    <ul class="space-y-3">
+                        <li><a href="../diagnostic.html" class="hover:text-gold-400 transition-colors">Free Diagnostic</a></li>
+                        <li><a href="../masterclass.html" class="hover:text-gold-400 transition-colors">Training Programme</a></li>
+                        <li><a href="index.html" class="hover:text-gold-400 transition-colors">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-5">Legal</h4>
+                    <ul class="space-y-3">
+                        <li><a href="../pages/privacy.html" class="hover:text-gold-400 transition-colors">Privacy Policy</a></li>
+                        <li><a href="../pages/terms.html" class="hover:text-gold-400 transition-colors">Terms of Service</a></li>
+                        <li><a href="../pages/cookies.html" class="hover:text-gold-400 transition-colors">Cookies</a></li>
+                        <li><a href="../pages/disclaimer.html" class="hover:text-gold-400 transition-colors">Disclaimer</a></li>
+                        <li><a href="../pages/refund.html" class="hover:text-gold-400 transition-colors">Refund Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-navy-800 pt-10 flex flex-col items-center gap-4">
+                <p class="text-sm text-navy-500">&copy; <span data-year></span> Acumen Logic. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>

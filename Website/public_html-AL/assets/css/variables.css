@@ -1,0 +1,286 @@
+/* Acumen Logic - CSS Variables */
+
+/* Central design token definitions */
+
+:root {
+  /* ============================================
+     COLOR SYSTEM - NAVY PALETTE
+     ============================================ */
+  
+  /* Primary Navy - Brand Foundation */
+  --navy-50: #f8fafc;
+  --navy-100: #f1f5f9;
+  --navy-200: #e2e8f0;
+  --navy-300: #cbd5e1;
+  --navy-400: #94a3b8;
+  --navy-500: #64748b;
+  --navy-600: #475569;
+  --navy-700: #334155;
+  --navy-800: #1e293b;
+  --navy-900: #0f172a;
+  
+  /* Extended Navy - Dark Theme Specific */
+  --navy-950: #020617;
+  --navy-brand-900: #0a1628;  /* Primary background */
+  --navy-brand-800: #0f1d32;  /* Secondary background */
+  --navy-brand-700: #152238;  /* Elevated surfaces */
+  --navy-brand-600: #1a2d4a;  /* Hover states */
+  
+  /* ============================================
+     COLOR SYSTEM - GOLD PALETTE
+     ============================================ */
+  
+  /* Primary Gold - Brand Accent */
+  --gold-50: #fbf9f1;
+  --gold-100: #f5f0e0;
+  --gold-200: #ebe0c2;
+  --gold-300: #dec89a;
+  --gold-400: #C9A961;  /* Primary gold - logo, CTAs */
+  --gold-500: #b89851;  /* Hover state */
+  --gold-600: #a68641;  /* Active state */
+  --gold-700: #8b7036;
+  --gold-800: #735c30;
+  --gold-900: #5e4c2a;
+  
+  /* Gold Opacity Variants */
+  --gold-400-10: rgb(201 169 97 / 10%);
+  --gold-400-20: rgb(201 169 97 / 20%);
+  --gold-400-30: rgb(201 169 97 / 30%);
+  --gold-400-50: rgb(201 169 97 / 50%);
+  --gold-400-70: rgb(201 169 97 / 70%);
+  
+  /* ============================================
+     COLOR SYSTEM - FUNCTIONAL COLORS
+     ============================================ */
+  
+  /* Success/Green */
+  --success-400: #4ade80;
+  --success-500: #22c55e;
+  --success-400-10: rgb(74 222 128 / 10%);
+  --success-400-20: rgb(74 222 128 / 20%);
+  
+  /* Error/Red */
+  --error-400: #f87171;
+  --error-500: #ef4444;
+  --error-400-10: rgb(248 113 113 / 10%);
+  --error-400-20: rgb(248 113 113 / 20%);
+  
+  /* Warning/Yellow */
+  --warning-400: #facc15;
+  --warning-500: #eab308;
+  
+  /* Info/Blue */
+  --info-400: #60a5fa;
+  --info-500: #3b82f6;
+  
+  /* ============================================
+     COLOR SYSTEM - NEUTRAL SLATE
+     ============================================ */
+  
+  --slate-50: #f8fafc;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-300: #cbd5e1;  /* Primary body text */
+  --slate-400: #94a3b8;  /* Secondary text */
+  --slate-500: #64748b;  /* Muted text */
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-800: #1e293b;
+  --slate-900: #0f172a;
+  
+  /* ============================================
+     TYPOGRAPHY - FONT FAMILIES
+     ============================================ */
+  
+  --font-serif: 'Playfair Display', georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', consolas, monaco, monospace;
+  
+  /* ============================================
+     TYPOGRAPHY - TYPE SCALE
+     ============================================ */
+  
+  /* Display */
+  --text-display-xl: 4.5rem;   /* 72px */
+  --text-display-lg: 3.75rem;  /* 60px */
+  --text-display-md: 3rem;     /* 48px */
+  --text-display-sm: 2.25rem;  /* 36px */
+  
+  /* Headings */
+  --text-h1: 2.25rem;   /* 36px */
+  --text-h2: 1.875rem;  /* 30px */
+  --text-h3: 1.5rem;    /* 24px */
+  --text-h4: 1.25rem;   /* 20px */
+  --text-h5: 1.125rem;  /* 18px */
+  --text-h6: 1rem;      /* 16px */
+  
+  /* Body */
+  --text-body-lg: 1.125rem;   /* 18px */
+  --text-body-md: 1rem;       /* 16px - base */
+  --text-body-sm: 0.875rem;   /* 14px */
+  --text-body-xs: 0.75rem;    /* 12px */
+  
+  /* Line Heights */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+  
+  /* Font Weights */
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+  
+  /* Letter Spacing */
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+  
+  /* ============================================
+     SPACING SCALE
+     ============================================ */
+  
+  --space-0: 0;
+  --space-px: 1px;
+  --space-0-5: 0.125rem;   /* 2px */
+  --space-1: 0.25rem;      /* 4px */
+  --space-1-5: 0.375rem;   /* 6px */
+  --space-2: 0.5rem;       /* 8px */
+  --space-2-5: 0.625rem;   /* 10px */
+  --space-3: 0.75rem;      /* 12px */
+  --space-3-5: 0.875rem;   /* 14px */
+  --space-4: 1rem;         /* 16px */
+  --space-5: 1.25rem;      /* 20px */
+  --space-6: 1.5rem;       /* 24px */
+  --space-7: 1.75rem;      /* 28px */
+  --space-8: 2rem;         /* 32px */
+  --space-9: 2.25rem;      /* 36px */
+  --space-10: 2.5rem;      /* 40px */
+  --space-11: 2.75rem;     /* 44px */
+  --space-12: 3rem;        /* 48px */
+  --space-14: 3.5rem;      /* 56px */
+  --space-16: 4rem;        /* 64px */
+  --space-20: 5rem;        /* 80px */
+  --space-24: 6rem;        /* 96px */
+  --space-28: 7rem;        /* 112px */
+  --space-32: 8rem;        /* 128px */
+  
+  /* ============================================
+     BORDER & RADIUS
+     ============================================ */
+  
+  --border-width-0: 0;
+  --border-width-1: 1px;
+  --border-width-2: 2px;
+  --border-width-4: 4px;
+  --border-width-8: 8px;
+  --radius-none: 0;
+  --radius-sm: 0.125rem;   /* 2px */
+  --radius-md: 0.375rem;   /* 6px */
+  --radius-lg: 0.5rem;     /* 8px */
+  --radius-xl: 0.75rem;    /* 12px */
+  --radius-2xl: 1rem;      /* 16px */
+  --radius-3xl: 1.5rem;    /* 24px */
+  --radius-full: 9999px;
+  
+  /* ============================================
+     SHADOWS
+     ============================================ */
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 5%);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -2px rgb(0 0 0 / 5%);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 10%), 0 10px 10px -5px rgb(0 0 0 / 4%);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 25%);
+  --shadow-gold: 0 4px 20px rgb(201 169 97 / 15%);
+  --shadow-gold-lg: 0 10px 40px rgb(201 169 97 / 20%);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 6%);
+  --shadow-none: none;
+  
+  /* ============================================
+     TRANSITIONS & ANIMATION
+     ============================================ */
+  
+  --transition-duration-75: 75ms;
+  --transition-duration-100: 100ms;
+  --transition-duration-150: 150ms;
+  --transition-duration-200: 200ms;
+  --transition-duration-300: 300ms;
+  --transition-duration-500: 500ms;
+  --transition-duration-700: 700ms;
+  --transition-duration-1000: 1000ms;
+  --transition-timing-linear: linear;
+  --transition-timing-in: cubic-bezier(0.4, 0, 1, 1);
+  --transition-timing-out: cubic-bezier(0, 0, 0.2, 1);
+  --transition-timing-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 150ms ease;
+  --transition-base: 300ms ease;
+  --transition-slow: 500ms ease;
+  
+  /* ============================================
+     Z-INDEX SCALE
+     ============================================ */
+  
+  --z-0: 0;
+  --z-10: 10;
+  --z-20: 20;
+  --z-30: 30;
+  --z-40: 40;
+  --z-50: 50;
+  --z-auto: auto;
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  
+  /* ============================================
+     LAYOUT
+     ============================================ */
+  
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1536px;
+  --container-max: 1280px;
+  --header-height: 80px;
+  --header-height-mobile: 64px;
+  
+  /* ============================================
+     DIAGNOSTIC SPECIFIC
+     ============================================ */
+  
+  --timer-warning-threshold: 120;  /* seconds */
+  --question-count: 20;
+  --assessment-duration: 1500;     /* seconds (25 minutes) */
+  
+  /* Category Colors */
+  --category-nr: #C9A961;  /* Numerical Reasoning - Gold */
+  --category-di: #60a5fa;  /* Data Interpretation - Blue */
+  --category-lr: #a78bfa;  /* Logical Reasoning - Purple */
+  
+  /* Score Thresholds */
+  --score-strong: 4;   /* X/5 or above = Strong */
+  --score-weak: 3;     /* Below X/5 = Weak */
+  
+  /* ============================================
+     BREAKPOINTS (for JS reference)
+     ============================================ */
+  
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+}

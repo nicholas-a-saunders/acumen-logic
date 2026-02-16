@@ -1,0 +1,521 @@
+<!--
+  ACUMEN LOGIC — Module 4.6: Logical Reasoning Practice Test
+  For ThriveCart Learn Custom HTML Block
+  Interactive MCQ with scoring · JS required
+
+  TYPE: Assessment (12 questions, multiple choice)
+  Covers: Deductive Reasoning (4.1), Pattern Recognition (4.2),
+  Rule Application (4.3), Verbal Reasoning T/F/CS (4.4)
+-->
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+  .al-lesson {
+    --al-navy: #1B2A4A; --al-navy-light: #2A3D66; --al-navy-muted: #3D5280;
+    --al-gold: #C8A951; --al-gold-light: #D4BC72; --al-gold-pale: #F5EFD9;
+    --al-cream: #FAFAF6; --al-white: #FFFFFF; --al-text: #2C2C2C; --al-text-light: #6B6B6B;
+    --al-border: #E8E4DA; --al-success: #2D8F5E; --al-danger: #C0392B;
+    --al-radius: 10px; --al-radius-sm: 6px;
+    --al-shadow: 0 2px 12px rgba(27,42,74,0.08); --al-shadow-lg: 0 8px 32px rgba(27,42,74,0.12);
+  }
+
+  .al-lesson { font-family: 'Source Sans 3','Segoe UI',system-ui,sans-serif; color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .al-lesson h1, .al-lesson h2, .al-lesson h3 { font-family: 'Source Sans 3','Segoe UI',system-ui,sans-serif; font-weight: 700; color: var(--al-navy); line-height: 1.25; }
+
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .al-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200,169,81,0.08) 0%, transparent 70%); pointer-events: none; }
+  .al-hero-eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem,4vw,2.2rem); margin-bottom: 0.75rem; }
+  .al-hero-subtitle { color: rgba(255,255,255,0.9) !important; font-size: 1rem; max-width: 36rem; line-height: 1.5; }
+  .al-hero-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 1rem 0; }
+
+  .al-quiz { margin-bottom: 2rem; }
+  .al-q-block { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--al-shadow); transition: border-color 0.3s ease; }
+  .al-q-block.al-q-answered { border-color: var(--al-gold); }
+  .al-q-block.al-q-correct { border-color: var(--al-success); }
+  .al-q-block.al-q-incorrect { border-color: var(--al-danger); }
+  .al-q-header { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem; }
+  .al-q-num { min-width: 2rem; height: 2rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
+  .al-q-topic { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-gold); margin-bottom: 0.25rem; }
+  .al-q-text { font-size: 1rem; font-weight: 600; color: var(--al-navy); line-height: 1.5; }
+  .al-q-context { font-size: 0.88rem; color: var(--al-text-light); margin-top: 0.35rem; line-height: 1.6; }
+  .al-options { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem; }
+  .al-opt { display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1.15rem; border: 2px solid var(--al-border); border-radius: var(--al-radius-sm); cursor: pointer; transition: all 0.2s ease; user-select: none; -webkit-user-select: none; background: var(--al-white); }
+  .al-opt:hover { border-color: var(--al-navy-muted); background: var(--al-cream); }
+  .al-opt-radio { width: 1.25rem; height: 1.25rem; border: 2px solid var(--al-border); border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+  .al-opt-radio::after { content: ''; width: 0.55rem; height: 0.55rem; border-radius: 50%; background: transparent; transition: background 0.2s ease; }
+  .al-opt.al-opt-selected { border-color: var(--al-navy); background: #F0F2F7; }
+  .al-opt.al-opt-selected .al-opt-radio { border-color: var(--al-navy); }
+  .al-opt.al-opt-selected .al-opt-radio::after { background: var(--al-navy); }
+  .al-opt.al-opt-correct-answer { border-color: var(--al-success); background: #EDF7F0; }
+  .al-opt.al-opt-correct-answer .al-opt-radio { border-color: var(--al-success); }
+  .al-opt.al-opt-correct-answer .al-opt-radio::after { background: var(--al-success); }
+  .al-opt.al-opt-wrong-pick { border-color: var(--al-danger); background: #FDF2F0; }
+  .al-opt.al-opt-wrong-pick .al-opt-radio { border-color: var(--al-danger); }
+  .al-opt.al-opt-wrong-pick .al-opt-radio::after { background: var(--al-danger); }
+  .al-opt-label { font-weight: 700; color: var(--al-navy); min-width: 1.5rem; font-size: 0.92rem; }
+  .al-opt-text { font-size: 0.92rem; color: var(--al-text); }
+  .al-q-block.al-q-submitted .al-opt { cursor: default; pointer-events: none; }
+
+  .al-q-explanation { display: none; margin-top: 1rem; padding: 1rem 1.25rem; border-radius: var(--al-radius-sm); font-size: 0.88rem; line-height: 1.55; }
+  .al-q-explanation.al-exp-correct { background: #EDF7F0; border-left: 4px solid var(--al-success); }
+  .al-q-explanation.al-exp-wrong { background: #FDF2F0; border-left: 4px solid var(--al-danger); }
+  .al-q-explanation.al-exp-skipped { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-q-explanation.al-exp-visible { display: block; }
+  .al-exp-label { font-weight: 700; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .al-exp-correct .al-exp-label { color: var(--al-success); }
+  .al-exp-wrong .al-exp-label { color: var(--al-danger); }
+  .al-exp-skipped .al-exp-label { color: #D4823A; }
+
+  .al-result-panel { display: none; border-radius: var(--al-radius); padding: 2rem; margin-bottom: 2rem; text-align: center; box-shadow: var(--al-shadow-lg); }
+  .al-result-panel.al-result-visible { display: block; }
+  .al-result-panel.al-result-excellent { background: linear-gradient(135deg, #1a3a2a 0%, #2D8F5E 100%); }
+  .al-result-panel.al-result-good { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 100%); }
+  .al-result-panel.al-result-needs-work { background: linear-gradient(135deg, #3a2a1a 0%, #D4823A 100%); }
+  .al-result-panel.al-result-weak { background: linear-gradient(135deg, #3a1a1a 0%, var(--al-danger) 100%); }
+  .al-result-score { font-weight: 700; font-size: clamp(2.5rem,6vw,3.5rem); color: var(--al-white) !important; margin-bottom: 0.25rem; }
+  .al-result-pct { font-size: 1.15rem; font-weight: 600; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-result-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.5rem; }
+  .al-result-msg { color: rgba(255,255,255,0.9) !important; font-size: 0.95rem; line-height: 1.5; max-width: 32rem; margin: 0 auto; }
+  .al-result-breakdown { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1.25rem; flex-wrap: wrap; }
+  .al-result-stat { text-align: center; }
+  .al-result-stat-num { font-weight: 700; font-size: 1.5rem; color: var(--al-white) !important; }
+  .al-result-stat-lbl { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.7) !important; }
+
+  .al-submit-area { text-align: center; margin: 2rem 0; }
+  .al-submit-btn { display: inline-block; padding: 1.1rem 3rem; font-family: 'Source Sans 3','Segoe UI',system-ui,sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--al-white) !important; background: linear-gradient(135deg, var(--al-gold) 0%, var(--al-gold-light) 100%); border: 2px solid var(--al-gold); border-radius: var(--al-radius); cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 16px rgba(200,169,81,0.4), 0 2px 8px rgba(27,42,74,0.15); letter-spacing: 0.03em; text-transform: uppercase; position: relative; overflow: hidden; }
+  .al-submit-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: left 0.5s ease; }
+  .al-submit-btn:hover { background: linear-gradient(135deg, var(--al-gold-light) 0%, #E0C878 100%); box-shadow: 0 6px 24px rgba(200,169,81,0.5), 0 4px 12px rgba(27,42,74,0.2); transform: translateY(-2px); border-color: var(--al-gold-light); }
+  .al-submit-btn:hover::before { left: 100%; }
+  .al-submit-btn:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(200,169,81,0.4); }
+  .al-submit-btn.al-btn-hidden { display: none; }
+  .al-progress-text { font-size: 0.85rem; color: var(--al-text-light); margin-bottom: 0.75rem; }
+  .al-progress-bar { height: 6px; background: var(--al-border); border-radius: 3px; overflow: hidden; max-width: 20rem; margin: 0 auto 1rem; }
+  .al-progress-fill { height: 100%; background: var(--al-gold); border-radius: 3px; transition: width 0.4s ease; }
+
+  .al-q-divider { display: flex; align-items: center; gap: 0.75rem; margin: 2rem 0 1.5rem; }
+  .al-q-divider-line { flex: 1; height: 1px; background: var(--al-border); }
+  .al-q-divider-text { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--al-text-light); white-space: nowrap; }
+
+  .al-callout { border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; font-size: 0.92rem; }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; color: var(--al-success); }
+
+  .al-next { background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .al-next-arrow { width: 2.5rem; height: 2.5rem; background: var(--al-navy); color: var(--al-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .al-next-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-text-light); margin-bottom: 0.15rem; }
+  .al-next-title { font-weight: 700; color: var(--al-navy); font-size: 1rem; }
+  .al-next-desc { font-size: 0.85rem; color: var(--al-text-light); margin-top: 0.15rem; }
+
+  .al-lesson strong { color: var(--al-navy); }
+
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .al-q-block { padding: 1.15rem; }
+    .al-opt { padding: 0.75rem 1rem; }
+    .al-result-panel { padding: 1.5rem 1rem; }
+    .al-next { flex-direction: column; text-align: center; }
+    .al-submit-btn { padding: 1rem 2rem; font-size: 1rem; width: 100%; max-width: 300px; }
+    .al-id-fields { flex-direction: column; }
+  }
+  .al-id-form { background: var(--al-white); border: 2px solid var(--al-gold); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; }
+  .al-id-form-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--al-navy); margin-bottom: 0.75rem; }
+  .al-id-fields { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .al-id-input { flex: 1; min-width: 180px; padding: 0.6rem 1rem; border: 2px solid var(--al-border); border-radius: var(--al-radius-sm); font-family: 'Source Sans 3',sans-serif; font-size: 0.88rem; outline: none; transition: border-color 0.2s; }
+  .al-id-input:focus { border-color: var(--al-gold); }
+  .al-id-input::placeholder { color: #B0B0B0; }
+  .al-timer { font-size: 0.85rem; color: var(--al-text-light); text-align: center; margin-bottom: 0.5rem; }
+  .al-timer strong { color: var(--al-navy); font-variant-numeric: tabular-nums; }
+</style>
+
+<div class="al-lesson" id="alQuizTop">
+
+  <div class="al-result-panel" id="alResultPanel">
+    <div class="al-result-label">Your Score</div>
+    <div class="al-result-score" id="alResultScore">—</div>
+    <div class="al-result-pct" id="alResultPct">—</div>
+    <div class="al-result-msg" id="alResultMsg">—</div>
+    <div class="al-result-breakdown">
+      <div class="al-result-stat"><div class="al-result-stat-num" id="alStatCorrect">—</div><div class="al-result-stat-lbl">Correct</div></div>
+      <div class="al-result-stat"><div class="al-result-stat-num" id="alStatWrong">—</div><div class="al-result-stat-lbl">Wrong</div></div>
+      <div class="al-result-stat"><div class="al-result-stat-num" id="alStatSkipped">—</div><div class="al-result-stat-lbl">Skipped</div></div>
+    </div>
+  </div>
+
+  <div class="al-hero" id="alHero">
+    <div class="al-hero-eyebrow">Module 4 · Lesson 4.6</div>
+    <h1>Logical Reasoning Practice Test</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">12 exam-style questions covering deductive reasoning, verbal reasoning (T/F/CS), and rule application. Select your answer for each, then submit.</p>
+  </div>
+
+  <div class="al-callout al-callout-tip">
+    <div class="al-callout-label">Before You Start</div>
+    <p>Target 90 seconds per question. You can change answers before submitting. Read each passage or rule set carefully — the traps are designed to catch speed-readers.</p>
+  </div>
+
+  <div class="al-id-form">
+    <div class="al-id-form-label">Your Details (for your results record)</div>
+    <div class="al-id-fields">
+      <input type="text" class="al-id-input" id="alUserName" placeholder="Full name" autocomplete="name">
+      <input type="email" class="al-id-input" id="alUserEmail" placeholder="Email address" autocomplete="email">
+    </div>
+  </div>
+
+  <div class="al-timer" id="alTimer">Time elapsed: <strong id="alTimerDisplay">0:00</strong></div>
+
+  <div class="al-submit-area" id="alProgressArea">
+    <div class="al-progress-text"><span id="alAnsweredCount">0</span> of 12 answered</div>
+    <div class="al-progress-bar"><div class="al-progress-fill" id="alProgressFill" style="width:0%;"></div></div>
+  </div>
+
+  <div class="al-quiz" id="alQuiz">
+
+    <!-- ═══ DEDUCTIVE REASONING ═══ -->
+    <div class="al-q-divider"><span class="al-q-divider-line"></span><span class="al-q-divider-text">Deductive Reasoning — Lesson 4.1</span><span class="al-q-divider-line"></span></div>
+
+    <!-- Q1 -->
+    <div class="al-q-block" data-q="1" data-answer="0">
+      <div class="al-q-header">
+        <div class="al-q-num">1</div>
+        <div><div class="al-q-topic">Syllogism</div><div class="al-q-text">All compliance officers at Meridian Bank have completed anti-money laundering training. Some employees who completed AML training also hold CISI qualifications. Sarah is a compliance officer at Meridian Bank. Which conclusion is valid?</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">Sarah has completed AML training</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">Sarah holds a CISI qualification</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">All CISI holders are compliance officers</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">Sarah completed AML training and holds CISI</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>A.</strong> All compliance officers → AML trained. Sarah is a compliance officer → Sarah has completed AML training. B is not guaranteed ("some" doesn't mean all). D combines A and B but B isn't guaranteed.</p></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="al-q-block" data-q="2" data-answer="2">
+      <div class="al-q-header">
+        <div class="al-q-num">2</div>
+        <div><div class="al-q-topic">Contrapositive</div><div class="al-q-text">If a client is classified as high-risk, their account requires enhanced due diligence. Client X's account does not require enhanced due diligence. What can be concluded?</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">Client X is high-risk</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">Client X may or may not be high-risk</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">Client X is not high-risk</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">Enhanced due diligence is not required for any client</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>C.</strong> Contrapositive: If no enhanced due diligence → not high-risk. "If P then Q" guarantees "If not Q then not P." Client X has no EDD → Client X is not high-risk.</p></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="al-q-block" data-q="3" data-answer="1">
+      <div class="al-q-header">
+        <div class="al-q-num">3</div>
+        <div><div class="al-q-topic">Multi-Rule Deduction</div><div class="al-q-text">(1) All senior traders must pass the annual compliance exam. (2) Anyone who fails the compliance exam is placed on a performance improvement plan. (3) No employee on a performance improvement plan can trade independently. Kumar is a senior trader who trades independently. What must be true?</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">Kumar failed the compliance exam</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">Kumar passed the compliance exam</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">Kumar is on a performance improvement plan</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">Kumar is not a senior trader</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>B.</strong> Chain reasoning: Kumar trades independently → (contrapositive of 3) not on PIP → (contrapositive of 2) did not fail exam → passed exam. The chain works backwards from the known fact.</p></div>
+    </div>
+
+    <!-- ═══ VERBAL REASONING ═══ -->
+    <div class="al-q-divider"><span class="al-q-divider-line"></span><span class="al-q-divider-text">Verbal Reasoning — Lesson 4.4</span><span class="al-q-divider-line"></span></div>
+
+    <!-- Q4-Q6 share a passage -->
+    <div class="al-q-block" data-q="4" data-answer="0">
+      <div class="al-q-header">
+        <div class="al-q-num">4</div>
+        <div>
+          <div class="al-q-topic">True / False / Cannot Say</div>
+          <div class="al-q-context">Passage: Sterling Asset Management reported assets under management of £14.2 billion at the end of Q3 2025, up from £12.8 billion at the start of the year. The firm attributed the growth primarily to net client inflows of £800 million, with the remainder from market appreciation. Sterling's flagship UK Equity Fund outperformed its benchmark by 2.3 percentage points over the same period, while its Fixed Income Fund underperformed by 0.8 percentage points.</div>
+          <div class="al-q-text">"Market appreciation contributed £600 million to Sterling's AUM growth in the first nine months of 2025."</div>
+        </div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">True</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">False</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">Cannot Say</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>True.</strong> Total growth: £14.2bn − £12.8bn = £1.4bn. Net inflows = £800m. Remainder (market) = £1.4bn − £800m = £600m. Mathematical deduction confirms the statement.</p></div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="al-q-block" data-q="5" data-answer="2">
+      <div class="al-q-header">
+        <div class="al-q-num">5</div>
+        <div>
+          <div class="al-q-topic">True / False / Cannot Say</div>
+          <div class="al-q-context">(Same passage as Q4)</div>
+          <div class="al-q-text">"Sterling's Fixed Income Fund lost money for investors in the first nine months of 2025."</div>
+        </div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">True</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">False</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">Cannot Say</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>Cannot Say.</strong> The passage says the fund underperformed its benchmark by 0.8pp — but underperforming a benchmark doesn't mean losing money. If the benchmark returned +4%, the fund returned +3.2% (still positive). "Underperformed" ≠ "lost money."</p></div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="al-q-block" data-q="6" data-answer="1">
+      <div class="al-q-header">
+        <div class="al-q-num">6</div>
+        <div>
+          <div class="al-q-topic">True / False / Cannot Say</div>
+          <div class="al-q-context">Passage: Nova Fintech processed 4.2 million transactions in August 2025, generating £3.78 million in transaction fee revenue. The company's premium tier customers, who represent 18% of total customers, accounted for 45% of all transactions. Nova's operating costs for August were £3.1 million, of which 60% were staff costs.</div>
+          <div class="al-q-text">"Nova Fintech's average transaction fee was higher than £1.00."</div>
+        </div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">True</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">False</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">Cannot Say</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>False.</strong> Average fee = £3,780,000 ÷ 4,200,000 = £0.90. This is less than £1.00. The passage gives enough data to calculate the exact average.</p></div>
+    </div>
+
+    <!-- ═══ RULE APPLICATION ═══ -->
+    <div class="al-q-divider"><span class="al-q-divider-line"></span><span class="al-q-divider-text">Rule Application — Lesson 4.3</span><span class="al-q-divider-line"></span></div>
+
+    <!-- Q7-Q9 share a rule set -->
+    <!-- Q7 -->
+    <div class="al-q-block" data-q="7" data-answer="1">
+      <div class="al-q-header">
+        <div class="al-q-num">7</div>
+        <div>
+          <div class="al-q-topic">Scheduling Under Constraints</div>
+          <div class="al-q-context">Four presentations — Accounting (A), Business Development (B), Compliance (C), Data Analytics (D) — are scheduled in four consecutive slots: 9am, 10am, 11am, 12pm. Rules: (1) A must be before C. (2) B must be immediately after D. (3) C cannot be at 9am.</div>
+          <div class="al-q-text">Which is a valid schedule?</div>
+        </div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">A, C, D, B</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">A, D, B, C</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">D, B, C, A</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">C, A, D, B</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>B.</strong> Check each: A (Option A): D,B not adjacent — B is not immediately after D. Fail. B (Option B): Rule 1: A(9am) before C(12pm) ✓. Rule 2: B(11am) immediately after D(10am) ✓. Rule 3: C not at 9am ✓. All rules pass. C (Option C): Rule 1: A(12pm) after C(11am). Fail. D (Option D): Rule 3: C at 9am. Fail.</p></div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="al-q-block" data-q="8" data-answer="3">
+      <div class="al-q-header">
+        <div class="al-q-num">8</div>
+        <div>
+          <div class="al-q-topic">Allocation Under Constraints</div>
+          <div class="al-q-context">Five analysts — Patel, Quinn, Reeves, Shah, Taylor — are each assigned to exactly one of three teams: Alpha, Bravo, Charlie. Each team has at least one analyst. Rules: (1) Patel and Quinn must be on different teams. (2) If Reeves is on Alpha, Shah must be on Bravo. (3) Taylor must be on Charlie.</div>
+          <div class="al-q-text">If Reeves is on Alpha and Patel is on Bravo, which must be true?</div>
+        </div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">Quinn is on Alpha</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">Quinn is on Charlie</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">Shah is on Charlie</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">Shah is on Bravo</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>D.</strong> Reeves → Alpha triggers Rule 2: Shah → Bravo. Taylor → Charlie (Rule 3). Patel → Bravo (given). Quinn cannot be on Bravo (where Patel is) per Rule 1, so Quinn goes to Alpha or Charlie. Shah on Bravo is the only thing that MUST be true.</p></div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="al-q-block" data-q="9" data-answer="2">
+      <div class="al-q-header">
+        <div class="al-q-num">9</div>
+        <div>
+          <div class="al-q-topic">Ordering with Conditionals</div>
+          <div class="al-q-context">Six reports — Finance (F), Governance (G), HR (H), IT (I), Legal (L), Marketing (M) — must be reviewed in order. Rules: (1) F must be reviewed before L. (2) G must be reviewed before H. (3) If I is reviewed first, then M must be reviewed last. (4) H cannot be reviewed last.</div>
+          <div class="al-q-text">If I is reviewed first, which of the following cannot be true?</div>
+        </div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">F is reviewed second</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">G is reviewed third</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">H is reviewed last</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">L is reviewed fifth</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>C.</strong> Rule 4 directly states H cannot be last. Additionally, I first triggers Rule 3: M must be last — so if M is last, H cannot be last anyway (only one item can be last). But Rule 4 makes this explicit regardless of other conditions.</p></div>
+    </div>
+
+    <!-- ═══ MIXED ═══ -->
+    <div class="al-q-divider"><span class="al-q-divider-line"></span><span class="al-q-divider-text">Mixed — Lessons 4.1–4.4</span><span class="al-q-divider-line"></span></div>
+
+    <!-- Q10 -->
+    <div class="al-q-block" data-q="10" data-answer="0">
+      <div class="al-q-header">
+        <div class="al-q-num">10</div>
+        <div>
+          <div class="al-q-topic">True / False / Cannot Say</div>
+          <div class="al-q-context">Passage: Vertex Capital's London office handles 60% of the firm's global assets under management, totalling £8.4 billion as of June 2025. The New York office manages 30% and the Singapore office manages the remaining 10%. Vertex announced plans to increase its Singapore AUM by 50% over the next two years through targeted hiring and a new Asia-Pacific marketing campaign.</div>
+          <div class="al-q-text">"After the planned expansion, Vertex's Singapore office will manage more than £2 billion in assets."</div>
+        </div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">True</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">False</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">Cannot Say</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>True.</strong> London = 60% of global = £8.4bn. So global AUM = £8.4bn ÷ 0.60 = £14bn. Singapore = 10% = £1.4bn. After 50% increase: £1.4bn × 1.50 = £2.1bn &gt; £2bn. Mathematical deduction confirms.</p></div>
+    </div>
+
+    <!-- Q11 -->
+    <div class="al-q-block" data-q="11" data-answer="2">
+      <div class="al-q-header">
+        <div class="al-q-num">11</div>
+        <div>
+          <div class="al-q-topic">Chain Deduction</div>
+          <div class="al-q-text">(1) All directors at Oakwood Partners are invited to the annual strategy retreat. (2) Everyone invited to the retreat receives the confidential strategy pack. (3) No contractor receives the confidential strategy pack. James is a contractor at Oakwood Partners. What must be true?</div>
+        </div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">James is invited to the retreat</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">James is a director</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">James is not a director</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">James receives the strategy pack</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>C.</strong> Chain: Director → invited → receives pack. Contrapositive: no pack → not invited → not director. Statement 3: contractors don't get pack. James is contractor → no pack → not invited → <strong>not a director</strong>.</p></div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="al-q-block" data-q="12" data-answer="1">
+      <div class="al-q-header">
+        <div class="al-q-num">12</div>
+        <div>
+          <div class="al-q-topic">True / False / Cannot Say</div>
+          <div class="al-q-context">Passage: Alder Insurance Group reported a combined ratio of 96.4% for FY2024, an improvement from 101.2% in FY2023. The loss ratio decreased from 68.5% to 64.1%, while the expense ratio remained stable at 32.3%. A combined ratio below 100% indicates underwriting profitability. The CEO noted that "the improvement was driven by disciplined pricing and favourable weather conditions."</div>
+          <div class="al-q-text">"Alder Insurance made an underwriting loss in FY2023."</div>
+        </div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">True</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">False</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">Cannot Say</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p><strong>True — wait, let's check.</strong> The passage says "A combined ratio below 100% indicates underwriting profitability." In FY2023, the combined ratio was 101.2% — above 100%. Therefore, Alder was NOT profitable in underwriting in FY2023, meaning they made an underwriting loss. <strong>True.</strong></p></div>
+    </div>
+
+  </div><!-- /al-quiz -->
+
+  <div class="al-submit-area">
+    <div class="al-progress-text"><span id="alAnsweredCount2">0</span> of 12 answered</div>
+    <button class="al-submit-btn" id="alSubmitBtn" onclick="alSubmitQuiz()">Submit Answers</button>
+  </div>
+
+  <div class="al-next" id="alNextModule" style="display:none;">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Module</div>
+      <div class="al-next-title">Module 5 — Pressure Protocols &amp; Situational Judgement</div>
+      <div class="al-next-desc">Time management, provider-specific tips, SJTs, personality tests, and stress management — the skills that complete your preparation.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  var submitted = false;
+  var answers = {};
+  var totalQs = 12;
+  var startTime = Date.now();
+  var timerInterval = setInterval(function() {
+    var elapsed = Math.floor((Date.now() - startTime) / 1000);
+    var m = Math.floor(elapsed / 60), s = elapsed % 60;
+    var d = document.getElementById('alTimerDisplay');
+    if (d) d.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+  }, 1000);
+
+  // ── RESULTS SERVER URL ──
+  // IMPORTANT: Change this to your deployed server URL
+  var AL_RESULTS_URL = 'https://YOUR-SERVER-URL.com/api/results';
+
+  document.querySelectorAll('.al-q-block').forEach(function(block) {
+    block.querySelectorAll('.al-opt').forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        if (submitted) return;
+        var qNum = block.getAttribute('data-q');
+        block.querySelectorAll('.al-opt').forEach(function(o) { o.classList.remove('al-opt-selected'); });
+        opt.classList.add('al-opt-selected');
+        block.classList.add('al-q-answered');
+        answers[qNum] = parseInt(opt.getAttribute('data-opt'));
+        updateProgress();
+      });
+    });
+  });
+
+  function updateProgress() {
+    var count = Object.keys(answers).length;
+    var els1 = document.getElementById('alAnsweredCount');
+    var els2 = document.getElementById('alAnsweredCount2');
+    var fill = document.getElementById('alProgressFill');
+    if (els1) els1.textContent = count;
+    if (els2) els2.textContent = count;
+    if (fill) fill.style.width = (count / totalQs * 100) + '%';
+  }
+
+  window.alSubmitQuiz = function() {
+    if (submitted) return;
+    submitted = true;
+    clearInterval(timerInterval);
+    var timeTaken = Math.floor((Date.now() - startTime) / 1000);
+    var correct = 0, wrong = 0, skipped = 0;
+
+    document.querySelectorAll('.al-q-block').forEach(function(block) {
+      var qNum = block.getAttribute('data-q');
+      var correctIdx = parseInt(block.getAttribute('data-answer'));
+      var userAnswer = answers[qNum];
+      var explanation = block.querySelector('.al-q-explanation');
+      block.classList.add('al-q-submitted');
+      var correctOpt = block.querySelector('[data-opt="' + correctIdx + '"]');
+      if (correctOpt) correctOpt.classList.add('al-opt-correct-answer');
+      if (userAnswer === undefined) { skipped++; block.classList.add('al-q-incorrect'); explanation.classList.add('al-exp-skipped', 'al-exp-visible'); explanation.querySelector('.al-exp-label').textContent = 'SKIPPED'; }
+      else if (userAnswer === correctIdx) { correct++; block.classList.add('al-q-correct'); explanation.classList.add('al-exp-correct', 'al-exp-visible'); explanation.querySelector('.al-exp-label').textContent = 'CORRECT'; }
+      else { wrong++; block.classList.add('al-q-incorrect'); var wrongOpt = block.querySelector('[data-opt="' + userAnswer + '"]'); if (wrongOpt) wrongOpt.classList.add('al-opt-wrong-pick'); explanation.classList.add('al-exp-wrong', 'al-exp-visible'); explanation.querySelector('.al-exp-label').textContent = 'INCORRECT'; }
+    });
+
+    var pct = Math.round(correct / totalQs * 100);
+    var panel = document.getElementById('alResultPanel');
+    document.getElementById('alResultScore').textContent = correct + ' / ' + totalQs;
+    document.getElementById('alResultPct').textContent = pct + '%';
+    document.getElementById('alStatCorrect').textContent = correct;
+    document.getElementById('alStatWrong').textContent = wrong;
+    document.getElementById('alStatSkipped').textContent = skipped;
+
+    var tier = '';
+    if (pct >= 85) { panel.classList.add('al-result-excellent'); tier = 'Excellent'; document.getElementById('alResultMsg').textContent = 'Outstanding. Your logical reasoning is at assessment-ready level. Move on to Module 5 with confidence.'; }
+    else if (pct >= 65) { panel.classList.add('al-result-good'); tier = 'Good'; document.getElementById('alResultMsg').textContent = 'Solid performance. Review the questions you missed — particularly the explanations for verbal reasoning traps and deductive chains.'; }
+    else if (pct >= 45) { panel.classList.add('al-result-needs-work'); tier = 'Needs Work'; document.getElementById('alResultMsg').textContent = 'You have the foundations but need more practice. Revisit Lessons 4.1–4.4 and focus on the contrapositive technique and statement-first method.'; }
+    else { panel.classList.add('al-result-weak'); tier = 'Weak'; document.getElementById('alResultMsg').textContent = 'This module needs significant revision. Re-read Lessons 4.1–4.4, work through every example, then retake this test.'; }
+
+    panel.classList.add('al-result-visible');
+    document.getElementById('alSubmitBtn').classList.add('al-btn-hidden');
+    document.getElementById('alNextModule').style.display = 'flex';
+    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // ── Send results to server ──
+    try {
+      var nameEl = document.getElementById('alUserName');
+      var emailEl = document.getElementById('alUserEmail');
+      fetch(AL_RESULTS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          assessment_type: 'practice-4-6',
+          user_name: nameEl ? nameEl.value.trim() : '',
+          user_email: emailEl ? emailEl.value.trim() : '',
+          score_correct: correct,
+          score_total: totalQs,
+          score_percentage: pct,
+          score_wrong: wrong,
+          score_skipped: skipped,
+          time_taken_seconds: timeTaken,
+          performance_tier: tier,
+          answers: answers
+        })
+      }).catch(function(e) { console.warn('Results sync:', e); });
+    } catch(e) { console.warn('Results sync:', e); }
+  };
+})();
+</script>

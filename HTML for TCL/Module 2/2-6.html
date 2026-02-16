@@ -1,0 +1,810 @@
+<!--
+  ACUMEN LOGIC — Module 2.6: Core Skills Practice Test
+  For ThriveCart Learn Custom HTML Block
+  Interactive MCQ with scoring · Same CSS design system
+  
+  TYPE: Practice test (20 questions, multiple choice)
+  Covers: Percentages (2.1), Ratios (2.2), Fractions (2.3), 
+  Currency (2.4), Strategy (2.5 — tested implicitly)
+  
+  NOTE: This module requires <script> for quiz scoring functionality.
+  All previous lessons were pure CSS; this one needs interactivity.
+-->
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+  /* ═══ BRAND TOKENS ═══ */
+  .al-lesson {
+    --al-navy: #1B2A4A;
+    --al-navy-light: #2A3D66;
+    --al-navy-muted: #3D5280;
+    --al-gold: #C8A951;
+    --al-gold-light: #D4BC72;
+    --al-gold-pale: #F5EFD9;
+    --al-cream: #FAFAF6;
+    --al-white: #FFFFFF;
+    --al-text: #2C2C2C;
+    --al-text-light: #6B6B6B;
+    --al-border: #E8E4DA;
+    --al-success: #2D8F5E;
+    --al-danger: #C0392B;
+    --al-radius: 10px;
+    --al-radius-sm: 6px;
+    --al-shadow: 0 2px 12px rgba(27, 42, 74, 0.08);
+    --al-shadow-lg: 0 8px 32px rgba(27, 42, 74, 0.12);
+  }
+
+  /* ═══ RESET & BASE ═══ */
+  .al-lesson {
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .al-lesson h1, .al-lesson h2, .al-lesson h3 { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; color: var(--al-navy); line-height: 1.25; }
+
+  /* ═══ HERO ═══ */
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .al-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200, 169, 81, 0.08) 0%, transparent 70%); pointer-events: none; }
+  .al-hero-eyebrow { font-family: 'Source Sans 3', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem, 4vw, 2.2rem); margin-bottom: 0.75rem; }
+  .al-hero-subtitle { color: rgba(255, 255, 255, 0.9) !important; font-size: 1rem; max-width: 36rem; line-height: 1.5; }
+  .al-hero-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 1rem 0; }
+
+  /* ═══ QUIZ CONTAINER ═══ */
+  .al-quiz { margin-bottom: 2rem; }
+
+  /* ═══ QUESTION BLOCK ═══ */
+  .al-q-block { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--al-shadow); transition: border-color 0.3s ease; }
+  .al-q-block.al-q-answered { border-color: var(--al-gold); }
+  .al-q-block.al-q-correct { border-color: var(--al-success); }
+  .al-q-block.al-q-incorrect { border-color: var(--al-danger); }
+
+  .al-q-header { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem; }
+  .al-q-num { min-width: 2rem; height: 2rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
+  .al-q-topic { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-gold); margin-bottom: 0.25rem; }
+  .al-q-text { font-size: 1rem; font-weight: 600; color: var(--al-navy); line-height: 1.5; }
+  .al-q-context { font-size: 0.88rem; color: var(--al-text-light); margin-top: 0.35rem; font-style: italic; }
+
+  /* ═══ OPTION BUTTONS ═══ */
+  .al-options { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem; }
+
+  .al-opt { display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1.15rem; border: 2px solid var(--al-border); border-radius: var(--al-radius-sm); cursor: pointer; transition: all 0.2s ease; user-select: none; -webkit-user-select: none; background: var(--al-white); }
+  .al-opt:hover { border-color: var(--al-navy-muted); background: var(--al-cream); }
+
+  .al-opt-radio { width: 1.25rem; height: 1.25rem; border: 2px solid var(--al-border); border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+  .al-opt-radio::after { content: ''; width: 0.55rem; height: 0.55rem; border-radius: 50%; background: transparent; transition: background 0.2s ease; }
+
+  .al-opt.al-opt-selected { border-color: var(--al-navy); background: #F0F2F7; }
+  .al-opt.al-opt-selected .al-opt-radio { border-color: var(--al-navy); }
+  .al-opt.al-opt-selected .al-opt-radio::after { background: var(--al-navy); }
+
+  /* Post-submit states */
+  .al-opt.al-opt-correct-answer { border-color: var(--al-success); background: #EDF7F0; }
+  .al-opt.al-opt-correct-answer .al-opt-radio { border-color: var(--al-success); }
+  .al-opt.al-opt-correct-answer .al-opt-radio::after { background: var(--al-success); }
+
+  .al-opt.al-opt-wrong-pick { border-color: var(--al-danger); background: #FDF2F0; }
+  .al-opt.al-opt-wrong-pick .al-opt-radio { border-color: var(--al-danger); }
+  .al-opt.al-opt-wrong-pick .al-opt-radio::after { background: var(--al-danger); }
+
+  .al-opt-label { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; color: var(--al-navy); min-width: 1.5rem; font-size: 0.92rem; }
+  .al-opt-text { font-size: 0.92rem; color: var(--al-text); }
+
+  .al-q-block.al-q-submitted .al-opt { cursor: default; pointer-events: none; }
+
+  /* ═══ EXPLANATION (shown after submit) ═══ */
+  .al-q-explanation { display: none; margin-top: 1rem; padding: 1rem 1.25rem; border-radius: var(--al-radius-sm); font-size: 0.88rem; line-height: 1.55; }
+  .al-q-explanation.al-exp-correct { background: #EDF7F0; border-left: 4px solid var(--al-success); }
+  .al-q-explanation.al-exp-wrong { background: #FDF2F0; border-left: 4px solid var(--al-danger); }
+  .al-q-explanation.al-exp-skipped { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-q-explanation.al-exp-visible { display: block; }
+  .al-exp-label { font-weight: 700; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .al-exp-correct .al-exp-label { color: var(--al-success); }
+  .al-exp-wrong .al-exp-label { color: var(--al-danger); }
+  .al-exp-skipped .al-exp-label { color: #D4823A; }
+
+  /* ═══ RESULT PANEL ═══ */
+  .al-result-panel { display: none; border-radius: var(--al-radius); padding: 2rem; margin-bottom: 2rem; text-align: center; box-shadow: var(--al-shadow-lg); }
+  .al-result-panel.al-result-visible { display: block; }
+  .al-result-panel.al-result-excellent { background: linear-gradient(135deg, #1a3a2a 0%, #2D8F5E 100%); }
+  .al-result-panel.al-result-good { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 100%); }
+  .al-result-panel.al-result-needs-work { background: linear-gradient(135deg, #3a2a1a 0%, #D4823A 100%); }
+  .al-result-panel.al-result-weak { background: linear-gradient(135deg, #3a1a1a 0%, var(--al-danger) 100%); }
+
+  .al-result-score { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: clamp(2.5rem, 6vw, 3.5rem); color: var(--al-white) !important; margin-bottom: 0.25rem; }
+  .al-result-pct { font-size: 1.15rem; font-weight: 600; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-result-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.5rem; }
+  .al-result-msg { color: rgba(255, 255, 255, 0.9) !important; font-size: 0.95rem; line-height: 1.5; max-width: 32rem; margin: 0 auto; }
+
+  .al-result-breakdown { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1.25rem; flex-wrap: wrap; }
+  .al-result-stat { text-align: center; }
+  .al-result-stat-num { font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 1.5rem; color: var(--al-white) !important; }
+  .al-result-stat-lbl { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.7) !important; }
+
+  /* ═══ SUBMIT / PROGRESS ═══ */
+  .al-submit-area { text-align: center; margin: 2rem 0; }
+  
+  /* PREMIUM GOLD FINISH BUTTON - WHITE TEXT PER BRAND STANDARDS */
+  .al-submit-btn { 
+    display: inline-block; 
+    padding: 1.1rem 3rem; 
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; 
+    font-size: 1.1rem; 
+    font-weight: 700; 
+    color: var(--al-white) !important; 
+    background: linear-gradient(135deg, var(--al-gold) 0%, var(--al-gold-light) 100%); 
+    border: 2px solid var(--al-gold); 
+    border-radius: var(--al-radius); 
+    cursor: pointer; 
+    transition: all 0.3s ease; 
+    box-shadow: 0 4px 16px rgba(200, 169, 81, 0.4), 0 2px 8px rgba(27, 42, 74, 0.15); 
+    letter-spacing: 0.03em; 
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .al-submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  .al-submit-btn:hover { 
+    background: linear-gradient(135deg, var(--al-gold-light) 0%, #E0C878 100%); 
+    box-shadow: 0 6px 24px rgba(200, 169, 81, 0.5), 0 4px 12px rgba(27, 42, 74, 0.2); 
+    transform: translateY(-2px); 
+    border-color: var(--al-gold-light);
+  }
+  
+  .al-submit-btn:hover::before {
+    left: 100%;
+  }
+  
+  .al-submit-btn:active { 
+    transform: translateY(0); 
+    box-shadow: 0 2px 8px rgba(200, 169, 81, 0.4); 
+  }
+  
+  .al-submit-btn:disabled { 
+    background: var(--al-text-light); 
+    color: var(--al-white) !important;
+    border-color: var(--al-text-light);
+    cursor: not-allowed; 
+    transform: none; 
+    box-shadow: none; 
+  }
+  
+  .al-submit-btn.al-btn-hidden { display: none; }
+
+  .al-progress-text { font-size: 0.85rem; color: var(--al-text-light); margin-bottom: 0.75rem; }
+  .al-progress-bar { height: 6px; background: var(--al-border); border-radius: 3px; overflow: hidden; max-width: 20rem; margin: 0 auto 1rem; }
+  .al-progress-fill { height: 100%; background: var(--al-gold); border-radius: 3px; transition: width 0.4s ease; }
+
+  /* ═══ SECTION DIVIDER ═══ */
+  .al-q-divider { display: flex; align-items: center; gap: 0.75rem; margin: 2rem 0 1.5rem; }
+  .al-q-divider-line { flex: 1; height: 1px; background: var(--al-border); }
+  .al-q-divider-text { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--al-text-light); white-space: nowrap; }
+
+  /* ═══ CALLOUT ═══ */
+  .al-callout { border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; font-size: 0.92rem; }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-warn { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-callout-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .al-callout-tip .al-callout-label { color: var(--al-success); }
+  .al-callout-warn .al-callout-label { color: #D4823A; }
+
+  /* ═══ NEXT LESSON ═══ */
+  .al-next { background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .al-next-arrow { width: 2.5rem; height: 2.5rem; background: var(--al-navy); color: var(--al-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .al-next-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-text-light); margin-bottom: 0.15rem; }
+  .al-next-title { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-weight: 700; color: var(--al-navy); font-size: 1rem; }
+  .al-next-desc { font-size: 0.85rem; color: var(--al-text-light); margin-top: 0.15rem; }
+
+  /* ═══ UTILITY ═══ */
+  .al-lesson strong { color: var(--al-navy); }
+  .al-divider { border: none; height: 1px; background: var(--al-border); margin: 2rem 0; }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .al-q-block { padding: 1.15rem; }
+    .al-opt { padding: 0.75rem 1rem; }
+    .al-result-panel { padding: 1.5rem 1rem; }
+    .al-result-breakdown { gap: 1rem; }
+    .al-next { flex-direction: column; text-align: center; }
+    .al-submit-btn { padding: 1rem 2rem; font-size: 1rem; width: 100%; max-width: 300px; }
+    .al-id-fields { flex-direction: column; }
+  }
+  .al-id-form { background: var(--al-white); border: 2px solid var(--al-gold); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; }
+  .al-id-form-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--al-navy); margin-bottom: 0.75rem; }
+  .al-id-fields { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .al-id-input { flex: 1; min-width: 180px; padding: 0.6rem 1rem; border: 2px solid var(--al-border); border-radius: var(--al-radius-sm); font-family: 'Source Sans 3',sans-serif; font-size: 0.88rem; outline: none; transition: border-color 0.2s; }
+  .al-id-input:focus { border-color: var(--al-gold); }
+  .al-id-input::placeholder { color: #B0B0B0; }
+  .al-timer { font-size: 0.85rem; color: var(--al-text-light); text-align: center; margin-bottom: 0.5rem; }
+  .al-timer strong { color: var(--al-navy); font-variant-numeric: tabular-nums; }
+</style>
+
+<div class="al-lesson" id="alQuizTop">
+
+  <!-- ═══ RESULT PANEL (hidden until submit) ═══ -->
+  <div class="al-result-panel" id="alResultPanel">
+    <div class="al-result-label">Your Score</div>
+    <div class="al-result-score" id="alResultScore">—</div>
+    <div class="al-result-pct" id="alResultPct">—</div>
+    <div class="al-result-msg" id="alResultMsg">—</div>
+    <div class="al-result-breakdown">
+      <div class="al-result-stat"><div class="al-result-stat-num" id="alStatCorrect">—</div><div class="al-result-stat-lbl">Correct</div></div>
+      <div class="al-result-stat"><div class="al-result-stat-num" id="alStatWrong">—</div><div class="al-result-stat-lbl">Wrong</div></div>
+      <div class="al-result-stat"><div class="al-result-stat-num" id="alStatSkipped">—</div><div class="al-result-stat-lbl">Skipped</div></div>
+    </div>
+  </div>
+
+  <!-- ═══ HERO ═══ -->
+  <div class="al-hero" id="alHero">
+    <div class="al-hero-eyebrow">Module 2 · Lesson 2.6</div>
+    <h1>Core Skills Practice Test</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">20 exam-style questions covering Lessons 2.1–2.5. Difficulty varies — some questions are straightforward, others will push you. Select your answer for each question, then submit at the bottom.</p>
+  </div>
+
+  <div class="al-callout al-callout-tip">
+    <div class="al-callout-label">Before You Start</div>
+    <p>Use a calculator where needed. You can change your answer to any question at any time before submitting. Unanswered questions will be marked as skipped. Scroll through all 20 questions, then hit Submit at the bottom.</p>
+  </div>
+
+  <div class="al-id-form">
+    <div class="al-id-form-label">Your Details (for your results record)</div>
+    <div class="al-id-fields">
+      <input type="text" class="al-id-input" id="alUserName" placeholder="Full name" autocomplete="name">
+      <input type="email" class="al-id-input" id="alUserEmail" placeholder="Email address" autocomplete="email">
+    </div>
+  </div>
+
+  <div class="al-timer" id="alTimer">Time elapsed: <strong id="alTimerDisplay">0:00</strong></div>
+
+  <!-- ═══ PROGRESS ═══ -->
+  <div class="al-submit-area" id="alProgressArea">
+    <div class="al-progress-text"><span id="alAnsweredCount">0</span> of 20 answered</div>
+    <div class="al-progress-bar"><div class="al-progress-fill" id="alProgressFill" style="width: 0%;"></div></div>
+  </div>
+
+  <!-- ═══ QUIZ ═══ -->
+  <div class="al-quiz" id="alQuiz">
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- SECTION: PERCENTAGES                  -->
+    <!-- ══════════════════════════════════════ -->
+    <div class="al-q-divider"><span class="al-q-divider-line"></span><span class="al-q-divider-text">Percentages — Lesson 2.1</span><span class="al-q-divider-line"></span></div>
+
+    <!-- Q1 · EASY -->
+    <div class="al-q-block" data-q="1" data-answer="1">
+      <div class="al-q-header">
+        <div class="al-q-num">1</div>
+        <div><div class="al-q-topic">Percentage Of</div><div class="al-q-text">A company's annual revenue is £4.8 million. Marketing spend is 14% of revenue. What is the marketing spend?</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£576,000</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£672,000</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£720,000</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£768,000</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>£4,800,000 × 0.14 = <strong>£672,000</strong>. Option A (£576,000) is 12% of revenue. Option D (£768,000) is 16%.</p></div>
+    </div>
+
+    <!-- Q2 · MEDIUM -->
+    <div class="al-q-block" data-q="2" data-answer="1">
+      <div class="al-q-header">
+        <div class="al-q-num">2</div>
+        <div><div class="al-q-topic">Percentage Increase</div><div class="al-q-text">Sales rose from £320,000 to £400,000. What was the percentage increase?</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">20%</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">25%</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">30%</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">80%</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>(£400,000 − £320,000) ÷ £320,000 × 100 = <strong>25%</strong>. Option A (20%) is what you get dividing the change by the NEW value — the reverse percentage trap. Option D (80%) is £320k ÷ £400k — wrong operation entirely.</p></div>
+    </div>
+
+    <!-- Q3 · MEDIUM -->
+    <div class="al-q-block" data-q="3" data-answer="1">
+      <div class="al-q-header">
+        <div class="al-q-num">3</div>
+        <div><div class="al-q-topic">Reverse Percentage</div><div class="al-q-text">After a 15% discount, a consulting fee is £2,125. What was the original fee before the discount?</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£2,443.75</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£2,500.00</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£2,550.00</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£2,656.25</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>£2,125 ÷ 0.85 = <strong>£2,500</strong>. Reverse percentage: divide by (1 − discount). Option A (£2,443.75) is £2,125 × 1.15 — the classic trap of adding the percentage back to the discounted amount instead of dividing.</p></div>
+    </div>
+
+    <!-- Q4 · HARD -->
+    <div class="al-q-block" data-q="4" data-answer="2">
+      <div class="al-q-header">
+        <div class="al-q-num">4</div>
+        <div><div class="al-q-topic">Multi-Step Percentage</div><div class="al-q-text">Company A's revenue grew 20% from £500,000. Company B's revenue fell 10% from £700,000. After these changes, what is Company A's revenue as a percentage of Company B's?</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">85.7%</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">90.0%</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">95.2%</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">100.0%</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>A new: £500,000 × 1.20 = £600,000. B new: £700,000 × 0.90 = £630,000. A as % of B: £600,000 ÷ £630,000 × 100 = <strong>95.2%</strong>. Option A (85.7%) uses the original values (500/700). Option B (90%) confuses the percentage changes themselves. Three steps required — pre-check is essential.</p></div>
+    </div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- SECTION: RATIOS                       -->
+    <!-- ══════════════════════════════════════ -->
+    <div class="al-q-divider"><span class="al-q-divider-line"></span><span class="al-q-divider-text">Ratios & Proportions — Lesson 2.2</span><span class="al-q-divider-line"></span></div>
+
+    <!-- Q5 · EASY -->
+    <div class="al-q-block" data-q="5" data-answer="2">
+      <div class="al-q-header">
+        <div class="al-q-num">5</div>
+        <div><div class="al-q-topic">Ratio Sharing</div><div class="al-q-text">A £900,000 investment fund is split between equities, bonds, and cash in the ratio 5 : 3 : 1. How much is allocated to bonds?</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£100,000</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£200,000</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£300,000</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£500,000</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>Total parts = 5 + 3 + 1 = 9. Bonds = 3/9 × £900,000 = <strong>£300,000</strong>. Option A (£100,000) is cash (1 part). Option D (£500,000) is equities (5 parts).</p></div>
+    </div>
+
+    <!-- Q6 · MEDIUM -->
+    <div class="al-q-block" data-q="6" data-answer="1">
+      <div class="al-q-header">
+        <div class="al-q-num">6</div>
+        <div><div class="al-q-topic">Proportion</div><div class="al-q-text">In a department of 240 staff, the ratio of full-time to part-time workers is 5 : 3. How many are part-time?</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">80</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">90</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">120</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">150</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>Total parts = 5 + 3 = 8. Part-time = 3/8 × 240 = <strong>90</strong>. Option C (120) is half the department — that would require a 1:1 ratio. Option D (150) is the full-time count — right calculation, wrong group.</p></div>
+    </div>
+
+    <!-- Q7 · MEDIUM -->
+    <div class="al-q-block" data-q="7" data-answer="1">
+      <div class="al-q-header">
+        <div class="al-q-num">7</div>
+        <div><div class="al-q-topic">Changing Ratios</div><div class="al-q-text">A department has 60 staff split in the ratio 2 : 1 between analysts and support. Management then hires 15 more analysts. What is the new ratio of analysts to support staff?</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">3 : 1</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">11 : 4</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">11 : 5</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">5 : 2</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>Original: 2 parts + 1 part = 3 parts. Analysts = 2/3 × 60 = 40. Support = 20. After hiring: 40 + 15 = 55 analysts. New ratio: 55 : 20 = <strong>11 : 4</strong> (÷ 5). Option A (3:1 = 60:20) would require 60 analysts. The trap is forgetting to calculate the original headcounts before adding.</p></div>
+    </div>
+
+    <!-- Q8 · HARD -->
+    <div class="al-q-block" data-q="8" data-answer="2">
+      <div class="al-q-header">
+        <div class="al-q-num">8</div>
+        <div><div class="al-q-topic">Reverse Ratio</div><div class="al-q-text">Three partners share profits in the ratio 5 : 3 : 2. Partner A receives £75,000 more than Partner C. What is the total profit?</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£150,000</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£200,000</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£250,000</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£375,000</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>A gets 5 parts, C gets 2 parts. Difference = 3 parts = £75,000. One part = £25,000. Total = 10 parts × £25,000 = <strong>£250,000</strong>. Option A (£150,000) treats the £75,000 as 5 parts. Option D (£375,000) uses 5 parts = £75,000, giving £15,000 per part × 25 parts. Working backwards from a difference is a common SHL pattern.</p></div>
+    </div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- SECTION: FRACTIONS                    -->
+    <!-- ══════════════════════════════════════ -->
+    <div class="al-q-divider"><span class="al-q-divider-line"></span><span class="al-q-divider-text">Fractions & Decimals — Lesson 2.3</span><span class="al-q-divider-line"></span></div>
+
+    <!-- Q9 · EASY -->
+    <div class="al-q-block" data-q="9" data-answer="2">
+      <div class="al-q-header">
+        <div class="al-q-num">9</div>
+        <div><div class="al-q-topic">Conversion</div><div class="al-q-text">Which of the following is the decimal equivalent of 7/8?</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">0.785</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">0.850</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">0.875</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">0.888</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>7 ÷ 8 = <strong>0.875</strong>. This is a key conversion to memorise. Option D (0.888) is close to 8/9. Option B (0.850) is 17/20.</p></div>
+    </div>
+
+    <!-- Q10 · MEDIUM -->
+    <div class="al-q-block" data-q="10" data-answer="1">
+      <div class="al-q-header">
+        <div class="al-q-num">10</div>
+        <div><div class="al-q-topic">Comparing Formats</div><div class="al-q-text">Which of the following values is the largest?</div><div class="al-q-context">5/8 &nbsp;&nbsp; 0.64 &nbsp;&nbsp; 63.5%</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">5/8</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">0.64</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">63.5%</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">They are all equal</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>Convert all to decimals: 5/8 = 0.625, 63.5% = 0.635, 0.64 = 0.640. The largest is <strong>0.64</strong>. They look close but they aren't equal — convert everything to the same format before comparing.</p></div>
+    </div>
+
+    <!-- Q11 · MEDIUM -->
+    <div class="al-q-block" data-q="11" data-answer="2">
+      <div class="al-q-header">
+        <div class="al-q-num">11</div>
+        <div><div class="al-q-topic">Three-Fraction Budget</div><div class="al-q-text">A £2.4 million budget allocates 2/5 to salaries, 1/4 to rent, and 1/6 to operations. How much remains for discretionary spending?</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£360,000</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£400,000</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£440,000</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£1,960,000</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>LCD = 60. Allocated: 2/5 + 1/4 + 1/6 = 24/60 + 15/60 + 10/60 = 49/60. Remainder = 11/60. 11/60 × £2,400,000 = <strong>£440,000</strong>. Option D (£1,960,000) is the total allocated (49/60). Option A uses an LCD of 20 and only adds two fractions. Three denominators make the common denominator step the real challenge.</p></div>
+    </div>
+
+    <!-- Q12 · HARD -->
+    <div class="al-q-block" data-q="12" data-answer="1">
+      <div class="al-q-header">
+        <div class="al-q-num">12</div>
+        <div><div class="al-q-topic">Fraction + Percentage</div><div class="al-q-text">A company has 1,800 employees. Five-sixths are full-time. Of the full-time staff, three-fifths are client-facing. Client-facing staff each receive a 4% bonus on a £42,000 base salary. What is the total bonus cost?</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£1,209,600</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£1,512,000</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£2,520,000</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£3,024,000</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>5/6 × 3/5 = 15/30 = 1/2. Client-facing = 1,800 × 1/2 = 900. Bonus each = £42,000 × 0.04 = £1,680. Total = 900 × £1,680 = <strong>£1,512,000</strong>. Option A (£1,209,600) uses only 3/5 of total staff (ignoring the full-time filter). Option C (£2,520,000) applies the bonus to all 1,500 full-time staff. Option D applies it to all 1,800. Four steps and two fraction filters make this Tier 3.</p></div>
+    </div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- SECTION: CURRENCY                     -->
+    <!-- ══════════════════════════════════════ -->
+    <div class="al-q-divider"><span class="al-q-divider-line"></span><span class="al-q-divider-text">Currency & Unit Conversions — Lesson 2.4</span><span class="al-q-divider-line"></span></div>
+
+    <!-- Q13 · EASY -->
+    <div class="al-q-block" data-q="13" data-answer="2">
+      <div class="al-q-header">
+        <div class="al-q-num">13</div>
+        <div><div class="al-q-topic">Simple Conversion</div><div class="al-q-text">Convert £8,000 to US dollars. GBP/USD = 1.27.</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">$6,299.21</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£6,299.21</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">$10,160</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">$10,800</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>Converting FROM GBP (base) → multiply: £8,000 × 1.27 = <strong>$10,160</strong>. Option A ($6,299.21) divides instead of multiplying — wrong direction.</p></div>
+    </div>
+
+    <!-- Q14 · MEDIUM -->
+    <div class="al-q-block" data-q="14" data-answer="0">
+      <div class="al-q-header">
+        <div class="al-q-num">14</div>
+        <div><div class="al-q-topic">Buy/Sell Rates</div><div class="al-q-text">You want to buy €5,000 for a business trip. How much GBP do you need?</div><div class="al-q-context">GBP/EUR: Bank Buys 1.14 &nbsp;&nbsp; Bank Sells 1.18</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£4,237.29</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£4,385.96</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£5,700.00</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£5,900.00</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>You're buying EUR → bank is selling → use the sell rate (1.18). €5,000 ÷ 1.18 = <strong>£4,237.29</strong>. Option B (£4,385.96) uses the buy rate (1.14). Options C and D multiply instead of dividing. Two decisions: which rate, and which operation.</p></div>
+    </div>
+
+    <!-- Q15 · MEDIUM -->
+    <div class="al-q-block" data-q="15" data-answer="2">
+      <div class="al-q-header">
+        <div class="al-q-num">15</div>
+        <div><div class="al-q-topic">Cross-Currency</div><div class="al-q-text">Convert €23,200 to Japanese yen.</div><div class="al-q-context">GBP/EUR = 1.16 &nbsp;&nbsp; GBP/JPY = 189.50</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">¥3,216,400</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">¥3,524,800</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">¥3,790,000</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">¥4,396,400</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>Chain: EUR → GBP → JPY. €23,200 ÷ 1.16 = £20,000. Then £20,000 × 189.50 = <strong>¥3,790,000</strong>. Option D (¥4,396,400) is €23,200 × 189.50 — skipping the GBP conversion step entirely.</p></div>
+    </div>
+
+    <!-- Q16 · HARD -->
+    <div class="al-q-block" data-q="16" data-answer="0">
+      <div class="al-q-header">
+        <div class="al-q-num">16</div>
+        <div><div class="al-q-topic">Multi-Currency Comparison</div><div class="al-q-text">A UK company receives two payments: $63,500 from a US client and €34,800 from a French client. What is the combined value in GBP?</div><div class="al-q-context">GBP/USD = 1.27 &nbsp;&nbsp; GBP/EUR = 1.16</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£80,000</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£84,580</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£98,300</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£121,234</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>US: $63,500 ÷ 1.27 = £50,000. France: €34,800 ÷ 1.16 = £30,000. Combined: <strong>£80,000</strong>. Option B adds the raw foreign amounts and divides by a single rate. Option D multiplies both instead of dividing. Two separate conversions plus a sum — requires careful tracking of each step.</p></div>
+    </div>
+
+    <!-- Q17 · HARD -->
+    <div class="al-q-block" data-q="17" data-answer="1">
+      <div class="al-q-header">
+        <div class="al-q-num">17</div>
+        <div><div class="al-q-topic">Rate Movement + Percentage</div><div class="al-q-text">A UK firm invoiced a client €87,000 when GBP/EUR was 1.16. By the time payment arrived, the rate had moved to 1.20. What percentage of the expected GBP amount did the company lose due to the rate change?</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">2.50%</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">3.33%</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">3.45%</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">4.00%</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>At 1.16: €87,000 ÷ 1.16 = £75,000. At 1.20: €87,000 ÷ 1.20 = £72,500. Loss = £2,500. As % of original: £2,500 ÷ £75,000 × 100 = <strong>3.33%</strong>. Option C (3.45%) divides the loss by the new amount (£72,500). Option D (4.00%) treats the rate change itself as the percentage. Three steps combining currency with percentage change.</p></div>
+    </div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- SECTION: MULTI-STEP                   -->
+    <!-- ══════════════════════════════════════ -->
+    <div class="al-q-divider"><span class="al-q-divider-line"></span><span class="al-q-divider-text">Multi-Step & Combined Skills — Lessons 2.1–2.5</span><span class="al-q-divider-line"></span></div>
+
+    <!-- Q18 · MEDIUM -->
+    <div class="al-q-block" data-q="18" data-answer="2">
+      <div class="al-q-header">
+        <div class="al-q-num">18</div>
+        <div><div class="al-q-topic">Profit Comparison</div><div class="al-q-text">A company's Q1 revenue was £1.6m with a 35% profit margin. Q2 revenue rose to £2.0m with a 28% profit margin. What was the change in profit between Q1 and Q2?</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">Profit fell by £36,000</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">Profit rose by £36,000</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">Profit stayed the same</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">Profit rose by £400,000</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>Q1 profit: £1,600,000 × 0.35 = £560,000. Q2 profit: £2,000,000 × 0.28 = £560,000. <strong>Profit stayed the same</strong> — the higher revenue exactly offset the lower margin. Revenue growth doesn't guarantee profit growth. Option D (£400,000) is just the revenue difference.</p></div>
+    </div>
+
+    <!-- Q19 · HARD -->
+    <div class="al-q-block" data-q="19" data-answer="1">
+      <div class="al-q-header">
+        <div class="al-q-num">19</div>
+        <div><div class="al-q-topic">Ratio + Percentage</div><div class="al-q-text">A fund distributes £840,000 in profits in the ratio 3 : 2 : 1. The largest share recipient must pay 40% tax on their share. How much do they retain after tax?</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">£168,000</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">£252,000</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">£336,000</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">£420,000</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>Total parts = 6. Largest share = 3/6 × £840,000 = £420,000. After 40% tax: £420,000 × 0.60 = <strong>£252,000</strong>. Option A (£168,000) is 40% of the share — the tax paid, not the amount retained. Option D (£420,000) ignores the tax step entirely. Two-step: ratio first, then tax.</p></div>
+    </div>
+
+    <!-- Q20 · HARD -->
+    <div class="al-q-block" data-q="20" data-answer="2">
+      <div class="al-q-header">
+        <div class="al-q-num">20</div>
+        <div><div class="al-q-topic">Currency + Margin Analysis</div><div class="al-q-text">A company's UK division has £2.1m revenue with a 22% profit margin. The US division has $3,048,000 revenue with an 18% profit margin. What percentage of the company's total profit comes from the US division?</div><div class="al-q-context">GBP/USD = 1.27</div></div>
+      </div>
+      <div class="al-options">
+        <div class="al-opt" data-opt="0"><div class="al-opt-radio"></div><div class="al-opt-label">A</div><div class="al-opt-text">43.2%</div></div>
+        <div class="al-opt" data-opt="1"><div class="al-opt-radio"></div><div class="al-opt-label">B</div><div class="al-opt-text">45.0%</div></div>
+        <div class="al-opt" data-opt="2"><div class="al-opt-radio"></div><div class="al-opt-label">C</div><div class="al-opt-text">48.3%</div></div>
+        <div class="al-opt" data-opt="3"><div class="al-opt-radio"></div><div class="al-opt-label">D</div><div class="al-opt-text">53.4%</div></div>
+      </div>
+      <div class="al-q-explanation"><div class="al-exp-label"></div><p>UK profit: £2,100,000 × 0.22 = £462,000. US revenue in GBP: $3,048,000 ÷ 1.27 = £2,400,000. US profit: £2,400,000 × 0.18 = £432,000. Combined profit: £462,000 + £432,000 = £894,000. US share: £432,000 ÷ £894,000 × 100 = <strong>48.3%</strong>. Option D calculates US share of revenue, not profit. Option A uses $3,048,000 without converting. Five steps requiring currency conversion, margin calculation, and percentage — a genuine Tier 3 question.</p></div>
+    </div>
+
+  </div><!-- end .al-quiz -->
+
+  <!-- ═══ SUBMIT / RETAKE AREA ═══ -->
+  <div class="al-submit-area" id="alSubmitArea">
+    <div class="al-progress-text"><span id="alAnsweredCount2">0</span> of 20 answered</div>
+    <button class="al-submit-btn" id="alSubmitBtn" onclick="alSubmitQuiz()">Submit Test</button>
+    <button class="al-submit-btn al-btn-hidden" id="alRetakeBtn" onclick="alRetakeQuiz()" style="margin-left: 1rem;">Retake Test</button>
+  </div>
+
+  <hr class="al-divider" id="alPostDivider" style="display:none;">
+
+  <!-- ═══ NEXT MODULE ═══ -->
+  <div class="al-next" id="alNextModule" style="display:none;">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Module</div>
+      <div class="al-next-title">Module 3 — Data Interpretation &amp; Applied Numeracy</div>
+      <div class="al-next-desc">Charts, tables, and multi-source data questions — the format you'll see most in real SHL and Kenexa tests.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  var submitted = false;
+  var answers = {};
+  var totalQs = 20;
+  var startTime = Date.now();
+  var timerInterval = setInterval(function() {
+    var elapsed = Math.floor((Date.now() - startTime) / 1000);
+    var m = Math.floor(elapsed / 60), s = elapsed % 60;
+    var d = document.getElementById('alTimerDisplay');
+    if (d) d.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+  }, 1000);
+
+  // ── RESULTS SERVER URL ──
+  // IMPORTANT: Change this to your deployed server URL
+  var AL_RESULTS_URL = 'https://YOUR-SERVER-URL.com/api/results';
+
+  document.querySelectorAll('.al-q-block').forEach(function(block) {
+    block.querySelectorAll('.al-opt').forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        if (submitted) return;
+        var qNum = block.getAttribute('data-q');
+        block.querySelectorAll('.al-opt').forEach(function(o) { o.classList.remove('al-opt-selected'); });
+        opt.classList.add('al-opt-selected');
+        block.classList.add('al-q-answered');
+        answers[qNum] = parseInt(opt.getAttribute('data-opt'));
+        updateProgress();
+      });
+    });
+  });
+
+  function updateProgress() {
+    var count = Object.keys(answers).length;
+    var els1 = document.getElementById('alAnsweredCount');
+    var els2 = document.getElementById('alAnsweredCount2');
+    var fill = document.getElementById('alProgressFill');
+    if (els1) els1.textContent = count;
+    if (els2) els2.textContent = count;
+    if (fill) fill.style.width = (count / totalQs * 100) + '%';
+  }
+
+  window.alSubmitQuiz = function() {
+    if (submitted) return;
+    submitted = true;
+    clearInterval(timerInterval);
+    var timeTaken = Math.floor((Date.now() - startTime) / 1000);
+
+    var correct = 0;
+    var wrong = 0;
+    var skipped = 0;
+
+    document.querySelectorAll('.al-q-block').forEach(function(block) {
+      var qNum = block.getAttribute('data-q');
+      var correctIdx = parseInt(block.getAttribute('data-answer'));
+      var userAnswer = answers[qNum];
+      var explanation = block.querySelector('.al-q-explanation');
+      block.classList.add('al-q-submitted');
+      var correctOpt = block.querySelector('[data-opt="' + correctIdx + '"]');
+      if (correctOpt) correctOpt.classList.add('al-opt-correct-answer');
+      if (userAnswer === undefined) {
+        skipped++;
+        block.classList.add('al-q-incorrect');
+        explanation.classList.add('al-exp-skipped', 'al-exp-visible');
+        explanation.querySelector('.al-exp-label').textContent = 'SKIPPED';
+      } else if (userAnswer === correctIdx) {
+        correct++;
+        block.classList.add('al-q-correct');
+        explanation.classList.add('al-exp-correct', 'al-exp-visible');
+        explanation.querySelector('.al-exp-label').textContent = 'CORRECT';
+      } else {
+        wrong++;
+        block.classList.add('al-q-incorrect');
+        var wrongOpt = block.querySelector('[data-opt="' + userAnswer + '"]');
+        if (wrongOpt) wrongOpt.classList.add('al-opt-wrong-pick');
+        explanation.classList.add('al-exp-wrong', 'al-exp-visible');
+        explanation.querySelector('.al-exp-label').textContent = 'INCORRECT';
+      }
+    });
+
+    var pct = Math.round(correct / totalQs * 100);
+    var panel = document.getElementById('alResultPanel');
+    var scoreEl = document.getElementById('alResultScore');
+    var pctEl = document.getElementById('alResultPct');
+    var msgEl = document.getElementById('alResultMsg');
+
+    scoreEl.textContent = correct + ' / ' + totalQs;
+    pctEl.textContent = pct + '%';
+    document.getElementById('alStatCorrect').textContent = correct;
+    document.getElementById('alStatWrong').textContent = wrong;
+    document.getElementById('alStatSkipped').textContent = skipped;
+
+    panel.classList.remove('al-result-excellent', 'al-result-good', 'al-result-needs-work', 'al-result-weak');
+    var tier = '';
+    if (pct >= 85) {
+      panel.classList.add('al-result-excellent'); tier = 'Excellent';
+      msgEl.textContent = 'Excellent. Your core numerical skills are strong. You\'re well-prepared for the calculation demands of SHL and Kenexa tests. Focus your remaining study time on data interpretation speed and question triage under time pressure.';
+    } else if (pct >= 65) {
+      panel.classList.add('al-result-good'); tier = 'Good';
+      msgEl.textContent = 'Solid foundation. You\'re handling most question types well, but there are gaps that could cost you marks under pressure. Review the explanations for any questions you got wrong — the trap answers reveal exactly where your process breaks down.';
+    } else if (pct >= 45) {
+      panel.classList.add('al-result-needs-work'); tier = 'Needs Work';
+      msgEl.textContent = 'These core skills need more work before you\'re test-ready. The good news: the errors are almost certainly process-based, not knowledge-based. Go back through the specific lessons flagged in your wrong answers and focus on the worked examples.';
+    } else {
+      panel.classList.add('al-result-weak'); tier = 'Weak';
+      msgEl.textContent = 'This score suggests fundamental gaps in one or more core areas. Don\'t panic — this is exactly what the diagnostic identified, and exactly what this course is built to fix. Revisit Lessons 2.1–2.4 methodically, working through every example before attempting this test again.';
+    }
+
+    panel.classList.add('al-result-visible');
+    document.getElementById('alSubmitBtn').classList.add('al-btn-hidden');
+    document.getElementById('alRetakeBtn').classList.remove('al-btn-hidden');
+    document.getElementById('alPostDivider').style.display = 'block';
+    document.getElementById('alNextModule').style.display = 'flex';
+
+    var topEl = document.getElementById('alQuizTop');
+    if (topEl) topEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // ── Send results to server ──
+    try {
+      var nameEl = document.getElementById('alUserName');
+      var emailEl = document.getElementById('alUserEmail');
+      fetch(AL_RESULTS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          assessment_type: 'practice-2-6',
+          user_name: nameEl ? nameEl.value.trim() : '',
+          user_email: emailEl ? emailEl.value.trim() : '',
+          score_correct: correct,
+          score_total: totalQs,
+          score_percentage: pct,
+          score_wrong: wrong,
+          score_skipped: skipped,
+          time_taken_seconds: timeTaken,
+          performance_tier: tier,
+          answers: answers
+        })
+      }).catch(function(e) { console.warn('Results sync:', e); });
+    } catch(e) { console.warn('Results sync:', e); }
+  };
+
+  // RETAKE FUNCTIONALITY
+  window.alRetakeQuiz = function() {
+    submitted = false;
+    answers = {};
+    startTime = Date.now();
+    timerInterval = setInterval(function() {
+      var elapsed = Math.floor((Date.now() - startTime) / 1000);
+      var m = Math.floor(elapsed / 60), s = elapsed % 60;
+      var d = document.getElementById('alTimerDisplay');
+      if (d) d.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+    }, 1000);
+
+    var panel = document.getElementById('alResultPanel');
+    panel.classList.remove('al-result-visible', 'al-result-excellent', 'al-result-good', 'al-result-needs-work', 'al-result-weak');
+
+    document.querySelectorAll('.al-q-block').forEach(function(block) {
+      block.classList.remove('al-q-submitted', 'al-q-correct', 'al-q-incorrect', 'al-q-answered');
+      block.querySelectorAll('.al-opt').forEach(function(opt) {
+        opt.classList.remove('al-opt-selected', 'al-opt-correct-answer', 'al-opt-wrong-pick');
+        opt.style.pointerEvents = '';
+        opt.style.cursor = 'pointer';
+      });
+      var explanation = block.querySelector('.al-q-explanation');
+      if (explanation) {
+        explanation.classList.remove('al-exp-visible', 'al-exp-correct', 'al-exp-wrong', 'al-exp-skipped');
+        explanation.querySelector('.al-exp-label').textContent = '';
+      }
+    });
+
+    updateProgress();
+    document.getElementById('alRetakeBtn').classList.add('al-btn-hidden');
+    document.getElementById('alSubmitBtn').classList.remove('al-btn-hidden');
+    document.getElementById('alPostDivider').style.display = 'none';
+    document.getElementById('alNextModule').style.display = 'none';
+
+    var topEl = document.getElementById('alQuizTop');
+    if (topEl) topEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+})();
+</script>

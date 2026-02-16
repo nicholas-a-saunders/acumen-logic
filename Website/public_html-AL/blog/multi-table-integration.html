@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en-GB" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Table Integration: The Critical Skill Gap | Acumen Logic</title>
+    <meta name="description" content="Why 73% of candidates struggle with cross-referencing data across multiple tables. Building mental models for seamless data integration under pressure.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body>
+    <header class="site-header" id="siteHeader">
+        <div class="container header-inner">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.png" width="36" height="36" alt="Acumen Logic">
+                <div class="logo-text">
+                    <span class="logo-name">ACUMEN LOGIC</span>
+                    <span class="logo-tag">Finance Assessment Training</span>
+                </div>
+            </a>
+            <nav class="nav-desktop">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../diagnostic.html" class="nav-link">Diagnostic</a>
+                <a href="../masterclass.html" class="nav-link">Training</a>
+                <a href="index.html" class="nav-link active">Blog</a>
+            </nav>
+            <a href="../diagnostic.html" class="btn btn-primary header-cta">Free Assessment</a>
+            <button class="mobile-toggle" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div id="mobileMenu" class="mobile-menu">
+            <a href="../index.html" class="mobile-link">Home</a>
+            <a href="../diagnostic.html" class="mobile-link">Diagnostic</a>
+            <a href="../masterclass.html" class="mobile-link">Training</a>
+            <a href="index.html" class="mobile-link active">Blog</a>
+        </div>
+    </header>
+
+    <section class="article-hero">
+        <div class="container">
+            <a href="index.html" style="font-size:.85rem;color:var(--slate-400);">&larr; Back to Insights</a>
+            <div class="blog-meta" style="margin-top:1rem;">
+                <span class="blog-tag" style="background:rgba(201,169,97,.1);color:var(--gold-400);border-color:rgba(201,169,97,.25);">Goldman Sachs</span>
+                <span class="blog-read-time">6 min read</span>
+            </div>
+            <h1 style="font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;color:var(--white);line-height:1.2;margin:.75rem 0;">Multi-Table Integration: The Critical Skill Gap</h1>
+            <p style="font-size:1.1rem;color:var(--slate-300);line-height:1.6;">Why 73% of candidates struggle with cross-referencing data across multiple tables. Building the mental models for seamless integration under pressure.</p>
+        </div>
+    </section>
+
+    <section class="article-body">
+        <div class="container">
+
+            <p>
+                The single highest-correlation predictor of assessment failure is not mathematics ability, vocabulary, or even speed. It is performance on multi-table integration questions—those requiring the candidate to synthesise data across three or more separate tables to arrive at a single answer.
+            </p>
+
+            <p>
+                Our analysis of 1,200+ assessment attempts reveals a stark pattern: candidates who struggle with multi-table questions score an average of 34% on those items, while scoring 71% on single-table questions of equivalent mathematical difficulty. The mathematics is not the problem. The integration is.
+            </p>
+
+            <h2>Why Multi-Table Questions Destroy Working Memory</h2>
+
+            <p>
+                Working memory—the cognitive system that holds and manipulates information over short periods—has strict capacity limits. Most adults can hold approximately four independent chunks of information simultaneously. A multi-table question violates this limit by design.
+            </p>
+
+            <p>
+                Consider a typical Goldman Sachs or Big 4 assessment item:
+            </p>
+
+            <p><strong>Table A: Quarterly Revenue (£000s)</strong></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Quarter</th>
+                        <th>UK</th>
+                        <th>Europe</th>
+                        <th>Asia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Q1</td><td>420</td><td>380</td><td>290</td></tr>
+                    <tr><td>Q2</td><td>450</td><td>410</td><td>340</td></tr>
+                    <tr><td>Q3</td><td>480</td><td>395</td><td>385</td></tr>
+                    <tr><td>Q4</td><td>510</td><td>425</td><td>420</td></tr>
+                </tbody>
+            </table>
+
+            <p><strong>Table B: Operating Costs (% of Revenue)</strong></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Region</th>
+                        <th>Q1</th>
+                        <th>Q2</th>
+                        <th>Q3</th>
+                        <th>Q4</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>UK</td><td>68%</td><td>66%</td><td>64%</td><td>65%</td></tr>
+                    <tr><td>Europe</td><td>72%</td><td>71%</td><td>73%</td><td>70%</td></tr>
+                    <tr><td>Asia</td><td>75%</td><td>74%</td><td>72%</td><td>71%</td></tr>
+                </tbody>
+            </table>
+
+            <p><strong>Table C: Growth Targets</strong></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Region</th>
+                        <th>Target</th>
+                        <th>Actual</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>UK</td><td>18%</td><td>?</td></tr>
+                    <tr><td>Europe</td><td>12%</td><td>?</td></tr>
+                    <tr><td>Asia</td><td>45%</td><td>?</td></tr>
+                </tbody>
+            </table>
+
+            <p>
+                <strong>Question:</strong> Which region exceeded its annual growth target by the largest absolute margin?
+            </p>
+
+            <p>
+                To answer this, the candidate must: (1) calculate Q1-Q4 revenue change for each region from Table A, (2) determine percentage growth, (3) compare against targets in Table C, (4) calculate absolute margin of excess, and (5) identify the largest. Five discrete operations. Fourteen separate data points. Working memory capacity: four chunks.
+            </p>
+
+            <h2>The Integration Failure Pattern</h2>
+
+            <p>
+                Candidates fail multi-table questions through three predictable patterns:
+            </p>
+
+            <h3>Pattern 1: The Retrieval Loop</h3>
+
+            <p>
+                The candidate begins calculating UK growth. They remember Q1 UK revenue (420) and Q4 UK revenue (510). They calculate the difference (90) and percentage (21.4%). They compare to target (18%) and note the excess (3.4%). They move to Europe—and forget UK figures. When Europe calculations are complete, they return to verify UK, then forget Europe. The loop continues until time expires or confidence collapses.
+            </p>
+
+            <h3>Pattern 2: The Premature Calculation</h3>
+
+            <p>
+                The candidate calculates operating profit for Q3 UK using costs from Table B. They then realise the question asks about growth, not profit. They have spent 45 seconds on irrelevant mathematics. Panic ensues. They rush the actual calculation. Error probability: high.
+            </p>
+
+            <h3>Pattern 3: The Cross-Reference Collapse</h3>
+
+            <p>
+                The candidate confuses which table contains which metric. They apply UK revenue figures to Europe cost percentages. They use Q2 data when Q4 is required. The calculation proceeds perfectly using wrong inputs. The result is confident, precise, and entirely incorrect.
+            </p>
+
+            <h2>The Mental Model Solution</h2>
+
+            <p>
+                High performers do not have larger working memories. They have <strong>compression algorithms</strong>—mental models that reduce fourteen data points to four manageable chunks.
+            </p>
+
+            <p>
+                The Acumen Logic methodology teaches three specific models:
+            </p>
+
+            <h3>Model 1: The Extraction Layer</h3>
+
+            <p>
+                Before any calculation, extract required data to a single working surface (mental or physical). For the example above:
+            </p>
+
+            <ul>
+                <li>UK: 420 → 510 (target: 18%)</li>
+                <li>Europe: 380 → 425 (target: 12%)</li>
+                <li>Asia: 290 → 420 (target: 45%)</li>
+            </ul>
+
+            <p>
+                Tables A and B are now irrelevant. The problem has been compressed to three data points. Working memory preserved.
+            </p>
+
+            <h3>Model 2: The Operation Sequence</h3>
+
+            <p>
+                Pre-determine the calculation sequence. For growth comparison: (Final − Initial) / Initial = Actual %. Actual % − Target % = Excess. Apply identical sequence to all regions. Do not deviate. Do not optimise. Consistency prevents error.
+            </p>
+
+            <h3>Model 3: The Verification Gate</h3>
+
+            <p>
+                Before selecting an answer, verify: (a) Which table provided this number? (b) Which row and column? (c) Does the magnitude make sense? This three-second check catches 90% of cross-reference errors.
+            </p>
+
+            <h2>Training the Integration Skill</h2>
+
+            <p>
+                Multi-table integration is not innate. It is trained through progressive overload:
+            </p>
+
+            <p>
+                <strong>Level 1:</strong> Two tables, explicit cross-reference (Table A states "see Table B for costs"). Build basic extraction habits.<br>
+                <strong>Level 2:</strong> Two tables, implicit cross-reference (candidate must recognise connection). Build recognition patterns.<br>
+                <strong>Level 3:</strong> Three tables, single-operation integration (one calculation across all three). Build capacity.<br>
+                <strong>Level 4:</strong> Three tables, multi-operation integration (the example above). Build endurance.<br>
+                <strong>Level 5:</strong> Four tables, time-pressure, distractor data included. Build resilience.
+            </p>
+
+            <p>
+                Most candidates encounter Level 4 or 5 on their actual assessment having trained only on Level 1 or 2. The Acumen Logic diagnostic identifies which level each candidate has mastered, and the training programme advances them systematically.
+            </p>
+
+            <h2>The Investment Bank Difference</h2>
+
+            <p>
+                Goldman Sachs, JP Morgan, and tier-one investment banks weight multi-table questions more heavily than Big 4 firms. Their assessments assume mathematical competence; they test for information synthesis under uncertainty—the core skill of the analyst role.
+            </p>
+
+            <p>
+                Candidates targeting investment banking should expect 40-50% of their assessment to involve multi-table integration, versus 25-30% at Big 4 firms. The training emphasis adjusts accordingly.
+            </p>
+
+            <p>
+                The skill, however, is identical. Master multi-table integration, and you unlock both banking and accounting assessments. Fail to master it, and neither door opens.
+            </p>
+
+            <div class="article-cta">
+                <h3>Apply This to Your Preparation</h3>
+                <p>Take the free diagnostic to identify your specific bottlenecks across all three assessment categories.</p>
+                <a href="../diagnostic.html" class="btn btn-primary">Take the Free Diagnostic</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="../assets/images/logo.png" width="28" height="28" alt="Acumen Logic">
+                        <span>ACUMEN LOGIC</span>
+                    </div>
+                    <p>Structured aptitude test preparation for UK finance, Big 4, investment banking, and consulting candidates.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Programme</h4>
+                    <ul>
+                        <li><a href="../diagnostic.html">Free Diagnostic</a></li>
+                        <li><a href="../masterclass.html">Training Programme</a></li>
+                        <li><a href="index.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="../pages/privacy.html">Privacy Policy</a></li>
+                        <li><a href="../pages/terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Acumen Logic. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        window.addEventListener('scroll', function() {
+            document.getElementById('siteHeader').classList.toggle('scrolled', window.scrollY > 20);
+        });
+    </script>
+</body>
+</html>

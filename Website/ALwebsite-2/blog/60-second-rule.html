@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en-GB" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The 60-Second Rule: Speed Without Sacrificing Accuracy | Acumen Logic</title>
+    <meta name="description" content="Methodology for maintaining 95%+ accuracy under severe time constraints. The calculation shortcuts that preserve precision.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            50: '#f0f3f7',
+                            100: '#dae1eb',
+                            200: '#b8c5d4',
+                            300: '#8da3ba',
+                            400: '#5d7a99',
+                            500: '#3d5a7a',
+                            600: '#2d4561',
+                            700: '#1b263b',
+                            800: '#151e2f',
+                            900: '#0f1624',
+                            950: '#0a0f18',
+                        },
+                        gold: {
+                            50: '#faf6ef',
+                            100: '#f3ebdb',
+                            200: '#e6d4b5',
+                            300: '#d6ba8a',
+                            400: '#c9a961',
+                            500: '#b8935e',
+                            600: '#a17a4a',
+                            700: '#86633d',
+                            800: '#6e5035',
+                            900: '#5a422d',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html { scroll-behavior: smooth; }
+
+        .article-content p {
+            margin-bottom: 1.25rem;
+            line-height: 1.8;
+            color: #475569;
+        }
+        .article-content h2 {
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #1b263b;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .article-content h3 {
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1b263b;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+        }
+        .article-content strong { color: #b8935e; }
+        .article-content ul {
+            margin-bottom: 1.25rem;
+            padding-left: 1.25rem;
+            color: #475569;
+        }
+        .article-content li { margin-bottom: 0.5rem; }
+        .article-content li::marker { color: #c9a961; }
+
+        .highlight-box {
+            background: #1b263b;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(201, 169, 97, 0.2);
+        }
+        .highlight-box p,
+        .highlight-box li {
+            color: #e2e8f0;
+        }
+
+        .section-card {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 0.9rem;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+        .article-content ul.icon-list {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+        .icon-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+            margin-bottom: 0.8rem;
+            color: #334155;
+        }
+        .article-content ul.icon-list li {
+            margin-bottom: 0.8rem;
+        }
+        .icon-list li i {
+            width: 1rem;
+            height: 1rem;
+            color: #c9a961;
+            flex-shrink: 0;
+            margin-top: 0.25rem;
+        }
+
+        .mid-cta {
+            margin: 2rem 0;
+            padding: 1.75rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(201, 169, 97, 0.35);
+            background:
+                radial-gradient(circle at top right, rgba(201, 169, 97, 0.22) 0%, rgba(201, 169, 97, 0) 48%),
+                linear-gradient(160deg, #f6efe2 0%, #fffaf0 35%, #ffffff 100%);
+        }
+
+        .header-pattern {
+            background-color: #0f1624;
+            background-image:
+                radial-gradient(circle at 1px 1px, rgba(233, 239, 248, 0.09) 0.85px, transparent 1px),
+                linear-gradient(165deg, #0c1526 0%, #0b1424 54%, #0a1221 100%);
+            background-size: 28px 28px, 100% 100%;
+        }
+
+        .navbar-scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 20px rgba(27, 38, 59, 0.08);
+        }
+
+        ::selection {
+            background: rgba(201, 169, 97, 0.3);
+            color: #1b263b;
+        }
+
+        a:focus-visible, button:focus-visible {
+            outline: 2px solid #c9a961;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body class="font-sans text-navy-700 bg-white antialiased">
+
+    <nav id="navbar" class="fixed w-full bg-white/95 backdrop-blur-md border-b border-navy-100/50 z-50 transition-all duration-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="../index.html" class="flex items-center gap-3 group">
+                    <div class="relative">
+                        <img src="../assets/images/logo.png" width="42" height="42" alt="Acumen Logic" class="relative z-10 transition-transform duration-300 group-hover:scale-105">
+                    </div>
+                    <div>
+                        <span class="font-display text-xl font-bold text-navy-700 tracking-tight">Acumen Logic</span>
+                        <span class="hidden sm:block text-xs text-gold-400 font-medium tracking-wide">Precision Training</span>
+                    </div>
+                </a>
+
+                <div class="hidden md:flex items-center gap-10">
+                    <a href="../index.html" class="text-sm font-medium text-navy-600 hover:text-gold-400 transition-colors duration-300">Home</a>
+                    <a href="../diagnostic.html" class="text-sm font-medium text-navy-600 hover:text-gold-400 transition-colors duration-300">Diagnostic</a>
+                    <a href="../masterclass.html" class="text-sm font-medium text-navy-600 hover:text-gold-400 transition-colors duration-300">Product</a>
+                    <a href="index.html" class="text-sm font-medium text-gold-500">Blog</a>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <a href="../diagnostic.html" class="hidden sm:inline-flex bg-navy-700 hover:bg-navy-800 text-white px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-300 shadow-lg shadow-navy-700/20 hover:shadow-xl hover:shadow-navy-700/25 hover:-translate-y-0.5">
+                        Start Free Diagnostic
+                    </a>
+                    <button class="md:hidden text-navy-700" data-mobile-menu-button aria-expanded="false" aria-controls="mobileMenu">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-navy-100">
+            <div class="px-4 py-6 space-y-4">
+                <a href="../index.html" class="block text-navy-600 hover:text-gold-500">Home</a>
+                <a href="../diagnostic.html" class="block text-navy-600 hover:text-gold-500">Diagnostic</a>
+                <a href="../masterclass.html" class="block text-navy-600 hover:text-gold-500">Product</a>
+                <a href="index.html" class="block text-gold-500 font-medium">Blog</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="pt-28 pb-16 lg:pt-36 lg:pb-20 header-pattern">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/10 border border-white/20 text-gold-200 text-sm font-semibold">Strategy • 5 min read</div>
+            <h1 class="font-display text-4xl sm:text-5xl font-bold text-white mt-6 mb-5">The 60-Second Rule: Speed Without Sacrificing Accuracy</h1>
+            <p class="text-lg text-navy-200">Methodology for maintaining 95%+ accuracy under severe time constraints. The calculation shortcuts that preserve precision.</p>
+        </div>
+    </section>
+
+    <article class="py-12 bg-white">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="article-content">
+                <p>The average Big 4 numerical reasoning question allows 60-75 seconds. Investment banking assessments from Goldman Sachs, JP Morgan, and Barclays often reduce this to 45-60 seconds. Yet the mathematical complexity does not decrease proportionally. The result is a time-pressure environment that destroys accuracy—not because candidates cannot calculate, but because they calculate inefficiently.</p>
+
+                <p>This article presents the 60-Second Rule: a systematic approach to answering complex numerical questions within strict time limits while maintaining elite-level accuracy. The methodology has been developed through analysis of 800+ high-performance assessment attempts and is central to the Acumen Logic training programme.</p>
+
+                <h2>The Speed-Accuracy Paradox</h2>
+
+                <p>Conventional wisdom suggests a trade-off: answer faster, make more errors. Our data contradicts this. Candidates using structured speed methodologies average 94% accuracy at 60-second pace. Candidates using standard academic approaches average 67% accuracy at the same pace, often requiring 90-120 seconds per question.</p>
+
+                <p>The difference is not calculation speed. It is <strong>decision speed</strong>—the ability to identify the correct approach instantly rather than through trial and exploration.</p>
+
+                <h2>The Three Pillars of Speed</h2>
+
+                <h3>Pillar 1: Mental Math Optimisation</h3>
+
+                <p>Written calculation is too slow. The 60-Second Rule requires confident mental arithmetic for all operations up to three-digit numbers. This is not innate ability; it is trained technique.</p>
+
+                <div class="highlight-box">
+                    <p class="text-white font-semibold mb-2">Percentage Shortcuts</p>
+                    <p class="text-sm mb-2">Never calculate percentages through multiplication. Use these equivalents:</p>
+                    <ul class="text-sm space-y-1">
+                        <li>10% = divide by 10 (move decimal)</li>
+                        <li>5% = half of 10%</li>
+                        <li>1% = divide by 100</li>
+                        <li>15% = 10% + 5%</li>
+                        <li>25% = divide by 4</li>
+                        <li>50% = divide by 2</li>
+                        <li>75% = 3 × 25%</li>
+                    </ul>
+                </div>
+
+                <p><strong>Example:</strong> Calculate 17.5% of £840.</p>
+
+                <p>Standard method: 840 × 0.175 = mental load, decimal errors, time consumption.<br>
+                60-Second method: 10% = 84, 5% = 42, 2.5% = 21. Sum: 84 + 42 + 21 = 147.<br>
+                Time: 8 seconds. Accuracy: near-perfect.</p>
+
+                <h3>Pillar 2: Ratio Simplification</h3>
+
+                <p>Complex ratios paralyse candidates. The 60-Second Rule demands immediate simplification.</p>
+
+                <p><strong>Example:</strong> Simplify 48:72.</p>
+
+                <p>Standard method: Find highest common factor (24), divide both. Time: 15-20 seconds.<br>
+                60-Second method: Both even, divide by 2 → 24:36. Both even, divide by 2 → 12:18. Both divisible by 6 → 2:3.<br>
+                Time: 6 seconds. No factorisation required.</p>
+
+                <p>The stepwise approach is faster than searching for optimal factors. Consistency beats optimisation.</p>
+
+                <h3>Pillar 3: The Estimation Gate</h3>
+
+                <p>Before any precise calculation, estimate. This serves two functions: it catches magnitude errors (wrong decimal place), and it often eliminates three of five multiple-choice options without calculation.</p>
+
+                <div class="highlight-box">
+                    <p class="text-white font-semibold mb-2">Estimation Protocol</p>
+                    <p class="text-sm">Round all numbers to one significant figure. Calculate roughly. Eliminate impossible options. If one option remains, select it. If two remain, calculate precisely on the narrowed set.</p>
+                </div>
+
+                <p><strong>Example:</strong> 423 × 0.087.</p>
+
+                <p>Estimate: 400 × 0.09 = 36. Options: A) 3.68, B) 36.8, C) 368, D) 3680, E) 0.368.<br>
+                Elimination: A, C, D, E impossible by magnitude. Select B without calculation.<br>
+                Time saved: 25-30 seconds.</p>
+
+                <h2>The 60-Second Structure</h2>
+
+                <p>Every question follows an identical time budget:</p>
+
+                <div class="section-card">
+                    <ul class="icon-list">
+                        <li><i data-lucide="check-circle-2"></i><span><strong>0-10 seconds:</strong> Read and categorise. Identify what is being asked. Extract required data.</span></li>
+                        <li><i data-lucide="check-circle-2"></i><span><strong>10-40 seconds:</strong> Calculate. Use shortcuts. Estimate first.</span></li>
+                        <li><i data-lucide="check-circle-2"></i><span><strong>40-50 seconds:</strong> Verify. Does answer match estimation? Correct units? Correct direction?</span></li>
+                        <li><i data-lucide="check-circle-2"></i><span><strong>50-60 seconds:</strong> Select and commit. No reconsideration.</span></li>
+                    </ul>
+                </div>
+
+                <p>The final 10-second buffer protects against the catastrophic error: rushing question 6, realising at question 18 that time is short, then guessing randomly for the final 20% of the assessment.</p>
+
+                <h2>The Discipline of Moving On</h2>
+
+                <p>The hardest element of the 60-Second Rule is psychological. At 60 seconds, regardless of progress, the candidate must select an answer and advance. This feels wrong. It is correct.</p>
+
+                <p>Consider the mathematics: spending 120 seconds on one question guarantees a correct answer (assuming competence) but costs one entire additional question. If the additional question is easier, net score decreases. If time expires with questions unattempted, score collapses.</p>
+
+                <p>The 60-Second Rule treats time as the fixed resource and accuracy as the variable. Candidates who treat accuracy as fixed (insisting on checking until certain) discover that time is not, in fact, unlimited.</p>
+
+                <div class="mid-cta">
+                    <h3 class="font-display text-2xl font-bold text-navy-700 mb-3">Turn this framework into assessed performance</h3>
+                    <p class="text-navy-700 mb-6">The best results come from combining speed rules with category-level diagnostics and pressure protocols.</p>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <a href="../masterclass.html" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-navy-700 text-white font-semibold rounded hover:bg-navy-800 transition-colors">
+                            Explore the Programme
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                        <a href="../diagnostic.html" class="inline-flex items-center justify-center gap-2 px-6 py-3 border border-navy-300 text-navy-700 font-semibold rounded hover:bg-white transition-colors">
+                            Take Free Diagnostic
+                        </a>
+                    </div>
+                </div>
+
+                <h2>Training for Speed</h2>
+
+                <p>Speed cannot be added to existing competence. It must be trained specifically. The Acumen Logic programme uses progressive time pressure:</p>
+
+                <div class="section-card">
+                    <ul class="icon-list">
+                        <li><i data-lucide="check-circle-2"></i><span><strong>Week 1:</strong> 90 seconds per question. Focus on method consistency.</span></li>
+                        <li><i data-lucide="check-circle-2"></i><span><strong>Week 2:</strong> 75 seconds per question. Introduce shortcut usage.</span></li>
+                        <li><i data-lucide="check-circle-2"></i><span><strong>Week 3:</strong> 60 seconds per question. Enforce hard stops.</span></li>
+                        <li><i data-lucide="check-circle-2"></i><span><strong>Week 4:</strong> 45 seconds per question. Overtrain for assessment comfort.</span></li>
+                    </ul>
+                </div>
+
+                <p>By the actual assessment, 60 seconds feels generous. The candidate has capacity for complexity, verification, and calm execution.</p>
+
+                <div class="mt-12 p-8 bg-gold-50 rounded-xl border border-gold-100">
+                    <h3 class="font-display text-2xl font-bold text-navy-700 mb-4">Test Your Speed Under Pressure</h3>
+                    <p class="text-navy-600 mb-6">The Acumen Logic diagnostic enforces the 60-Second Rule. You will experience the time pressure of a real assessment and receive accuracy data by category. This reveals whether speed or precision is your primary constraint.</p>
+                    <a href="../diagnostic.html" class="inline-flex items-center gap-2 px-6 py-3 bg-navy-700 text-white font-semibold rounded hover:bg-navy-800 transition-colors">
+                        Take the Free Diagnostic
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <h2>The Investment Banking Difference</h2>
+
+                <p>Goldman Sachs and tier-one investment banks do not merely test speed. They test speed under cognitive load. Their assessments interleave question types—numerical, verbal, logical—preventing rhythm establishment. The 60-Second Rule must operate across contexts, not just within familiar formats.</p>
+
+                <p>This requires an additional discipline: <strong>context-switching recovery</strong>. When moving from a data-heavy numerical question to a verbal reasoning item, the 10-second reading phase extends to 15 seconds. The calculation phase compensates: 35 seconds, not 40. The total budget remains fixed.</p>
+
+                <p>Candidates who master the 60-Second Rule in single-context practice often fail in mixed assessments because they have not trained the recovery protocol. The Acumen Logic training specifically addresses this with interleaved practice sessions mimicking actual assessment structure.</p>
+
+                <h2>Conclusion: Speed as Strategy</h2>
+
+                <p>The 60-Second Rule is not a calculation technique. It is a strategic framework for resource allocation under constraint. The candidate who treats time as unlimited optimises for accuracy per question. The candidate who treats time as fixed optimises for accuracy per assessment. The second approach produces offers.</p>
+
+                <p>Train the shortcuts. Enforce the discipline. Trust the methodology. The 60 seconds is sufficient—if you make it so.</p>
+            </div>
+        </div>
+    </article>
+
+    <section class="py-10 bg-navy-50/60 border-t border-navy-100">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-gold-100 flex items-center justify-center text-gold-600 font-bold">AL</div>
+                <div>
+                    <p class="font-semibold text-navy-700">Acumen Logic Research Team</p>
+                    <p class="text-sm text-navy-500">Assessment analysis & methodology</p>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <button type="button" data-share="linkedin" aria-label="Share on LinkedIn" class="w-10 h-10 rounded-full bg-white border border-navy-100 flex items-center justify-center text-navy-500 hover:text-gold-500 hover:border-gold-300 transition-all">
+                    <i data-lucide="linkedin" class="w-5 h-5"></i>
+                </button>
+                <button type="button" data-share="x" aria-label="Share on X" class="w-10 h-10 rounded-full bg-white border border-navy-100 flex items-center justify-center text-navy-500 hover:text-gold-500 hover:border-gold-300 transition-all">
+                    <i data-lucide="twitter" class="w-5 h-5"></i>
+                </button>
+                <button type="button" data-share="copy" aria-label="Copy article link" class="w-10 h-10 rounded-full bg-white border border-navy-100 flex items-center justify-center text-navy-500 hover:text-gold-500 hover:border-gold-300 transition-all">
+                    <i data-lucide="link" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="font-display text-2xl font-bold text-navy-700 mb-8">Related Analysis</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <a href="kpmg-3-reasons-fail.html" class="bg-white rounded-xl p-6 border border-navy-100 shadow-sm hover:shadow-md transition-all">
+                    <span class="text-xs text-gold-500 font-semibold uppercase tracking-wide">KPMG</span>
+                    <h3 class="font-display text-lg font-bold text-navy-700 mt-2">The 3 Reasons Candidates Fail the KPMG Numerical Reasoning Test</h3>
+                    <p class="text-sm text-navy-500 mt-2">Analysis of 500+ assessment failures reveals three distinct failure patterns.</p>
+                </a>
+                <a href="multi-table-integration.html" class="bg-white rounded-xl p-6 border border-navy-100 shadow-sm hover:shadow-md transition-all">
+                    <span class="text-xs text-gold-500 font-semibold uppercase tracking-wide">Goldman Sachs</span>
+                    <h3 class="font-display text-lg font-bold text-navy-700 mt-2">Multi-Table Integration: The Critical Skill Gap</h3>
+                    <p class="text-sm text-navy-500 mt-2">Why 73% of candidates struggle with cross-referencing data across multiple tables.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-navy-950 text-navy-300 py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-16">
+                <div class="col-span-2">
+                    <div class="flex items-center gap-3 mb-6">
+                        <img src="../assets/images/logo.png" width="36" height="36" alt="Acumen Logic">
+                        <span class="font-display text-xl font-bold text-white">Acumen Logic</span>
+                    </div>
+                    <p class="leading-relaxed max-w-sm">Precision training for finance aptitude assessments. Built for candidates targeting Big 4, investment banking, and consulting roles.</p>
+                    <p class="mt-4 text-sm"><a href="mailto:enquiries@acumenlogic.co.uk" class="inline-flex items-center gap-2 hover:text-gold-400 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i><span>enquiries@acumenlogic.co.uk</span></a></p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-5">Programme</h4>
+                    <ul class="space-y-3">
+                        <li><a href="../diagnostic.html" class="hover:text-gold-400 transition-colors">Free Diagnostic</a></li>
+                        <li><a href="../masterclass.html" class="hover:text-gold-400 transition-colors">Training Programme</a></li>
+                        <li><a href="index.html" class="hover:text-gold-400 transition-colors">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-5">Legal</h4>
+                    <ul class="space-y-3">
+                        <li><a href="../pages/privacy.html" class="hover:text-gold-400 transition-colors">Privacy Policy</a></li>
+                        <li><a href="../pages/terms.html" class="hover:text-gold-400 transition-colors">Terms of Service</a></li>
+                        <li><a href="../pages/cookies.html" class="hover:text-gold-400 transition-colors">Cookies</a></li>
+                        <li><a href="../pages/disclaimer.html" class="hover:text-gold-400 transition-colors">Disclaimer</a></li>
+                        <li><a href="../pages/refund.html" class="hover:text-gold-400 transition-colors">Refund Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-navy-800 pt-10 flex flex-col items-center gap-4">
+                <p class="text-sm text-navy-500">&copy; <span data-year></span> Acumen Logic. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!--
+  ACUMEN LOGIC — Lesson 5.6: SJT Practice Scenarios
+  For ThriveCart Learn Custom HTML Block
+  Pure CSS · Zero JavaScript · Fully responsive
+
+  TYPE: Practice lesson
+  6 realistic finance SJT scenarios with scoring explanations.
+  Uses details/summary for answer reveals.
+-->
+
+<style>
+  .al-lesson { --al-navy: #1B2A4A; --al-navy-light: #2A3D66; --al-navy-muted: #3D5280; --al-gold: #C8A951; --al-gold-light: #D4BC72; --al-gold-pale: #F5EFD9; --al-cream: #FAFAF6; --al-white: #FFFFFF; --al-text: #2C2C2C; --al-text-light: #6B6B6B; --al-border: #E8E4DA; --al-success: #2D8F5E; --al-danger: #C0392B; --al-radius: 10px; --al-radius-sm: 6px; --al-shadow: 0 2px 12px rgba(27,42,74,0.08); }
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+  .al-lesson { font-family: 'Source Sans 3','Segoe UI',system-ui,sans-serif; color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .al-lesson h1, .al-lesson h2, .al-lesson h3 { font-family: 'Source Sans 3','Segoe UI',system-ui,sans-serif; font-weight: 700; color: var(--al-navy); line-height: 1.25; }
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .al-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200,169,81,0.08) 0%, transparent 70%); pointer-events: none; }
+  .al-hero-eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem,4vw,2.2rem); margin-bottom: 0.75rem; }
+  .al-hero-subtitle { color: rgba(255,255,255,0.9) !important; font-size: 1rem; max-width: 36rem; line-height: 1.5; }
+  .al-hero-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 1rem 0; }
+  .al-section { margin-bottom: 2rem; }
+  .al-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-section-number { width: 2rem; height: 2rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.95rem; flex-shrink: 0; }
+  .al-section h2 { font-size: clamp(1.15rem, 3vw, 1.4rem); }
+  .al-card { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-card p { margin-bottom: 0.75rem; }
+  .al-card p:last-child { margin-bottom: 0; }
+  .al-sjt-scenario { background: #F0F2F6; border: 1px solid #D4D8E2; border-left: 4px solid var(--al-navy); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1rem; font-size: 0.92rem; line-height: 1.7; }
+  .al-sjt-label { font-weight: 700; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-navy); margin-bottom: 0.5rem; }
+  .al-sjt-options { background: var(--al-cream); border: 2px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 0.5rem; }
+  .al-sjt-options p { margin-bottom: 0.5rem; font-size: 0.92rem; line-height: 1.5; }
+  .al-sjt-options p:last-child { margin-bottom: 0; }
+  .al-sjt-q { font-weight: 600; color: var(--al-navy); font-size: 0.92rem; margin-bottom: 0.75rem; }
+  .al-reveal { margin-top: 1rem; border: 2px solid var(--al-border); border-radius: var(--al-radius); overflow: hidden; margin-bottom: 1.75rem; }
+  .al-reveal[open] { border-color: var(--al-success); }
+  .al-reveal-btn { display: block; padding: 0.85rem 1.25rem; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--al-navy); background: var(--al-cream); cursor: pointer; list-style: none; user-select: none; -webkit-user-select: none; }
+  .al-reveal-btn::-webkit-details-marker { display: none; }
+  .al-reveal-btn::marker { display: none; content: ''; }
+  .al-reveal-btn:hover { background: var(--al-gold-pale); }
+  .al-reveal[open] .al-reveal-btn { background: #EDF7F0; color: var(--al-success); border-bottom: 1px solid var(--al-border); }
+  .al-reveal-content { padding: 1.25rem; font-size: 0.92rem; }
+  .al-reveal-content p { margin-bottom: 0.6rem; }
+  .al-reveal-content p:last-child { margin-bottom: 0; }
+  .al-takeaways { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.5rem 1.75rem; margin-bottom: 1.25rem; }
+  .al-takeaways h3 { color: var(--al-gold) !important; font-size: 1.1rem; margin-bottom: 1rem; }
+  .al-takeaways-list { list-style: none; padding: 0; }
+  .al-takeaways-list li { color: rgba(255,255,255,0.95) !important; font-size: 0.92rem; padding: 0.45rem 0 0.45rem 1.75rem; position: relative; line-height: 1.5; }
+  .al-takeaways-list li::before { content: '✓'; position: absolute; left: 0; color: var(--al-gold); font-weight: 700; }
+  .al-takeaways strong { color: var(--al-gold) !important; }
+  .al-next { background: linear-gradient(135deg, var(--al-cream) 0%, var(--al-gold-pale) 100%); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .al-next-arrow { width: 2.5rem; height: 2.5rem; background: var(--al-navy); color: var(--al-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .al-next-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--al-text-light); margin-bottom: 0.15rem; }
+  .al-next-title { font-weight: 700; color: var(--al-navy); font-size: 1rem; }
+  .al-next-desc { font-size: 0.85rem; color: var(--al-text-light); margin-top: 0.15rem; }
+  .al-lesson strong { color: var(--al-navy); }
+  .al-divider { border: none; height: 1px; background: var(--al-border); margin: 2rem 0; }
+  @media (max-width: 600px) {
+    .al-hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .al-card, .al-reveal-content { padding: 1.15rem; }
+    .al-takeaways { padding: 1.25rem; }
+    .al-next { flex-direction: column; text-align: center; }
+  }
+</style>
+
+<div class="al-lesson">
+
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 5 · Lesson 5.6</div>
+    <h1>SJT Practice Scenarios</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">Six realistic finance-sector SJT scenarios. For each, identify the most and least effective responses before revealing the analysis.</p>
+  </div>
+
+  <div class="al-card">
+    <p><strong>Instructions:</strong> Read each scenario carefully. Identify which response is <strong>most effective</strong> and which is <strong>least effective</strong>. Then reveal the answer to check your reasoning. Use the elimination method from Lesson 5.3: remove the passive and aggressive extremes first.</p>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══ SCENARIO 1 ═══ -->
+  <div class="al-sjt-scenario">
+    <div class="al-sjt-label">Scenario 1 — Compliance Concern</div>
+    <p>During your first week as a graduate analyst, you notice that a colleague regularly accesses client portfolio data for accounts they are not assigned to. When you mention it casually, the colleague says "everyone does it — it's the only way to learn about different sectors."</p>
+  </div>
+  <div class="al-sjt-options">
+    <div class="al-sjt-q">Identify the most effective and least effective responses:</div>
+    <p><strong>A.</strong> Accept the colleague's explanation — they've been here longer and know the culture.</p>
+    <p><strong>B.</strong> Raise the concern with your line manager, explaining what you've observed.</p>
+    <p><strong>C.</strong> Send an email to the compliance department detailing the colleague's name and behaviour.</p>
+    <p><strong>D.</strong> Ask your colleague to stop and explain that it may breach data access policies.</p>
+  </div>
+  <details class="al-reveal">
+    <summary class="al-reveal-btn">Show Analysis ▾</summary>
+    <div class="al-reveal-content">
+      <p><strong>Most effective: B.</strong> Raising with your manager is proportionate escalation. You're new and may not have full context — your manager can assess whether this is genuinely concerning or a misunderstanding of policy.</p>
+      <p><strong>Least effective: A.</strong> Accepting a potential compliance breach because "everyone does it" violates the #1 finance value: regulatory compliance. Even if the colleague is right about the culture, you should still verify through proper channels.</p>
+      <p><strong>D is good but not best:</strong> Addressing it directly shows initiative, but as a first-week graduate, you may not have the authority or context. Manager involvement is safer.</p>
+      <p><strong>C is too aggressive:</strong> Reporting directly to compliance without speaking to anyone first bypasses the normal escalation chain and may damage a colleague relationship unnecessarily.</p>
+    </div>
+  </details>
+
+  <!-- ═══ SCENARIO 2 ═══ -->
+  <div class="al-sjt-scenario">
+    <div class="al-sjt-label">Scenario 2 — Client Pressure</div>
+    <p>A high-value client calls you directly and asks you to execute a trade immediately, bypassing the normal approval process. They say they've spoken to a senior partner who approved it verbally. The senior partner is currently in a meeting and unreachable.</p>
+  </div>
+  <div class="al-sjt-options">
+    <div class="al-sjt-q">Identify the most effective and least effective responses:</div>
+    <p><strong>A.</strong> Execute the trade — the client says a partner approved it, and you don't want to upset a high-value client.</p>
+    <p><strong>B.</strong> Tell the client you cannot execute without written approval and suggest they wait until the partner is available.</p>
+    <p><strong>C.</strong> Politely explain the approval process, check if another authorised person can approve, and ask the partner to confirm as soon as they're free.</p>
+    <p><strong>D.</strong> Ignore the request and wait for the partner to contact you directly.</p>
+  </div>
+  <details class="al-reveal">
+    <summary class="al-reveal-btn">Show Analysis ▾</summary>
+    <div class="al-reveal-content">
+      <p><strong>Most effective: C.</strong> This balances client service with compliance. You're not refusing outright, but you're finding a way to get proper authorisation while showing the client you're taking their request seriously.</p>
+      <p><strong>Least effective: A.</strong> Executing a trade without proper authorisation — based solely on a client's verbal claim — is a serious compliance risk. This is how rogue trades happen.</p>
+      <p><strong>B is acceptable but rigid:</strong> Simply saying "no" and asking the client to wait is compliant but poor client service. C achieves the same compliance outcome while being proactive.</p>
+      <p><strong>D is passive:</strong> Ignoring a high-value client entirely is poor service and doesn't address the underlying issue.</p>
+    </div>
+  </details>
+
+  <!-- ═══ SCENARIO 3 ═══ -->
+  <div class="al-sjt-scenario">
+    <div class="al-sjt-label">Scenario 3 — Team Conflict</div>
+    <p>You're working on a time-sensitive project with two colleagues. One colleague, Alex, consistently misses deadlines, causing the team to fall behind. The project lead hasn't addressed the issue. You and the other colleague, Sam, are picking up the extra work.</p>
+  </div>
+  <div class="al-sjt-options">
+    <div class="al-sjt-q">Identify the most effective and least effective responses:</div>
+    <p><strong>A.</strong> Speak to Alex privately and ask if there's something affecting their ability to meet deadlines, offering to help redistribute work.</p>
+    <p><strong>B.</strong> Continue picking up the extra work without saying anything — the project needs to be delivered on time.</p>
+    <p><strong>C.</strong> Email the project lead and copy in Alex, outlining the missed deadlines and their impact on the team.</p>
+    <p><strong>D.</strong> Raise the issue with the project lead in a private conversation, focusing on the project timeline rather than blaming Alex.</p>
+  </div>
+  <details class="al-reveal">
+    <summary class="al-reveal-btn">Show Analysis ▾</summary>
+    <div class="al-reveal-content">
+      <p><strong>Most effective: A.</strong> Direct, empathetic communication with the colleague. There may be a valid reason (workload, personal issue). This addresses the root cause while maintaining the relationship.</p>
+      <p><strong>Least effective: B.</strong> Absorbing the extra work silently enables the problem, builds resentment, and risks burnout. It doesn't solve anything.</p>
+      <p><strong>D is good:</strong> Escalating to the project lead is appropriate if the private conversation doesn't work — but it should be the second step, not the first.</p>
+      <p><strong>C is too aggressive:</strong> Copying Alex on an email to the project lead is a public call-out. It bypasses direct communication and damages trust.</p>
+    </div>
+  </details>
+
+  <!-- ═══ SCENARIO 4 ═══ -->
+  <div class="al-sjt-scenario">
+    <div class="al-sjt-label">Scenario 4 — Error Discovery</div>
+    <p>You discover an error in a client report that was sent out yesterday. The error is in a data table — a figure is £2.3 million instead of the correct £3.2 million. The client hasn't noticed yet, and your manager is on annual leave.</p>
+  </div>
+  <div class="al-sjt-options">
+    <div class="al-sjt-q">Identify the most effective and least effective responses:</div>
+    <p><strong>A.</strong> Wait for your manager to return and let them decide how to handle it.</p>
+    <p><strong>B.</strong> Contact the client immediately, acknowledge the error, provide the corrected figure, and send a revised report.</p>
+    <p><strong>C.</strong> Quietly correct the figure in the system and send an "updated version" without mentioning the error.</p>
+    <p><strong>D.</strong> Escalate to your manager's cover or a senior colleague, explain the error, and agree on the best way to notify the client.</p>
+  </div>
+  <details class="al-reveal">
+    <summary class="al-reveal-btn">Show Analysis ▾</summary>
+    <div class="al-reveal-content">
+      <p><strong>Most effective: D.</strong> Escalating to your manager's cover ensures the error is handled properly with appropriate authority. You're not waiting (risky) or acting alone (may lack context).</p>
+      <p><strong>Least effective: C.</strong> Hiding an error is a serious integrity violation. Even if the client doesn't notice, the cover-up is worse than the mistake. In regulated finance, this could be a career-ending decision.</p>
+      <p><strong>B is proactive but risky:</strong> Contacting the client directly without consulting a senior person could escalate the situation inappropriately — the error may have broader implications.</p>
+      <p><strong>A is passive:</strong> Waiting for a manager on leave while a material error sits in a client's hands is negligent. The client could make decisions based on wrong data.</p>
+    </div>
+  </details>
+
+  <!-- ═══ SCENARIO 5 ═══ -->
+  <div class="al-sjt-scenario">
+    <div class="al-sjt-label">Scenario 5 — Ethical Dilemma</div>
+    <p>A senior colleague asks you to adjust the assumptions in a financial model to make a deal look more attractive to a client. They say the adjustments are "within acceptable ranges" and that "the client expects us to present the best case." You're not sure the adjustments are justified.</p>
+  </div>
+  <div class="al-sjt-options">
+    <div class="al-sjt-q">Identify the most effective and least effective responses:</div>
+    <p><strong>A.</strong> Make the adjustments — the senior colleague has more experience and understands what's acceptable.</p>
+    <p><strong>B.</strong> Refuse to make the adjustments and tell the colleague you'll report them if they persist.</p>
+    <p><strong>C.</strong> Ask the colleague to explain their rationale for each specific adjustment so you can understand and document the reasoning.</p>
+    <p><strong>D.</strong> Make the adjustments but add a footnote to the model documenting the assumptions used.</p>
+  </div>
+  <details class="al-reveal">
+    <summary class="al-reveal-btn">Show Analysis ▾</summary>
+    <div class="al-reveal-content">
+      <p><strong>Most effective: C.</strong> This is professional, non-confrontational, and addresses the core issue. If the adjustments are genuinely within acceptable ranges, the colleague can explain why. If they can't justify them, that tells you everything. Asking for documentation also creates a paper trail.</p>
+      <p><strong>Least effective: A.</strong> Blindly following instructions that may compromise analytical integrity — even from a senior person — violates professional standards. "Following orders" is not a defence in regulated finance.</p>
+      <p><strong>D is partial:</strong> Adding a footnote is better than nothing but doesn't address whether the adjustments are justified. It's a cover-your-back measure, not a solution.</p>
+      <p><strong>B is too confrontational:</strong> Threatening to report someone before understanding the full picture damages the relationship and may be premature if the adjustments turn out to be reasonable.</p>
+    </div>
+  </details>
+
+  <!-- ═══ SCENARIO 6 ═══ -->
+  <div class="al-sjt-scenario">
+    <div class="al-sjt-label">Scenario 6 — Workload Management</div>
+    <p>Three different managers have each assigned you urgent tasks due by end of day. You estimate each task will take 3 hours, but you only have 5 hours left. All three managers believe their task is the top priority.</p>
+  </div>
+  <div class="al-sjt-options">
+    <div class="al-sjt-q">Identify the most effective and least effective responses:</div>
+    <p><strong>A.</strong> Work on all three simultaneously, doing your best to complete as much as possible before the deadline.</p>
+    <p><strong>B.</strong> Prioritise the task from the most senior manager and complete that one fully, then attempt the others.</p>
+    <p><strong>C.</strong> Contact all three managers, explain the conflict, and ask them to agree on a priority order or extend one deadline.</p>
+    <p><strong>D.</strong> Complete the easiest task first to get one off your plate, then work on the other two.</p>
+  </div>
+  <details class="al-reveal">
+    <summary class="al-reveal-btn">Show Analysis ▾</summary>
+    <div class="al-reveal-content">
+      <p><strong>Most effective: C.</strong> Transparent communication about competing priorities lets the managers make an informed decision. This demonstrates maturity, communication skills, and proactive problem-solving. It also protects you from blame when deadlines are missed.</p>
+      <p><strong>Least effective: A.</strong> Trying to do everything at once results in three partially completed, low-quality deliverables. No one gets what they need, and you appear disorganised.</p>
+      <p><strong>B has logic but assumptions:</strong> Prioritising by seniority is a reasonable heuristic, but you're making the priority decision yourself rather than involving the stakeholders. Two managers will be unhappy.</p>
+      <p><strong>D is tactical but misguided:</strong> "Easiest first" doesn't consider importance. The easiest task may be the least urgent.</p>
+    </div>
+  </details>
+
+  <hr class="al-divider">
+
+  <!-- ═══ KEY TAKEAWAYS ═══ -->
+  <div class="al-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul class="al-takeaways-list">
+      <li><strong>Compliance always wins.</strong> In every scenario involving rules, procedures, or integrity — the compliant answer is the best answer.</li>
+      <li><strong>Passive responses are almost always worst.</strong> Doing nothing, waiting, or ignoring issues = least effective.</li>
+      <li><strong>Direct communication before escalation.</strong> Talk to the person first; escalate if that doesn't work.</li>
+      <li><strong>Transparency over heroics.</strong> When you can't do everything, communicate the conflict rather than trying to be a hero.</li>
+      <li><strong>Document everything.</strong> In scenarios involving judgement calls, the answer that creates a paper trail is usually the best.</li>
+    </ul>
+  </div>
+
+  <div class="al-next">
+    <div class="al-next-arrow">→</div>
+    <div>
+      <div class="al-next-label">Next Module</div>
+      <div class="al-next-title">Module 6 — Assessment Simulation &amp; Final Preparation</div>
+      <div class="al-next-desc">Strategy review, full mock assessments, performance analysis, and test day preparation — the final stretch.</div>
+    </div>
+  </div>
+
+</div>

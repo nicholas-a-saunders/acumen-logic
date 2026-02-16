@@ -1,0 +1,219 @@
+<!--
+  ACUMEN LOGIC — Lesson 6.5: Test Day Checklist & Final Tips
+  For ThriveCart Learn Custom HTML Block
+  Pure CSS · Zero JavaScript · Fully responsive
+
+  TYPE: Strategy lesson — final lesson in the course
+  Practical checklist, night-before routine, and
+  morning-of protocol for real assessment day.
+-->
+
+<style>
+  .al-lesson { --al-navy: #1B2A4A; --al-navy-light: #2A3D66; --al-navy-muted: #3D5280; --al-gold: #C8A951; --al-gold-light: #D4BC72; --al-gold-pale: #F5EFD9; --al-cream: #FAFAF6; --al-white: #FFFFFF; --al-text: #2C2C2C; --al-text-light: #6B6B6B; --al-border: #E8E4DA; --al-success: #2D8F5E; --al-danger: #C0392B; --al-radius: 10px; --al-radius-sm: 6px; --al-shadow: 0 2px 12px rgba(27,42,74,0.08); }
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+  .al-lesson { font-family: 'Source Sans 3','Segoe UI',system-ui,sans-serif; color: var(--al-text); line-height: 1.65; max-width: 100%; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+  .al-lesson *, .al-lesson *::before, .al-lesson *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .al-lesson h1, .al-lesson h2, .al-lesson h3 { font-family: 'Source Sans 3','Segoe UI',system-ui,sans-serif; font-weight: 700; color: var(--al-navy); line-height: 1.25; }
+  .al-hero { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .al-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200,169,81,0.08) 0%, transparent 70%); pointer-events: none; }
+  .al-hero-eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; margin-bottom: 0.75rem; }
+  .al-lesson .al-hero h1 { color: var(--al-white) !important; font-size: clamp(1.6rem,4vw,2.2rem); margin-bottom: 0.75rem; }
+  .al-hero-subtitle { color: rgba(255,255,255,0.9) !important; font-size: 1rem; max-width: 36rem; line-height: 1.5; }
+  .al-hero-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 1rem 0; }
+  .al-section { margin-bottom: 2rem; }
+  .al-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .al-section-number { width: 2rem; height: 2rem; background: var(--al-navy); color: var(--al-white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.95rem; flex-shrink: 0; }
+  .al-section h2 { font-size: clamp(1.15rem, 3vw, 1.4rem); }
+  .al-card { background: var(--al-white); border: 1px solid var(--al-border); border-radius: var(--al-radius); padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--al-shadow); }
+  .al-card p { margin-bottom: 0.75rem; }
+  .al-card p:last-child { margin-bottom: 0; }
+  .al-callout { border-radius: var(--al-radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; font-size: 0.92rem; }
+  .al-callout-tip { background: #F0F7F3; border-left: 4px solid var(--al-success); }
+  .al-callout-warn { background: #FFF8F0; border-left: 4px solid #D4823A; }
+  .al-callout-gold { background: var(--al-gold-pale); border-left: 4px solid var(--al-gold); }
+  .al-callout-label { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .al-callout-tip .al-callout-label { color: var(--al-success); }
+  .al-callout-warn .al-callout-label { color: #D4823A; }
+  .al-callout-gold .al-callout-label { color: var(--al-navy); }
+  .al-checklist { list-style: none; padding: 0; margin: 0; }
+  .al-checklist li { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--al-border); font-size: 0.92rem; line-height: 1.55; }
+  .al-checklist li:last-child { border-bottom: none; }
+  .al-check-box { width: 1.3rem; height: 1.3rem; border: 2px solid var(--al-navy); border-radius: 3px; flex-shrink: 0; margin-top: 0.15rem; }
+  .al-conv-table { width: 100%; border-collapse: collapse; margin-bottom: 1.25rem; font-size: 0.88rem; box-shadow: var(--al-shadow); border-radius: var(--al-radius); overflow: hidden; }
+  .al-conv-table thead th { background: var(--al-navy); color: var(--al-white) !important; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.75rem 1rem; text-align: left; }
+  .al-conv-table tbody td { padding: 0.65rem 1rem; border-bottom: 1px solid var(--al-border); }
+  .al-conv-table tbody tr:hover { background: var(--al-gold-pale); }
+  .al-formula { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.15rem 1.5rem; margin-bottom: 1.25rem; text-align: center; }
+  .al-formula-label { color: var(--al-gold) !important; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .al-formula-text { color: var(--al-white) !important; font-weight: 700; font-size: clamp(1rem,2.5vw,1.15rem); line-height: 1.4; }
+  .al-formula-note { color: rgba(255,255,255,0.75) !important; font-size: 0.78rem; margin-top: 0.35rem; }
+  .al-takeaways { background: var(--al-navy); border-radius: var(--al-radius); padding: 1.5rem 1.75rem; margin-bottom: 1.25rem; }
+  .al-takeaways h3 { color: var(--al-gold) !important; font-size: 1.1rem; margin-bottom: 1rem; }
+  .al-takeaways-list { list-style: none; padding: 0; }
+  .al-takeaways-list li { color: rgba(255,255,255,0.95) !important; font-size: 0.92rem; padding: 0.45rem 0 0.45rem 1.75rem; position: relative; line-height: 1.5; }
+  .al-takeaways-list li::before { content: '✓'; position: absolute; left: 0; color: var(--al-gold); font-weight: 700; }
+  .al-takeaways strong { color: var(--al-gold) !important; }
+  .al-finish { background: linear-gradient(135deg, var(--al-navy) 0%, var(--al-navy-light) 60%, var(--al-navy-muted) 100%); border-radius: var(--al-radius); padding: 2.5rem 2rem; margin-top: 2rem; text-align: center; position: relative; overflow: hidden; }
+  .al-finish::before { content: ''; position: absolute; top: -40%; right: -20%; width: 60%; height: 180%; background: radial-gradient(ellipse, rgba(200,169,81,0.1) 0%, transparent 70%); pointer-events: none; }
+  .al-finish-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+  .al-finish h2 { color: var(--al-white) !important; font-size: clamp(1.4rem, 3.5vw, 1.8rem); margin-bottom: 0.5rem; }
+  .al-finish-rule { width: 3rem; height: 3px; background: var(--al-gold); border: none; border-radius: 2px; margin: 0.75rem auto; }
+  .al-finish p { color: rgba(255,255,255,0.9) !important; font-size: 1rem; line-height: 1.6; max-width: 34rem; margin: 0 auto; }
+  .al-finish-brand { margin-top: 1.5rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--al-gold) !important; }
+  .al-lesson strong { color: var(--al-navy); }
+  .al-divider { border: none; height: 1px; background: var(--al-border); margin: 2rem 0; }
+  @media (max-width: 600px) { .al-hero { padding: 1.75rem 1.25rem 1.5rem; } .al-card { padding: 1.15rem; } .al-takeaways { padding: 1.25rem; } .al-finish { padding: 1.75rem 1.25rem; } }
+</style>
+
+<div class="al-lesson">
+
+  <div class="al-hero">
+    <div class="al-hero-eyebrow">Module 6 · Lesson 6.5 — Final Lesson</div>
+    <h1>Test Day Checklist &amp; Final Tips</h1>
+    <hr class="al-hero-rule">
+    <p class="al-hero-subtitle">You've done the preparation. Now make sure nothing practical goes wrong on the day. This is your pre-flight checklist.</p>
+  </div>
+
+  <!-- ═══════ SECTION 1 ═══════ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">1</div>
+      <h2>The Night Before</h2>
+    </div>
+    <div class="al-card">
+      <ul class="al-checklist">
+        <li><div class="al-check-box"></div><div><strong>Check your invitation email.</strong> Confirm the test provider (SHL, Aon, Korn Ferry, etc.), time window, and link. Some tests expire — don't leave it to the last minute.</div></li>
+        <li><div class="al-check-box"></div><div><strong>Test your equipment.</strong> Use the same computer you'll take the test on. Check your internet connection, webcam (if required), and that your browser is up to date. SHL recommends Chrome or Firefox.</div></li>
+        <li><div class="al-check-box"></div><div><strong>Close unnecessary applications.</strong> Notifications, auto-updates, and background downloads can slow your machine or distract you mid-test.</div></li>
+        <li><div class="al-check-box"></div><div><strong>Prepare your workspace.</strong> Clear desk. Good lighting. Quiet room. Have a glass of water, a pen, and scrap paper ready.</div></li>
+        <li><div class="al-check-box"></div><div><strong>Charge your calculator.</strong> If using a physical calculator, check the batteries. If using the on-screen calculator, practise the keyboard shortcuts (most providers support numpad input).</div></li>
+        <li><div class="al-check-box"></div><div><strong>Set two alarms.</strong> One for 30 minutes before you plan to start, one for 15 minutes before. Give yourself a buffer.</div></li>
+        <li><div class="al-check-box"></div><div><strong>Sleep.</strong> 7+ hours. No cramming. Your brain consolidates learning during sleep — last-minute study does more harm than good.</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══════ SECTION 2 ═══════ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">2</div>
+      <h2>The Morning Of</h2>
+    </div>
+    <div class="al-card">
+      <ul class="al-checklist">
+        <li><div class="al-check-box"></div><div><strong>Eat a proper breakfast.</strong> Your brain needs glucose. Avoid heavy meals that make you sluggish — aim for slow-release energy (porridge, eggs, wholemeal toast).</div></li>
+        <li><div class="al-check-box"></div><div><strong>Light physical activity.</strong> A 10-minute walk or light stretching reduces cortisol and improves focus. Don't exhaust yourself.</div></li>
+        <li><div class="al-check-box"></div><div><strong>Review — don't cram.</strong> Spend 5–10 minutes glancing at your formula reference sheet (Lesson 6.1). Do NOT try to learn new material.</div></li>
+        <li><div class="al-check-box"></div><div><strong>Log in early.</strong> Open the test link 10–15 minutes before your scheduled time. Complete any identity verification or system checks early.</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══════ SECTION 3 ═══════ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">3</div>
+      <h2>During the Test: The 3-Pass Reminder</h2>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Pass 1 — Quick Wins (First 40% of Time)</div>
+      <div class="al-formula-text">Answer every question you can solve in under 90 seconds</div>
+      <div class="al-formula-note">Flag anything that needs more time and move on. Don't get stuck.</div>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Pass 2 — Considered (Next 40% of Time)</div>
+      <div class="al-formula-text">Return to flagged questions and work through them methodically</div>
+      <div class="al-formula-note">These are questions you can solve but need more thought or calculation.</div>
+    </div>
+
+    <div class="al-formula">
+      <div class="al-formula-label">Pass 3 — Educated Guesses (Final 20% of Time)</div>
+      <div class="al-formula-text">For any remaining unanswered questions: eliminate 1–2 options, then guess</div>
+      <div class="al-formula-note">Never leave a question blank. Most tests have no penalty for wrong answers.</div>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══════ SECTION 4 ═══════ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">4</div>
+      <h2>Emergency Protocols</h2>
+    </div>
+
+    <table class="al-conv-table">
+      <thead><tr><th>Problem</th><th>What To Do</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Internet drops</strong></td><td>Most platforms auto-save your progress. Reconnect immediately. If the timer kept running, contact the employer's recruitment team and explain — they can usually reset the test.</td></tr>
+        <tr><td><strong>Computer crashes</strong></td><td>Same as above. Your answers are typically saved server-side. Restart, reconnect, and continue. Contact recruitment if time was lost.</td></tr>
+        <tr><td><strong>Can't read a chart</strong></td><td>Try zooming in (Ctrl/Cmd + scroll). If the image is truly broken, take a screenshot and email recruitment — don't waste 5 minutes staring at it.</td></tr>
+        <tr><td><strong>Time running out</strong></td><td>Immediately answer all remaining questions with your best educated guess. A guessed answer has a 25% chance; a blank answer has a 0% chance.</td></tr>
+        <tr><td><strong>Panic / mind goes blank</strong></td><td>4-7-8 breathing: inhale 4 seconds, hold 7, exhale 8. Then re-read the question slowly. Focus on what you know, not what you don't.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══════ SECTION 5 ═══════ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">5</div>
+      <h2>Common Test-Day Mistakes</h2>
+    </div>
+    <div class="al-card">
+      <p><strong>Starting before you're ready.</strong> Use the practice/sample questions at the beginning of the test to calibrate. Don't rush through them — they set your rhythm.</p>
+      <p><strong>Spending 4+ minutes on one question.</strong> If you can't solve it in 2 minutes, flag and move on. Return later. The time you waste on a hard question could answer two easier ones.</p>
+      <p><strong>Not reading the question fully.</strong> "What is the percentage increase?" vs "What is the new value after the increase?" — these require different calculations. Read every word.</p>
+      <p><strong>Changing answers without reason.</strong> Your first instinct is statistically more likely to be correct. Only change an answer if you spot a clear calculation error.</p>
+      <p><strong>Forgetting to submit.</strong> Some platforms auto-submit when time expires. Others don't. Know which type you're using and click "Submit" if required.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══════ SECTION 6 ═══════ -->
+  <div class="al-section">
+    <div class="al-section-header">
+      <div class="al-section-number">6</div>
+      <h2>After the Test</h2>
+    </div>
+    <div class="al-card">
+      <p><strong>Don't over-analyse.</strong> You won't remember every question accurately. Your perception of how it went is often wrong — wait for the actual result.</p>
+      <p><strong>Note what surprised you.</strong> If you encounter question types or topics you didn't expect, write them down. This helps if you need to retake or prepare for a different employer's test.</p>
+      <p><strong>Prepare for the next stage.</strong> Many firms follow aptitude tests with video interviews or assessment centres. Start preparing early — don't wait for results.</p>
+    </div>
+  </div>
+
+  <hr class="al-divider">
+
+  <!-- ═══════ KEY TAKEAWAYS ═══════ -->
+  <div class="al-takeaways">
+    <h3>Final Takeaways</h3>
+    <ul class="al-takeaways-list">
+      <li><strong>Preparation beats talent.</strong> You've worked through 35 lessons covering every topic and question type. Trust the process.</li>
+      <li><strong>Execution is everything.</strong> It's not about knowing every formula — it's about staying calm, managing time, and avoiding traps.</li>
+      <li><strong>Never leave blanks.</strong> An educated guess is always better than no answer.</li>
+      <li><strong>Sleep, eat, breathe.</strong> Your brain is your instrument. Treat it well on test day.</li>
+      <li><strong>You are ready.</strong> If you've completed this course, you have more preparation than 90% of candidates sitting the same test.</li>
+    </ul>
+  </div>
+
+  <!-- ═══════ COURSE COMPLETE ═══════ -->
+  <div class="al-finish">
+    <div class="al-finish-icon">&#127942;</div>
+    <h2>Course Complete</h2>
+    <hr class="al-finish-rule">
+    <p>You've completed all 35 lessons of the Acumen Logic Aptitude Test Training Programme. You've built the numerical, verbal, and logical reasoning skills that top-tier financial firms test for — and you've practised them under realistic conditions.</p>
+    <p style="margin-top: 1rem; color: rgba(255,255,255,0.9) !important;">Go get that offer. You've earned it.</p>
+    <div class="al-finish-brand">Acumen Logic</div>
+  </div>
+
+</div>
