@@ -1,402 +1,458 @@
 <!DOCTYPE html>
-<html lang="en-GB" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Free Diagnostic Assessment | Acumen Logic</title>
-    <meta name="description" content="20 questions, 25 minutes. Identify your weaknesses in Numerical Reasoning, Data Interpretation, and Logical Reasoning before your Big 4 or investment banking assessment.">
-    <link rel="canonical" href="https://acumenlogic.co.uk/diagnostic.html">
+    <meta name="description" content="20 questions, 25 minutes. Identify your specific weaknesses in Numerical Reasoning, Data Interpretation, and Logical Reasoning before your Big 4 or investment banking assessment.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/site.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            900: '#0a1628',
+                            800: '#0f1d32',
+                            700: '#152238',
+                            600: '#1e3a8a',
+                            500: '#1e40af',
+                        },
+                        gold: {
+                            400: '#C9A961',
+                            500: '#b89851',
+                            600: '#a68641',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #C9A961 0%, #f4e5c2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .geometric-pattern {
+            background-image: radial-gradient(circle at 2px 2px, rgba(201, 169, 97, 0.15) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(201, 169, 97, 0.1);
+        }
+        .timer-warning {
+            animation: pulse-red 1s infinite;
+        }
+        @keyframes pulse-red {
+            0%, 100% { color: #ef4444; }
+            50% { color: #f87171; }
+        }
+    </style>
 </head>
-<body>
+<body class="bg-navy-900 text-slate-100 font-sans antialiased selection:bg-gold-400 selection:text-navy-900">
     
     <!-- Header -->
-    <header class="site-header" id="siteHeader">
-        <div class="container header-inner">
-            <a href="index.html" class="logo">
-                <img src="assets/images/logo.png" width="36" height="36" alt="Acumen Logic">
-                <div class="logo-text">
-                    <span class="logo-name">ACUMEN LOGIC</span>
-                    <span class="logo-tag">Finance Assessment Training</span>
+    <header class="fixed top-0 w-full z-50 bg-navy-900/90 backdrop-blur-md border-b border-gold-400/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="assets/images/logo.png" width="40" height="40" alt="Acumen Logic" class="flex-shrink-0">
+                    <div>
+                        <h1 class="font-serif text-xl font-bold text-white tracking-wide">ACUMEN LOGIC</h1>
+                        <p class="text-xs text-gold-400 tracking-widest uppercase">Precision Training</p>
+                    </div>
+                </a>
+
+                <nav class="hidden md:flex items-center gap-8">
+                    <a href="index.html" class="text-sm font-medium text-slate-300 hover:text-gold-400 transition-colors">Home</a>
+                    <a href="methodology.html" class="text-sm font-medium text-slate-300 hover:text-gold-400 transition-colors">Methodology</a>
+                    <a href="products.html" class="text-sm font-medium text-slate-300 hover:text-gold-400 transition-colors">Products</a>
+                    <a href="blog/index.html" class="text-sm font-medium text-slate-300 hover:text-gold-400 transition-colors">Blog</a>
+                    <a href="about.html" class="text-sm font-medium text-slate-300 hover:text-gold-400 transition-colors">About</a>
+                </nav>
+
+                <div class="hidden md:flex items-center gap-4">
+                    <a href="https://app.acumenlogic.co.uk/register.html" class="px-6 py-2.5 bg-gold-400 text-navy-900 font-semibold text-sm rounded hover:bg-gold-500 transition-all duration-300">
+                        Try Free Benchmark
+                    </a>
                 </div>
-            </a>
-            <nav class="nav-desktop">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="methodology.html" class="nav-link">Methodology</a>
-                <a href="products.html" class="nav-link">Products</a>
-                <a href="platform.html" class="nav-link">Platform</a>
-                <a href="blog/index.html" class="nav-link">Blog</a>
-            </nav>
-            <a href="platform.html" class="btn btn-primary header-cta">Try Free Benchmark</a>
-            <button class="mobile-toggle" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Toggle menu">
-                <span></span><span></span><span></span>
-            </button>
+
+                <button class="md:hidden text-white" onclick="toggleMobileMenu()">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
         </div>
-        <div id="mobileMenu" class="mobile-menu">
-            <a href="index.html" class="mobile-link">Home</a>
-            <a href="methodology.html" class="mobile-link">Methodology</a>
-            <a href="products.html" class="mobile-link">Products</a>
-            <a href="platform.html" class="mobile-link">Platform</a>
-            <a href="blog/index.html" class="mobile-link">Blog</a>
+
+        <div id="mobileMenu" class="hidden md:hidden bg-navy-800 border-t border-gold-400/10">
+            <div class="px-4 py-6 space-y-4">
+                <a href="index.html" class="block text-slate-300 hover:text-gold-400">Home</a>
+                <a href="methodology.html" class="block text-slate-300 hover:text-gold-400">Methodology</a>
+                <a href="products.html" class="block text-slate-300 hover:text-gold-400">Products</a>
+                <a href="blog/index.html" class="block text-slate-300 hover:text-gold-400">Blog</a>
+                <a href="about.html" class="block text-slate-300 hover:text-gold-400">About</a>
+            </div>
         </div>
     </header>
 
-    <!-- ═══════════════════════════════════════════════════════════
-         STATE 1: LANDING — Capture info, explain the diagnostic
-         ═══════════════════════════════════════════════════════════ -->
-    <section id="landing" class="landing-hero">
-        <div class="container text-center" style="position:relative;z-index:1;">
-            <p class="hero-eyebrow">Free Assessment</p>
-            <h1 class="hero-title" style="max-width:700px;margin:0 auto .75rem;">The Finance Aptitude Diagnostic</h1>
-            <p class="hero-subtitle" style="max-width:640px;margin:0 auto 2.5rem;">20 questions. 25 minutes. Numerical Reasoning, Data Interpretation, and Logical Reasoning. Discover which category is your bottleneck.</p>
+    <!-- Landing State -->
+    <section id="landing" class="pt-32 pb-20 min-h-screen bg-navy-900 geometric-pattern">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-gold-400 font-semibold tracking-widest uppercase text-sm">Free Assessment</span>
+                <h1 class="font-serif text-5xl lg:text-6xl font-bold text-white mt-4 mb-6">The Finance Aptitude Diagnostic</h1>
+                <p class="text-xl text-slate-300 max-w-2xl mx-auto">20 questions. 25 minutes. Numerical Reasoning, Data Interpretation, and Logical Reasoning. Discover which category is your bottleneck.</p>
+            </div>
 
-            <div class="info-cards" style="max-width:680px;margin:0 auto 2.5rem;">
-                <div class="info-card">
-                    <h3>25 Minutes</h3>
-                    <p>Timed conditions mirror real assessment pressure</p>
+            <div class="grid md:grid-cols-3 gap-6 mb-12">
+                <div class="glass-effect rounded-xl p-6 text-center border border-gold-400/10">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-gold-400/10 flex items-center justify-center">
+                        <i data-lucide="timer" class="w-6 h-6 text-gold-400"></i>
+                    </div>
+                    <h3 class="font-semibold text-white mb-1">25 Minutes</h3>
+                    <p class="text-sm text-slate-400">Timed conditions mirror real assessment pressure</p>
                 </div>
-                <div class="info-card">
-                    <h3>Category Scoring</h3>
-                    <p>Per-category breakdown, not just an overall score</p>
+                <div class="glass-effect rounded-xl p-6 text-center border border-gold-400/10">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-gold-400/10 flex items-center justify-center">
+                        <i data-lucide="bar-chart-2" class="w-6 h-6 text-gold-400"></i>
+                    </div>
+                    <h3 class="font-semibold text-white mb-1">X/5 Scoring</h3>
+                    <p class="text-sm text-slate-400">Per category breakdown, not just overall score</p>
                 </div>
-                <div class="info-card">
-                    <h3>Instant Results</h3>
-                    <p>Detailed analysis with explanations for every question</p>
+                <div class="glass-effect rounded-xl p-6 text-center border border-gold-400/10">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-gold-400/10 flex items-center justify-center">
+                        <i data-lucide="mail" class="w-6 h-6 text-gold-400"></i>
+                    </div>
+                    <h3 class="font-semibold text-white mb-1">Instant Results</h3>
+                    <p class="text-sm text-slate-400">Email with category analysis and next steps</p>
                 </div>
             </div>
 
-            <div class="start-form-wrap">
-                <h2 class="form-title">Begin Your Assessment</h2>
-                <form id="startForm" class="start-form">
-                    <div class="form-group">
-                        <label class="form-label" for="userName">Full Name</label>
-                        <input type="text" id="userName" class="form-input" placeholder="Enter your full name" required>
+            <div class="glass-effect rounded-2xl p-8 border border-gold-400/20 max-w-2xl mx-auto">
+                <h2 class="font-serif text-2xl font-bold text-white mb-6 text-center">Begin Your Assessment</h2>
+                <form id="startForm" onsubmit="startAssessment(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-1">Full Name</label>
+                        <input type="text" id="userName" required class="w-full px-4 py-3 rounded-lg bg-navy-800 border border-gold-400/20 text-white focus:border-gold-400 focus:outline-none transition-colors" placeholder="Enter your full name">
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="userEmail">Email Address</label>
-                        <input type="email" id="userEmail" class="form-input" placeholder="your@email.com" required>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-1">Email Address</label>
+                        <input type="email" id="userEmail" required class="w-full px-4 py-3 rounded-lg bg-navy-800 border border-gold-400/20 text-white focus:border-gold-400 focus:outline-none transition-colors" placeholder="your@email.com">
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="targetFirm">Target Firm (Optional)</label>
-                        <select id="targetFirm" class="form-input">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-1">Target Firm (Optional)</label>
+                        <select id="targetFirm" class="w-full px-4 py-3 rounded-lg bg-navy-800 border border-gold-400/20 text-white focus:border-gold-400 focus:outline-none transition-colors">
                             <option value="">Select firm...</option>
                             <option value="kpmg">KPMG</option>
                             <option value="deloitte">Deloitte</option>
                             <option value="pwc">PwC</option>
                             <option value="ey">EY</option>
                             <option value="goldman">Goldman Sachs</option>
-                            <option value="jpmorgan">JP Morgan</option>
                             <option value="barclays">Barclays</option>
-                            <option value="hsbc">HSBC</option>
-                            <option value="citi">Citi</option>
+                            <option value="jpmorgan">JP Morgan</option>
                             <option value="other">Other</option>
                         </select>
                     </div>
-                    <div class="form-check">
-                        <input type="checkbox" id="marketingConsent">
-                        <label for="marketingConsent">I agree to receive my diagnostic results and follow-up emails about the training programme. Unsubscribe anytime.</label>
+                    <div class="flex items-start gap-3 pt-2">
+                        <input type="checkbox" id="marketingConsent" class="mt-1 w-4 h-4 rounded border-gold-400/20 bg-navy-800 text-gold-400 focus:ring-gold-400">
+                        <label for="marketingConsent" class="text-sm text-slate-400">I agree to receive diagnostic results and follow-up emails about the training programme. Unsubscribe anytime.</label>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">Start Diagnostic</button>
+                    <button type="submit" class="w-full py-4 bg-gold-400 text-navy-900 font-bold text-lg rounded hover:bg-gold-500 transition-colors">
+                        Start Diagnostic
+                    </button>
                 </form>
-                <p class="form-note">By starting, you agree to our <a href="pages/terms.html" style="color:var(--gold-400);">Terms of Service</a> and <a href="pages/privacy.html" style="color:var(--gold-400);">Privacy Policy</a>.</p>
+                <p class="text-xs text-slate-500 text-center mt-4">By starting, you agree to our Terms of Service and Privacy Policy.</p>
             </div>
         </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════════════
-         STATE 2: ASSESSMENT — Timer, questions, navigation
-         ═══════════════════════════════════════════════════════════ -->
-    <section id="assessment" class="assessment-section">
-        <div class="container" style="max-width:800px;">
-            <div class="progress-header">
-                <div class="progress-top">
-                    <div class="progress-info">
-                        <span class="progress-text">Question <strong id="currentQ">1</strong>/20</span>
-                        <div class="progress-bar"><div class="progress-fill" id="progressBar" style="width:5%"></div></div>
+    <!-- Assessment Interface (Hidden initially) -->
+    <section id="assessment" class="hidden pt-24 pb-8 min-h-screen bg-navy-900">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Progress Header -->
+            <div class="sticky top-24 z-40 bg-navy-800/95 backdrop-blur rounded-xl p-4 mb-6 border border-gold-400/10">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-4">
+                        <span class="text-sm text-slate-400">Question <span id="currentQ" class="text-white font-bold">1</span>/20</span>
+                        <div class="w-32 h-2 bg-navy-900 rounded-full overflow-hidden">
+                            <div id="progressBar" class="h-full bg-gold-400 transition-all duration-300" style="width: 5%"></div>
+                        </div>
                     </div>
-                    <div class="timer" id="timer">25:00</div>
+                    <div class="flex items-center gap-2 font-mono text-xl font-bold text-gold-400" id="timer">
+                        25:00
+                    </div>
                 </div>
-                <div class="category-tags">
-                    <span class="cat-tag" id="cat-nr">NR</span>
-                    <span class="cat-tag" id="cat-di">DI</span>
-                    <span class="cat-tag" id="cat-lr">LR</span>
+                <div class="flex gap-2 text-xs">
+                    <span id="cat-nr" class="px-2 py-1 rounded bg-gold-400/20 text-gold-400">NR</span>
+                    <span id="cat-di" class="px-2 py-1 rounded bg-navy-900 text-slate-500">DI</span>
+                    <span id="cat-lr" class="px-2 py-1 rounded bg-navy-900 text-slate-500">LR</span>
                 </div>
             </div>
 
-            <div class="question-card" id="questionContainer">
-                <!-- Dynamic content -->
+            <!-- Question Container -->
+            <div id="questionContainer" class="glass-effect rounded-2xl p-8 border border-gold-400/10">
+                <!-- Dynamic content loaded here -->
             </div>
 
-            <div class="question-nav">
-                <button onclick="AL.prevQuestion()" id="prevBtn" class="btn btn-outline" disabled>Previous</button>
-                <button onclick="AL.nextQuestion()" id="nextBtn" class="btn btn-primary">Next Question</button>
+            <!-- Navigation -->
+            <div class="flex justify-between mt-6">
+                <button onclick="prevQuestion()" id="prevBtn" class="px-6 py-3 border border-gold-400/20 text-slate-300 rounded hover:border-gold-400 hover:text-gold-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    Previous
+                </button>
+                <button onclick="nextQuestion()" id="nextBtn" class="px-6 py-3 bg-gold-400 text-navy-900 font-semibold rounded hover:bg-gold-500 transition-colors">
+                    Next Question
+                </button>
             </div>
         </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════════════
-         STATE 3: RESULTS — Score breakdown, focus area, CTA
-         ═══════════════════════════════════════════════════════════ -->
-    <section id="results" class="results-section">
-        <div class="container text-center">
-            <div class="results-icon">&check;</div>
-            <h1 class="results-title">Assessment Complete</h1>
-            <p class="results-subtitle">Your category breakdown has been calculated.</p>
+    <!-- Results (Hidden initially) -->
+    <section id="results" class="hidden pt-32 pb-20 min-h-screen bg-navy-900 geometric-pattern">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="w-20 h-20 mx-auto rounded-full bg-green-400/10 flex items-center justify-center mb-6">
+                <i data-lucide="check-circle" class="w-10 h-10 text-green-400"></i>
+            </div>
+            <h1 class="font-serif text-4xl font-bold text-white mb-4">Assessment Complete</h1>
+            <p class="text-slate-300 mb-8">Your category breakdown has been calculated. Check your email for detailed analysis.</p>
 
-            <div style="background:rgba(255,255,255,.02);border:1px solid rgba(201,169,97,.12);border-radius:var(--radius-xl);padding:2rem;margin-bottom:2rem;">
-                <h2 style="font-size:1.3rem;font-weight:700;color:var(--white);margin-bottom:1.5rem;">Your Results</h2>
-
-                <div class="score-grid">
-                    <div class="score-card">
-                        <div class="score-label">Numerical</div>
-                        <div class="score-value" id="nrScore">-/7</div>
-                        <div class="score-tier" id="nrLabel">—</div>
+            <div class="glass-effect rounded-2xl p-8 border border-gold-400/20 mb-8">
+                <h2 class="font-serif text-2xl font-bold text-white mb-6">Your Results</h2>
+                
+                <div class="grid grid-cols-3 gap-4 mb-6">
+                    <div class="p-4 bg-navy-800 rounded-lg border border-gold-400/10">
+                        <p class="text-xs text-slate-500 uppercase tracking-wide mb-1">Numerical</p>
+                        <p class="text-3xl font-bold text-gold-400 font-serif" id="nrScore">-/5</p>
+                        <p class="text-xs text-slate-400 mt-1" id="nrLabel">Calculating...</p>
                     </div>
-                    <div class="score-card">
-                        <div class="score-label">Data</div>
-                        <div class="score-value" id="diScore">-/7</div>
-                        <div class="score-tier" id="diLabel">—</div>
+                    <div class="p-4 bg-navy-800 rounded-lg border border-gold-400/10">
+                        <p class="text-xs text-slate-500 uppercase tracking-wide mb-1">Data</p>
+                        <p class="text-3xl font-bold text-gold-400 font-serif" id="diScore">-/5</p>
+                        <p class="text-xs text-slate-400 mt-1" id="diLabel">Calculating...</p>
                     </div>
-                    <div class="score-card">
-                        <div class="score-label">Logical</div>
-                        <div class="score-value" id="lrScore">-/6</div>
-                        <div class="score-tier" id="lrLabel">—</div>
+                    <div class="p-4 bg-navy-800 rounded-lg border border-gold-400/10">
+                        <p class="text-xs text-slate-500 uppercase tracking-wide mb-1">Logical</p>
+                        <p class="text-3xl font-bold text-gold-400 font-serif" id="lrScore">-/5</p>
+                        <p class="text-xs text-slate-400 mt-1" id="lrLabel">Calculating...</p>
                     </div>
                 </div>
 
-                <div class="focus-box">
-                    <h3>Your Focus Area:</h3>
-                    <p id="focusArea">Calculating...</p>
-                    <a href="masterclass.html" class="btn btn-primary">View Training Programme</a>
+                <div class="p-6 bg-gold-400/5 rounded-lg border border-gold-400/20 text-left">
+                    <h3 class="font-semibold text-white mb-2">Your Focus Area:</h3>
+                    <p class="text-slate-300 text-sm mb-4" id="focusArea">Identifying your weakest category...</p>
+                    <a href="masterclass.html" class="inline-block px-6 py-3 bg-gold-400 text-navy-900 font-semibold rounded hover:bg-gold-500 transition-colors">
+                        View Training Programme
+                    </a>
                 </div>
             </div>
 
-            <div>
-                <button onclick="AL.showReview()" class="btn btn-ghost">Review All Answers</button>
-                <p style="font-size:.75rem;color:var(--slate-500);margin-top:.5rem;">Detailed explanations for every question</p>
+            <div class="space-y-4">
+                <button onclick="reviewAnswers()" class="px-6 py-3 border border-gold-400/20 text-gold-400 rounded hover:bg-gold-400/5 transition-colors">
+                    Review Answers
+                </button>
+                <p class="text-xs text-slate-500">Detailed explanations of correct answers available in review mode</p>
             </div>
         </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════════════
-         STATE 4: REVIEW — Question-by-question with explanations
-         ═══════════════════════════════════════════════════════════ -->
-    <section id="review" class="review-section">
-        <div class="container" style="max-width:800px;">
-            <div class="review-header">
-                <h2>Review Mode</h2>
-                <button onclick="AL.closeReview()" class="btn btn-ghost" style="padding:.4rem .8rem;font-size:.82rem;">Close Review</button>
+    <!-- Review Mode (Hidden initially) -->
+    <section id="review" class="hidden pt-24 pb-8 min-h-screen bg-navy-900">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="font-serif text-2xl font-bold text-white">Review Mode</h2>
+                <button onclick="closeReview()" class="px-4 py-2 text-slate-400 hover:text-white transition-colors">
+                    Close Review
+                </button>
             </div>
-            <div id="reviewContainer"></div>
+            <div id="reviewContainer" class="space-y-6">
+                <!-- Review content loaded here -->
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="site-footer" id="siteFooter">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <div class="footer-logo">
-                        <img src="assets/images/logo.png" width="28" height="28" alt="Acumen Logic">
-                        <span>ACUMEN LOGIC</span>
-                    </div>
-                    <p>Structured aptitude test preparation for UK finance, Big 4, investment banking, and consulting candidates.</p>
+    <footer class="bg-navy-900 border-t border-gold-400/10 pt-16 pb-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-2">
+                    <span class="font-serif text-lg font-bold text-white">ACUMEN LOGIC</span>
+                    <p class="text-slate-400 text-sm max-w-sm mt-4">Precision training and percentile benchmarking for finance aptitude assessments. Used by candidates targeting Big 4, investment banking, and consulting roles.</p>
                 </div>
-                <div class="footer-links">
-                    <h4>Programme</h4>
-                    <ul>
-                        <li><a href="products.html">Products</a></li>
-                        <li><a href="platform.html">Benchmark Platform</a></li>
-                        <li><a href="methodology.html">Methodology</a></li>
-                        <li><a href="diagnostic.html">Free Diagnostic</a></li>
-                        <li><a href="blog/index.html">Blog</a></li>
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Programme</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="products.html" class="hover:text-gold-400 transition-colors">Products</a></li>
+                        <li><a href="methodology.html" class="hover:text-gold-400 transition-colors">Methodology</a></li>
+                        <li><a href="blog/index.html" class="hover:text-gold-400 transition-colors">Blog</a></li>
+                        <li><a href="about.html" class="hover:text-gold-400 transition-colors">About</a></li>
                     </ul>
                 </div>
-                <div class="footer-links">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="pages/privacy.html">Privacy Policy</a></li>
-                        <li><a href="pages/terms.html">Terms of Service</a></li>
-                        <li><a href="pages/refund.html">Refund Policy</a></li>
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Legal</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="pages/privacy.html" class="hover:text-gold-400 transition-colors">Privacy Policy</a></li>
+                        <li><a href="pages/terms.html" class="hover:text-gold-400 transition-colors">Terms of Service</a></li>
+                        <li><a href="pages/refund.html" class="hover:text-gold-400 transition-colors">Refund Policy</a></li>
+                        <li><a href="pages/cookies.html" class="hover:text-gold-400 transition-colors">Cookie Policy</a></li>
+                        <li><a href="pages/disclaimer.html" class="hover:text-gold-400 transition-colors">Disclaimer</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 Acumen Logic. All rights reserved.</p>
+            <div class="border-t border-gold-400/10 pt-8 text-center">
+                <p class="text-xs text-slate-500">&copy; 2026 Acumen Logic. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script src="assets/js/questions.js"></script>
     <script>
-    /**
-     * ACUMEN LOGIC — Diagnostic Assessment Engine
-     * Handles: question rendering, timer, scoring, backend submission, review mode
-     */
-    var AL = (function() {
-        'use strict';
+        // State
+        let currentQuestion = 1;
+        let timeRemaining = 1500; // 25 minutes
+        let timer;
+        let answers = {};
+        let userData = {};
 
-        // ── Configuration ──────────────────────────────────────
-        var BACKEND_URL = ''; // Set to your backend URL, e.g. 'https://api.acumenlogic.co.uk'
-        var TOTAL_TIME = 1500; // 25 minutes in seconds
-        var WARNING_TIME = 120; // 2 minutes warning
-
-        // ── State ──────────────────────────────────────────────
-        var currentQuestion = 1;
-        var timeRemaining = TOTAL_TIME;
-        var timerInterval = null;
-        var answers = {};
-        var userData = {};
-        var questions = defined_questions;
-
-        // Question sequence: interleaved NR, DI, LR
-        // IDs: NR=1-7, DI=8-14, LR=15-20
-        // Pattern: NR, DI, LR, NR, DI, LR, NR, DI, LR, NR, DI, LR, NR, DI, LR, NR, DI, LR, NR, DI
-        var questionSequence = [
-            1, 8, 15,   // Q1-3
-            2, 9, 16,   // Q4-6
-            3, 10, 17,  // Q7-9
-            4, 11, 18,  // Q10-12
-            5, 12, 19,  // Q13-15
-            6, 13, 20,  // Q16-18
-            7, 14       // Q19-20
+        // Question sequence: NR, DI, LR, NR, DI, LR... (20 questions total: 7 NR, 7 DI, 6 LR)
+        const questionSequence = [
+            1, 8, 15, 2, 9, 16, 3, 10, 17, 4, 11, 18, 5, 12, 19, 6, 13, 20, 7, 14
         ];
 
-        // ── DOM refs ───────────────────────────────────────────
-        function $(id) { return document.getElementById(id); }
-
-        // ── Sections ───────────────────────────────────────────
-        function showSection(id) {
-            ['landing', 'assessment', 'results', 'review'].forEach(function(s) {
-                var el = $(s);
-                if (!el) return;
-                if (s === id) {
-                    el.classList.add('active');
-                    el.style.display = '';
-                } else {
-                    el.classList.remove('active');
-                    el.style.display = 'none';
-                }
-            });
-            window.scrollTo(0, 0);
-            // Show/hide footer during assessment
-            var footer = $('siteFooter');
-            if (footer) footer.style.display = (id === 'assessment') ? 'none' : '';
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
         }
 
-        // ── Start Assessment ───────────────────────────────────
         function startAssessment(e) {
             e.preventDefault();
-
-            var name = $('userName').value.trim();
-            var email = $('userEmail').value.trim();
-            if (!name || !email) return;
-
+            
             userData = {
-                name: name,
-                email: email,
-                firm: $('targetFirm').value,
-                consent: $('marketingConsent').checked,
-                startedAt: new Date().toISOString()
+                name: document.getElementById('userName').value,
+                email: document.getElementById('userEmail').value,
+                firm: document.getElementById('targetFirm').value,
+                consent: document.getElementById('marketingConsent').checked,
+                timestamp: new Date().toISOString()
             };
 
+            // Store in session
             sessionStorage.setItem('acumenUser', JSON.stringify(userData));
-            showSection('assessment');
+
+            // Switch views
+            document.getElementById('landing').classList.add('hidden');
+            document.getElementById('assessment').classList.remove('hidden');
+            document.getElementById('footer').classList.add('hidden');
+
+            // Start timer
             startTimer();
+            
+            // Load first question
             loadQuestion(1);
         }
 
-        // ── Timer ──────────────────────────────────────────────
         function startTimer() {
-            timerInterval = setInterval(function() {
+            timer = setInterval(() => {
                 timeRemaining--;
-                var m = Math.floor(timeRemaining / 60);
-                var s = timeRemaining % 60;
-                var timerEl = $('timer');
-                timerEl.textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
-
-                if (timeRemaining <= WARNING_TIME) {
-                    timerEl.classList.add('warning');
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                const timerEl = document.getElementById('timer');
+                
+                timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeRemaining <= 120) { // Warning at 2 minutes
+                    timerEl.classList.add('timer-warning');
                 }
+                
                 if (timeRemaining <= 0) {
                     finishAssessment();
                 }
             }, 1000);
         }
 
-        // ── Question Loading ───────────────────────────────────
-        function getQuestionById(id) {
-            for (var i = 0; i < questions.length; i++) {
-                if (questions[i].id === id) return questions[i];
-            }
-            return null;
+        function getCategory(questionNum) {
+            const idx = (questionNum - 1) % 3;
+            return ['NR', 'DI', 'LR'][idx];
         }
 
-        function loadQuestion(num) {
-            currentQuestion = num;
-            var qId = questionSequence[num - 1];
-            var q = getQuestionById(qId);
-            if (!q) return;
+        function loadQuestion(qNum) {
+            currentQuestion = qNum;
+            const questionId = questionSequence[qNum - 1];
+            const question = questions.find(q => q.id === questionId);
+            const category = getCategory(qNum);
 
-            // Progress
-            $('currentQ').textContent = num;
-            $('progressBar').style.width = ((num / 20) * 100) + '%';
+            // Update progress
+            document.getElementById('currentQ').textContent = qNum;
+            document.getElementById('progressBar').style.width = `${(qNum / 20) * 100}%`;
+            
+            // Update category indicators
+            document.getElementById('cat-nr').className = category === 'NR' ? 'px-2 py-1 rounded bg-gold-400/20 text-gold-400' : 'px-2 py-1 rounded bg-navy-900 text-slate-500';
+            document.getElementById('cat-di').className = category === 'DI' ? 'px-2 py-1 rounded bg-gold-400/20 text-gold-400' : 'px-2 py-1 rounded bg-navy-900 text-slate-500';
+            document.getElementById('cat-lr').className = category === 'LR' ? 'px-2 py-1 rounded bg-gold-400/20 text-gold-400' : 'px-2 py-1 rounded bg-navy-900 text-slate-500';
 
-            // Category indicators (use the question's actual category)
-            var cat = q.category;
-            $('cat-nr').className = 'cat-tag' + (cat === 'Numerical Reasoning' ? ' active' : '');
-            $('cat-di').className = 'cat-tag' + (cat === 'Data Interpretation' ? ' active' : '');
-            $('cat-lr').className = 'cat-tag' + (cat === 'Logical Reasoning' ? ' active' : '');
+            // Update buttons
+            document.getElementById('prevBtn').disabled = qNum === 1;
+            document.getElementById('nextBtn').textContent = qNum === 20 ? 'Finish' : 'Next Question';
 
-            // Navigation
-            $('prevBtn').disabled = (num === 1);
-            $('nextBtn').textContent = (num === 20) ? 'Finish Assessment' : 'Next Question';
+            // Render question
+            const container = document.getElementById('questionContainer');
+            let html = `
+                <div class="mb-6">
+                    <span class="text-xs font-semibold text-gold-400 uppercase tracking-wide">${question.category}</span>
+                    <h3 class="text-lg font-medium text-white mt-2 leading-relaxed">${question.text}</h3>
+                </div>
+            `;
 
-            // Build HTML
-            var html = '<div class="question-category">' + escHtml(q.category) + '</div>';
-            html += '<div class="question-text">' + escHtml(q.text) + '</div>';
-
-            // Table if present
-            if (q.table) {
-                html += '<div style="overflow-x:auto;margin-bottom:1.25rem;">';
-                html += '<table class="q-table"><thead><tr>';
-                q.table.headers.forEach(function(h) {
-                    html += '<th>' + escHtml(h) + '</th>';
-                });
-                html += '</tr></thead><tbody>';
-                q.table.rows.forEach(function(row) {
-                    html += '<tr>';
-                    row.forEach(function(cell) {
-                        html += '<td>' + escHtml(cell) + '</td>';
-                    });
-                    html += '</tr>';
-                });
-                html += '</tbody></table></div>';
+            if (question.table) {
+                html += `
+                    <div class="mb-6 overflow-x-auto">
+                        <table class="w-full text-sm border-collapse">
+                            <thead>
+                                <tr class="border-b border-gold-400/20">
+                                    ${question.table.headers.map(h => `<th class="text-left py-2 px-3 text-slate-400 font-medium">${h}</th>`).join('')}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${question.table.rows.map(row => `
+                                    <tr class="border-b border-gold-400/10">
+                                        ${row.map(cell => `<td class="py-2 px-3 text-white font-mono">${cell}</td>`).join('')}
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
             }
 
-            // Options
-            html += '<div class="options-list">';
-            q.options.forEach(function(opt, idx) {
-                var selected = (answers[qId] === idx) ? ' selected' : '';
-                html += '<button class="option-btn' + selected + '" onclick="AL.selectAnswer(' + qId + ',' + idx + ')">';
-                html += '<strong>' + String.fromCharCode(65 + idx) + '.</strong> ' + escHtml(opt);
-                html += '</button>';
+            html += `<div class="space-y-3">`;
+            question.options.forEach((opt, idx) => {
+                const selected = answers[questionId] === idx ? 'border-gold-400 bg-gold-400/10' : 'border-gold-400/20 hover:border-gold-400/50';
+                html += `
+                    <button onclick="selectAnswer(${questionId}, ${idx})" class="w-full p-4 text-left rounded border ${selected} transition-all text-slate-300 hover:text-white">
+                        <span class="font-medium">${String.fromCharCode(65 + idx)}.</span> ${opt}
+                    </button>
+                `;
             });
-            html += '</div>';
+            html += `</div>`;
 
-            $('questionContainer').innerHTML = html;
+            container.innerHTML = html;
         }
 
-        function selectAnswer(qId, optIdx) {
-            answers[qId] = optIdx;
+        function selectAnswer(questionId, optionIdx) {
+            answers[questionId] = optionIdx;
             loadQuestion(currentQuestion); // Re-render to show selection
         }
 
         function prevQuestion() {
-            if (currentQuestion > 1) loadQuestion(currentQuestion - 1);
+            if (currentQuestion > 1) {
+                loadQuestion(currentQuestion - 1);
+            }
         }
 
         function nextQuestion() {
@@ -407,235 +463,164 @@
             }
         }
 
-        // ── Finish & Score ─────────────────────────────────────
         function finishAssessment() {
-            clearInterval(timerInterval);
+            clearInterval(timer);
+            
+            // Calculate scores
+            let nrCorrect = 0, diCorrect = 0, lrCorrect = 0;
+            let nrTotal = 0, diTotal = 0, lrTotal = 0;
 
-            var nrCorrect = 0, nrTotal = 0;
-            var diCorrect = 0, diTotal = 0;
-            var lrCorrect = 0, lrTotal = 0;
-            var totalCorrect = 0;
-            var totalWrong = 0;
-            var totalSkipped = 0;
+            questionSequence.forEach((qId, idx) => {
+                const q = questions.find(question => question.id === qId);
+                const cat = getCategory(idx + 1);
+                const correct = answers[qId] === q.correct;
 
-            questionSequence.forEach(function(qId) {
-                var q = getQuestionById(qId);
-                if (!q) return;
-
-                var userAns = answers[qId];
-                var cat = q.category;
-                var isCorrect = (userAns === q.correct);
-                var isSkipped = (userAns === undefined);
-
-                if (cat === 'Numerical Reasoning') {
+                if (cat === 'NR') {
                     nrTotal++;
-                    if (isCorrect) { nrCorrect++; totalCorrect++; }
-                    else if (isSkipped) { totalSkipped++; }
-                    else { totalWrong++; }
-                } else if (cat === 'Data Interpretation') {
+                    if (correct) nrCorrect++;
+                } else if (cat === 'DI') {
                     diTotal++;
-                    if (isCorrect) { diCorrect++; totalCorrect++; }
-                    else if (isSkipped) { totalSkipped++; }
-                    else { totalWrong++; }
+                    if (correct) diCorrect++;
                 } else {
                     lrTotal++;
-                    if (isCorrect) { lrCorrect++; totalCorrect++; }
-                    else if (isSkipped) { totalSkipped++; }
-                    else { totalWrong++; }
+                    if (correct) lrCorrect++;
                 }
             });
 
-            var timeTaken = TOTAL_TIME - timeRemaining;
-
-            var results = {
-                nr: nrCorrect, nrTotal: nrTotal,
-                di: diCorrect, diTotal: diTotal,
-                lr: lrCorrect, lrTotal: lrTotal,
-                total: totalCorrect,
-                wrong: totalWrong,
-                skipped: totalSkipped,
-                timeTaken: timeTaken,
+            const results = {
+                nr: nrCorrect,
+                di: diCorrect,
+                lr: lrCorrect,
+                total: nrCorrect + diCorrect + lrCorrect,
                 answers: answers,
-                user: userData
+                user: userData,
+                timeRemaining: timeRemaining
             };
 
             sessionStorage.setItem('acumenResults', JSON.stringify(results));
-            sendToBackend(results);
+
+            // Send to Zapier (webhook)
+            sendToZapier(results);
+
+            // Show results
             showResults(results);
         }
 
-        // ── Backend Submission ──────────────────────────────────
-        function sendToBackend(results) {
-            var pct = Math.round((results.total / 20) * 100);
-            var tier = pct >= 80 ? 'Excellent' : pct >= 60 ? 'Good' : pct >= 40 ? 'Needs Work' : 'Weak';
-
-            var payload = {
-                assessment_type: 'diagnostic',
-                user_name: results.user.name,
-                user_email: results.user.email,
-                score_correct: results.total,
-                score_total: 20,
-                score_percentage: pct,
-                score_wrong: results.wrong,
-                score_skipped: results.skipped,
-                time_taken_seconds: results.timeTaken,
-                performance_tier: tier,
-                section_breakdown: {
-                    'Numerical Reasoning': { correct: results.nr, total: results.nrTotal },
-                    'Data Interpretation': { correct: results.di, total: results.diTotal },
-                    'Logical Reasoning': { correct: results.lr, total: results.lrTotal }
-                },
-                answers: results.answers,
-                meta: {
-                    firm: results.user.firm,
-                    consent: results.user.consent,
-                    started_at: results.user.startedAt,
-                    completed_at: new Date().toISOString()
-                }
+        function sendToZapier(results) {
+            // TODO: Replace with your actual Zapier webhook URL
+            const webhookUrl = 'YOUR_ZAPIER_WEBHOOK_URL_HERE';
+            
+            const payload = {
+                name: results.user.name,
+                email: results.user.email,
+                firm: results.user.firm,
+                consent: results.user.consent,
+                nr_score: results.nr,
+                di_score: results.di,
+                lr_score: results.lr,
+                total_score: results.total,
+                timestamp: results.user.timestamp
             };
 
-            // Send to our Results Backend
-            if (BACKEND_URL) {
-                fetch(BACKEND_URL + '/api/results', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                }).catch(function(err) {
-                    console.warn('Backend submission failed:', err.message);
-                });
-            }
-
-            // Also send to Zapier/webhook if configured
-            // Uncomment and set your webhook URL:
-            // var WEBHOOK_URL = 'YOUR_ZAPIER_WEBHOOK_URL';
-            // fetch(WEBHOOK_URL, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) }).catch(function(){});
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).catch(err => console.log('Webhook logged for retry'));
         }
 
-        // ── Show Results ───────────────────────────────────────
         function showResults(results) {
-            showSection('results');
+            document.getElementById('assessment').classList.add('hidden');
+            document.getElementById('results').classList.remove('hidden');
 
-            $('nrScore').textContent = results.nr + '/' + results.nrTotal;
-            $('diScore').textContent = results.di + '/' + results.diTotal;
-            $('lrScore').textContent = results.lr + '/' + results.lrTotal;
+            document.getElementById('nrScore').textContent = `${results.nr}/7`;
+            document.getElementById('diScore').textContent = `${results.di}/7`;
+            document.getElementById('lrScore').textContent = `${results.lr}/6`;
 
-            // Strength labels
-            var nrPct = results.nr / results.nrTotal;
-            var diPct = results.di / results.diTotal;
-            var lrPct = results.lr / results.lrTotal;
+            // Determine strength/weakness
+            const nrStrength = results.nr >= 4 ? 'Strong' : 'Weak';
+            const diStrength = results.di >= 4 ? 'Strong' : 'Weak';
+            const lrStrength = results.lr >= 4 ? 'Strong' : 'Weak';
 
-            setTierLabel('nrLabel', nrPct);
-            setTierLabel('diLabel', diPct);
-            setTierLabel('lrLabel', lrPct);
+            document.getElementById('nrLabel').textContent = nrStrength;
+            document.getElementById('diLabel').textContent = diStrength;
+            document.getElementById('lrLabel').textContent = lrStrength;
 
             // Find weakest
-            var cats = [
-                { name: 'Numerical Reasoning', score: results.nr, total: results.nrTotal, pct: nrPct },
-                { name: 'Data Interpretation', score: results.di, total: results.diTotal, pct: diPct },
-                { name: 'Logical Reasoning', score: results.lr, total: results.lrTotal, pct: lrPct }
+            const scores = [
+                { cat: 'Numerical Reasoning', score: results.nr, max: 7, strength: nrStrength },
+                { cat: 'Data Interpretation', score: results.di, max: 7, strength: diStrength },
+                { cat: 'Logical Reasoning', score: results.lr, max: 6, strength: lrStrength }
             ];
-            cats.sort(function(a, b) { return a.pct - b.pct; });
-            var weakest = cats[0];
+            
+            const weakest = scores.sort((a, b) => (a.score/a.max) - (b.score/b.max))[0];
+            
+            document.getElementById('focusArea').innerHTML = 
+                `Your <strong class="text-gold-400">${weakest.cat}</strong> score (${weakest.score}/${weakest.max}) indicates this is your primary bottleneck. ` +
+                `The training programme includes targeted modules to strengthen this specific area.`;
 
-            $('focusArea').innerHTML =
-                'Your <strong style="color:var(--gold-400)">' + weakest.name + '</strong> score (' + weakest.score + '/' + weakest.total + ') indicates this is your primary bottleneck. ' +
-                'The training programme includes targeted modules to strengthen this specific area.';
+            lucide.createIcons();
         }
 
-        function setTierLabel(elId, pct) {
-            var el = $(elId);
-            if (pct >= 0.7) {
-                el.textContent = 'Strong';
-                el.className = 'score-tier strong';
-            } else {
-                el.textContent = 'Needs Work';
-                el.className = 'score-tier weak';
-            }
-        }
+        function reviewAnswers() {
+            document.getElementById('results').classList.add('hidden');
+            document.getElementById('review').classList.remove('hidden');
 
-        // ── Review Mode ────────────────────────────────────────
-        function showReview() {
-            showSection('review');
-            var storedResults = JSON.parse(sessionStorage.getItem('acumenResults'));
-            if (!storedResults) return;
+            const container = document.getElementById('reviewContainer');
+            const results = JSON.parse(sessionStorage.getItem('acumenResults'));
+            
+            let html = '';
+            questionSequence.forEach((qId, idx) => {
+                const q = questions.find(question => question.id === qId);
+                const userAnswer = results.answers[qId];
+                const isCorrect = userAnswer === q.correct;
+                const category = getCategory(idx + 1);
 
-            var html = '';
-            questionSequence.forEach(function(qId, idx) {
-                var q = getQuestionById(qId);
-                if (!q) return;
-                var userAns = storedResults.answers[qId];
-                var isCorrect = (userAns === q.correct);
-                var isSkipped = (userAns === undefined);
+                html += `
+                    <div class="glass-effect rounded-xl p-6 border ${isCorrect ? 'border-green-400/20' : 'border-red-400/20'}">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <span class="text-xs font-semibold text-gold-400 uppercase tracking-wide">Q${idx + 1} • ${category}</span>
+                                <p class="text-white mt-1">${q.text}</p>
+                            </div>
+                            ${isCorrect 
+                                ? '<span class="px-3 py-1 rounded-full bg-green-400/10 text-green-400 text-xs font-semibold">Correct</span>'
+                                : '<span class="px-3 py-1 rounded-full bg-red-400/10 text-red-400 text-xs font-semibold">Incorrect</span>'
+                            }
+                        </div>
+                        
+                        <div class="space-y-2 mb-4">
+                            ${q.options.map((opt, i) => {
+                                let classes = 'p-3 rounded border text-sm ';
+                                if (i === q.correct) {
+                                    classes += 'border-green-400 bg-green-400/10 text-green-400';
+                                } else if (i === userAnswer && !isCorrect) {
+                                    classes += 'border-red-400 bg-red-400/10 text-red-400';
+                                } else {
+                                    classes += 'border-gold-400/10 text-slate-400';
+                                }
+                                return `<div class="${classes}">${String.fromCharCode(65 + i)}. ${opt}</div>`;
+                            }).join('')}
+                        </div>
 
-                html += '<div class="review-card ' + (isCorrect ? 'correct' : 'incorrect') + '">';
-                html += '<div class="review-card-header">';
-                html += '<div><span class="question-category">Q' + (idx + 1) + ' · ' + q.category + '</span>';
-                html += '<div class="question-text" style="font-size:.95rem;margin-top:.25rem;">' + escHtml(q.text) + '</div></div>';
-                html += '<span class="review-badge ' + (isCorrect ? 'correct' : 'incorrect') + '">' + (isSkipped ? 'Skipped' : isCorrect ? 'Correct' : 'Incorrect') + '</span>';
-                html += '</div>';
-
-                // Table
-                if (q.table) {
-                    html += '<div style="overflow-x:auto;margin-bottom:.75rem;">';
-                    html += '<table class="q-table"><thead><tr>';
-                    q.table.headers.forEach(function(h) { html += '<th>' + escHtml(h) + '</th>'; });
-                    html += '</tr></thead><tbody>';
-                    q.table.rows.forEach(function(row) {
-                        html += '<tr>';
-                        row.forEach(function(cell) { html += '<td>' + escHtml(cell) + '</td>'; });
-                        html += '</tr>';
-                    });
-                    html += '</tbody></table></div>';
-                }
-
-                // Options with correct/incorrect marking
-                html += '<div class="options-list" style="margin-bottom:.75rem;">';
-                q.options.forEach(function(opt, i) {
-                    var cls = 'option-btn';
-                    if (i === q.correct) cls += ' correct';
-                    else if (i === userAns && !isCorrect) cls += ' incorrect';
-                    html += '<div class="' + cls + '" style="cursor:default;">';
-                    html += '<strong>' + String.fromCharCode(65 + i) + '.</strong> ' + escHtml(opt);
-                    html += '</div>';
-                });
-                html += '</div>';
-
-                // Explanation
-                html += '<div class="review-explanation"><strong>Explanation: </strong>' + escHtml(q.explanation) + '</div>';
-                html += '</div>';
+                        <div class="p-4 bg-navy-800 rounded-lg">
+                            <p class="text-sm text-slate-300"><strong class="text-gold-400">Explanation:</strong> ${q.explanation}</p>
+                        </div>
+                    </div>
+                `;
             });
 
-            $('reviewContainer').innerHTML = html;
+            container.innerHTML = html;
+            lucide.createIcons();
         }
 
         function closeReview() {
-            showSection('results');
+            document.getElementById('review').classList.add('hidden');
+            document.getElementById('results').classList.remove('hidden');
         }
 
-        // ── Utility ────────────────────────────────────────────
-        function escHtml(str) {
-            if (!str) return '';
-            var div = document.createElement('div');
-            div.textContent = str;
-            return div.innerHTML;
-        }
-
-        // ── Init ───────────────────────────────────────────────
-        $('startForm').addEventListener('submit', startAssessment);
-
-        window.addEventListener('scroll', function() {
-            $('siteHeader').classList.toggle('scrolled', window.scrollY > 20);
-        });
-
-        // Public API
-        return {
-            selectAnswer: selectAnswer,
-            prevQuestion: prevQuestion,
-            nextQuestion: nextQuestion,
-            showReview: showReview,
-            closeReview: closeReview
-        };
-    })();
+        // Initialize
+        lucide.createIcons();
     </script>
 </body>
 </html>

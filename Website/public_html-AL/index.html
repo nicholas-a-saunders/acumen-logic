@@ -1,116 +1,158 @@
 <!DOCTYPE html>
-<html lang="en-GB" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acumen Logic | Master the Big 4 &amp; Investment Banking Assessments</title>
-    <meta name="description" content="Structured aptitude test preparation for Big 4, investment banking, and consulting assessments. Numerical reasoning, data interpretation, and logical reasoning training trusted by 2,000+ UK finance candidates.">
+    <meta name="description" content="Precision training and live benchmarking for Big 4, investment banking, and consulting assessments. Percentile rankings across numerical reasoning, data interpretation, and logical reasoning.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://acumenlogic.co.uk/">
-    <meta property="og:title" content="Acumen Logic | Finance Aptitude Test Preparation">
-    <meta property="og:description" content="Precision training for Big 4 and investment banking numerical reasoning, data interpretation, and logical reasoning assessments.">
+    <meta property="og:title" content="Acumen Logic | Finance Assessment Preparation">
+    <meta property="og:description" content="Precision training and percentile benchmarking for Big 4 and investment banking assessments.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://acumenlogic.co.uk/">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/site.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: { 900: '#0a1628', 800: '#0f1d32', 700: '#152238', 600: '#1e3a8a', 500: '#1e40af' },
+                        gold: { 400: '#C9A961', 500: '#b89851', 600: '#a68641' }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-text { background: linear-gradient(135deg, #C9A961 0%, #f4e5c2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .geometric-pattern { background-image: radial-gradient(circle at 2px 2px, rgba(201, 169, 97, 0.15) 1px, transparent 0); background-size: 40px 40px; }
+        .glass-effect { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(201, 169, 97, 0.1); }
+    </style>
 </head>
-<body>
-    
+<body class="bg-navy-900 text-slate-100 font-sans antialiased selection:bg-gold-400 selection:text-navy-900">
+
     <!-- Header -->
-    <header class="site-header" id="siteHeader">
-        <div class="container header-inner">
-            <a href="index.html" class="logo">
-                <img src="assets/images/logo.png" width="36" height="36" alt="Acumen Logic">
-                <div class="logo-text">
-                    <span class="logo-name">ACUMEN LOGIC</span>
-                    <span class="logo-tag">Finance Assessment Training</span>
+    <header class="fixed top-0 w-full z-50 bg-navy-900/90 backdrop-blur-md border-b border-gold-400/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="assets/images/logo.png" width="40" height="40" alt="Acumen Logic" class="flex-shrink-0">
+                    <div>
+                        <h1 class="font-serif text-xl font-bold text-white tracking-wide">ACUMEN LOGIC</h1>
+                        <p class="text-xs text-gold-400 tracking-widest uppercase">Precision Training</p>
+                    </div>
+                </a>
+                <nav class="hidden md:flex items-center gap-8">
+                    <a href="index.html" class="text-sm font-medium text-gold-400">Home</a>
+                    <a href="methodology.html" class="text-sm font-medium text-slate-300 hover:text-gold-400 transition-colors">Methodology</a>
+                    <a href="products.html" class="text-sm font-medium text-slate-300 hover:text-gold-400 transition-colors">Products</a>
+                    <a href="blog/index.html" class="text-sm font-medium text-slate-300 hover:text-gold-400 transition-colors">Blog</a>
+                    <a href="about.html" class="text-sm font-medium text-slate-300 hover:text-gold-400 transition-colors">About</a>
+                </nav>
+                <div class="hidden md:flex items-center gap-4">
+                    <a href="https://app.acumenlogic.co.uk/register.html" class="px-6 py-2.5 bg-gold-400 text-navy-900 font-semibold text-sm rounded hover:bg-gold-500 transition-all duration-300">
+                        Try Free Benchmark
+                    </a>
                 </div>
-            </a>
-
-            <nav class="nav-desktop">
-                <a href="index.html" class="nav-link active">Home</a>
-                <a href="methodology.html" class="nav-link">Methodology</a>
-                <a href="products.html" class="nav-link">Products</a>
-                <a href="platform.html" class="nav-link">Platform</a>
-                <a href="blog/index.html" class="nav-link">Blog</a>
-            </nav>
-
-            <a href="platform.html" class="btn btn-primary header-cta">Try Free Benchmark</a>
-
-            <button class="mobile-toggle" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Toggle menu">
-                <span></span><span></span><span></span>
-            </button>
+                <button class="md:hidden text-white" onclick="toggleMobileMenu()">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
         </div>
-
-        <div id="mobileMenu" class="mobile-menu">
-            <a href="index.html" class="mobile-link active">Home</a>
-            <a href="methodology.html" class="mobile-link">Methodology</a>
-            <a href="products.html" class="mobile-link">Products</a>
-            <a href="platform.html" class="mobile-link">Platform</a>
-            <a href="blog/index.html" class="mobile-link">Blog</a>
-            <a href="platform.html" class="btn btn-primary" style="margin-top:1rem;display:block;text-align:center;">Try Free Benchmark</a>
+        <div id="mobileMenu" class="hidden md:hidden bg-navy-800 border-t border-gold-400/10">
+            <div class="px-4 py-6 space-y-4">
+                <a href="index.html" class="block text-gold-400 font-medium">Home</a>
+                <a href="methodology.html" class="block text-slate-300 hover:text-gold-400">Methodology</a>
+                <a href="products.html" class="block text-slate-300 hover:text-gold-400">Products</a>
+                <a href="blog/index.html" class="block text-slate-300 hover:text-gold-400">Blog</a>
+                <a href="about.html" class="block text-slate-300 hover:text-gold-400">About</a>
+            </div>
         </div>
     </header>
 
-    <!-- Hero -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-grid">
-                <div class="hero-content">
-                    <p class="hero-eyebrow">Trusted by 2,000+ Finance Candidates</p>
-                    <h1 class="hero-title">Pass the Big 4 &amp; Investment Banking Assessments</h1>
-                    <p class="hero-subtitle">Structured training and live benchmarking for numerical reasoning, data interpretation, and logical reasoning. The methodology and platform used by candidates who secure offers at Goldman Sachs, KPMG, Deloitte, PwC, EY, Barclays, and JP Morgan.</p>
-                    <div class="hero-actions">
-                        <a href="diagnostic.html" class="btn btn-primary btn-lg">Take the Free Diagnostic <span class="btn-arrow">&rarr;</span></a>
-                        <a href="platform.html" class="btn btn-outline btn-lg">Explore the Platform</a>
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center bg-navy-900 geometric-pattern pt-20 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-navy-900 via-navy-800 to-navy-900"></div>
+        <div class="absolute top-1/4 right-0 w-96 h-96 bg-gold-400/10 rounded-full blur-3xl"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-effect border border-gold-400/20">
+                        <span class="w-2 h-2 bg-gold-400 rounded-full animate-pulse"></span>
+                        <span class="text-sm font-medium text-gold-400 tracking-wide uppercase">Trusted by 2,000+ Finance Candidates</span>
                     </div>
-                    <div class="hero-proof">
-                        <div class="proof-avatars">
-                            <span class="avatar">JD</span>
-                            <span class="avatar">SM</span>
-                            <span class="avatar">AK</span>
+                    <h1 class="font-serif text-5xl lg:text-7xl font-bold leading-tight text-white">
+                        Master the <span class="gradient-text">Big 4</span> &amp; Investment Banking Assessments
+                    </h1>
+                    <p class="text-xl text-slate-300 max-w-2xl leading-relaxed">
+                        Precision training and live percentile benchmarking for numerical reasoning, data interpretation, and logical assessment. The methodology used by candidates who secure offers at Goldman Sachs, KPMG, Deloitte, PwC, EY, Barclays, and JP Morgan.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="https://app.acumenlogic.co.uk/register.html" class="group px-8 py-4 bg-gold-400 text-navy-900 font-bold text-lg rounded hover:bg-gold-500 transition-all duration-300 flex items-center justify-center gap-2">
+                            Take the Free Assessment
+                            <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                        <a href="https://app.acumenlogic.co.uk/register.html" class="px-8 py-4 border-2 border-slate-600 text-slate-300 font-semibold text-lg rounded hover:border-gold-400 hover:text-gold-400 transition-all duration-300 text-center">
+                            Explore the Platform
+                        </a>
+                    </div>
+                    <div class="flex items-center gap-6 pt-4">
+                        <div class="flex -space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-slate-700 border-2 border-navy-900 flex items-center justify-center text-xs font-bold">JD</div>
+                            <div class="w-10 h-10 rounded-full bg-slate-600 border-2 border-navy-900 flex items-center justify-center text-xs font-bold">SM</div>
+                            <div class="w-10 h-10 rounded-full bg-slate-500 border-2 border-navy-900 flex items-center justify-center text-xs font-bold">AK</div>
                         </div>
-                        <p class="proof-text"><strong>94%</strong> improve their scores within 3 weeks</p>
+                        <p class="text-sm text-slate-400"><span class="text-gold-400 font-semibold">94%</span> improve their scores within 3 weeks</p>
                     </div>
                 </div>
-
-                <div class="hero-visual">
-                    <div class="assessment-preview">
-                        <div class="preview-header">
-                            <div class="preview-dots"><span></span><span></span><span></span></div>
-                            <span class="preview-label">Assessment Interface</span>
+                <div class="relative lg:block hidden">
+                    <div class="relative glass-effect rounded-2xl p-8 border border-gold-400/20">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            </div>
+                            <span class="text-xs text-slate-500 font-mono">Assessment Interface</span>
                         </div>
-                        <div class="preview-body">
-                            <div class="preview-row">
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center p-4 bg-navy-800 rounded-lg border border-gold-400/10">
                                 <div>
-                                    <p class="preview-meta">Question 14/20</p>
-                                    <p class="preview-title">Data Interpretation: Multi-Table</p>
+                                    <p class="text-xs text-slate-500 uppercase tracking-wide">Question 14/19</p>
+                                    <p class="text-sm font-semibold mt-1">Data Interpretation: Revenue Table</p>
                                 </div>
-                                <div class="preview-timer">
-                                    <span class="timer-value">01:45</span>
-                                    <span class="timer-label">remaining</span>
-                                </div>
-                            </div>
-                            <div class="preview-data">
-                                <div class="data-cell">
-                                    <span class="data-label">Revenue Q1</span>
-                                    <span class="data-value">&pound;2.4M</span>
-                                </div>
-                                <div class="data-cell">
-                                    <span class="data-label">Growth</span>
-                                    <span class="data-value positive">+12%</span>
-                                </div>
-                                <div class="data-cell">
-                                    <span class="data-label">Target</span>
-                                    <span class="data-value">94%</span>
+                                <div class="text-right">
+                                    <p class="text-2xl font-bold text-gold-400 font-mono">01:45</p>
+                                    <p class="text-xs text-slate-500">remaining</p>
                                 </div>
                             </div>
-                            <div class="preview-options">
-                                <div class="preview-option">A) &pound;285,000</div>
-                                <div class="preview-option">B) &pound;312,000</div>
-                                <div class="preview-option selected">C) &pound;298,500 &check;</div>
+                            <div class="grid grid-cols-3 gap-3">
+                                <div class="p-3 bg-navy-800 rounded border border-gold-400/10">
+                                    <p class="text-xs text-slate-500">Revenue Q1</p>
+                                    <p class="text-lg font-bold text-white">&pound;2.4M</p>
+                                </div>
+                                <div class="p-3 bg-navy-800 rounded border border-gold-400/10">
+                                    <p class="text-xs text-slate-500">Growth</p>
+                                    <p class="text-lg font-bold text-green-400">+12%</p>
+                                </div>
+                                <div class="p-3 bg-navy-800 rounded border border-gold-400/10">
+                                    <p class="text-xs text-slate-500">Percentile</p>
+                                    <p class="text-lg font-bold text-gold-400">74th</p>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="p-3 bg-navy-800 rounded border border-gold-400/10"><span class="text-sm text-slate-300">A) &pound;285,000</span></div>
+                                <div class="p-3 bg-navy-800 rounded border border-gold-400/10"><span class="text-sm text-slate-300">B) &pound;312,000</span></div>
+                                <div class="p-3 bg-gold-400/20 rounded border border-gold-400"><span class="text-sm text-gold-400 font-semibold">C) &pound;298,500</span> <i data-lucide="check-circle" class="w-4 h-4 inline ml-2 text-gold-400"></i></div>
                             </div>
                         </div>
                     </div>
@@ -119,56 +161,60 @@
         </div>
     </section>
 
-    <!-- Problem / Solution (white background) -->
-    <section class="section">
-        <div class="container">
-            <div class="two-col">
-                <div>
-                    <h2 class="section-title">Why Most Candidates <span class="text-danger">Fail</span> the Assessment Stage</h2>
-                    <p class="section-desc">Big 4 and investment banking assessments are engineered to trigger specific cognitive failures. They test your ability to integrate data across multiple tables while under severe time pressure&mdash;not just raw mathematical ability.</p>
-                    <div class="problem-list">
-                        <div class="problem-item">
-                            <div class="problem-icon">&mdash;</div>
+    <!-- Problem/Solution Section -->
+    <section class="py-24 bg-navy-800 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-6">
+                    <h2 class="font-serif text-4xl font-bold text-white">Why Most Candidates <span class="text-red-400">Fail</span> the Assessment Stage</h2>
+                    <p class="text-lg text-slate-300 leading-relaxed">Big 4 and investment banking assessments are engineered to trigger specific cognitive failures. They test your ability to integrate data across multiple tables while under severe time pressure&mdash;not just raw mathematical ability.</p>
+                    <div class="space-y-4 pt-4">
+                        <div class="flex items-start gap-4 p-4 rounded-lg bg-red-400/5 border border-red-400/20">
+                            <i data-lucide="brain" class="w-6 h-6 text-red-400 mt-1"></i>
                             <div>
-                                <h3>Data Overload</h3>
-                                <p>Multiple tables, conflicting metrics, and irrelevant data designed to overwhelm working memory.</p>
+                                <h3 class="font-semibold text-white mb-1">Data Overload</h3>
+                                <p class="text-sm text-slate-400">Multiple tables, conflicting metrics, and irrelevant data designed to overwhelm working memory.</p>
                             </div>
                         </div>
-                        <div class="problem-item">
-                            <div class="problem-icon">&mdash;</div>
+                        <div class="flex items-start gap-4 p-4 rounded-lg bg-red-400/5 border border-red-400/20">
+                            <i data-lucide="shuffle" class="w-6 h-6 text-red-400 mt-1"></i>
                             <div>
-                                <h3>Context Switching</h3>
-                                <p>Rapid alternation between calculation types that destroys rhythm and invites error.</p>
+                                <h3 class="font-semibold text-white mb-1">Context Switching</h3>
+                                <p class="text-sm text-slate-400">Rapid alternation between calculation types that destroys rhythm and invites error.</p>
                             </div>
                         </div>
-                        <div class="problem-item">
-                            <div class="problem-icon">&mdash;</div>
+                        <div class="flex items-start gap-4 p-4 rounded-lg bg-red-400/5 border border-red-400/20">
+                            <i data-lucide="text" class="w-6 h-6 text-red-400 mt-1"></i>
                             <div>
-                                <h3>Ambiguous Wording</h3>
-                                <p>Precise interpretation required&mdash;small misreads result in confident wrong answers.</p>
+                                <h3 class="font-semibold text-white mb-1">Ambiguous Wording</h3>
+                                <p class="text-sm text-slate-400">Precise interpretation required&mdash;small misreads result in confident wrong answers.</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div>
-                    <h2 class="section-title">The Acumen Logic <span class="text-gold">Solution</span></h2>
-                    <p class="section-desc">We replace guesswork with structured methodology. Our training breaks down complex assessments into repeatable, trainable procedures.</p>
-                    <div class="solution-grid">
-                        <div class="solution-card">
-                            <h3>Assessment Alignment</h3>
-                            <p>Exact question types used by SHL, Aon, Korn Ferry, and Cappfinity</p>
+                <div class="space-y-6">
+                    <h2 class="font-serif text-4xl font-bold text-white">The Acumen Logic <span class="text-gold-400">Solution</span></h2>
+                    <p class="text-lg text-slate-300 leading-relaxed">We replace guesswork with structured methodology. Our platform breaks down complex assessments into repeatable, trainable procedures&mdash;and shows you exactly where you rank.</p>
+                    <div class="grid grid-cols-2 gap-4 pt-4">
+                        <div class="p-6 rounded-xl glass-effect border border-gold-400/20 text-center">
+                            <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-gold-400/10 flex items-center justify-center"><i data-lucide="target" class="w-6 h-6 text-gold-400"></i></div>
+                            <h3 class="font-semibold text-white mb-1">Assessment Alignment</h3>
+                            <p class="text-xs text-slate-400">Exact question types used by SHL, Aon, Korn Ferry, and Cappfinity</p>
                         </div>
-                        <div class="solution-card">
-                            <h3>Methodical Accuracy</h3>
-                            <p>Structured decision trees for every question type eliminate guesswork</p>
+                        <div class="p-6 rounded-xl glass-effect border border-gold-400/20 text-center">
+                            <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-gold-400/10 flex items-center justify-center"><i data-lucide="workflow" class="w-6 h-6 text-gold-400"></i></div>
+                            <h3 class="font-semibold text-white mb-1">Methodical Accuracy</h3>
+                            <p class="text-xs text-slate-400">Structured decision trees eliminate guesswork</p>
                         </div>
-                        <div class="solution-card">
-                            <h3>Progressive Stages</h3>
-                            <p>Foundations to advanced multi-source data integration across 6 modules</p>
+                        <div class="p-6 rounded-xl glass-effect border border-gold-400/20 text-center">
+                            <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-gold-400/10 flex items-center justify-center"><i data-lucide="layers" class="w-6 h-6 text-gold-400"></i></div>
+                            <h3 class="font-semibold text-white mb-1">Progressive Stages</h3>
+                            <p class="text-xs text-slate-400">Foundations to advanced multi-table integration across 6 modules</p>
                         </div>
-                        <div class="solution-card">
-                            <h3>Category Breakdown</h3>
-                            <p>Numerical, Data, and Logical scoring identifies your specific bottleneck</p>
+                        <div class="p-6 rounded-xl glass-effect border border-gold-400/20 text-center">
+                            <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-gold-400/10 flex items-center justify-center"><i data-lucide="bar-chart-3" class="w-6 h-6 text-gold-400"></i></div>
+                            <h3 class="font-semibold text-white mb-1">Live Percentiles</h3>
+                            <p class="text-xs text-slate-400">See where you rank against other candidates in real time</p>
                         </div>
                     </div>
                 </div>
@@ -177,195 +223,368 @@
     </section>
 
     <!-- How It Works -->
-    <section class="section bg-muted">
-        <div class="container text-center">
-            <h2 class="section-title">How It Works</h2>
-            <p class="section-subtitle">Four steps from diagnostic to offer</p>
-            <div class="steps-grid">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Complete Diagnostic</h3>
-                    <p>20 questions, 25 minutes. Interleaved NR/DI/LR pattern reveals your specific bottlenecks.</p>
+    <section class="py-24 bg-navy-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-serif text-4xl font-bold text-white mb-4">How It Works</h2>
+                <p class="text-slate-400">Four steps from assessment to offer</p>
+            </div>
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="relative text-center">
+                    <div class="w-16 h-16 rounded-full bg-gold-400/10 border-2 border-gold-400 flex items-center justify-center mb-4 mx-auto">
+                        <span class="text-2xl font-bold text-gold-400">1</span>
+                    </div>
+                    <h3 class="font-semibold text-white mb-2">Take Assessment</h3>
+                    <p class="text-sm text-slate-400">19 questions under timed conditions across Numerical Reasoning, Data Interpretation, and Logical Reasoning.</p>
                 </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Receive Analysis</h3>
-                    <p>Per-category scoring for Numerical Reasoning, Data Interpretation, and Logical Reasoning.</p>
+                <div class="relative text-center">
+                    <div class="w-16 h-16 rounded-full bg-gold-400/10 border-2 border-gold-400 flex items-center justify-center mb-4 mx-auto">
+                        <span class="text-2xl font-bold text-gold-400">2</span>
+                    </div>
+                    <h3 class="font-semibold text-white mb-2">Receive Your Analysis</h3>
+                    <p class="text-sm text-slate-400 mb-3">Find out your percentile compared to your competition. Real data, real percentiles.</p>
+                    <div class="mx-auto max-w-[200px] glass-effect rounded-lg p-3 border border-gold-400/20">
+                        <p class="text-xs text-slate-500 mb-1">Your Percentile</p>
+                        <div class="w-full bg-navy-700 rounded-full h-3 mb-1">
+                            <div class="bg-gold-400 h-3 rounded-full" style="width: 67%"></div>
+                        </div>
+                        <p class="text-gold-400 font-bold text-sm">67th Percentile</p>
+                    </div>
                 </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>Targeted Training</h3>
-                    <p>6-module course covering every skill tested. Focus on your weak areas first.</p>
+                <div class="relative text-center">
+                    <div class="w-16 h-16 rounded-full bg-gold-400/10 border-2 border-gold-400 flex items-center justify-center mb-4 mx-auto">
+                        <span class="text-2xl font-bold text-gold-400">3</span>
+                    </div>
+                    <h3 class="font-semibold text-white mb-2">Targeted Training</h3>
+                    <p class="text-sm text-slate-400">Practice drills for each category and a 6-module course covering every skill tested in UK finance assessments.</p>
                 </div>
-                <div class="step step-final">
-                    <div class="step-number final">4</div>
-                    <h3>Pass Assessment</h3>
-                    <p>Enter your real assessment with methodology, confidence, and proven results.</p>
+                <div class="text-center">
+                    <div class="w-16 h-16 rounded-full bg-gold-400 flex items-center justify-center mb-4 mx-auto">
+                        <span class="text-2xl font-bold text-navy-900">4</span>
+                    </div>
+                    <h3 class="font-semibold text-white mb-2">Assessment Ready</h3>
+                    <p class="text-sm text-slate-400">Enter your real assessment with methodology, confidence, and data-backed preparation.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Free Diagnostic Lead Magnet -->
-    <section class="section">
-        <div class="container">
-            <div class="text-center" style="margin-bottom: 2.5rem;">
-                <h2 class="section-title">The Finance Aptitude Diagnostic</h2>
-                <p class="section-subtitle">Free. No credit card. Instant results.</p>
+    <!-- The Complete Programme -->
+    <section class="py-24 bg-navy-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-gold-400 font-semibold tracking-widest uppercase text-sm">The Complete Programme</span>
+                <h2 class="font-serif text-4xl font-bold text-white mt-4 mb-4">6 Modules. 35 Lessons.</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">From foundations to full mock assessments. Covers every skill tested in SHL, Aon, Korn Ferry, and Cappfinity assessments used by UK finance employers.</p>
             </div>
-            <div class="diagnostic-feature">
-                <div>
-                    <h3>Know Your Bottleneck Before They Do</h3>
-                    <p>This diagnostic assesses your performance across three core categories under time-pressured conditions that mirror real assessment environments. You&rsquo;ll receive a per-category breakdown showing exactly where to focus your preparation.</p>
-                    <div class="diagnostic-badges">
-                        <span class="diagnostic-badge">Numerical Reasoning</span>
-                        <span class="diagnostic-badge">Data Interpretation</span>
-                        <span class="diagnostic-badge">Logical Reasoning</span>
+            <div class="grid lg:grid-cols-3 gap-8">
+                <div class="group p-8 rounded-2xl glass-effect border border-gold-400/10 hover:border-gold-400/30 transition-all duration-300">
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="text-4xl font-serif font-bold text-gold-400/30 group-hover:text-gold-400 transition-colors">01</span>
+                        <div class="h-px flex-1 bg-gold-400/20"></div>
                     </div>
-                    <a href="diagnostic.html" class="btn btn-primary btn-lg">Start Free Diagnostic <span class="btn-arrow">&rarr;</span></a>
-                </div>
-                <div class="diagnostic-visual">
-                    <div class="diagnostic-stat">
-                        <div class="diagnostic-stat-value">20</div>
-                        <div class="diagnostic-stat-label">Assessment questions</div>
-                    </div>
-                    <div class="diagnostic-stat">
-                        <div class="diagnostic-stat-value">25 min</div>
-                        <div class="diagnostic-stat-label">Timed under real conditions</div>
-                    </div>
-                    <div class="diagnostic-stat">
-                        <div class="diagnostic-stat-value">3</div>
-                        <div class="diagnostic-stat-label">Category scores returned</div>
-                        <div class="diagnostic-stat-sub">NR &middot; DI &middot; LR</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Foundations &amp; Strategic Framework</h3>
+                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">Orientation, test landscape, scoring systems, essential maths refresh, and your diagnostic assessment. 5 lessons building the baseline.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 rounded-full text-xs bg-navy-900 text-slate-300 border border-gold-400/20">5 Lessons</span>
+                        <span class="px-3 py-1 rounded-full text-xs bg-navy-900 text-slate-300 border border-gold-400/20">Test Landscape</span>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Employer Coverage -->
-    <section class="section bg-dark">
-        <div class="container text-center">
-            <h2 class="section-title">Built for the Firms You&rsquo;re Targeting</h2>
-            <p class="section-subtitle">Covers the exact test providers used by leading employers</p>
-            <div class="employer-grid">
-                <div class="employer-group">
-                    <h3>Big 4</h3>
-                    <div class="employer-tags">
-                        <span>KPMG</span><span>Deloitte</span><span>PwC</span><span>EY</span>
+                <div class="group p-8 rounded-2xl glass-effect border border-gold-400/10 hover:border-gold-400/30 transition-all duration-300">
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="text-4xl font-serif font-bold text-gold-400/30 group-hover:text-gold-400 transition-colors">02</span>
+                        <div class="h-px flex-1 bg-gold-400/20"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Numerical Reasoning &mdash; Core Skills</h3>
+                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">Percentages, ratios, fractions, averages, compound growth, and speed arithmetic. The most-tested topic mastered through structured decision trees.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 rounded-full text-xs bg-navy-900 text-slate-300 border border-gold-400/20">6 Lessons</span>
+                        <span class="px-3 py-1 rounded-full text-xs bg-navy-900 text-slate-300 border border-gold-400/20">Percentages</span>
+                        <span class="px-3 py-1 rounded-full text-xs bg-navy-900 text-slate-300 border border-gold-400/20">Ratios</span>
                     </div>
                 </div>
-                <div class="employer-group">
-                    <h3>Investment Banks</h3>
-                    <div class="employer-tags">
-                        <span>Goldman Sachs</span><span>JP Morgan</span><span>Barclays</span><span>HSBC</span><span>Citi</span>
+                <div class="group p-8 rounded-2xl glass-effect border border-gold-400/10 hover:border-gold-400/30 transition-all duration-300">
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="text-4xl font-serif font-bold text-gold-400/30 group-hover:text-gold-400 transition-colors">03</span>
+                        <div class="h-px flex-1 bg-gold-400/20"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Data Interpretation</h3>
+                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">Reading tables, extracting data, chart analysis, multi-source integration, and mixed-unit calculations. The critical skill for Big 4 assessments.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 rounded-full text-xs bg-navy-900 text-slate-300 border border-gold-400/20">7 Lessons</span>
+                        <span class="px-3 py-1 rounded-full text-xs bg-navy-900 text-slate-300 border border-gold-400/20">Tables</span>
+                        <span class="px-3 py-1 rounded-full text-xs bg-navy-900 text-slate-300 border border-gold-400/20">Charts</span>
                     </div>
                 </div>
-                <div class="employer-group">
-                    <h3>Consulting</h3>
-                    <div class="employer-tags">
-                        <span>Accenture</span><span>Capgemini</span><span>Oliver Wyman</span>
+                <div class="group p-8 rounded-2xl glass-effect border border-gold-400/10 hover:border-gold-400/30 transition-all duration-300">
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="text-4xl font-serif font-bold text-gold-400/30 group-hover:text-gold-400 transition-colors">04</span>
+                        <div class="h-px flex-1 bg-gold-400/20"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Logical Reasoning</h3>
+                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">Deductive reasoning, syllogisms, pattern recognition, rule application, and multi-rule deduction. Covers SHL Deductive and Korn Ferry Logical tests.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 rounded-full text-xs bg-navy-900 text-slate-300 border border-gold-400/20">6 Lessons</span>
+                        <span class="px-3 py-1 rounded-full text-xs bg-navy-900 text-slate-300 border border-gold-400/20">Deductive</span>
+                        <span class="px-3 py-1 rounded-full text-xs bg-navy-900 text-slate-300 border border-gold-400/20">Patterns</span>
                     </div>
                 </div>
-                <div class="employer-group">
-                    <h3>Test Providers</h3>
-                    <div class="employer-tags gold">
-                        <span>SHL</span><span>Aon / Cut-e</span><span>Korn Ferry</span><span>Cappfinity</span><span>Arctic Shores</span>
+                <div class="group p-8 rounded-2xl glass-effect border border-gold-400/10 hover:border-gold-400/30 transition-all duration-300">
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="text-4xl font-serif font-bold text-gold-400/30 group-hover:text-gold-400 transition-colors">05</span>
+                        <div class="h-px flex-1 bg-gold-400/20"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Test Strategy &amp; Time Management</h3>
+                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">Time allocation by provider, the 3-pass method, educated guessing frameworks, and cognitive load management for the timed test window.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 rounded-full text-xs bg-navy-900 text-slate-300 border border-gold-400/20">6 Lessons</span>
+                        <span class="px-3 py-1 rounded-full text-xs bg-navy-900 text-slate-300 border border-gold-400/20">Time Management</span>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Benchmark Platform -->
-    <section class="section">
-        <div class="container">
-            <div class="text-center" style="margin-bottom: 2.5rem;">
-                <h2 class="section-title">The Benchmark Platform</h2>
-                <p class="section-subtitle">See where you rank against other finance candidates</p>
-            </div>
-            <div class="diagnostic-feature">
-                <div>
-                    <h3>Live Percentile Rankings</h3>
-                    <p>Our benchmark platform generates unique questions every time, scores you against the full candidate pool, and shows you exactly where you stand. Track your improvement over time with detailed category-level analytics across Numerical Reasoning, Data Interpretation, and Logical Reasoning.</p>
-                    <div class="diagnostic-badges">
-                        <span class="diagnostic-badge">150+ Question Templates</span>
-                        <span class="diagnostic-badge">Randomised Data</span>
-                        <span class="diagnostic-badge">Percentile Rankings</span>
+                <div class="group p-8 rounded-2xl bg-gold-400/5 border border-gold-400/30 transition-all duration-300">
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="text-4xl font-serif font-bold text-gold-400">06</span>
+                        <div class="h-px flex-1 bg-gold-400/50"></div>
                     </div>
-                    <a href="platform.html" class="btn btn-primary btn-lg">Explore the Platform <span class="btn-arrow">&rarr;</span></a>
-                </div>
-                <div class="diagnostic-visual">
-                    <div class="diagnostic-stat">
-                        <div class="diagnostic-stat-value">19</div>
-                        <div class="diagnostic-stat-label">Questions per benchmark</div>
-                    </div>
-                    <div class="diagnostic-stat">
-                        <div class="diagnostic-stat-value">3</div>
-                        <div class="diagnostic-stat-label">Category percentiles</div>
-                        <div class="diagnostic-stat-sub">NR &middot; DI &middot; LR</div>
-                    </div>
-                    <div class="diagnostic-stat">
-                        <div class="diagnostic-stat-value">Free</div>
-                        <div class="diagnostic-stat-label">To get started</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Pre-Assessment Review &amp; Mock Tests</h3>
+                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">Full-length mock assessments with category breakdown analysis. Strategy review, mental checklists, and final preparation for test day.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 rounded-full text-xs bg-gold-400/20 text-gold-400 border border-gold-400/30">5 Lessons</span>
+                        <span class="px-3 py-1 rounded-full text-xs bg-gold-400/20 text-gold-400 border border-gold-400/30">Mock Tests</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA -->
-    <section class="section cta-section">
-        <div class="container text-center">
-            <h2 class="section-title">Most Candidates Guess.<br>Top Candidates Don&rsquo;t.</h2>
-            <p class="section-subtitle">We replace guesswork with a structured system for speed, accuracy, and decision-making under pressure.</p>
-            <a href="diagnostic.html" class="btn btn-primary btn-lg">Start Your Free Assessment <span class="btn-arrow">&rarr;</span></a>
+    <!-- How Acumen Compares -->
+    <section class="py-24 bg-navy-900">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="font-serif text-4xl font-bold text-white mb-4">How Acumen Logic Compares</h2>
+                <p class="text-slate-400">A fair comparison between standard preparation and the Acumen Logic approach</p>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-gold-400/20">
+                            <th class="text-left py-4 px-4 text-slate-400 font-medium">Feature</th>
+                            <th class="text-center py-4 px-4 text-red-400 font-medium">Standard Preparation</th>
+                            <th class="text-center py-4 px-4 text-gold-400 font-medium">Acumen Logic</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-slate-300">
+                        <tr class="border-b border-gold-400/5">
+                            <td class="py-3 px-4 font-medium text-white">Question alignment</td>
+                            <td class="py-3 px-4 text-center">Generic maths questions</td>
+                            <td class="py-3 px-4 text-center">Mirrors SHL, Aon, Korn Ferry, Cappfinity formats</td>
+                        </tr>
+                        <tr class="border-b border-gold-400/5">
+                            <td class="py-3 px-4 font-medium text-white">Scoring</td>
+                            <td class="py-3 px-4 text-center">Single overall score</td>
+                            <td class="py-3 px-4 text-center">Per-category NR / DI / LR breakdown</td>
+                        </tr>
+                        <tr class="border-b border-gold-400/5">
+                            <td class="py-3 px-4 font-medium text-white">Benchmarking</td>
+                            <td class="py-3 px-4 text-center">No relative comparison</td>
+                            <td class="py-3 px-4 text-center">Live percentile rankings against real candidates</td>
+                        </tr>
+                        <tr class="border-b border-gold-400/5">
+                            <td class="py-3 px-4 font-medium text-white">Category analysis</td>
+                            <td class="py-3 px-4 text-center">Limited or none</td>
+                            <td class="py-3 px-4 text-center">Identifies exact bottleneck by category</td>
+                        </tr>
+                        <tr class="border-b border-gold-400/5">
+                            <td class="py-3 px-4 font-medium text-white">Training methodology</td>
+                            <td class="py-3 px-4 text-center">Practice-based repetition</td>
+                            <td class="py-3 px-4 text-center">Structured decision trees and progressive modules</td>
+                        </tr>
+                        <tr class="border-b border-gold-400/5">
+                            <td class="py-3 px-4 font-medium text-white">Progress tracking</td>
+                            <td class="py-3 px-4 text-center">Manual or none</td>
+                            <td class="py-3 px-4 text-center">Automated dashboard with trend analysis</td>
+                        </tr>
+                        <tr class="border-b border-gold-400/5">
+                            <td class="py-3 px-4 font-medium text-white">Time simulation</td>
+                            <td class="py-3 px-4 text-center">Basic or untimed</td>
+                            <td class="py-3 px-4 text-center">Timed conditions matching real test providers</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-medium text-white">Question variety</td>
+                            <td class="py-3 px-4 text-center">Fixed question sets</td>
+                            <td class="py-3 px-4 text-center">150+ templates with randomised data every attempt</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 90-Day Guarantee -->
+    <section class="py-20 bg-navy-800">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="glass-effect rounded-2xl p-10 border border-gold-400/20">
+                <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-gold-400/10 flex items-center justify-center">
+                    <i data-lucide="shield-check" class="w-8 h-8 text-gold-400"></i>
+                </div>
+                <h2 class="font-serif text-3xl font-bold text-white mb-4">90-Day Improvement Guarantee</h2>
+                <p class="text-slate-300 leading-relaxed mb-4">For Pro and Elite plans: if you do not see an improvement after 90 days, we will give you a full refund. Show us your percentile tracking as proof from when you started to where you are now.</p>
+                <p class="text-gold-400 font-medium">Email us at <a href="mailto:refunds@acumenlogic.co.uk" class="underline hover:text-gold-500">refunds@acumenlogic.co.uk</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="py-24 bg-navy-900">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-serif text-4xl font-bold text-white mb-4">Choose Your Plan</h2>
+                <p class="text-slate-400">Start free. Upgrade when you are ready.</p>
+            </div>
+            <div class="grid md:grid-cols-4 gap-6">
+                <!-- Free -->
+                <div class="rounded-2xl glass-effect border border-gold-400/10 p-8 flex flex-col">
+                    <div class="mb-6">
+                        <h3 class="text-lg font-bold text-white mb-1">Free</h3>
+                        <p class="text-xs text-slate-500">Email only</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold text-white">&pound;0</span>
+                    </div>
+                    <p class="text-sm text-slate-400 mb-6">Get started with a single benchmark to see where you stand.</p>
+                    <ul class="space-y-3 mb-8 flex-1">
+                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> 1 assessment attempt</li>
+                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> Percentile ranking</li>
+                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> Category score breakdown</li>
+                        <li class="flex items-center gap-2 text-sm text-slate-500"><i data-lucide="x" class="w-4 h-4 text-slate-600 flex-shrink-0"></i> No progress tracking</li>
+                        <li class="flex items-center gap-2 text-sm text-slate-500"><i data-lucide="x" class="w-4 h-4 text-slate-600 flex-shrink-0"></i> No category drills</li>
+                    </ul>
+                    <a href="https://app.acumenlogic.co.uk/register.html" class="block w-full py-3 text-center rounded border-2 border-slate-600 text-slate-300 font-semibold hover:border-gold-400 hover:text-gold-400 transition-all">Try Free</a>
+                </div>
+
+                <!-- Starter -->
+                <div class="rounded-2xl glass-effect border border-gold-400/10 p-8 flex flex-col">
+                    <div class="mb-6">
+                        <h3 class="text-lg font-bold text-white mb-1">Starter</h3>
+                        <p class="text-xs text-slate-500">Monthly</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold text-white">&pound;7.99</span>
+                        <span class="text-slate-400 text-sm">/month</span>
+                    </div>
+                    <p class="text-sm text-slate-400 mb-6">Regular practice with monthly assessment attempts.</p>
+                    <ul class="space-y-3 mb-8 flex-1">
+                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> 5 attempts per month</li>
+                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> Percentile ranking</li>
+                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> Category score breakdown</li>
+                        <li class="flex items-center gap-2 text-sm text-slate-500"><i data-lucide="x" class="w-4 h-4 text-slate-600 flex-shrink-0"></i> No progress tracking</li>
+                        <li class="flex items-center gap-2 text-sm text-slate-500"><i data-lucide="x" class="w-4 h-4 text-slate-600 flex-shrink-0"></i> No category drills</li>
+                    </ul>
+                    <a href="#thrivecart-starter-checkout" class="block w-full py-3 text-center rounded border-2 border-slate-600 text-slate-300 font-semibold hover:border-gold-400 hover:text-gold-400 transition-all">Get Starter</a>
+                </div>
+
+                <!-- Pro -->
+                <div class="rounded-2xl border-2 border-gold-400 p-8 flex flex-col relative bg-gold-400/5">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gold-400 text-navy-900 text-xs font-bold rounded-full uppercase tracking-wide">Most Popular</div>
+                    <div class="mb-6">
+                        <h3 class="text-lg font-bold text-gold-400 mb-1">Pro</h3>
+                        <p class="text-xs text-slate-500">Annual</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold text-white">&pound;97</span>
+                        <span class="text-slate-400 text-sm">/year</span>
+                    </div>
+                    <p class="text-sm text-slate-400 mb-6">Everything you need to benchmark, drill, and improve systematically.</p>
+                    <ul class="space-y-3 mb-8 flex-1">
+                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> Unlimited attempts</li>
+                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> Percentile tracking over time</li>
+                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> Personalised recommendations</li>
+                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> Category drills</li>
+                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> Time analysis</li>
+                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> 90-day guarantee</li>
+                    </ul>
+                    <a href="#thrivecart-pro-checkout" class="block w-full py-3 text-center rounded bg-gold-400 text-navy-900 font-bold hover:bg-gold-500 transition-all">Get Pro</a>
+                    <p class="text-xs text-slate-500 text-center mt-3">That&rsquo;s less than &pound;1.87/week</p>
+                </div>
+
+                <!-- Elite -->
+                <div class="rounded-2xl glass-effect border border-purple-400/30 p-8 flex flex-col relative">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-purple-500 text-white text-xs font-bold rounded-full uppercase tracking-wide">Best Value</div>
+                    <div class="mb-6">
+                        <h3 class="text-lg font-bold text-purple-400 mb-1">Elite</h3>
+                        <p class="text-xs text-slate-500">One-time + Annual</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold text-white">&pound;297</span>
+                        <span class="text-slate-400 text-sm"> + &pound;97/yr</span>
+                    </div>
+                    <p class="text-sm text-slate-400 mb-6">Complete platform access plus the full 6-module training course.</p>
+                    <ul class="space-y-3 mb-8 flex-1">
+                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-purple-400 flex-shrink-0"></i> <em>Everything in Pro</em></li>
+                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-purple-400 flex-shrink-0"></i> Full 6-module training course</li>
+                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-purple-400 flex-shrink-0"></i> 35 structured lessons</li>
+                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-purple-400 flex-shrink-0"></i> Mock assessments with review</li>
+                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-purple-400 flex-shrink-0"></i> Strategy &amp; time management</li>
+                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-purple-400 flex-shrink-0"></i> 90-day guarantee</li>
+                    </ul>
+                    <a href="#thrivecart-elite-checkout" class="block w-full py-3 text-center rounded bg-purple-500 text-white font-bold hover:bg-purple-600 transition-all">Get Elite</a>
+                    <p class="text-xs text-slate-500 text-center mt-3">That&rsquo;s less than &pound;7.58/week (first year)</p>
+                </div>
+            </div>
+            <!-- Replace placeholders with real ThriveCart URLs -->
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-24 bg-navy-800">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="font-serif text-4xl lg:text-5xl font-bold text-white mb-6">Know Where You Stand Before They Decide</h2>
+            <p class="text-lg text-slate-300 mb-8">Your first assessment is free. See your percentile. Identify your weaknesses. Improve systematically.</p>
+            <a href="https://app.acumenlogic.co.uk/register.html" class="inline-block px-12 py-4 bg-gold-400 text-navy-900 font-bold text-lg rounded hover:bg-gold-500 transition-all duration-300">
+                Start Free Assessment
+            </a>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="site-footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <div class="footer-logo">
-                        <img src="assets/images/logo.png" width="28" height="28" alt="Acumen Logic">
-                        <span>ACUMEN LOGIC</span>
-                    </div>
-                    <p>Structured aptitude test preparation for UK finance, Big 4, investment banking, and consulting candidates.</p>
+    <footer class="bg-navy-900 border-t border-gold-400/10 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-2">
+                    <span class="font-serif text-lg font-bold text-white">ACUMEN LOGIC</span>
+                    <p class="text-slate-400 text-sm max-w-sm mt-4">Precision training and percentile benchmarking for finance aptitude assessments. Used by candidates targeting Big 4, investment banking, and consulting roles.</p>
                 </div>
-                <div class="footer-links">
-                    <h4>Programme</h4>
-                    <ul>
-                        <li><a href="products.html">Products</a></li>
-                        <li><a href="platform.html">Benchmark Platform</a></li>
-                        <li><a href="methodology.html">Methodology</a></li>
-                        <li><a href="diagnostic.html">Free Diagnostic</a></li>
-                        <li><a href="blog/index.html">Blog</a></li>
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Programme</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="products.html" class="hover:text-gold-400 transition-colors">Products</a></li>
+                        <li><a href="methodology.html" class="hover:text-gold-400 transition-colors">Methodology</a></li>
+                        <li><a href="blog/index.html" class="hover:text-gold-400 transition-colors">Blog</a></li>
+                        <li><a href="about.html" class="hover:text-gold-400 transition-colors">About</a></li>
                     </ul>
                 </div>
-                <div class="footer-links">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="pages/privacy.html">Privacy Policy</a></li>
-                        <li><a href="pages/terms.html">Terms of Service</a></li>
-                        <li><a href="pages/refund.html">Refund Policy</a></li>
-                        <li><a href="pages/cookies.html">Cookie Policy</a></li>
-                        <li><a href="pages/disclaimer.html">Disclaimer</a></li>
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Legal</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="pages/privacy.html" class="hover:text-gold-400 transition-colors">Privacy Policy</a></li>
+                        <li><a href="pages/terms.html" class="hover:text-gold-400 transition-colors">Terms of Service</a></li>
+                        <li><a href="pages/refund.html" class="hover:text-gold-400 transition-colors">Refund Policy</a></li>
+                        <li><a href="pages/cookies.html" class="hover:text-gold-400 transition-colors">Cookie Policy</a></li>
+                        <li><a href="pages/disclaimer.html" class="hover:text-gold-400 transition-colors">Disclaimer</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 Acumen Logic. All rights reserved.</p>
+            <div class="border-t border-gold-400/10 pt-8 text-center">
+                <p class="text-xs text-slate-500">&copy; 2026 Acumen Logic. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // Sticky header on scroll
-        window.addEventListener('scroll', function() {
-            document.getElementById('siteHeader').classList.toggle('scrolled', window.scrollY > 20);
-        });
+        lucide.createIcons();
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        }
     </script>
 </body>
 </html>
