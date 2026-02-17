@@ -1,359 +1,512 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en-GB" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products &amp; Pricing | Acumen Logic</title>
-    <meta name="description" content="Choose your Acumen Logic plan. Free benchmark, Starter, Pro, and Elite options for UK finance assessment preparation with live percentile tracking.">
+    <meta name="description" content="Choose your Acumen Logic plan. Starter, Pro, and Elite options for UK finance assessment preparation with live percentile tracking.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://acumenlogic.co.uk/products.html">
     <meta property="og:title" content="Products &amp; Pricing | Acumen Logic">
     <meta property="og:description" content="Start free. Upgrade when you're ready. Precision training and percentile benchmarking for Big 4 and investment banking assessments.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://acumenlogic.co.uk/products.html">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="assets/js/main.js"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        navy: { 900: '#0a1628', 800: '#0f1d32', 700: '#152238', 600: '#1e3a8a', 500: '#1e40af' },
-                        gold: { 400: '#C9A961', 500: '#b89851', 600: '#a68641' }
+                        navy: {
+                            50: '#f0f3f7', 100: '#dae1eb', 200: '#b8c5d4', 300: '#8da3ba',
+                            400: '#5d7a99', 500: '#3d5a7a', 600: '#2d4561', 700: '#1b263b',
+                            800: '#151e2f', 900: '#0f1624', 950: '#0a0f18',
+                        },
+                        gold: {
+                            50: '#faf6ef', 100: '#f3ebdb', 200: '#e6d4b5', 300: '#d6ba8a',
+                            400: '#c9a961', 500: '#b8935e', 600: '#a17a4a', 700: '#86633d',
+                            800: '#6e5035', 900: '#5a422d',
+                        }
                     },
                     fontFamily: {
-                        serif: ['Playfair Display', 'serif'],
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['Inter', 'system-ui', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
     <style>
-        .gradient-text { background: linear-gradient(135deg, #C9A961 0%, #f4e5c2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .geometric-pattern { background-image: radial-gradient(circle at 2px 2px, rgba(201, 169, 97, 0.15) 1px, transparent 0); background-size: 40px 40px; }
-        .glass-effect { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(201, 169, 97, 0.1); }
+        html { scroll-behavior: smooth; }
+        .text-balance { text-wrap: balance; }
+        .delay-1 { transition-delay: 100ms; }
+        .delay-2 { transition-delay: 200ms; }
+        .delay-3 { transition-delay: 300ms; }
+        .delay-4 { transition-delay: 400ms; }
+        .delay-5 { transition-delay: 500ms; }
+        .card-hover {
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(27, 38, 59, 0.15);
+        }
+        .navbar-scrolled { background: rgba(255, 255, 255, 0.98); box-shadow: 0 4px 20px rgba(27, 38, 59, 0.08); }
+        ::selection { background: rgba(201, 169, 97, 0.3); color: #1b263b; }
+        a:focus-visible, button:focus-visible { outline: 2px solid #c9a961; outline-offset: 2px; }
+        .cta-gradient {
+            background: radial-gradient(ellipse at 20% 20%, rgba(201, 169, 97, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(201, 169, 97, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(27, 38, 59, 0.05) 0%, transparent 70%),
+                linear-gradient(135deg, #1b263b 0%, #151e2f 50%, #0f1624 100%);
+        }
+        .cta-border-glow { position: relative; }
+        .cta-border-glow::before {
+            content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+            background: linear-gradient(135deg, #c9a961 0%, #1b263b 50%, #c9a961 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0.3;
+        }
+        .assessment-pattern {
+            background-color: #0f1624;
+            background-image: radial-gradient(circle at 1px 1px, rgba(233, 239, 248, 0.09) 0.85px, transparent 1px),
+                linear-gradient(165deg, #0c1526 0%, #0b1424 54%, #0a1221 100%);
+            background-size: 28px 28px, 100% 100%;
+        }
     </style>
 </head>
-<body class="bg-navy-900 text-slate-100 font-sans antialiased selection:bg-gold-400 selection:text-navy-900">
+<body class="font-sans text-navy-700 bg-white antialiased">
 
-    <!-- Header -->
-    <header class="fixed top-0 w-full z-50 bg-navy-900/90 backdrop-blur-md border-b border-gold-400/10">
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full bg-white/95 backdrop-blur-md border-b border-navy-100/50 z-50 transition-all duration-500">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <a href="index.html" class="flex items-center gap-3">
-                    <img src="assets/images/logo.png" width="40" height="40" alt="Acumen Logic" class="flex-shrink-0">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <div class="relative">
+                        <img src="assets/images/logo.png" width="42" height="42" alt="Acumen Logic" class="relative z-10 transition-transform duration-300 group-hover:scale-105">
+                    </div>
                     <div>
-                        <h1 class="font-serif text-xl font-bold text-white tracking-wide">ACUMEN LOGIC</h1>
-                        <p class="text-xs text-gold-400 tracking-widest uppercase">Precision Training</p>
+                        <span class="font-display text-xl font-bold text-navy-700 tracking-tight">Acumen Logic</span>
+                        <span class="hidden sm:block text-xs text-gold-400 font-medium tracking-wide">Precision Training</span>
                     </div>
                 </a>
-                <nav class="hidden md:flex items-center gap-8">
-                    <a href="index.html" class="text-sm font-medium text-slate-300 hover:text-gold-400 transition-colors">Home</a>
-                    <a href="methodology.html" class="text-sm font-medium text-slate-300 hover:text-gold-400 transition-colors">Methodology</a>
-                    <a href="products.html" class="text-sm font-medium text-gold-400">Products</a>
-                    <a href="blog/index.html" class="text-sm font-medium text-slate-300 hover:text-gold-400 transition-colors">Blog</a>
-                    <a href="about.html" class="text-sm font-medium text-slate-300 hover:text-gold-400 transition-colors">About</a>
-                </nav>
-                <div class="hidden md:flex items-center gap-4">
-                    <a href="https://app.acumenlogic.co.uk/register.html" class="px-6 py-2.5 bg-gold-400 text-navy-900 font-semibold text-sm rounded hover:bg-gold-500 transition-all duration-300">
+
+                <div class="hidden md:flex items-center gap-10">
+                    <a href="index.html" class="text-sm font-medium text-navy-600 hover:text-gold-400 transition-colors duration-300">Home</a>
+                    <a href="methodology.html" class="text-sm font-medium text-navy-600 hover:text-gold-400 transition-colors duration-300">Methodology</a>
+                    <a href="products.html" class="text-sm font-medium text-gold-500">Products</a>
+                    <a href="blog/index.html" class="text-sm font-medium text-navy-600 hover:text-gold-400 transition-colors duration-300">Blog</a>
+                    <a href="about.html" class="text-sm font-medium text-navy-600 hover:text-gold-400 transition-colors duration-300">About</a>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <a href="https://app.acumenlogic.co.uk/register.html" class="bg-navy-700 hover:bg-navy-800 text-white px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-300 shadow-lg shadow-navy-700/20 hover:shadow-xl hover:shadow-navy-700/25 hover:-translate-y-0.5">
                         Try Free Benchmark
                     </a>
+                    <button class="md:hidden text-navy-700" data-mobile-menu-button aria-expanded="false" aria-controls="mobileMenu">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
                 </div>
-                <button class="md:hidden text-white" onclick="toggleMobileMenu()">
-                    <i data-lucide="menu" class="w-6 h-6"></i>
-                </button>
             </div>
         </div>
-        <div id="mobileMenu" class="hidden md:hidden bg-navy-800 border-t border-gold-400/10">
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-navy-100">
             <div class="px-4 py-6 space-y-4">
-                <a href="index.html" class="block text-slate-300 hover:text-gold-400">Home</a>
-                <a href="methodology.html" class="block text-slate-300 hover:text-gold-400">Methodology</a>
-                <a href="products.html" class="block text-gold-400 font-medium">Products</a>
-                <a href="blog/index.html" class="block text-slate-300 hover:text-gold-400">Blog</a>
-                <a href="about.html" class="block text-slate-300 hover:text-gold-400">About</a>
+                <a href="index.html" class="block text-navy-600 hover:text-gold-500">Home</a>
+                <a href="methodology.html" class="block text-navy-600 hover:text-gold-500">Methodology</a>
+                <a href="products.html" class="block text-gold-500 font-medium">Products</a>
+                <a href="blog/index.html" class="block text-navy-600 hover:text-gold-500">Blog</a>
+                <a href="about.html" class="block text-navy-600 hover:text-gold-500">About</a>
             </div>
         </div>
-    </header>
+    </nav>
 
     <!-- Hero -->
-    <section class="relative pt-20 geometric-pattern">
-        <div class="absolute inset-0 bg-gradient-to-b from-navy-900 via-navy-900/95 to-navy-800"></div>
-        <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 text-center">
-            <h1 class="font-serif text-5xl lg:text-6xl font-bold text-white mb-6">
-                Choose Your <span class="gradient-text">Plan</span>
+    <section class="assessment-pattern relative pt-28 pb-20 lg:pt-36 lg:pb-28 overflow-hidden">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center">
+            <h1 class="reveal font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1] text-balance">
+                Choose Your <span class="text-gold-400">Plan</span>
             </h1>
-            <p class="text-xl text-slate-300 max-w-2xl mx-auto">Start free. Upgrade when you&rsquo;re ready.</p>
+            <p class="reveal delay-1 text-xl text-navy-200 mt-6 max-w-2xl mx-auto">
+                Start free. Upgrade when you&rsquo;re ready.
+            </p>
         </div>
     </section>
 
     <!-- Pricing Cards -->
-    <section class="py-24 bg-navy-800">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-
-                <!-- Free -->
-                <div class="rounded-2xl glass-effect border border-gold-400/10 p-8 flex flex-col">
-                    <div class="mb-6">
-                        <h3 class="text-lg font-bold text-white mb-1">Free</h3>
-                        <p class="text-xs text-slate-500">Email only</p>
-                    </div>
-                    <div class="mb-6">
-                        <span class="text-4xl font-bold text-white">&pound;0</span>
-                    </div>
-                    <p class="text-sm text-slate-400 mb-6">Get started with a single benchmark to see where you stand.</p>
-                    <ul class="space-y-3 mb-8 flex-1">
-                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> 1 assessment attempt</li>
-                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> Percentile ranking</li>
-                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> Category score breakdown</li>
-                        <li class="flex items-center gap-2 text-sm text-slate-500"><i data-lucide="x" class="w-4 h-4 text-slate-600 flex-shrink-0"></i> No progress tracking</li>
-                        <li class="flex items-center gap-2 text-sm text-slate-500"><i data-lucide="x" class="w-4 h-4 text-slate-600 flex-shrink-0"></i> No category drills</li>
-                    </ul>
-                    <a href="https://app.acumenlogic.co.uk/register.html" class="block w-full py-3 text-center rounded border-2 border-slate-600 text-slate-300 font-semibold hover:border-gold-400 hover:text-gold-400 transition-all">Try Free</a>
-                </div>
+    <section class="py-24 lg:py-32 bg-white">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8">
 
                 <!-- Starter -->
-                <div class="rounded-2xl glass-effect border border-gold-400/10 p-8 flex flex-col">
-                    <div class="mb-6">
-                        <h3 class="text-lg font-bold text-white mb-1">Starter</h3>
-                        <p class="text-xs text-slate-500">Monthly</p>
+                <div class="reveal card-hover bg-white rounded-3xl p-8 shadow-lg border border-navy-100 relative">
+                    <div class="text-center mb-8">
+                        <h3 class="text-xl font-bold text-navy-700 mb-1">Starter</h3>
+                        <p class="text-sm text-navy-500">Monthly</p>
+                        <div class="flex items-baseline justify-center gap-1 mt-4">
+                            <span class="text-5xl font-bold text-navy-700">&pound;7.99</span>
+                            <span class="text-navy-400">/month</span>
+                        </div>
                     </div>
-                    <div class="mb-6">
-                        <span class="text-4xl font-bold text-white">&pound;7.99</span>
-                        <span class="text-slate-400 text-sm">/month</span>
-                    </div>
-                    <p class="text-sm text-slate-400 mb-6">Regular practice with monthly assessment attempts.</p>
-                    <ul class="space-y-3 mb-8 flex-1">
-                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> 5 attempts per month</li>
-                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> Percentile ranking</li>
-                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> Category score breakdown</li>
-                        <li class="flex items-center gap-2 text-sm text-slate-500"><i data-lucide="x" class="w-4 h-4 text-slate-600 flex-shrink-0"></i> No progress tracking</li>
-                        <li class="flex items-center gap-2 text-sm text-slate-500"><i data-lucide="x" class="w-4 h-4 text-slate-600 flex-shrink-0"></i> No category drills</li>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-start gap-3">
+                            <div class="w-6 h-6 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <i data-lucide="check" class="w-4 h-4 text-gold-500"></i>
+                            </div>
+                            <span class="text-navy-700">5 assessment attempts per month</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-6 h-6 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <i data-lucide="check" class="w-4 h-4 text-gold-500"></i>
+                            </div>
+                            <span class="text-navy-700">Percentile ranking</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-6 h-6 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <i data-lucide="check" class="w-4 h-4 text-gold-500"></i>
+                            </div>
+                            <span class="text-navy-700">Category score breakdown</span>
+                        </li>
                     </ul>
-                    <a href="#thrivecart-starter-checkout" class="block w-full py-3 text-center rounded border-2 border-slate-600 text-slate-300 font-semibold hover:border-gold-400 hover:text-gold-400 transition-all">Get Starter</a>
+                    <a href="#thrivecart-starter-checkout" class="group block w-full py-4 rounded-xl border-2 border-navy-200 text-navy-700 font-bold text-center transition-all hover:border-gold-400 hover:text-gold-500">
+                        Get Starter
+                    </a>
                 </div>
 
-                <!-- Pro -->
-                <div class="rounded-2xl border-2 border-gold-400 p-8 flex flex-col relative bg-gold-400/5">
-                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gold-400 text-navy-900 text-xs font-bold rounded-full uppercase tracking-wide">Most Popular</div>
-                    <div class="mb-6">
-                        <h3 class="text-lg font-bold text-gold-400 mb-1">Pro</h3>
-                        <p class="text-xs text-slate-500">Annual</p>
+                <!-- Pro (Most Popular) -->
+                <div class="reveal delay-1 relative">
+                    <div class="absolute -top-5 left-1/2 -translate-x-1/2 z-10">
+                        <div class="px-5 py-2 bg-gold-400 text-navy-900 text-xs font-bold uppercase tracking-wider rounded-full shadow-lg">
+                            Most Popular
+                        </div>
                     </div>
-                    <div class="mb-6">
-                        <span class="text-4xl font-bold text-white">&pound;97</span>
-                        <span class="text-slate-400 text-sm">/year</span>
+                    <div class="bg-white rounded-3xl p-8 shadow-2xl border-2 border-gold-400 relative overflow-hidden card-hover">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-gold-100 to-transparent rounded-bl-full opacity-50"></div>
+                        <div class="text-center mb-8 relative">
+                            <h3 class="text-xl font-bold text-gold-500 mb-1">Pro</h3>
+                            <p class="text-sm text-navy-500">Annual</p>
+                            <div class="flex items-baseline justify-center gap-1 mt-4">
+                                <span class="text-5xl font-bold text-navy-700">&pound;97</span>
+                                <span class="text-navy-400">/year</span>
+                            </div>
+                            <p class="text-sm text-gold-500 font-medium mt-2">That&rsquo;s less than &pound;1.87/week</p>
+                        </div>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-gold-500"></i>
+                                </div>
+                                <span class="text-navy-700">Unlimited assessment attempts</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-gold-500"></i>
+                                </div>
+                                <span class="text-navy-700">Percentile tracking over time</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-gold-500"></i>
+                                </div>
+                                <span class="text-navy-700">Personalised recommendations</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-gold-500"></i>
+                                </div>
+                                <span class="text-navy-700">Category drills &amp; time analysis</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-gold-500"></i>
+                                </div>
+                                <span class="text-navy-700">90-day improvement guarantee</span>
+                            </li>
+                        </ul>
+                        <a href="#thrivecart-pro-checkout" class="group block w-full py-4 rounded-xl bg-gold-400 hover:bg-gold-500 text-navy-900 font-bold text-center text-lg transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+                            Get Pro
+                        </a>
                     </div>
-                    <p class="text-sm text-slate-400 mb-6">Everything you need to benchmark, drill, and improve systematically.</p>
-                    <ul class="space-y-3 mb-8 flex-1">
-                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> Unlimited attempts</li>
-                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> Percentile tracking over time</li>
-                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> Personalised recommendations</li>
-                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> Category drills</li>
-                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> Time analysis</li>
-                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-gold-400 flex-shrink-0"></i> 90-day guarantee</li>
-                    </ul>
-                    <a href="#thrivecart-pro-checkout" class="block w-full py-3 text-center rounded bg-gold-400 text-navy-900 font-bold hover:bg-gold-500 transition-all">Get Pro</a>
-                    <p class="text-xs text-slate-500 text-center mt-3">That&rsquo;s less than &pound;1.87/week</p>
                 </div>
 
-                <!-- Elite -->
-                <div class="rounded-2xl glass-effect border border-purple-400/30 p-8 flex flex-col relative">
-                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-purple-500 text-white text-xs font-bold rounded-full uppercase tracking-wide">Best Value</div>
-                    <div class="mb-6">
-                        <h3 class="text-lg font-bold text-purple-400 mb-1">Elite</h3>
-                        <p class="text-xs text-slate-500">One-time + Annual</p>
+                <!-- Elite (Best Value) -->
+                <div class="reveal delay-2 relative">
+                    <div class="absolute -top-5 left-1/2 -translate-x-1/2 z-10">
+                        <div class="px-5 py-2 bg-navy-700 text-white text-xs font-bold uppercase tracking-wider rounded-full shadow-lg">
+                            Best Value
+                        </div>
                     </div>
-                    <div class="mb-6">
-                        <span class="text-4xl font-bold text-white">&pound;297</span>
-                        <span class="text-slate-400 text-sm"> + &pound;97/yr</span>
+                    <div class="bg-white rounded-3xl p-8 shadow-lg border border-navy-100 relative card-hover">
+                        <div class="text-center mb-8">
+                            <h3 class="text-xl font-bold text-navy-700 mb-1">Elite</h3>
+                            <p class="text-sm text-navy-500">One-time + Annual</p>
+                            <div class="flex items-baseline justify-center gap-1 mt-4">
+                                <span class="text-5xl font-bold text-navy-700">&pound;297</span>
+                                <span class="text-navy-400">+ &pound;97/yr</span>
+                            </div>
+                            <p class="text-sm text-gold-500 font-medium mt-2">That&rsquo;s less than &pound;7.58/week (first year)</p>
+                        </div>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-gold-500"></i>
+                                </div>
+                                <span class="text-navy-700"><em>Everything in Pro</em></span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-gold-500"></i>
+                                </div>
+                                <span class="text-navy-700">Full 6-module training course</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-gold-500"></i>
+                                </div>
+                                <span class="text-navy-700">35 structured lessons</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-gold-500"></i>
+                                </div>
+                                <span class="text-navy-700">Mock assessments with review</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-gold-500"></i>
+                                </div>
+                                <span class="text-navy-700">Strategy &amp; time management training</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i data-lucide="check" class="w-4 h-4 text-gold-500"></i>
+                                </div>
+                                <span class="text-navy-700">90-day improvement guarantee</span>
+                            </li>
+                        </ul>
+                        <a href="#thrivecart-elite-checkout" class="group block w-full py-4 rounded-xl bg-navy-700 hover:bg-navy-800 text-white font-bold text-center text-lg transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+                            Get Elite
+                        </a>
                     </div>
-                    <p class="text-sm text-slate-400 mb-6">Complete platform access plus the full 6-module training course.</p>
-                    <ul class="space-y-3 mb-8 flex-1">
-                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-purple-400 flex-shrink-0"></i> <em>Everything in Pro</em></li>
-                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-purple-400 flex-shrink-0"></i> Full 6-module training course</li>
-                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-purple-400 flex-shrink-0"></i> 35 structured lessons</li>
-                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-purple-400 flex-shrink-0"></i> Mock assessments with review</li>
-                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-purple-400 flex-shrink-0"></i> Strategy &amp; time management</li>
-                        <li class="flex items-center gap-2 text-sm text-slate-300"><i data-lucide="check" class="w-4 h-4 text-purple-400 flex-shrink-0"></i> 90-day guarantee</li>
-                    </ul>
-                    <a href="#thrivecart-elite-checkout" class="block w-full py-3 text-center rounded bg-purple-500 text-white font-bold hover:bg-purple-600 transition-all">Get Elite</a>
-                    <p class="text-xs text-slate-500 text-center mt-3">That&rsquo;s less than &pound;7.58/week (first year)</p>
                 </div>
 
+            </div>
+
+            <div class="text-center mt-10">
+                <p class="text-sm text-navy-500">Your first assessment is always free. <a href="https://app.acumenlogic.co.uk/register.html" class="text-gold-500 font-semibold hover:text-gold-600">Try it now &rarr;</a></p>
             </div>
         </div>
     </section>
 
     <!-- Feature Comparison Table -->
-    <section class="py-24 bg-navy-900">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="font-serif text-4xl font-bold text-white mb-4">Feature Comparison</h2>
-                <p class="text-slate-400">See exactly what&rsquo;s included in each plan</p>
+    <section class="py-24 lg:py-32 bg-navy-50/50">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-navy-700 mb-6">
+                    Feature comparison
+                </h2>
+                <p class="text-lg text-navy-600">
+                    See exactly what&rsquo;s included in each plan.
+                </p>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="border-b border-gold-400/20">
-                            <th class="text-left py-4 px-4 text-slate-400 font-medium min-w-[200px]">Feature</th>
-                            <th class="text-center py-4 px-4 text-slate-300 font-medium">Free</th>
-                            <th class="text-center py-4 px-4 text-slate-300 font-medium">Starter</th>
-                            <th class="text-center py-4 px-4 text-gold-400 font-medium">Pro</th>
-                            <th class="text-center py-4 px-4 text-purple-400 font-medium">Elite</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-slate-300">
-                        <tr class="border-b border-gold-400/5">
-                            <td class="py-3 px-4 font-medium text-white">Assessment attempts</td>
-                            <td class="py-3 px-4 text-center">1</td>
-                            <td class="py-3 px-4 text-center">5/month</td>
-                            <td class="py-3 px-4 text-center text-gold-400 font-semibold">Unlimited</td>
-                            <td class="py-3 px-4 text-center text-purple-400 font-semibold">Unlimited</td>
-                        </tr>
-                        <tr class="border-b border-gold-400/5">
-                            <td class="py-3 px-4 font-medium text-white">Percentile ranking</td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="check" class="w-4 h-4 text-gold-400 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="check" class="w-4 h-4 text-gold-400 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="check" class="w-4 h-4 text-gold-400 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="check" class="w-4 h-4 text-gold-400 inline"></i></td>
-                        </tr>
-                        <tr class="border-b border-gold-400/5">
-                            <td class="py-3 px-4 font-medium text-white">Category breakdown</td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="check" class="w-4 h-4 text-gold-400 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="check" class="w-4 h-4 text-gold-400 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="check" class="w-4 h-4 text-gold-400 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="check" class="w-4 h-4 text-gold-400 inline"></i></td>
-                        </tr>
-                        <tr class="border-b border-gold-400/5">
-                            <td class="py-3 px-4 font-medium text-white">Progress tracking</td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="x" class="w-4 h-4 text-slate-600 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="x" class="w-4 h-4 text-slate-600 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="check" class="w-4 h-4 text-gold-400 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="check" class="w-4 h-4 text-gold-400 inline"></i></td>
-                        </tr>
-                        <tr class="border-b border-gold-400/5">
-                            <td class="py-3 px-4 font-medium text-white">Personalised recommendations</td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="x" class="w-4 h-4 text-slate-600 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="x" class="w-4 h-4 text-slate-600 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="check" class="w-4 h-4 text-gold-400 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="check" class="w-4 h-4 text-gold-400 inline"></i></td>
-                        </tr>
-                        <tr class="border-b border-gold-400/5">
-                            <td class="py-3 px-4 font-medium text-white">Category drills</td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="x" class="w-4 h-4 text-slate-600 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="x" class="w-4 h-4 text-slate-600 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="check" class="w-4 h-4 text-gold-400 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="check" class="w-4 h-4 text-gold-400 inline"></i></td>
-                        </tr>
-                        <tr class="border-b border-gold-400/5">
-                            <td class="py-3 px-4 font-medium text-white">Time analysis</td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="x" class="w-4 h-4 text-slate-600 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="x" class="w-4 h-4 text-slate-600 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="check" class="w-4 h-4 text-gold-400 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="check" class="w-4 h-4 text-gold-400 inline"></i></td>
-                        </tr>
-                        <tr class="border-b border-gold-400/5">
-                            <td class="py-3 px-4 font-medium text-white">Training course access</td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="x" class="w-4 h-4 text-slate-600 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="x" class="w-4 h-4 text-slate-600 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="x" class="w-4 h-4 text-slate-600 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="check" class="w-4 h-4 text-purple-400 inline"></i></td>
-                        </tr>
-                        <tr class="border-b border-gold-400/5">
-                            <td class="py-3 px-4 font-medium text-white">Mock assessments</td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="x" class="w-4 h-4 text-slate-600 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="x" class="w-4 h-4 text-slate-600 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="x" class="w-4 h-4 text-slate-600 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="check" class="w-4 h-4 text-purple-400 inline"></i></td>
-                        </tr>
-                        <tr class="border-b border-gold-400/5">
-                            <td class="py-3 px-4 font-medium text-white">Priority support</td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="x" class="w-4 h-4 text-slate-600 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="x" class="w-4 h-4 text-slate-600 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="x" class="w-4 h-4 text-slate-600 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="check" class="w-4 h-4 text-purple-400 inline"></i></td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 px-4 font-medium text-white">90-day guarantee</td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="x" class="w-4 h-4 text-slate-600 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="x" class="w-4 h-4 text-slate-600 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="check" class="w-4 h-4 text-gold-400 inline"></i></td>
-                            <td class="py-3 px-4 text-center"><i data-lucide="check" class="w-4 h-4 text-gold-400 inline"></i></td>
-                        </tr>
-                    </tbody>
-                </table>
+
+            <div class="reveal bg-white rounded-2xl shadow-xl border border-navy-100 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-navy-50 border-b border-navy-100">
+                            <tr>
+                                <th class="px-6 py-5 text-left text-sm font-bold text-navy-700">Feature</th>
+                                <th class="px-6 py-5 text-center text-sm font-bold text-navy-500">Starter</th>
+                                <th class="px-6 py-5 text-center text-sm font-bold text-gold-500">Pro</th>
+                                <th class="px-6 py-5 text-center text-sm font-bold text-navy-700">Elite</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-navy-50">
+                            <tr class="hover:bg-navy-50/50 transition-colors">
+                                <td class="px-6 py-5 text-sm text-navy-700">Assessment attempts</td>
+                                <td class="px-6 py-5 text-center text-sm text-navy-600 font-medium">5/month</td>
+                                <td class="px-6 py-5 text-center text-sm text-gold-500 font-semibold">Unlimited</td>
+                                <td class="px-6 py-5 text-center text-sm text-navy-700 font-semibold">Unlimited</td>
+                            </tr>
+                            <tr class="hover:bg-navy-50/50 transition-colors">
+                                <td class="px-6 py-5 text-sm text-navy-700">Percentile ranking</td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                            </tr>
+                            <tr class="hover:bg-navy-50/50 transition-colors">
+                                <td class="px-6 py-5 text-sm text-navy-700">Category breakdown</td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                            </tr>
+                            <tr class="hover:bg-navy-50/50 transition-colors">
+                                <td class="px-6 py-5 text-sm text-navy-700">Progress tracking</td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="minus" class="w-6 h-6 text-navy-300 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                            </tr>
+                            <tr class="hover:bg-navy-50/50 transition-colors">
+                                <td class="px-6 py-5 text-sm text-navy-700">Personalised recommendations</td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="minus" class="w-6 h-6 text-navy-300 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                            </tr>
+                            <tr class="hover:bg-navy-50/50 transition-colors">
+                                <td class="px-6 py-5 text-sm text-navy-700">Category drills</td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="minus" class="w-6 h-6 text-navy-300 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                            </tr>
+                            <tr class="hover:bg-navy-50/50 transition-colors">
+                                <td class="px-6 py-5 text-sm text-navy-700">Time analysis</td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="minus" class="w-6 h-6 text-navy-300 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                            </tr>
+                            <tr class="hover:bg-navy-50/50 transition-colors">
+                                <td class="px-6 py-5 text-sm text-navy-700">Training course (6 modules, 35 lessons)</td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="minus" class="w-6 h-6 text-navy-300 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="minus" class="w-6 h-6 text-navy-300 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                            </tr>
+                            <tr class="hover:bg-navy-50/50 transition-colors">
+                                <td class="px-6 py-5 text-sm text-navy-700">Mock assessments</td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="minus" class="w-6 h-6 text-navy-300 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="minus" class="w-6 h-6 text-navy-300 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                            </tr>
+                            <tr class="hover:bg-navy-50/50 transition-colors">
+                                <td class="px-6 py-5 text-sm text-navy-700">90-day improvement guarantee</td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="minus" class="w-6 h-6 text-navy-300 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                                <td class="px-6 py-5 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-emerald-500 mx-auto"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- 90-Day Guarantee -->
-    <section class="py-20 bg-navy-800">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="glass-effect rounded-2xl p-10 border border-gold-400/20">
-                <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-gold-400/10 flex items-center justify-center">
-                    <i data-lucide="shield-check" class="w-8 h-8 text-gold-400"></i>
-                </div>
-                <h2 class="font-serif text-3xl font-bold text-white mb-4">90-Day Improvement Guarantee</h2>
-                <p class="text-slate-300 leading-relaxed mb-4">For Pro and Elite plans: if you do not see an improvement after 90 days, we will give you a full refund. Show us your percentile tracking as proof from when you started to where you are now.</p>
-                <p class="text-gold-400 font-medium">Email us at <a href="mailto:refunds@acumenlogic.co.uk" class="underline hover:text-gold-500">refunds@acumenlogic.co.uk</a></p>
+    <section class="py-24 lg:py-32 bg-gradient-to-br from-gold-50 via-white to-gold-50/50 border-y border-gold-100">
+        <div class="max-w-4xl mx-auto px-4 text-center reveal">
+            <div class="w-24 h-24 rounded-2xl bg-gradient-to-br from-gold-100 to-gold-200 flex items-center justify-center mx-auto mb-8 shadow-lg">
+                <i data-lucide="shield-check" class="w-12 h-12 text-gold-600"></i>
+            </div>
+            <h2 class="font-display text-3xl lg:text-4xl font-bold text-navy-700 mb-4">
+                The 90-Day Improvement Guarantee
+            </h2>
+            <p class="text-lg text-navy-600 leading-relaxed mb-10 max-w-2xl mx-auto">
+                For Pro and Elite plans: if you do not see an improvement after 90 days, we will give you a full refund. Show us your percentile tracking as proof from when you started to where you are now. Email refunds@acumenlogic.co.uk with your scores and order details for a full refund to your original payment method.
+            </p>
+            <div class="flex flex-wrap justify-center gap-8 text-sm text-navy-500">
+                <span class="flex items-center gap-2">
+                    <i data-lucide="check-circle" class="w-5 h-5 text-gold-500"></i>
+                    No risk enrolment
+                </span>
+                <span class="flex items-center gap-2">
+                    <i data-lucide="check-circle" class="w-5 h-5 text-gold-500"></i>
+                    Instant access
+                </span>
+                <span class="flex items-center gap-2">
+                    <i data-lucide="check-circle" class="w-5 h-5 text-gold-500"></i>
+                    Lifetime updates
+                </span>
             </div>
         </div>
     </section>
 
-    <!-- CTA -->
-    <section class="py-24 bg-navy-900">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="font-serif text-4xl lg:text-5xl font-bold text-white mb-6">Start with a Free Assessment</h2>
-            <p class="text-lg text-slate-300 mb-8">See your percentile. Identify your weaknesses. Upgrade when you&rsquo;re ready.</p>
-            <a href="https://app.acumenlogic.co.uk/register.html" class="inline-block px-12 py-4 bg-gold-400 text-navy-900 font-bold text-lg rounded hover:bg-gold-500 transition-all duration-300">
+    <!-- Final CTA -->
+    <section class="py-24 lg:py-32 cta-gradient relative overflow-hidden">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute -top-20 -left-20 w-80 h-80 opacity-[0.03]">
+                <svg viewBox="0 0 100 100" class="w-full h-full fill-white"><polygon points="50,0 100,100 0,100"/></svg>
+            </div>
+            <div class="absolute -bottom-10 -right-10 w-64 h-64 opacity-[0.04]">
+                <svg viewBox="0 0 100 100" class="w-full h-full fill-gold-400"><polygon points="50,0 100,100 0,100"/></svg>
+            </div>
+            <div class="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold-400/10 to-transparent"></div>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-4 text-center relative reveal">
+            <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                Start with a free assessment
+            </h2>
+            <p class="text-xl text-navy-200 mb-12 max-w-2xl mx-auto">
+                See your percentile. Identify your weaknesses. Upgrade when you&rsquo;re ready.
+            </p>
+
+            <a href="https://app.acumenlogic.co.uk/register.html" class="cta-border-glow group inline-flex items-center justify-center gap-3 bg-white text-navy-700 px-12 py-5 rounded-xl font-bold text-lg hover:bg-gold-50 transition-all shadow-2xl hover:shadow-white/20 hover:-translate-y-1">
                 Take the Free Assessment
+                <i data-lucide="arrow-right" class="w-5 h-5 transition-transform group-hover:translate-x-1"></i>
             </a>
+
+            <div class="mt-14 flex flex-wrap justify-center gap-10 text-sm text-navy-300">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="check-circle" class="w-5 h-5 text-gold-400"></i>
+                    19-question assessment
+                </div>
+                <div class="flex items-center gap-2">
+                    <i data-lucide="check-circle" class="w-5 h-5 text-gold-400"></i>
+                    Instant percentile
+                </div>
+                <div class="flex items-center gap-2">
+                    <i data-lucide="check-circle" class="w-5 h-5 text-gold-400"></i>
+                    No credit card required
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-navy-900 border-t border-gold-400/10 pt-16 pb-8">
+    <footer class="bg-navy-950 text-navy-300 py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-12 mb-12">
+            <div class="grid md:grid-cols-4 gap-12 mb-16">
                 <div class="col-span-2">
-                    <span class="font-serif text-lg font-bold text-white">ACUMEN LOGIC</span>
-                    <p class="text-slate-400 text-sm max-w-sm mt-4">Precision training and percentile benchmarking for finance aptitude assessments. Used by candidates targeting Big 4, investment banking, and consulting roles.</p>
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="font-display text-xl font-bold text-white">Acumen Logic</span>
+                    </div>
+                    <p class="leading-relaxed max-w-sm">
+                        Precision training and percentile benchmarking for finance aptitude assessments. Used by candidates targeting Big 4, investment banking, and consulting roles.
+                    </p>
                 </div>
+
                 <div>
-                    <h4 class="font-semibold text-white mb-4">Programme</h4>
-                    <ul class="space-y-2 text-sm text-slate-400">
+                    <h4 class="text-white font-semibold mb-5">Programme</h4>
+                    <ul class="space-y-3">
                         <li><a href="products.html" class="hover:text-gold-400 transition-colors">Products</a></li>
                         <li><a href="methodology.html" class="hover:text-gold-400 transition-colors">Methodology</a></li>
                         <li><a href="blog/index.html" class="hover:text-gold-400 transition-colors">Blog</a></li>
                         <li><a href="about.html" class="hover:text-gold-400 transition-colors">About</a></li>
                     </ul>
                 </div>
+
                 <div>
-                    <h4 class="font-semibold text-white mb-4">Legal</h4>
-                    <ul class="space-y-2 text-sm text-slate-400">
+                    <h4 class="text-white font-semibold mb-5">Legal</h4>
+                    <ul class="space-y-3">
                         <li><a href="pages/privacy.html" class="hover:text-gold-400 transition-colors">Privacy Policy</a></li>
                         <li><a href="pages/terms.html" class="hover:text-gold-400 transition-colors">Terms of Service</a></li>
-                        <li><a href="pages/refund.html" class="hover:text-gold-400 transition-colors">Refund Policy</a></li>
-                        <li><a href="pages/cookies.html" class="hover:text-gold-400 transition-colors">Cookie Policy</a></li>
+                        <li><a href="pages/cookies.html" class="hover:text-gold-400 transition-colors">Cookies</a></li>
                         <li><a href="pages/disclaimer.html" class="hover:text-gold-400 transition-colors">Disclaimer</a></li>
+                        <li><a href="pages/refund.html" class="hover:text-gold-400 transition-colors">Refund Policy</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-gold-400/10 pt-8 text-center">
-                <p class="text-xs text-slate-500">&copy; 2026 Acumen Logic. All rights reserved.</p>
+
+            <div class="border-t border-navy-800 pt-10 flex flex-col items-center gap-4">
+                <p class="text-sm text-navy-500">&copy; <span data-year></span> Acumen Logic. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <script>
-        lucide.createIcons();
-        function toggleMobileMenu() {
-            document.getElementById('mobileMenu').classList.toggle('hidden');
-        }
-    </script>
 </body>
 </html>
